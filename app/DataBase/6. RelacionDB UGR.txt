@@ -1,0 +1,8 @@
+ALTER TABLE dbo.GestiondeRiesgoPSarlaft  WITH CHECK ADD  CONSTRAINT FK24 FOREIGN KEY(EventosdeRiesgoKey)
+REFERENCES dbo.GestiondeRiesgoSarlaft (EventosdeRiesgoKey)
+
+ALTER TABLE dbo.GestiondeRiesgoCTSarlaft  WITH CHECK ADD  CONSTRAINT FK25 FOREIGN KEY(EventosdeRiesgoKey)
+REFERENCES dbo.GestiondeRiesgoSarlaft (EventosdeRiesgoKey)
+
+ALTER TABLE dbo.GestiondeRiesgoSarlaft  WITH CHECK ADD  CONSTRAINT FK26 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)

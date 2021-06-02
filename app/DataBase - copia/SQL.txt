@@ -1,0 +1,10 @@
+EDITAR CAMPO //
+
+UPDATE UsersAuth SET UserColor = '#AF7AC5', UserEmail='asistimos2005@yahoo.es', Password='1234' WHERE id=1;
+
+INSERT INTO UsersAuth (IdUser,UserKey,UserEmail,UserName,UserTipo,UserStatus,Password,Salt,UserColor, CompanyKey)
+VALUES (1,'123456789','asistimos2005@yahoo.es','William Diaz','W',1,'1234','1234','#AF7AC5','901106238');
+
+
+
+

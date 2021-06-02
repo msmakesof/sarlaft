@@ -1,0 +1,72 @@
+
+CREATE TABLE DebilidadesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), DebilidadesKey VARCHAR(250), DebilidadesName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE OportunidadesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), OportunidadesKey VARCHAR(250), OportunidadesName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE FortalezasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), FortalezasKey VARCHAR(250), FortalezasName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE AmenazasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), AmenazasKey VARCHAR(250), AmenazasName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+
+CREATE TABLE CargosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), CargosKey VARCHAR(250), CargosName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE CausasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), CausasKey VARCHAR(250), CausasName VARCHAR(max) ,
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE ConsecuenciasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), ConsecuenciasKey VARCHAR(250), 
+ConsecuenciasName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE ControlesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), ControlesKey VARCHAR(250), 
+ControlesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE EventosdeRiesgoSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), EventosdeRiesgoKey VARCHAR(250), 
+EventosdeRiesgoName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE ProcesosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), ProcesosKey VARCHAR(250), 
+ProcesosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE ResponsablesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), ResponsablesKey VARCHAR(250), 
+ResponsablesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE TratamientosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), TratamientosKey VARCHAR(250), 
+TratamientosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+CREATE TABLE CustomerSarlaft ( id INT IDENTITY(1,1), CustomerKey VARCHAR(250) PRIMARY KEY , CustomerLogo VARCHAR(250), 
+CustomerName VARCHAR(250), CustomerNit INT, CustomerCity VARCHAR(250), CustomerColor VARCHAR(250), CustomerStatus INT, 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+
+CREATE TABLE PlanesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY, PlanesKey VARCHAR(max), PlanesName VARCHAR(max), 
+PlanesResponsable VARCHAR(max), PlanesTarea VARCHAR(max), PlanesPlazo VARCHAR(max), PlanesAprueba VARCHAR(max), PlanesNivelPrioridad VARCHAR(max), 
+PlanesRespSeguimiento VARCHAR(max), PlanesRespAprobacion VARCHAR(max),PlanesFInicio VARCHAR(max), PlanesFSeguimiento VARCHAR(max), 
+PlanesFTerminacion VARCHAR(max), PlanesAvance VARCHAR(max), PlanesStatus INT, CustomerKey VARCHAR(250),
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegClientesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), SegClientesKey VARCHAR(250), 
+SegClientesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegProductosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), SegProductosKey VARCHAR(250), 
+SegProductosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegCanalesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), SegCanalesKey VARCHAR(250), 
+SegCanalesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegJurisdiccionSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,CustomerKey VARCHAR(250), SegJurisdiccionKey VARCHAR(250), 
+SegJurisdiccionName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+
+

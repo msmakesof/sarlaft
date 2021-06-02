@@ -1,0 +1,93 @@
+
+CREATE TABLE DebilidadesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), DebilidadesKey VARCHAR(250), DebilidadesName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE OportunidadesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), OportunidadesKey VARCHAR(250), OportunidadesName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE FortalezasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), FortalezasKey VARCHAR(250), FortalezasName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE AmenazasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), AmenazasKey VARCHAR(250), AmenazasName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE CargosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,PlanesKey VARCHAR(250), CustomerKey VARCHAR(250), CargosKey VARCHAR(250), CargosName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE CausasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), CausasKey VARCHAR(250), CausasName VARCHAR(max) ,
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ConsecuenciasSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), ConsecuenciasKey VARCHAR(250), 
+ConsecuenciasName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ControlesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), ControlesKey VARCHAR(250), 
+ControlesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EventosdeRiesgoSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), EventosdeRiesgoKey VARCHAR(250), 
+EventosdeRiesgoName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ProcesosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), ProcesosKey VARCHAR(250), 
+ProcesosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ResponsablesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,PlanesKey VARCHAR(250), CustomerKey VARCHAR(250), ResponsablesKey VARCHAR(250), 
+ResponsablesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE TratamientosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), TratamientosKey VARCHAR(250), 
+TratamientosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE PlanesSarlaft ( id INT IDENTITY(1,1), PlanesKey VARCHAR(250) PRIMARY KEY, PlanesName VARCHAR(max), PlanesResponsable VARCHAR(max), 
+PlanesTarea VARCHAR(max), PlanesPlazo VARCHAR(max), PlanesAprueba VARCHAR(max), PlanesNivelPrioridad VARCHAR(max), PlanesRespSeguimiento VARCHAR(max), 
+PlanesRespAprobacion VARCHAR(max),PlanesFInicio VARCHAR(max), PlanesFSeguimiento VARCHAR(max), PlanesFTerminacion VARCHAR(max), PlanesAvance VARCHAR(max), 
+PlanesStatus INT, CustomerKey VARCHAR(250), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegClientesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), SegClientesKey VARCHAR(250), 
+SegClientesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegProductosSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), SegProductosKey VARCHAR(250), 
+SegProductosName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegCanalesSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), SegCanalesKey VARCHAR(250), 
+SegCanalesName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE SegJurisdiccionSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY , CustomerKey VARCHAR(250), SegJurisdiccionKey VARCHAR(250), 
+SegJurisdiccionName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EControlSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,EscalaKey VARCHAR(250), EControlKey VARCHAR(250), EControlValue INT, EControlName INT, 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EProbabilidadSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,EscalaKey VARCHAR(250), EProbabilidadKey VARCHAR(250), EProbabilidadValue INT, 
+EProbabilidadName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ERiesgosSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ERiesgosKey VARCHAR(250), ERiesgosValue INT, ERiesgosName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ENiveldeRiesgoSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ENiveldeRiesgoKey VARCHAR(250), ENiveldeRiesgoValue INT, 
+ENiveldeRiesgoName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EEfectividadSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), EEfectividadKey VARCHAR(250), EEfectividadValue INT, 
+EEfectividadName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ECategoriaSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ECategoriaKey VARCHAR(250), ECategoriaValue INT, ECategoriaName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EscalasSarlaft ( id INT IDENTITY(1,1) , IdUser INT, EscalaKey VARCHAR(250) PRIMARY KEY, UserKey VARCHAR(250));
+
+CREATE TABLE GestiondeRiesgoSarlaft ( id INT IDENTITY(1,1),
+CustomerKey VARCHAR(250) PRIMARY KEY,UserKey VARCHAR(150), DateStamp VARCHAR(150),ConsecutivoEventoRiesgoValue INT, EventoRiesgoStatus INT,
+EventosdeRiesgoKey VARCHAR(250) , EventosdeRiesgoName VARCHAR(max),ProcesosName VARCHAR(max),CargosName VARCHAR(max),ResponsablesName VARCHAR(max),
+TipoRiesgo VARCHAR(250),FuenteRiesgoA VARCHAR(250), FuenteRiesgoB VARCHAR(250),FuenteRiesgoC VARCHAR(250), FuenteRiesgoD VARCHAR(250),
+FuenteRiesgoE VARCHAR(250), FuenteRiesgoF VARCHAR(250),FuenteRiesgoG VARCHAR(250),RiesgoAsociadoA VARCHAR(250), RiesgoAsociadoB VARCHAR(250),
+RiesgoAsociadoC VARCHAR(250), RiesgoAsociadoD VARCHAR(250),EProbabilidadValue INT, EProbabilidadName VARCHAR(250),ERiesgosValue INT,
+ERiesgosName VARCHAR(250),EProbabilidadCValue INT, EProbabilidadCName VARCHAR(250),ERiesgosCValue INT, ERiesgosCName VARCHAR(250));
+
+CREATE TABLE GestiondeRiesgoPSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY,CustomerKey VARCHAR(250),UserKey VARCHAR(150), DateStamp VARCHAR(150),
+EventosdeRiesgoKey VARCHAR(250),VariableTipo VARCHAR(max),VariableName VARCHAR(max),VariableObservacion VARCHAR(max));
+
+CREATE TABLE GestiondeRiesgoCTSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY,CustomerKey VARCHAR(250),UserKey VARCHAR(150), DateStamp VARCHAR(150),
+EventosdeRiesgoKey VARCHAR(250),ControlesName VARCHAR(max),ControlesPropietario VARCHAR(250), ControlesEjecutor VARCHAR(250),
+ControlesEfectividad VARCHAR(250), ControlesFrecuencia VARCHAR(250),ControlesCategoria VARCHAR(250), ControlesRealizado VARCHAR(250),
+ControlesCalificacion VARCHAR(250), ControlesDocumentado VARCHAR(250),ControlesAplicado VARCHAR(250), ControlesEfectivo VARCHAR(250),
+ControlesEvaluado VARCHAR(250), ControlesPromedio VARCHAR(250),TratamientosName VARCHAR(max),TratamientosEstado VARCHAR(250),
+TratamientosPrioridad VARCHAR(max),TratamientosPlandeAccion VARCHAR(max), TratamientosFInicial VARCHAR(max),TratamientosFFinal VARCHAR(250),
+TratamientosFseguimiento VARCHAR(max));
+

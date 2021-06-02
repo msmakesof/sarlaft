@@ -1,0 +1,55 @@
+CREATE TABLE GestiondeRiesgoSarlaft ( id INT IDENTITY(1,1),
+CustomerKey VARCHAR(250),UserKey VARCHAR(150), DateStamp VARCHAR(150),
+
+ConsecutivoEventoRiesgoValue INT, EventoRiesgoStatus INT,
+ 
+EventosdeRiesgoKey VARCHAR(250) PRIMARY KEY, EventosdeRiesgoName VARCHAR(max),
+
+ProcesosName VARCHAR(max),
+CargosName VARCHAR(max),
+ResponsablesName VARCHAR(max),
+TipoRiesgo VARCHAR(250), 
+FuenteRiesgoA VARCHAR(250), FuenteRiesgoB VARCHAR(250),
+FuenteRiesgoC VARCHAR(250), FuenteRiesgoD VARCHAR(250),
+FuenteRiesgoE VARCHAR(250), FuenteRiesgoF VARCHAR(250),
+FuenteRiesgoG VARCHAR(250), FuentesRiesgoH VARCHAR(250),
+FuenteRiesgoI VARCHAR(250), FuentesRiesgoJ VARCHAR(250),
+
+RiesgoAsociadoA VARCHAR(250), RiesgoAsociadoB VARCHAR(250),
+RiesgoAsociadoC VARCHAR(250), RiesgoAsociadoD VARCHAR(250),
+RiesgoAsociadoE VARCHAR(250), RiesgoAsociadoF VARCHAR(250),
+
+EProbabilidadValue INT, EProbabilidadName VARCHAR(250),
+ERiesgosValue INT, ERiesgosName VARCHAR(250),
+
+EProbabilidadCValue INT, EProbabilidadCName VARCHAR(250),
+ERiesgosCValue INT, ERiesgosCName VARCHAR(250),
+
+CausasName VARCHAR(max), 
+ConsecuenciasName VARCHAR(max),
+
+ControlesName VARCHAR(max),
+ControlesPropietario VARCHAR(250), ControlesEjecutor VARCHAR(250),
+ControlesEfectividad VARCHAR(250), ControlesFrecuencia VARCHAR(250),
+ControlesCategoria VARCHAR(250), ControlesRealizado VARCHAR(250),
+ControlesCalificacion VARCHAR(250), ControlesDocumentado VARCHAR(250),
+ControlesAplicado VARCHAR(250), ControlesEfectivo VARCHAR(250),
+ControlesEvaluado VARCHAR(250), ControlesPromedio VARCHAR(250),
+
+TratamientosName VARCHAR(max),
+TratamientosEstado VARCHAR(250), TratamientosPrioridad VARCHAR(max),
+TratamientosPlandeAccion VARCHAR(max), TratamientosFInicial VARCHAR(max),
+TratamientosFFinal VARCHAR(250), TratamientosFseguimiento VARCHAR(max),
+
+SegClientesName VARCHAR(max), SegClientesObservaciones VARCHAR(max),
+SegProductosName VARCHAR(max), SegProductosObservaciones VARCHAR(max),
+SegCanalesName VARCHAR(max), SegCanalesObservaciones VARCHAR(max),
+SegJurisdiccionName VARCHAR(max), SegJurisdiccionObservaciones VARCHAR(max),
+
+DebilidadesName VARCHAR(max),
+OportunidadesName VARCHAR(max),
+FortalezasName VARCHAR(max),
+AmenazasName VARCHAR(max), 
+
+);
+

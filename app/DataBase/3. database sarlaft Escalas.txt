@@ -1,0 +1,19 @@
+CREATE TABLE EControlSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,EscalaKey VARCHAR(250), EControlKey VARCHAR(250), EControlValue INT, EControlName INT, 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EProbabilidadSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY ,EscalaKey VARCHAR(250), EProbabilidadKey VARCHAR(250), EProbabilidadValue INT, 
+EProbabilidadName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ERiesgosSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ERiesgosKey VARCHAR(250), ERiesgosValue INT, ERiesgosName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ENiveldeRiesgoSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ENiveldeRiesgoKey VARCHAR(250), ENiveldeRiesgoValue INT, 
+ENiveldeRiesgoName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EEfectividadSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), EEfectividadKey VARCHAR(250), EEfectividadValue INT, 
+EEfectividadName VARCHAR(max), UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE ECategoriaSarlaft ( id INT IDENTITY(1,1)  PRIMARY KEY, EscalaKey VARCHAR(250), ECategoriaKey VARCHAR(250), ECategoriaValue INT, ECategoriaName VARCHAR(max), 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+CREATE TABLE EscalasSarlaft ( id INT IDENTITY(1,1) , IdUser INT, EscalaKey VARCHAR(250) PRIMARY KEY, UserKey VARCHAR(250));

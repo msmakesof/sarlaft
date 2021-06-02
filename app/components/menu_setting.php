@@ -1,0 +1,297 @@
+
+    <?php
+        if (empty($_SESSION['Keyp'])) { $CustomerKey="";} else { $CustomerKey = strtolower($_SESSION["Keyp"]);}
+
+            $CustomerKey=$_SESSION["Keyp"];
+        if($CustomerKey!=NULL){ 
+            $query = "SELECT CustomerColor FROM CustomerSarlaft WHERE CustomerKey = '".$CustomerKey."'";
+            $result = sqlsrv_query($con,$query);
+            $row = sqlsrv_fetch_array($result);
+                 
+    ?>
+        <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: <?php echo $row['CustomerColor'];?>" >
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index">
+
+                <div ><img src="../img/as riesgos.png" width="100%"></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+
+            <li class="nav-item active">
+                <a class="nav-link" href="./setting">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./UGR">
+                    <i class="far fa-calendar-check"></i>
+                    <span>UGR</span></a>
+            </li>                         
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Configuración
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>Eventos</span>
+                </a>
+                <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Eventos:</h6>
+                           <?php
+
+                        $CustomerKey=$_SESSION['Keyp']; 
+
+                        $sql = "SELECT CustomerKey FROM ProcesosSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $na = sqlsrv_num_rows( $stmt );
+                        if($na=='0'){$nas='red';}else{$nas='';}
+
+                        $sql = "SELECT CustomerKey FROM CargosSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nb = sqlsrv_num_rows( $stmt );
+                        if($nb=='0'){$nbs='red';}else{$nbs='';}                       
+
+
+                        $sql = "SELECT CustomerKey FROM ResponsablesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nc = sqlsrv_num_rows( $stmt );
+                        if($nc=='0'){$ncs='red';}else{$ncs='';}
+
+
+                        $sql = "SELECT CustomerKey FROM CausasSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nd = sqlsrv_num_rows( $stmt );
+                        if($nd=='0'){$nds='red';}else{$nds='';}
+
+
+                        $sql = "SELECT CustomerKey FROM EventosdeRiesgoSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $ne = sqlsrv_num_rows( $stmt );
+                        if($ne=='0'){$nes='red';}else{$nes='';}
+
+
+                        $sql = "SELECT CustomerKey FROM ConsecuenciasSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nf = sqlsrv_num_rows( $stmt );
+                        if($nf=='0'){$nfs='red';}else{$nfs='';}
+
+
+                        $sql = "SELECT CustomerKey FROM ControlesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $ng = sqlsrv_num_rows( $stmt );
+                        if($ng=='0'){$ngs='red';}else{$ngs='';}
+
+
+                        $sql = "SELECT CustomerKey FROM TratamientosSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nh = sqlsrv_num_rows( $stmt );
+                        if($nh=='0'){$nhs='red';}else{$nhs='';}
+
+                        ?>                     
+                        <a class="collapse-item" href="Procesos" style="color: <?php echo $nas;?>">Procesos</a>
+                        <a class="collapse-item" href="Cargos" style="color: <?php echo $nbs;?>">Cargos</a>
+                        <a class="collapse-item" href="Responsables" style="color: <?php echo $ncs;?>">Responsables</a>
+                        <a class="collapse-item" href="Causas" style="color: <?php echo $nds;?>">Causas</a>
+                        <a class="collapse-item" href="EventosdeRiesgo" style="color: <?php echo $nes;?>">Eventos de Riesgo</a>
+                        <a class="collapse-item" href="Consecuencias" style="color: <?php echo $nfs;?>">Consecuencias</a>
+                        <a class="collapse-item" href="Controles" style="color: <?php echo $ngs;?>">Controles</a>
+                        <a class="collapse-item" href="Tratamientos" style="color: <?php echo $nhs;?>">Tratamientos</a>                        
+                    </div>
+                </div>
+            </li>           
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-border-style"></i>
+                    <span>Segmentación</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Segmentación:</h6>
+                           <?php
+
+                        $CustomerKey=$_SESSION['Keyp']; 
+
+                        $sql = "SELECT CustomerKey FROM SegClientesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $sc = sqlsrv_num_rows( $stmt );
+                        if($sc=='0'){$scs='red';}else{$scs='';}
+
+                        $sql = "SELECT CustomerKey FROM SegProductosSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $sp = sqlsrv_num_rows( $stmt );
+                        if($sp=='0'){$sps='red';}else{$sps='';}                      
+
+
+                        $sql = "SELECT CustomerKey FROM SegCanalesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $sl = sqlsrv_num_rows( $stmt );
+                        if($sl=='0'){$sls='red';}else{$sls='';}
+
+
+                        $sql = "SELECT CustomerKey FROM SegJurisdiccionSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $sj = sqlsrv_num_rows( $stmt );
+                        if($sj=='0'){$sjs='red';}else{$sjs='';}
+
+
+                        ?>                         
+                        <a class="collapse-item" href="SegClientes" style="color: <?php echo $scs;?>">Clientes</a>
+                        <a class="collapse-item" href="SegProductos" style="color: <?php echo $sps;?>">Producto</a>
+                        <a class="collapse-item" href="SegCanales" style="color: <?php echo $sls;?>">Canales</a>
+                        <a class="collapse-item" href="SegJurisdiccion" style="color: <?php echo $sjs;?>">Jurisdicción</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>DOFA</span>
+                </a>
+                                                    <?php
+                        $CustomerKey=$_SESSION['Keyp']; 
+
+                        $sql = "SELECT CustomerKey FROM DebilidadesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nad = sqlsrv_num_rows( $stmt );
+                        if($nad=='0'){$nads='red';}else{$nads='';}
+
+                        $sql = "SELECT CustomerKey FROM OportunidadesSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nbo = sqlsrv_num_rows( $stmt );
+                        if($nbo=='0'){$nbos='red';}else{$nbos='';}                    
+
+
+                        $sql = "SELECT CustomerKey FROM FortalezasSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $ncf = sqlsrv_num_rows( $stmt );
+                        if($ncf=='0'){$ncfs='red';}else{$ncfs='';}
+
+
+                        $sql = "SELECT CustomerKey FROM AmenazasSarlaft WHERE CustomerKey='$CustomerKey'";
+                        $params = array();
+                        $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                        $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                        $nda = sqlsrv_num_rows( $stmt );
+                        if($nda=='0'){$ndas='red';}else{$ndas='';}
+
+                        ?>                
+                <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Dofa:</h6>
+                        <a class="collapse-item" href="Debilidades" style="color: <?php echo $nads;?>">Debilidades</a>
+                        <a class="collapse-item" href="Oportunidades" style="color: <?php echo $nbos;?>">Oportunidades</a>
+                        <a class="collapse-item" href="Fortalezas" style="color: <?php echo $ncfs;?>">Fortalezas</a>
+                        <a class="collapse-item" href="Amenazas" style="color: <?php echo $ndas;?>">Amenazas</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="Escalas">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Escalas</span></a>
+            </li>                       
+            <li class="nav-item">
+                <a class="nav-link" href="Planes">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Planes</span></a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+                <div id="collapseUtilities4" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Configuración:</h6>
+                
+                        <a class="collapse-item" href="#Usuarios">Usuarios</a>
+                        <a class="collapse-item" href="#UserSetup">Privilegios</a>                        
+                    </div>
+                </div>
+            </li>                      
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Addons
+            </div>
+            <li class="nav-item ">
+                <a class="nav-link" href="./Clientes">
+                    <i class="fas fa-home"></i>
+                    <span>Volver a Home</span></a>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            <div class="sidebar-card">
+                <img class="sidebar-card-illustration mb-2" src="../img/logo.ico" alt="">
+                <p class="text-center mb-2"><strong>Precision Tools</strong></p>
+                
+            </div>
+
+        </ul>
+        <?php
+            }
+        ?>

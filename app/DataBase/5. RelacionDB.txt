@@ -1,0 +1,53 @@
+ALTER TABLE dbo.ProcesosSarlaft  WITH CHECK ADD  CONSTRAINT FK1 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.CargosSarlaft  WITH CHECK ADD  CONSTRAINT FK2 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.ResponsablesSarlaft  WITH CHECK ADD  CONSTRAINT FK3 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.CausasSarlaft  WITH CHECK ADD  CONSTRAINT FK4 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.EventosdeRiesgoSarlaft  WITH CHECK ADD  CONSTRAINT FK5 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.ConsecuenciasSarlaft  WITH CHECK ADD  CONSTRAINT FK6 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.ControlesSarlaft  WITH CHECK ADD  CONSTRAINT FK7 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.TratamientosSarlaft  WITH CHECK ADD  CONSTRAINT FK8 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.SegClientesSarlaft  WITH CHECK ADD  CONSTRAINT FK9 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.SegProductosSarlaft  WITH CHECK ADD  CONSTRAINT FK10 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE SegCanalesSarlaft  WITH CHECK ADD  CONSTRAINT FK11 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.SegJurisdiccionSarlaft  WITH CHECK ADD  CONSTRAINT FK12 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.DebilidadesSarlaft  WITH CHECK ADD  CONSTRAINT FK13 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.OportunidadesSarlaft  WITH CHECK ADD  CONSTRAINT FK14 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.FortalezasSarlaft  WITH CHECK ADD  CONSTRAINT FK15 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+ALTER TABLE dbo.AmenazasSarlaft  WITH CHECK ADD  CONSTRAINT FK16 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+
+
+
+ALTER TABLE dbo.PlanesSarlaft  WITH CHECK ADD  CONSTRAINT FK23 FOREIGN KEY(CustomerKey)
+REFERENCES dbo.CustomerSarlaft (CustomerKey)
+

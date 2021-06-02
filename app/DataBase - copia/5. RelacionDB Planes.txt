@@ -1,0 +1,5 @@
+ALTER TABLE dbo.CargosSarlaft  WITH CHECK ADD  CONSTRAINT FK25 FOREIGN KEY(PlanesKey)
+REFERENCES dbo.PlanesSarlaft (PlanesKey)
+
+ALTER TABLE dbo.ResponsablesSarlaft  WITH CHECK ADD  CONSTRAINT FK26 FOREIGN KEY(PlanesKey)
+REFERENCES dbo.PlanesSarlaft (PlanesKey)

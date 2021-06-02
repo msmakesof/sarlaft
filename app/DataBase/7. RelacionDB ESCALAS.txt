@@ -1,0 +1,17 @@
+ALTER TABLE dbo.EControlSarlaft  WITH CHECK ADD  CONSTRAINT FK27 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)
+
+ALTER TABLE dbo.EProbabilidadSarlaft  WITH CHECK ADD  CONSTRAINT FK28 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)
+
+ALTER TABLE dbo.ERiesgosSarlaft  WITH CHECK ADD  CONSTRAINT FK29 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)
+
+ALTER TABLE dbo.ENiveldeRiesgoSarlaft  WITH CHECK ADD  CONSTRAINT FK30 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)
+
+ALTER TABLE dbo.EEfectividadSarlaft  WITH CHECK ADD  CONSTRAINT FK31 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)
+
+ALTER TABLE dbo.ECategoriaSarlaft  WITH CHECK ADD  CONSTRAINT FK32 FOREIGN KEY(EscalaKey)
+REFERENCES dbo.EscalasSarlaft (EscalaKey)

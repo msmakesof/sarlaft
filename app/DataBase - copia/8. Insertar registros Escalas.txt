@@ -1,0 +1,42 @@
+INSERT INTO EscalasSarlaft (IdUser,UserKey,EscalaKey)
+VALUES (1,'123456789','1620317018');
+
+
+
+INSERT INTO EControlSarlaft (EscalaKey, EControlKey, EControlValue, EControlName, UserKey , DateStamp) VALUES 
+('1620317018','1',5,'5','123456789','2021-04-09 09:45:00'),
+('1620317018','2',4,'4','123456789','2021-04-09 09:45:00'),
+('1620317018','3',3,'3','123456789','2021-04-09 09:45:00'),
+('1620317018','4',2,'2','123456789','2021-04-09 09:45:00'),
+('1620317018','5',1,'1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO EProbabilidadSarlaft (EscalaKey, EProbabilidadKey, EProbabilidadValue, EProbabilidadName, UserKey , DateStamp) VALUES 
+('1620317018','1',5,'Certeza','123456789','2021-04-09 09:45:00'),
+('1620317018','2',4,'Casi Certeza','123456789','2021-04-09 09:45:00'),
+('1620317018','3',3,'Posible','123456789','2021-04-09 09:45:00'),
+('1620317018','4',2,'Raro','123456789','2021-04-09 09:45:00'),
+('1620317018','5',1,'Improbable','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ERiesgosSarlaft (EscalaKey, ERiesgosKey, ERiesgosValue, ERiesgosName, UserKey , DateStamp) VALUES 
+('1620317018','1',5,'Muy Grave','123456789','2021-04-09 09:45:00'),
+('1620317018','2',4,'Grave','123456789','2021-04-09 09:45:00'),
+('1620317018','3',3,'Moderado','123456789','2021-04-09 09:45:00'),
+('1620317018','4',2,'Menor','123456789','2021-04-09 09:45:00'),
+('1620317018','5',1,'Insignificante','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ENiveldeRiesgoSarlaft (EscalaKey, ENiveldeRiesgoKey, ENiveldeRiesgoValue, ENiveldeRiesgoName, UserKey , DateStamp) VALUES 
+('1620317018','1',4,'Bajo','123456789','2021-04-09 09:45:00'),
+('1620317018','2',3,'Tolerable','123456789','2021-04-09 09:45:00'),
+('1620317018','3',2,'Mayor','123456789','2021-04-09 09:45:00'),
+('1620317018','4',1,'Extremo','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ECategoriaSarlaft (EscalaKey, ECategoriaKey, ECategoriaValue, ECategoriaName, UserKey , DateStamp) VALUES 
+('1620317018','2',3,'Preventivo','123456789','2021-04-09 09:45:00'),
+('1620317018','3',2,'Correctivo','123456789','2021-04-09 09:45:00'),
+('1620317018','4',1,'Ambos','123456789','2021-04-09 09:45:00');
+
+INSERT INTO EEfectividadSarlaft (EscalaKey, EEfectividadKey, EEfectividadValue, EEfectividadName, UserKey , DateStamp) VALUES 
+('1620317018','2',3,'Pobre','123456789','2021-04-09 09:45:00'),
+('1620317018','3',2,'Adecuado','123456789','2021-04-09 09:45:00'),
+('1620317018','4',1,'Bueno','123456789','2021-04-09 09:45:00');
+

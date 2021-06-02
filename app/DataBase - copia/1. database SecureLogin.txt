@@ -1,0 +1,11 @@
+CREATE TABLE UsersAuth ( id INT IDENTITY(1,1) PRIMARY KEY, IdUser INT, CustomerKey VARCHAR(250) ,UserKey VARCHAR(250), UserEmail VARCHAR(250), UserName VARCHAR(250),
+UserTipo VARCHAR(250), UserStatus INT, Password VARCHAR(250), Salt VARCHAR(150), UserColor VARCHAR(250));
+
+
+CREATE TABLE CustomerSarlaft ( id INT IDENTITY(1,1), CustomerKey VARCHAR(250) PRIMARY KEY , CustomerDB VARCHAR(250), CustomerLogo VARCHAR(250), 
+CustomerName VARCHAR(250), CustomerNit INT, CustomerCity VARCHAR(250), CustomerColor VARCHAR(250), CustomerStatus INT, 
+UserKey VARCHAR(150), DateStamp VARCHAR(150));
+
+//Adicionar columna
+
+ALTER TABLE dbo.UsersAuth ADD CustomerKey VARCHAR(250) NULL;

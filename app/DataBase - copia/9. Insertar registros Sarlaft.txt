@@ -1,0 +1,116 @@
+
+INSERT INTO DebilidadesSarlaft ( CustomerKey, DebilidadesKey, DebilidadesName, UserKey, DateStamp) VALUES
+('1620317018','1','D5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','D4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','D3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','D2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','D1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO OportunidadesSarlaft ( CustomerKey, OportunidadesKey, OportunidadesName, UserKey, DateStamp) VALUES
+('1620317018','1','O5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','O4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','O3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','O2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','O1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO FortalezasSarlaft ( CustomerKey, FortalezasKey, FortalezasName, UserKey, DateStamp) VALUES
+('1620317018','1','F5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','F4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','F3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','F2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','F1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO AmenazasSarlaft ( CustomerKey, AmenazasKey, AmenazasName, UserKey, DateStamp) VALUES
+('1620317018','1','A5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','A4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','A3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','A2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','A1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO CargosSarlaft ( CustomerKey, CargosKey, CargosName, UserKey, DateStamp) VALUES
+('1620317018','1','Cargo5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Cargo4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Cargo3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Cargo2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Cargo1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO CausasSarlaft ( CustomerKey, CausasKey, CausasName,UserKey, DateStamp) VALUES
+('1620317018','1','Causas5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Causas4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Causas3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Causas2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Causas1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ConsecuenciasSarlaft ( CustomerKey, ConsecuenciasKey, ConsecuenciasName, UserKey, DateStamp) VALUES
+('1620317018','1','Consecuencias5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Consecuencias4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Consecuencias3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Consecuencias2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Consecuencias1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ControlesSarlaft ( CustomerKey, ControlesKey, ControlesName, UserKey, DateStamp) VALUES
+('1620317018','1','Controles5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Controles4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Controles3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Controles2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Controles1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO EventosdeRiesgoSarlaft ( CustomerKey, EventosdeRiesgoKey, EventosdeRiesgoName, UserKey, DateStamp) VALUES
+('1620317018','1','EventosdeRiesgo5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','EventosdeRiesgo4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','EventosdeRiesgo3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','EventosdeRiesgo2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','EventosdeRiesgo1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ProcesosSarlaft ( CustomerKey, ProcesosKey, ProcesosName, UserKey, DateStamp) VALUES
+('1620317018','1','Procesos5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Procesos4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Procesos3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Procesos2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Procesos1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO ResponsablesSarlaft ( CustomerKey, ResponsablesKey, ResponsablesName, UserKey, DateStamp) VALUES
+('1620317018','1','Responsables5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Responsables4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Responsables3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Responsables2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Responsables1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO TratamientosSarlaft ( CustomerKey, TratamientosKey, TratamientosName, UserKey, DateStamp) VALUES
+('1620317018','1','Tratamientos5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','Tratamientos4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','Tratamientos3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','Tratamientos2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','Tratamientos1','123456789','2021-04-09 09:45:00');
+
+
+INSERT INTO SegClientesSarlaft ( CustomerKey, SegClientesKey, SegClientesName, UserKey, DateStamp) VALUES
+('1620317018','1','SegClientes5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','SegClientes4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','SegClientes3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','SegClientes2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','SegClientes1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO SegProductosSarlaft ( CustomerKey, SegProductosKey, SegProductosName, UserKey, DateStamp) VALUES
+('1620317018','1','SegProductos5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','SegProductos4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','SegProductos3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','SegProductos2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','SegProductos1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO SegCanalesSarlaft ( CustomerKey, SegCanalesKey, SegCanalesName, UserKey, DateStamp) VALUES
+('1620317018','1','SegCanales5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','SegCanales4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','SegCanales3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','SegCanales2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','SegCanales1','123456789','2021-04-09 09:45:00');
+
+INSERT INTO SegJurisdiccionSarlaft ( CustomerKey, SegJurisdiccionKey, SegJurisdiccionName, UserKey, DateStamp) VALUES
+('1620317018','1','SegJurisdiccion5','123456789','2021-04-09 09:45:00'),
+('1620317018','2','SegJurisdiccion4','123456789','2021-04-09 09:45:00'),
+('1620317018','3','SegJurisdiccion3','123456789','2021-04-09 09:45:00'),
+('1620317018','4','SegJurisdiccion2','123456789','2021-04-09 09:45:00'),
+('1620317018','5','SegJurisdiccion1','123456789','2021-04-09 09:45:00');
+
+
+

@@ -1,0 +1,19 @@
+CREATE TABLE GestiondeRiesgoCTSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY,
+CustomerKey VARCHAR(250),UserKey VARCHAR(150), DateStamp VARCHAR(150),
+EventosdeRiesgoKey VARCHAR(250),
+
+ControlesName VARCHAR(max),
+ControlesPropietario VARCHAR(250), ControlesEjecutor VARCHAR(250),
+ControlesEfectividad VARCHAR(250), ControlesFrecuencia VARCHAR(250),
+ControlesCategoria VARCHAR(250), ControlesRealizado VARCHAR(250),
+ControlesCalificacion VARCHAR(250), ControlesDocumentado VARCHAR(250),
+ControlesAplicado VARCHAR(250), ControlesEfectivo VARCHAR(250),
+ControlesEvaluado VARCHAR(250), ControlesPromedio VARCHAR(250),
+
+TratamientosName VARCHAR(max),
+TratamientosEstado VARCHAR(250), TratamientosPrioridad VARCHAR(max),
+TratamientosPlandeAccion VARCHAR(max), TratamientosFInicial VARCHAR(max),
+TratamientosFFinal VARCHAR(250), TratamientosFseguimiento VARCHAR(max),
+
+);
+

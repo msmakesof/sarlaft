@@ -1,0 +1,9 @@
+CREATE TABLE GestiondeRiesgoPSarlaft ( id INT IDENTITY(1,1) PRIMARY KEY,
+CustomerKey VARCHAR(250),UserKey VARCHAR(150), DateStamp VARCHAR(150),
+ 
+EventosdeRiesgoKey VARCHAR(250),
+
+VariableTipo VARCHAR(max),VariableName VARCHAR(max),VariableObservacion VARCHAR(max), 
+
+);
+

@@ -1,0 +1,8 @@
+CREATE TABLE UsersAuth ( id INT IDENTITY(1,1) PRIMARY KEY, IdUser INT, CompanyKey VARCHAR(250) ,UserKey VARCHAR(250), UserEmail VARCHAR(250), UserName VARCHAR(250),
+UserTipo VARCHAR(250), UserStatus INT, Password VARCHAR(250), Salt VARCHAR(150), UserColor VARCHAR(250));
+
+
+
+//Adicionar columna
+
+ALTER TABLE dbo.UsersAuth ADD CompanyKey VARCHAR(250) NULL;
