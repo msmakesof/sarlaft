@@ -1,5 +1,6 @@
  <?php
-include 'app/components/sql_server_login.php';
+//include 'app/components/sql_server_login.php';
+//include 'app/config/db.php';
 ?>
 
 <!DOCTYPE HTML>

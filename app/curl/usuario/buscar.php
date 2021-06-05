@@ -1,7 +1,7 @@
 <?php
 //include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
-require_once './config/dbx.php';
+require_once 'app/config/dbx.php';
 $getUrl = new Database();
 //$getConnection = new Database();
 $urlServicios = $getUrl->getUrl();
@@ -9,7 +9,10 @@ $urlServicios = $getUrl->getUrl();
 //$urlServicios = "http://localhost:8090/app/";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/usuario/queryUserKey.php?userkey=".$_SESSION['UserKey'];
+	$email = $email; //trim($_POST[email]);
+	$passw = $password; //trim($_POST[password]);
+	$params = "email=$email&passw=$passw";
+	$url = $urlServicios."api/usuario/buscar.php?$params";
 	////echo "url...$url<br>"; 
 	//echo "conn.....$conex";
 	$resultado="";
@@ -31,6 +34,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
 		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-	);	
+	);
+		
 }
 ?>

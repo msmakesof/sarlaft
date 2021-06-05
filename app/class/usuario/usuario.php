@@ -57,6 +57,29 @@
 			$this->Salt = $dataRow['Salt'];
 			$this->UserColor = $dataRow['UserColor'];           
         }
+
+        // Buscar Usuario por Email y Clave
+        public function getBuscar(){
+            $sql = "SELECT id, UserKey, CustomerKey, UserEmail ,UserName ,UserTipo ,UserStatus, count(id) totregs FROM ". $this->db_table ." WHERE UserEmail = ? AND  Password = ? GROUP BY id, UserKey, CustomerKey, UserEmail ,UserName ,UserTipo ,UserStatus ";
+            //echo $sql;
+
+            $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->UserEmail);
+            $stmt->bindParam(2, $this->Password);
+
+            $stmt->execute();
+
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+			$this->totregs = $dataRow['totregs'];
+            $this->UserKey = $dataRow['UserKey'];
+			$this->CustomerKey = $dataRow['CustomerKey'];            
+			$this->UserEmail = $dataRow['UserEmail'];
+			$this->UserName = $dataRow['UserName'];
+			$this->UserTipo = $dataRow['UserTipo'];
+			$this->UserStatus = $dataRow['UserStatus'];         
+        }
 		
 		// UPD User Status
         public function updateUserStatus(){
