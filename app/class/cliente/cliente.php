@@ -31,7 +31,12 @@
 			$stmt->execute();
 			return $stmt;
         }
-		
+		public function getListaCliente(){
+            $sql = "SELECT id, CustomerKey, CustomerName FROM ". $this->db_table ." ORDER BY CustomerName; ";
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->execute();
+			return $stmt;
+        }
 		public function getIdCliente(){
             $sql = "SELECT id, CustomerKey ,CustomerDB ,CustomerLogo ,CustomerName ,CustomerNit ,CustomerCity ,CustomerColor ,CustomerStatus ,UserKey ,DateStamp FROM ". $this->db_table ." ORDER BY CustomerName; ";
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));

@@ -1,16 +1,13 @@
 <?php
+//include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
 require_once './config/dbx.php';
 $getUrl = new Database();
-//$getConnection = new Database();
 $urlServicios = $getUrl->getUrl();
-$conex = $getUrl->getConnection();
-//$urlServicios = "http://localhost:8090/app/";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
-{
-	$url = $urlServicios."api/cliente/read.php";
-	//echo "url...$url<br>"; 
-	//echo "conn.....$conex";
+{	
+	$url = $urlServicios."api/usuario/lista.php";
+	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -31,25 +28,27 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 	);
-
-    foreach($data as $key => $row) {}
-    if( $key == "message")
+	foreach($data as $key => $row) {}
+	
+	if( $key == "message")
 	{
-    }
-    else
+		echo '<option value="">'. $data["message"] .'</option>';
+	}
+	else
 	{
 		if( $data["itemCount"] > 0)
-		{
-            // cargamos la info
-            $info = "";
-            for($i=0; $i<count($data['body']); $i++)
-			{
-                $id = $data['body'][$i]['id'];
-                $CustomerKey = $data['body'][$i]['CustomerKey'];
-                $info .= $CustomerKey."<br>";
-            }
-            return $info;
-        }
-    }
+		{			
+			for($i=0; $i<count($data['body']); $i++)
+			{				
+				$condi = "";
+				$idestado = $data['body'][$i]["STA_IdEstado"];
+				$nomestado = trim($data['body'][$i]["STA_Nombre"]);
+				if( isset($Estado) && $Estado != "" && $idestado == $Estado ){
+					$condi = ' selected="selected" ';
+				}
+				echo '<option value="'. $idestado .'"'. $condi .'>'. $nomestado .'</option>';
+			}
+		}		
+	}
 }
 ?>

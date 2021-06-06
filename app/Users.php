@@ -1,8 +1,15 @@
 <?php include 'ajax/is_logged.php';?>
-<?php require_once 'components/sql_server_login.php';?>
+<?php //require_once 'components/sql_server_login.php';?>
 <?php
-$query_empresa=sqlsrv_query($con,"SELECT UserColor, id FROM UsersAuth WHERE UserKey=".$_SESSION['UserKey']."");
-$reg=sqlsrv_fetch_array($query_empresa);
+//$query_empresa=sqlsrv_query($con,"SELECT UserColor, id FROM UsersAuth WHERE UserKey=".$_SESSION['UserKey']."");
+//$reg=sqlsrv_fetch_array($query_empresa);
+
+include 'curl/usuario/queryUserKey.php';
+$id= trim($data['id']);
+$UserKey = trim($data['UserKey']);
+$UserColor =  trim($data['UserColor']);
+$reg['id'] = $id;
+$reg['UserColor'] = $UserColor;
 ?>
     <?php
         if (empty($_GET['Keyp'])) { $Keyp="";} else { $Keyp = strtolower($_GET["Keyp"]);}
@@ -32,7 +39,7 @@ $reg=sqlsrv_fetch_array($query_empresa);
 
                 <?php include 'components/topbarppal.php';?>
 
-                <?php include 'components/content_users.php';?>
+                <?php include 'components/usuario/content.php';?>
             </div>
                 <?php include 'components/footer.php';?>
         </div>
@@ -48,8 +55,11 @@ $reg=sqlsrv_fetch_array($query_empresa);
 if (empty($_GET['st'])) { $st="0";} else { $st = strtolower($_GET["st"]);}
 if (empty($_GET['id'])) { $id="";} else { $id = strtolower($_GET["id"]);}
 if($st != NULL){
-    $sql = "UPDATE UsersAuth SET UserStatus =".$st." WHERE id=".$_GET['id']."";
-    $query = sqlsrv_query($con,$sql);
+    $st = $st;
+    $id = $_GET['id'];
+    include 'curl/usuario/queryUpdStatus.php';
+    ////$sql = "UPDATE UsersAuth SET UserStatus =".$st." WHERE id=".$_GET['id']."";
+    ////$query = sqlsrv_query($con,$sql);
     // if product has been added successfully
     if ($query) {
                 echo'<SCRIPT LANGUAGE="javascript">
@@ -62,8 +72,9 @@ location.href = "./Users.php";
 if (empty($_GET['db'])) { $db="";} else { $db = strtolower($_GET["db"]);}
 if (empty($_GET['clr'])) { $clr="";} else { $clr = strtolower($_GET["clr"]);}
 if($db != NULL){
-    $sql = "UPDATE UsersAuth SET UserColor ='#".$clr."' WHERE UserKey=".$_SESSION['UserKey']."";
-    $query = sqlsrv_query($con,$sql);
+    ////$sql = "UPDATE UsersAuth SET UserColor ='#".$clr."' WHERE UserKey=".$_SESSION['UserKey']."";
+    ////$query = sqlsrv_query($con,$sql);
+    include 'curl/usuario/queryUpdColor.php';
     // if product has been added successfully
     if ($query) {
                 echo'<SCRIPT LANGUAGE="javascript">

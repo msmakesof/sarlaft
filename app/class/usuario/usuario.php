@@ -27,7 +27,9 @@
 
         // GET ALL
         public function getUsuario(){
-            $sql = "SELECT id, IdUser, CustomerKey ,UserKey ,UserEmail ,UserName ,UserTipo ,UserStatus ,Password ,Salt ,UserColor FROM ". $this->db_table ." ORDER BY UserName ";
+            //$sql = "SELECT id, IdUser, CustomerKey ,UserKey ,UserEmail ,UserName ,UserTipo ,UserStatus ,Password ,Salt ,UserColor FROM ". $this->db_table ." ORDER BY UserName ";
+            $sql = "SELECT id, UserName, UserEmail, UserStatus, STA_Nombre FROM ". $this->db_table ." 
+            JOIN State ON UserStatus = STA_IdEstado ORDER BY UserName ";
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->execute();
 			return $stmt;
@@ -124,5 +126,60 @@
             }
             return false;
         }
+
+        // Busca Nombre para controlar Duplicados
+        public function getBuscaNombre(){
+            $sql = "SELECT count(id) AS UserName
+                      FROM ". $this->db_table ."
+                    WHERE UserName = ? AND id <> ? ";
+
+            $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->UserName, PDO::PARAM_STR);
+			$stmt->bindParam(2, $this->id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $this->UserName = $dataRow['UserName'];
+        }
+
+        // CREATE
+		public function createUsuario(){
+			$sqlQuery = "INSERT INTO ". $this->db_table ." (CustomerKey, UserName, UserEmail, Password, UserStatus, UserColor, UserTipo, UserKey, Salt ) 
+            VALUES ( :customerkey, :nombreusuario, :email, :password, :idestado, :usercolor, :usertipo, :userkey, :salt )";
+			//echo $sqlQuery ;
+			
+			$stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+		
+			// sanitize
+			$this->CustomerKey = htmlspecialchars(strip_tags($this->CustomerKey));
+            $this->UserName = htmlspecialchars(strip_tags($this->UserName));
+            $this->UserEmail = htmlspecialchars(strip_tags($this->UserEmail));
+            $this->Password = htmlspecialchars(strip_tags($this->Password));
+			$this->UserStatus = htmlspecialchars(strip_tags($this->UserStatus));
+            $this->UserColor = htmlspecialchars(strip_tags($this->UserColor));
+            $this->UserTipo = htmlspecialchars(strip_tags($this->UserTipo));
+            $this->UserKey = htmlspecialchars(strip_tags($this->UserKey));
+            $this->Salt = htmlspecialchars(strip_tags($this->Salt));
+		
+			// bind data
+			$stmt->bindParam(":customerkey", $this->CustomerKey, PDO::PARAM_STR);
+            $stmt->bindParam(":nombreusuario", $this->UserName, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $this->UserEmail, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $this->Password, PDO::PARAM_STR);
+			$stmt->bindParam(":idestado", $this->UserStatus, PDO::PARAM_INT);
+            $stmt->bindParam(":usercolor", $this->UserColor, PDO::PARAM_STR);
+            $stmt->bindParam(":usertipo", $this->UserTipo, PDO::PARAM_STR);
+            $stmt->bindParam(":userkey", $this->UserKey, PDO::PARAM_STR);
+            $stmt->bindParam(":salt", $this->Salt, PDO::PARAM_STR);
+
+		
+			if($stmt->execute()){
+				return true;
+			}
+			return false;
+		}
     }
 ?>
