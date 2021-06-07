@@ -26,7 +26,6 @@
                 "CustomerKey" => $CustomerKey,
                 "CustomerName" => $CustomerName
             );
-
             array_push($estadoArr["body"], $e);
         }
         echo json_encode($estadoArr);

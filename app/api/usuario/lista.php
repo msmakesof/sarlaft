@@ -23,10 +23,13 @@
             extract($row);
             $e = array(
                 "id" => $id,
+				"CustomerKey" => $CustomerKey,
                 "UserName" => $UserName,
 				"UserEmail" => $UserEmail,
 				"UserStatus" => $UserStatus,
-                "STA_Nombre" => $STA_Nombre
+				"Password" => $Password,
+                "STA_Nombre" => $STA_Nombre,
+				"CustomerName" => $CustomerName
             );
             array_push($estadoArr["body"], $e);
         }

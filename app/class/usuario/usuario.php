@@ -27,9 +27,11 @@
 
         // GET ALL
         public function getUsuario(){
-            //$sql = "SELECT id, IdUser, CustomerKey ,UserKey ,UserEmail ,UserName ,UserTipo ,UserStatus ,Password ,Salt ,UserColor FROM ". $this->db_table ." ORDER BY UserName ";
-            $sql = "SELECT id, UserName, UserEmail, UserStatus, STA_Nombre FROM ". $this->db_table ." 
-            JOIN State ON UserStatus = STA_IdEstado ORDER BY UserName ";
+            //$sql = "SELECT id, UserName, UserEmail, UserStatus, STA_Nombre FROM ". $this->db_table ." 
+            $sql = "SELECT UsersAuth.id, IdUser, UsersAuth.CustomerKey ,UsersAuth.UserKey, UserEmail, UserName ,UserTipo ,UserStatus ,Password ,Salt ,UserColor, STA_Nombre, CustomerName FROM ". $this->db_table .            
+            " JOIN State ON UserStatus = STA_IdEstado 
+              LEFT JOIN  CustomerSarlaft ON CustomerSarlaft.CustomerKey = UsersAuth.CustomerKey 
+            ORDER BY UserName ";
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->execute();
 			return $stmt;
@@ -181,5 +183,56 @@
 			}
 			return false;
 		}
+
+        // UPDATE
+        public function updateUsuario(){
+            $sqlQuery = "UPDATE ". $this->db_table ."
+                    SET
+                        CustomerKey = :customerkey,
+                        UserName = :usuarionombre,
+                        UserEmail = :email,
+                        Password = :password,
+						UserStatus = :idestado
+                    WHERE id = :id ";
+			//echo   $sqlQuery;
+        
+            $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+        
+            $this->CustomerKey=htmlspecialchars(strip_tags($this->CustomerKey));
+			$this->UserName=htmlspecialchars(strip_tags($this->UserName));
+            $this->UserEmail=htmlspecialchars(strip_tags($this->UserEmail));
+			$this->Password=htmlspecialchars(strip_tags($this->Password));
+            $this->UserStatus=htmlspecialchars(strip_tags($this->UserStatus));
+            $this->id=htmlspecialchars(strip_tags($this->id));
+        
+            // bind data
+            $stmt->bindParam(":customerkey", $this->CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(":usuarionombre", $this->UserName, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $this->UserEmail, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $this->Password, PDO::PARAM_STR);
+			$stmt->bindParam(":idestado", $this->UserStatus, PDO::PARAM_INT);
+            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+        
+            if($stmt->execute()){
+               return true;
+            }
+            return false;
+        }
+
+        // DELETE
+        function deleteUsuario(){
+            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE id = ? ";
+            $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+        
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            // bind data
+            $stmt->bindParam(1, $this->id, PDO::PARAM_INT);
+        
+            if($stmt->execute()){
+                return true;
+            }
+            return false;
+        }
     }
 ?>

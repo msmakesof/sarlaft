@@ -55,17 +55,19 @@ $reg['UserColor'] = $UserColor;
 if (empty($_GET['st'])) { $st="0";} else { $st = strtolower($_GET["st"]);}
 if (empty($_GET['id'])) { $id="";} else { $id = strtolower($_GET["id"]);}
 if($st != NULL){
-    $st = $st;
-    $id = $_GET['id'];
-    include 'curl/usuario/queryUpdStatus.php';
-    ////$sql = "UPDATE UsersAuth SET UserStatus =".$st." WHERE id=".$_GET['id']."";
-    ////$query = sqlsrv_query($con,$sql);
-    // if product has been added successfully
-    if ($query) {
-                echo'<SCRIPT LANGUAGE="javascript">
-location.href = "./Users.php";
-</SCRIPT>';
-    } 
+    if( isset($_GET['id']) && $_GET['id'] != "" ){   // 20210524 mks
+        $st = $st;
+        $id = $_GET['id'];
+        include 'curl/usuario/queryUpdStatus.php';
+        ////$sql = "UPDATE UsersAuth SET UserStatus =".$st." WHERE id=".$_GET['id']."";
+        ////$query = sqlsrv_query($con,$sql);
+        // if product has been added successfully
+        if ($query) {
+            echo'<SCRIPT LANGUAGE="javascript">
+                location.href = "./Users.php";
+            </SCRIPT>';
+        } 
+    }
 }
 ?>
 <?php

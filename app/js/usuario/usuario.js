@@ -23,11 +23,31 @@
 		}
 		$('#editUserModal').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget) // Button that triggered the modal
+			var customerkey2 = button.data('customerkey2')
+			$('#edit_customerkey2').val(customerkey2)
 			var name = button.data('name') 
 			$('#edit_name').val(name)
+			var email = button.data('email') 
+			$('#edit_email').val(email)
+			var password2 = button.data('password2') 
+			$('#edit_password2').val(password2)
 			estado = button.data('estado')
-			$('#edit_estado').val(estado)
-			var parametros = "idestado="+estado
+			$('#edit_estado').val(estado)			
+			var parametros = "idcustomer="+customerkey2
+			var dir = "ajax/"+ tabla +"/editarcustomer.php?"+parametros
+			$.ajax({
+				type: "POST",
+				url: "ajax/"+ tabla +"/editarcustomer.php",
+				data: parametros,
+				success: function(datos){
+					let slct = '<select class="form-control" name="edit_customerkey2" id="edit_customerkey2" style="width: 100%;" required>';
+						slct += datos;
+						slct += '</select>';
+					$("#edit_customerkey2").html(slct)
+				}	
+			})
+			
+			parametros = "idestado="+estado
 			$.ajax({
 				type: "POST",
 				url: "ajax/"+ tabla +"/editarestado.php",
@@ -40,7 +60,7 @@
 				}	
 			})
 			var id = button.data('id') 
-			$('#edit_id').val(id)
+			$('#edit_id').val(id)			
 		})
 		
 		$('#deleteUserModal').on('show.bs.modal', function (event) {
