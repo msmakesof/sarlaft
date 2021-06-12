@@ -40,7 +40,9 @@
             $query = "SELECT * FROM UsersAuth WHERE UserEmail = '$_POST[email]' AND Password = '$_POST[passwd]'";
             $result = sqlsrv_query($con,$query);
             $row = sqlsrv_fetch_array($result);
-            if ($row > 0){
+            if ($row > 0)
+			{
+				$_SESSION["IdUsuario"] = $row["id"];
                 $_SESSION["IdUser"] = $row["IdUser"];
                 $_SESSION["UserKey"] = $row["UserKey"];
                 $_SESSION["UserEmail"] = $row["UserEmail"];
@@ -52,7 +54,6 @@
                 header('Location: '. $home_url);
             }else {
                 $error = "Usuario o contraseña no coincide...!";
-
             }
         }
     }

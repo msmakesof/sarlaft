@@ -15,6 +15,7 @@ include('../../components/table.php');
 					<th class='text-center'>#</th>
 					<th class='text-left'>Nombre Rol </th>						
 					<th class='text-center'>Estado</th>
+					<th class='text-center'>Privilegios</th>
 					<th class='text-left'>Acciones</th>						
 				</tr>
 			</thead>
@@ -26,7 +27,7 @@ include('../../components/table.php');
 				if( $key == "message")
 				{
 					echo '<tr>
-							<td colspan="4">'. $data["message"] .'</td>
+							<td colspan="5">'. $data["message"] .'</td>
 						</tr>';
 				}
 				else
@@ -51,6 +52,10 @@ include('../../components/table.php');
 					<td class='text-center'><?php echo $j++;?></td>
 					<td class='text-left'><?php echo $RolNombre;?></td>
 					<td class='text-center'><?php echo $STA_Nombre;?></td>
+					<td class='text-center'>
+						<!-- <a href="#" id="privilegio" onclick="mks(<?php echo $id; ?>,'A')" data-toggle="tooltip" data-placement="left" title="Asignar" ><i class='fas fa-user-plus'></i></a>&nbsp;&nbsp;  -->
+						<a href="#" id="privilegio" onclick="mks(<?php echo $id; ?>,'C')" data-toggle="tooltip" data-placement="right" title="Asignar" ><i class='fas fa-user-plus'></i></a>
+					</td>
 					<td class='text-right'>
 						<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-name="<?php echo $RolNombre; ?>" data-estado="<?php echo $UserStatus; ?>" data-id="<?php echo $id; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i></a>
 						<a href="#deleteUserModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>

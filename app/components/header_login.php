@@ -14,7 +14,7 @@
   <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" type="text/css" href="css/util.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-        <meta name="author" content="William Diaz - Webdesigner - www.precisiontoolssas.com">
+        <meta name="author" content="Mauricio Sanchez - Webdesigner - www.precisiontoolssas.com">
         <meta name="description" content="Ingreso plataforma Sarlaft ">
 
 </head>

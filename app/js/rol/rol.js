@@ -2,6 +2,7 @@
 			load(1);
 		});
 		$('.select2').select2();
+		$('[data-toggle="tooltip"]').tooltip();
 		let tabla = "rol";
 		let estado = "";
 		function load(page){
@@ -184,4 +185,13 @@
 				}
 			});
 		  event.preventDefault();
-		});
+		});		
+
+		function mks(p1,p2){
+		let archivo = "Priv";
+		if(p2 == 'C'){
+			archivo = "Privc";
+		}
+		$('<form action="../../app/'+archivo+'.php" method="post"><input type="hidden" id="id" name="id" value="'+p1+'"></input></form>').appendTo('body').submit().remove();		
+    }			
+		

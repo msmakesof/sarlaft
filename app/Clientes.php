@@ -5,6 +5,7 @@
 // mks 20210516  verificar cUrl
 include 'curl/cliente/consulta.php';
 echo "info...$info<br>";
+//echo $_SESSION['UserKey'];
 
 $query_empresa=sqlsrv_query($con,"SELECT UserColor, id FROM UsersAuth WHERE UserKey=".$_SESSION['UserKey']."");
 $reg=sqlsrv_fetch_array($query_empresa);

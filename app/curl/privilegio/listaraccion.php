@@ -1,12 +1,12 @@
 <?php
 //include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
-require_once '../../config/dbx.php';
-$getUrl = new Database();
-$urlServicios = $getUrl->getUrl();
+//require_once '../../config/dbx.php';
+//$getUrl = new Database();
+//$urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/rol/lista.php";
+	$url = $urlServicios."api/accion/lista.php";
 	////echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -20,7 +20,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     $resultado = curl_exec ($ch);
     curl_close($ch);
 	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-	$data = json_decode($mestado, true);	
+	$dataAccion = json_decode($mestado, true);	
 	
 	$json_errors = array(
 		JSON_ERROR_NONE => 'No se ha producido ningún error',
@@ -29,5 +29,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 	);
 	//return $data;
+	//print_r($data);
 }
 ?>

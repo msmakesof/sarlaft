@@ -20,10 +20,10 @@
             
         </div>
     </div>
-    <!-- Edit Modal HTML -->
+    <!-- Add Modal HTML -->
     <?php include("./modal/rol/modal_add_rol.php");?>
     <!-- Edit Modal HTML -->
     <?php include("./modal/rol/modal_edit_rol.php");?>
     <!-- Delete Modal HTML -->
-    <?php include("./modal/rol/modal_delete_rol.php");?>
+    <?php include("./modal/rol/modal_delete_rol.php");?>    
     <script src="js/rol/rol.js"></script>
