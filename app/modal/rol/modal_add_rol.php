@@ -25,7 +25,7 @@
 
 						<div class="form-group">
 							<label>Nombre Rol</label>
-							<input type="text" name="UserName2" id="UserName2" class="form-control" maxlength="30" required>
+							<input type="text" name="UserName2" id="UserName2" class="form-control  focus" maxlength="30" required>
 						</div>
 						<div class="form-group">
 							<label>Estado</label>

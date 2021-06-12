@@ -22,6 +22,9 @@
 			})
 		}
 		$('#editUserModal').on('show.bs.modal', function (event) {
+			setTimeout(function (){
+				$('#edit_name').focus();
+			}, 1000);
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var name = button.data('name') 
 			$('#edit_name').val(name)
@@ -47,7 +50,13 @@
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var id = button.data('id') 
 			$('#delete_id').val(id)
-		})		
+		})
+		
+		$( "#addUserModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#UserName2').focus();
+			}, 500)
+		})
 		
 		$( "#edit_user" ).submit(function( event ) {
 			var parametros = $(this).serialize();

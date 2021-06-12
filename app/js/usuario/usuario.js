@@ -22,6 +22,10 @@
 			})
 		}
 		$('#editUserModal').on('show.bs.modal', function (event) {
+			setTimeout(function (){
+				$('#edit_customerkey2').focus();
+				$('#edit_customerkey2').select2('open');
+			}, 1000)
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var customerkey2 = button.data('customerkey2')
 			$('#edit_customerkey2').val(customerkey2)
@@ -114,7 +118,14 @@
 				}
 			});
 		  event.preventDefault();
-		});		
+		});	
+		
+		$( "#addUserModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#edit_customerkey2').focus();
+				$('#edit_customerkey2').select2('open');
+			}, 1000)
+		});
 		
 		$( "#add_user" ).submit(function( event ) {
 			var parametros = $(this).serialize();

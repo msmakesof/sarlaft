@@ -1,10 +1,10 @@
 		$(function() {
 			load(1);
-		});
+		});			
 		$('.select2').select2();
-		$('[data-toggle="tooltip"]').tooltip();
-		let tabla = "rol";
-		let estado = "";
+		$('[data-toggle="tooltip"]').tooltip();		
+		let tabla = "rol"
+		let estado = ""
 		function load(page){
 			var query=$("#q").val();
 			var per_page=10;
@@ -23,6 +23,9 @@
 			})
 		}
 		$('#editUserModal').on('show.bs.modal', function (event) {
+			setTimeout(function (){
+				$('#edit_name').focus();
+			}, 500);
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var name = button.data('name') 
 			$('#edit_name').val(name)
@@ -95,6 +98,12 @@
 			});
 		  event.preventDefault();
 		});		
+
+		$( "#addUserModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#UserName2').focus();
+			}, 500)
+		});
 		
 		$( "#add_user" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
@@ -188,10 +197,10 @@
 		});		
 
 		function mks(p1,p2){
-		let archivo = "Priv";
-		if(p2 == 'C'){
-			archivo = "Privc";
+			let archivo = "Priv"
+			if(p2 == 'C'){
+				archivo = "Privc"
+			}
+			$('<form action="../../app/'+archivo+'.php" method="post"><input type="hidden" id="id" name="id" value="'+p1+'"></input></form>').appendTo('body').submit().remove();
 		}
-		$('<form action="../../app/'+archivo+'.php" method="post"><input type="hidden" id="id" name="id" value="'+p1+'"></input></form>').appendTo('body').submit().remove();		
-    }			
 		

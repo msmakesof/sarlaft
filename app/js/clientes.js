@@ -19,19 +19,22 @@
 			})
 		}
 		$('#editClienteModal').on('show.bs.modal', function (event) {
-		  var button = $(event.relatedTarget) // Button that triggered the modal
-		  var code = button.data('code') 
-		  $('#edit_code').val(code)
-		  var name = button.data('name') 
-		  $('#edit_name').val(name)
-		  var city = button.data('city') 
-		  $('#edit_city').val(city)
-		  var nit = button.data('nit') 
-		  $('#edit_nit').val(nit)
-		  var color = button.data('color') 
-		  $('#edit_color').val(color)		  
-		  var id = button.data('id') 
-		  $('#edit_id').val(id)
+			setTimeout(function (){
+				$('#edit_name').focus()
+			}, 1000)
+			var button = $(event.relatedTarget) // Button that triggered the modal
+			var code = button.data('code') 
+			$('#edit_code').val(code)
+			var name = button.data('name') 
+			$('#edit_name').val(name)
+			var city = button.data('city') 
+			$('#edit_city').val(city)
+			var nit = button.data('nit') 
+			$('#edit_nit').val(nit)
+			var color = button.data('color') 
+			$('#edit_color').val(color)		  
+			var id = button.data('id') 
+			$('#edit_id').val(id)
 		})
 		
 		$('#deleteClienteModal').on('show.bs.modal', function (event) {
@@ -61,7 +64,12 @@
 		  event.preventDefault();
 		});
 		
-		
+		$( "#addClienteModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#CustomerName2').focus()
+			}, 500)
+		});
+
 		$( "#add_cliente" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
 			$.ajax({
