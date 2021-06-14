@@ -19,12 +19,14 @@ $CustomerKey = trim($_GET['CustomerKey']);
 $NombreUsuario = trim($_GET['NombreUsuario']);
 $Email = trim($_GET['Email']);
 $Password = trim($_GET['Password']);
+$IdRol = trim($_GET['IdRol']);
 $Estado = trim($_GET['Estado']);
 
 $item->CustomerKey = $CustomerKey;
 $item->UserName = $NombreUsuario;
 $item->UserEmail = $Email;
 $item->Password = $Password;
+$item->IdRol = $IdRol;
 $item->UserStatus = $Estado;
 
 if($item->updateUsuario())

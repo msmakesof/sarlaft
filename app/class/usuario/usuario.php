@@ -19,6 +19,7 @@
 		public $Password;
 		public $Salt;
 		public $UserColor;
+		public $IdRol;
 
         // Db connection
         public function __construct($db){
@@ -28,10 +29,12 @@
         // GET ALL
         public function getUsuario(){
             //$sql = "SELECT id, UserName, UserEmail, UserStatus, STA_Nombre FROM ". $this->db_table ." 
-            $sql = "SELECT UsersAuth.id, IdUser, UsersAuth.CustomerKey ,UsersAuth.UserKey, UserEmail, UserName ,UserTipo ,UserStatus ,Password ,Salt ,UserColor, STA_Nombre, CustomerName FROM ". $this->db_table .            
-            " JOIN State ON UserStatus = STA_IdEstado 
+            $sql = "SELECT UsersAuth.id, IdUser, UsersAuth.CustomerKey, UsersAuth.UserKey, UserEmail, UserName, UserTipo, UserStatus, Password, Salt, UserColor, STA_Nombre, CustomerName, RolNombre, UsersAuth.IdRol FROM ". $this->db_table . 
+            " JOIN State ON UserStatus = STA_IdEstado 			
               LEFT JOIN  CustomerSarlaft ON CustomerSarlaft.CustomerKey = UsersAuth.CustomerKey 
+			  LEFT JOIN RolUsers ON RolUsers.IdRol = UsersAuth.IdRol AND RolUsers.IdEstado = 1
             ORDER BY UserName ";
+			//echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->execute();
 			return $stmt;
@@ -64,8 +67,9 @@
 
         // Buscar Usuario por Email y Clave
         public function getBuscar(){
-            $sql = "SELECT id, UserKey, CustomerKey, UserEmail ,UserName ,UserTipo ,UserStatus, count(id) totregs FROM ". $this->db_table ." WHERE UserEmail = ? AND  Password = ? GROUP BY id, UserKey, CustomerKey, UserEmail ,UserName ,UserTipo ,UserStatus ";
-            //echo $sql;
+            $sql = "SELECT id, UserKey, CustomerKey, UserEmail, UserName, UserTipo, Password, UserStatus FROM ". $this->db_table ." 
+            WHERE UserEmail = ? AND  Password = ? ";
+            //echo $sql; 
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
@@ -73,16 +77,30 @@
             $stmt->bindParam(2, $this->Password);
 
             $stmt->execute();
+            return $stmt;
 
-            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+            /*$dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
 			$this->totregs = $dataRow['totregs'];
             $this->UserKey = $dataRow['UserKey'];
 			$this->CustomerKey = $dataRow['CustomerKey'];            
 			$this->UserEmail = $dataRow['UserEmail'];
 			$this->UserName = $dataRow['UserName'];
 			$this->UserTipo = $dataRow['UserTipo'];
-			$this->UserStatus = $dataRow['UserStatus'];         
+			$this->UserStatus = $dataRow['UserStatus'];*/
+        }
+
+         // Buscar Usuario por Email y Clave
+         public function getBuscarEmail(){
+            $sql = "SELECT Password FROM ". $this->db_table ." WHERE id <> ? AND UserEmail = ?  ";
+            //echo $sql; 
+
+            $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->id);
+            $stmt->bindParam(2, $this->UserEmail);
+
+            $stmt->execute();
+            return $stmt;
         }
 		
 		// UPD User Status
@@ -149,8 +167,8 @@
 
         // CREATE
 		public function createUsuario(){
-			$sqlQuery = "INSERT INTO ". $this->db_table ." (CustomerKey, UserName, UserEmail, Password, UserStatus, UserColor, UserTipo, UserKey, Salt ) 
-            VALUES ( :customerkey, :nombreusuario, :email, :password, :idestado, :usercolor, :usertipo, :userkey, :salt )";
+			$sqlQuery = "INSERT INTO ". $this->db_table ." (CustomerKey, UserName, UserEmail, Password, UserStatus, UserColor, UserTipo, UserKey, Salt, IdRol) 
+            VALUES ( :customerkey, :nombreusuario, :email, :password, :idestado, :usercolor, :usertipo, :userkey, :salt, :idrol )";
 			//echo $sqlQuery ;
 			
 			$stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -165,6 +183,7 @@
             $this->UserTipo = htmlspecialchars(strip_tags($this->UserTipo));
             $this->UserKey = htmlspecialchars(strip_tags($this->UserKey));
             $this->Salt = htmlspecialchars(strip_tags($this->Salt));
+            $this->IdRol = htmlspecialchars(strip_tags($this->IdRol));            
 		
 			// bind data
 			$stmt->bindParam(":customerkey", $this->CustomerKey, PDO::PARAM_STR);
@@ -176,6 +195,7 @@
             $stmt->bindParam(":usertipo", $this->UserTipo, PDO::PARAM_STR);
             $stmt->bindParam(":userkey", $this->UserKey, PDO::PARAM_STR);
             $stmt->bindParam(":salt", $this->Salt, PDO::PARAM_STR);
+            $stmt->bindParam(":idrol", $this->IdRol, PDO::PARAM_STR);
 
 		
 			if($stmt->execute()){
@@ -192,6 +212,7 @@
                         UserName = :usuarionombre,
                         UserEmail = :email,
                         Password = :password,
+                        IdRol = :idrol,
 						UserStatus = :idestado
                     WHERE id = :id ";
 			//echo   $sqlQuery;
@@ -202,6 +223,7 @@
 			$this->UserName=htmlspecialchars(strip_tags($this->UserName));
             $this->UserEmail=htmlspecialchars(strip_tags($this->UserEmail));
 			$this->Password=htmlspecialchars(strip_tags($this->Password));
+            $this->IdRol=htmlspecialchars(strip_tags($this->IdRol));
             $this->UserStatus=htmlspecialchars(strip_tags($this->UserStatus));
             $this->id=htmlspecialchars(strip_tags($this->id));
         
@@ -210,6 +232,7 @@
 			$stmt->bindParam(":usuarionombre", $this->UserName, PDO::PARAM_STR);
             $stmt->bindParam(":email", $this->UserEmail, PDO::PARAM_STR);
             $stmt->bindParam(":password", $this->Password, PDO::PARAM_STR);
+            $stmt->bindParam(":idrol", $this->IdRol, PDO::PARAM_STR);
 			$stmt->bindParam(":idestado", $this->UserStatus, PDO::PARAM_INT);
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
         

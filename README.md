@@ -1,2 +1,0 @@
-# sarlaft
-Proyecto Sarlaft

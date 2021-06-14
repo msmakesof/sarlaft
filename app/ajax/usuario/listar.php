@@ -15,9 +15,10 @@ include('../../components/table.php');
 				<tr>
 					<th class='text-center'>#</th>
 					<th class='text-left'>Nombre </th>
-					<th class='text-left'>Email </th>					
+					<th class='text-left'>Email </th>
 					<th class='text-center'>Estado</th>
 					<th class='text-center'>Compañía</th>
+					<th class='text-left'>Rol </th>
 					<th class='text-left'>Acciones</th>						
 				</tr>
 			</thead>
@@ -50,7 +51,7 @@ include('../../components/table.php');
 				);
 				
 				$CON_LlaveAcceso ="";
-				if( $data["itemCount"] > 0)
+				/*if( $data["itemCount"] > 0)
 				{
 					for($i=0; $i<count($data['body']); $i++)
 					{
@@ -62,7 +63,7 @@ include('../../components/table.php');
 						$CON_TipoHash = $data['body'][$i]['CON_TipoHash'];
 						$CON_Cookie = $data['body'][$i]['CON_Cookie'];
 					}				
-				}
+				}*/
 
 				include '../../curl/usuario/listar.php';
 				foreach($data as $key => $row) {}
@@ -85,9 +86,11 @@ include('../../components/table.php');
 							$NombreUsuario = trim($data['body'][$i]['UserName']);
 							$Email = $data['body'][$i]['UserEmail'];
 							$UserStatus = $data['body'][$i]['UserStatus'];
-							$Password = $data['body'][$i]['Password'];
+							$Password = trim($data['body'][$i]['Password']);
 							$STA_Nombre = trim($data['body'][$i]['STA_Nombre']);
 							$CustomerName = trim($data['body'][$i]['CustomerName']);
+							$RolNombre = trim($data['body'][$i]['RolNombre']);
+							$IdRol = trim($data['body'][$i]['IdRol']);
 							
 							if($UserStatus=='1'){
 								$Status="<a href='?st=0&id=".$id."' class='btn btn-default'><i class='far fa-check-circle'></i></a>";
@@ -97,13 +100,7 @@ include('../../components/table.php');
 							}
 							
 							include_once("gateway.php");
-							$key = $CON_LlaveAcceso;
-							//echo "key......$key<br>"; echo "Password....$Password<br>";
-							$encryption_key_256bit = base64_encode(openssl_random_pseudo_bytes(64));
-							$password_decrypted = my_decrypt($Password, $key);			
-							$Password2 = $password_decrypted;
-							//echo "Password2....$Password2<br>";
-							//
+							$Password2 = encryptor('decrypt', $Password);							
 				?>
 						<tr class="<?php echo $text_class;?>">
 							<td class='text-center'><?php echo $j++;?></td>
@@ -111,8 +108,9 @@ include('../../components/table.php');
 							<td class='text-left'><?php echo $Email; ?></td>
 							<td class='text-center'><?php echo $STA_Nombre; ?></td>
 							<td class='text-left'><?php echo $CustomerName; ?></td>
+							<td class='text-left'><?php echo $RolNombre; ?></td>							
 							<td class='text-right'>
-								<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-customerkey2="<?php echo $CustomerKey; ?>" data-name="<?php echo $NombreUsuario; ?>" data-email="<?php echo $Email; ?>" data-password2="<?php echo $Password2; ?>" data-estado="<?php echo $UserStatus; ?>" data-id="<?php echo $id; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i></a>
+								<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-customerkey2="<?php echo $CustomerKey; ?>" data-name="<?php echo $NombreUsuario; ?>" data-email="<?php echo $Email; ?>" data-password2="<?php echo $Password2; ?>" data-idrol="<?php echo $IdRol; ?>" data-estado="<?php echo $UserStatus; ?>" data-id="<?php echo $id; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i></a>
 								<a href="#deleteUserModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
 							</td>
 						</tr>

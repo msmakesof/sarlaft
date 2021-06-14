@@ -16,6 +16,7 @@ $UsuarioCustomerKey = trim($_GET['UsuarioCustomerKey']);
 $NombreUsuario = trim($_GET['NombreUsuario']);
 $Email = trim($_GET['Email']);
 $Password = trim($_GET['Password']);
+$IdRol = trim($_GET['IdRol']);
 $Estado = trim($_GET['Estado']);
 //  Esto lo traigo tal como esta en el original
 $UserColor='#1f77b4';
@@ -33,6 +34,7 @@ $item->UserColor = $UserColor;
 $item->UserTipo = $UserTipo;
 $item->UserKey = $UserKey;
 $item->Salt = $Salt;
+$item->IdRol = $IdRol;
 
 if($item->createUsuario())
 {

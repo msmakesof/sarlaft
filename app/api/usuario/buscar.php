@@ -10,27 +10,34 @@
 
     $database = new Database();
     $db = $database->getConnection();
-    $item = new UsersAuth($db);
-	
-	$item->UserEmail = isset($_GET['email']) ? $_GET['email'] : die();
-	$item->Password = isset($_GET['passw']) ? $_GET['passw'] : die();
-	
-	$item->getBuscar();
 
-    if($item->UserName != null){
-        // create array		
-        $emp_arr = array(
-			"totregs" => $item->totregs,
-			"UserKey" => $item->UserKey,			
-			"CustomerKey" => $item->CustomerKey,            
-			"UserEmail" => $item->UserEmail,
-			"UserName" => $item->UserName,
-			"UserTipo" => $item->UserTipo,
-			"UserStatus" => $item->UserStatus
-		);		
-		http_response_code(200);
-        echo json_encode($emp_arr);
-    }
+    $items = new UsersAuth($db);	
+	$items->UserEmail = isset($_GET['email']) ? $_GET['email'] : die();
+	$items->Password = isset($_GET['passw']) ? $_GET['passw'] : die();
+	
+	$stmt = $items->getBuscar();
+    $itemCount = $stmt->RowCount();
+    
+    if($itemCount > 0){
+        
+        $estadoArr = array();
+        $estadoArr["body"] = array();
+        $estadoArr["itemCount"] = $itemCount;
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $e = array(
+                "UserKey" => $UserKey,
+                "CustomerKey" => $CustomerKey,
+                "UserEmail" => $UserEmail,
+                "UserName" => $UserName,
+                "UserTipo" => $UserTipo,
+                "Password" => $Password,
+                "UserStatus" => $UserStatus
+            );
+            array_push($estadoArr["body"], $e);
+        }
+        echo json_encode($estadoArr);
+    }    
     else{
         http_response_code(404);
         echo json_encode(

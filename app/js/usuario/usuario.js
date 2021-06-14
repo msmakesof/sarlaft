@@ -21,41 +21,107 @@
 				}
 			})
 		}
+		
+		$('#Email').on('blur', function(){
+			//alert(77);
+			// para verificar si el email ya se encuentra registrado			
+			let id = 0
+			let email = $("#Email").val()
+			$.post( "ajax/"+ tabla +"/buscaemail.php", { 'id': id, 'email': email })
+			  .done(function( datos ) {
+				if(datos == 1 ){
+					swal({
+						position: 'top-end',
+						type: 'warning',
+						title: 'El Email digitado Ya fue registrado',
+						showConfirmButton: true,
+						timer: 5000
+					});
+					$("#Email").val('')
+					$("#Email").focus()
+				}					
+			})
+		})
+		
+		$('#edit_email').on('blur', function(){
+			// para verificar si el email ya se encuentra registrado			
+			var id = $("#edit_id").val()
+			var email = $("#edit_email").val()
+			$.post( "ajax/"+ tabla +"/buscaemail.php", { 'id': id, 'email': email })
+			  .done(function( datos ) {
+				if(datos == 1 ){
+					swal({
+						position: 'top-end',
+						type: 'warning',
+						title: 'El Email digitado Ya fue registrado',
+						showConfirmButton: true,
+						timer: 5000
+					});
+					$("#edit_email").val('')
+					$("#edit_email").focus()
+				}					
+			})
+		})
+		
 		$('#editUserModal').on('show.bs.modal', function (event) {
 			setTimeout(function (){
-				$('#edit_customerkey2').focus();
-				$('#edit_customerkey2').select2('open');
+				$('#edit_name').focus();
 			}, 1000)
-			var button = $(event.relatedTarget) // Button that triggered the modal
-			var customerkey2 = button.data('customerkey2')
-			$('#edit_customerkey2').val(customerkey2)
+			var button = $(event.relatedTarget) // Button that triggered the modal			
 			var name = button.data('name') 
 			$('#edit_name').val(name)
 			var email = button.data('email') 
 			$('#edit_email').val(email)
 			var password2 = button.data('password2') 
 			$('#edit_password2').val(password2)
-			estado = button.data('estado')
-			$('#edit_estado').val(estado)			
+			var customerkey2 = button.data('customerkey2')
+			$('#edit_customerkey2').val(customerkey2)
+			//alert(customerkey2);			
+			if(customerkey2 == undefined){
+				customerkey2 = ""
+			}
 			var parametros = "idcustomer="+customerkey2
-			var dir = "ajax/"+ tabla +"/editarcustomer.php?"+parametros
-			$.ajax({
-				type: "POST",
-				url: "ajax/"+ tabla +"/editarcustomer.php",
-				data: parametros,
-				success: function(datos){
+			setTimeout(function (){  // Se debe poner tiempo de espera para que cargue todos los select 
+				$.post( "ajax/"+ tabla +"/editarcustomer.php", { 'idcustomer': customerkey2 })
+				  .done(function( datos ) {
+					//alert('datos.....'+datos);
 					let slct = '<select class="form-control" name="edit_customerkey2" id="edit_customerkey2" style="width: 100%;" required>';
 						slct += datos;
 						slct += '</select>';
-					$("#edit_customerkey2").html(slct)
+						$("#edit_customerkey2").html(slct)
+				});
+			}, 500)
+			
+			var idrol = button.data('idrol')
+			$('#edit_rol').val(idrol)
+			//alert(idrol);
+			if(idrol == undefined){
+				idrol = ""
+			}
+			 var parametros2 = "idrol="+idrol			
+			$.ajax({
+				type: "POST",
+				url: "ajax/"+ tabla +"/editarrol.php",
+				data: parametros2,
+				success: function(datos){
+					let slct = '<select class="form-control" name="edit_rol" id="edit_rol" style="width: 100%;" required>';
+						slct += datos;
+						slct += '</select>';
+					$("#edit_rol").html(slct)
 				}	
 			})
 			
-			parametros = "idestado="+estado
+			var estado = button.data('estado')
+			$('#edit_estado').val(estado)
+			//alert(estado);
+			if(estado == undefined){
+				estado = ""
+			}
+			var parametros3 = "idestado="+estado
 			$.ajax({
 				type: "POST",
 				url: "ajax/"+ tabla +"/editarestado.php",
-				data: parametros,
+				data: parametros3,
 				success: function(datos){
 					let slct = '<select class="form-control" name="edit_estado" id="edit_estado" style="width: 100%;" required>';
 						slct += datos;
@@ -85,7 +151,7 @@
 				success: function(datos){
 					$("#resultados").html(datos);
 					$('#editUserModal').modal('hide');
-					let msj = datos.substr(0,1);
+					let msj = datos.substr(1,1);					
 					let type;
 					let txt;
 					if(msj == 'U'){
@@ -122,9 +188,9 @@
 		
 		$( "#addUserModal" ).on('show.bs.modal', function () {			
 			setTimeout(function (){
-				$('#edit_customerkey2').focus();
-				$('#edit_customerkey2').select2('open');
-			}, 1000)
+				$('#UserName2').focus();
+			}, 500)		
+			
 		});
 		
 		$( "#add_user" ).submit(function( event ) {
@@ -139,7 +205,7 @@
 				success: function(datos){					
 					$("#resultados").html(datos);
 					$('#addUserModal').modal('hide');
-					let msj = datos.substr(0,1);
+					let msj = datos.substr(1,1);
 					let type;
 					let txt;
 					if(msj == 'O'){

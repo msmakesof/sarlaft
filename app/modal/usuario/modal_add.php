@@ -8,31 +8,44 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label>Compañía</label>							
-							<select class="form-control select2" name="CustomerKey2" id="CustomerKey2" style="width: 100%;" required>
-								<option value="">Seleccione ...</option>								
-								<?php include("./curl/cliente/listartodo.php"); ?>
-							</select>	
-						</div>
-						<div class="form-group">
 							<label>Nombre </label>
 							<input type="text" name="UserName2" id="UserName2" class="form-control" maxlength="30" required>
 						</div>
+				
 						<div class="form-group">
 							<label>Email </label>
 							<input type="text" name="Email" id="Email" class="form-control" maxlength="50" required>
 						</div>
+				
 						<div class="form-group">
 							<label>Password</label>
-							<input type="Password" name="Password2" id="Password2" class="form-control"  maxlength="20" required>
+							<input type="Password" name="Password2" id="Password2" class="form-control" maxlength="20" required>
+						</div>			
+					
+						<div class="form-group">
+							<label>Compañía</label>							
+							<select class="form-control select2" name="CustomerKey2" id="CustomerKey2" style="width: 100%;" required>
+								<option value="">Seleccione Compañía...</option>								
+								<?php include("./curl/cliente/listartodo.php"); ?>
+							</select>	
 						</div>
+					
+						<div class="form-group">
+							<label>Rol</label>							
+							<select class="form-control select2" name="rol" id="rol" style="width: 100%;" required>
+								<option value="">Seleccione Rol...</option>								
+								<?php include("./curl/rol/listarol.php"); ?>
+							</select>	
+						</div>
+				
 						<div class="form-group">
 							<label>Estado</label>							
 							<select class="form-control select2" name="estado" id="estado" style="width: 100%;" required>
-								<option value="">Seleccione ...</option>								
+								<option value="">Seleccione Estado...</option>								
 								<?php include("./curl/estado/listar.php"); ?>
 							</select>	
-						</div>			
+						</div>						
+					
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">

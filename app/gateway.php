@@ -1,6 +1,6 @@
 <?php
-require_once ("../../components/sql_server_login.php");
-//require_once ("app/components/sql_server_login.php");
+//require_once ("../../components/sql_server_login.php");
+require_once ("app/components/sql_server_login.php");
 
 $query = sqlsrv_query($con,"SELECT CON_IdControl, CON_LlaveAcceso, CON_IdEstado, CON_LlaveInicial, CON_LlaveIv, CON_MetodoEncriptacion,CON_TipoHash, CON_Cookie FROM Control WHERE CON_IdEstado = 1");
 if ($query){

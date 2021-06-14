@@ -1,13 +1,15 @@
 <?php
-$CustomerKey = trim($_POST['idcustomer']);
-//echo "customer   ".$CustomerKey;
+$id = trim($_POST['id']);
+$email = trim($_POST['email']);
+
+//echo "state   ".$IdRol;
 require_once '../../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();		
 $resultado = "";
 
-$url = $urlServicios."api/cliente/lista.php";
-//echo "url cliente...$url<br>";
+$url = $urlServicios."api/usuario/buscaremail.php?email=".$email."&id=".$id;
+//echo "url listarol...$url<br>";
 $resultado="";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -29,28 +31,15 @@ $json_errors = array(
 	JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 );
 foreach($data as $key => $row) {}
-$select = '';
-//$select = '<select class="form-control select2" name="edit_estado" id="edit_estado" style="width: 100%;" required>';
-$select .= '<option value="">Seleccione Opción</option>';
 if( $key == "message")
 {
-	$select .= '<option value="">'. $data["message"] .'</option>';
+	$select = 0;
 }
 else
 {
 	if( $data["itemCount"] > 0)
 	{			
-		for($i=0; $i<count($data['body']); $i++)
-		{				
-			$condi = "";
-			$id = $data['body'][$i]["id"];
-			$customerkey = trim($data['body'][$i]["CustomerKey"]);
-			$nomcustomer = trim($data['body'][$i]["CustomerName"]);
-			if( isset($CustomerKey) && $CustomerKey != "" && $customerkey == $CustomerKey ){
-				$condi = ' selected="selected" ';
-			}
-			$select .= '<option value="'. $customerkey .'"'. $condi .'>'. $nomcustomer .'</option>';
-		}
+		$select = 1;
 	}		
 }
 //$select .= '</select>';

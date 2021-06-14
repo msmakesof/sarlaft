@@ -24,8 +24,10 @@
 
         // GET ALL
         public function getControl(){
-            $sqlQuery = "SELECT CON_IdControl, CON_LlaveAcceso, CON_LlaveInicial, CON_LlaveIv, CON_MetodoEncriptacion, CON_TipoHash, CON_Cookie, STA_Nombre FROM " . $this->db_table . "
-			 JOIN State ON STA_IdEstado = CON_IdEstado ";
+            $sqlQuery = "SELECT CON_IdControl, CON_LlaveAcceso, CON_LlaveInicial, CON_LlaveIv, CON_MetodoEncriptacion, CON_TipoHash, CON_Cookie, STA_Nombre 
+			FROM " . $this->db_table . "
+			 JOIN State ON STA_IdEstado = CON_IdEstado 
+			WHERE CON_IdEstado = 1";
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->execute();
             return $stmt;

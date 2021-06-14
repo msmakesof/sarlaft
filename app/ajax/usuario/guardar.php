@@ -16,6 +16,7 @@
 		$usuarionombre = str_replace(' ','%20',strtoupper($usuarionombre));
 		$usuarioemail = trim(strtolower($_POST["Email"]));
 		$usuariopwd = trim($_POST["Password2"]);
+		$idrol = $_POST["rol"];
 		$estado = $_POST["estado"];
 		
 		$query = "";
@@ -54,52 +55,11 @@
 		else
 		{			
 			// Para cifrar la clave
-			$url = $urlServicios."api/control/read.php";
-			$query = "";
-			$resultado = "";
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_VERBOSE, true);
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-			curl_setopt($ch, CURLOPT_POST, 0);
-			$resultado = curl_exec ($ch);
-			curl_close($ch);
-			
-			$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-			$data = json_decode($mestado, true);
-			$json_errors = array(
-				JSON_ERROR_NONE => 'No se ha producido ningún error',
-				JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-				JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-				JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-			);
-			
-			$CON_LlaveAcceso ="";
-			if( $data["itemCount"] > 0)
-			{
-				for($i=0; $i<count($data['body']); $i++)
-				{
-					$CON_IdControl = $data['body'][$i]['CON_IdControl'];
-					$CON_LlaveAcceso = $data['body'][$i]['CON_LlaveAcceso'];
-					$CON_LlaveInicial= $data['body'][$i]['CON_LlaveInicial'];
-					$CON_LlaveIv = $data['body'][$i]['CON_LlaveIv'];
-					$CON_MetodoEncriptacion = $data['body'][$i]['CON_MetodoEncriptacion'];
-					$CON_TipoHash = $data['body'][$i]['CON_TipoHash'];
-					$CON_Cookie = $data['body'][$i]['CON_Cookie'];
-				}				
-			}
-			
 			include_once("gateway.php");
-			$key = $CON_LlaveAcceso;
-			$encryption_key_256bit = base64_encode(openssl_random_pseudo_bytes(64));
-			$password_encrypted = my_encrypt($usuariopwd, $key);			
-			$usuariopwd = $password_encrypted;
-			
+			$Password2 = encryptor('encrypt', $usuariopwd);
+		
 			// Si todo va bien se hace el Insert
-			$params = "UsuarioCustomerKey=$usuariocustomer&NombreUsuario=$usuarionombre&Email=$usuarioemail&Password=$usuariopwd&Estado=$estado";
+			$params = "UsuarioCustomerKey=$usuariocustomer&NombreUsuario=$usuarionombre&Email=$usuarioemail&Password=$Password2&IdRol=$idrol&Estado=$estado";
 			$url = $urlServicios."api/usuario/crear.php?$params";			
 
 			$query = "";

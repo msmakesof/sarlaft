@@ -7,10 +7,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>				
 				<div class="modal-body">
-					<div class="form-group">
-						<label>Compañía</label>
-						<select name="edit_customerkey2" id="edit_customerkey2" class="select2"></select>					
-					</div>
+					
 					<div class="form-group">
 						<label>Nombre </label>
 						<input type="text" name="edit_name" id="edit_name" class="form-control" maxlength="30" required>
@@ -23,6 +20,14 @@
 					<div class="form-group">
 						<label>Password</label>
 						<input type="Password" name="edit_password2" id="edit_password2" class="form-control"  maxlength="20" required>
+					</div>
+					<div class="form-group">
+						<label>Compañía</label>
+						<select name="edit_customerkey2" id="edit_customerkey2" class="select2"></select>					
+					</div>
+					<div class="form-group">
+						<label>Rol ...</label>
+						<select name="edit_rol" id="edit_rol" class="select2"></select>					
 					</div>
 					<div class="form-group">
 						<label>Estado</label>						

@@ -1,10 +1,9 @@
 <?php
-require_once ("../../components/sql_server_login.php");
-//require_once ("app/components/sql_server_login.php");
+require_once ("app/components/sql_server_login.php");
 
 $query = sqlsrv_query($con,"SELECT CON_IdControl, CON_LlaveAcceso, CON_IdEstado, CON_LlaveInicial, CON_LlaveIv, CON_MetodoEncriptacion,CON_TipoHash, CON_Cookie FROM Control WHERE CON_IdEstado = 1");
 if ($query){
-    //echo "Ok<br>";    
+    echo "Ok<br>";    
     while($row = sqlsrv_fetch_array($query)){	
         $id=$row['CON_IdControl'];
         $CustomerKey=$row['CON_LlaveAcceso'];
@@ -18,10 +17,14 @@ if ($query){
     $GLOBALS['secret_key'] = $secret_key;
     $GLOBALS['secret_iv'] = $secret_iv;
     $GLOBALS['encrypt_method'] = $encrypt_method;
-    //echo $secret_key."<br>"; echo $secret_iv."<br>"; echo $encrypt_method."<br>"; echo $tipo_hash."<br>";
+    echo $secret_key."<br>";
+    echo $secret_iv."<br>";
+    echo $encrypt_method."<br>";
+    echo $tipo_hash."<br>";
 
     function encryptor($action, $string) {
-        $output = false;    
+        $output = false;
+    
         // hash
         $key = hash($GLOBALS['tipo_hash'], $GLOBALS['secret_key']);
         

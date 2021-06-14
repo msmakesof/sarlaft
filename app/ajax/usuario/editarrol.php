@@ -1,13 +1,13 @@
 <?php
-$CustomerKey = trim($_POST['idcustomer']);
-//echo "customer   ".$CustomerKey;
+$IdRol = $_POST['idrol'];
+//echo "state   ".$IdRol;
 require_once '../../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();		
 $resultado = "";
 
-$url = $urlServicios."api/cliente/lista.php";
-//echo "url cliente...$url<br>";
+$url = $urlServicios."api/rol/lista.php";
+//echo "url listarol...$url<br>";
 $resultado="";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -43,13 +43,12 @@ else
 		for($i=0; $i<count($data['body']); $i++)
 		{				
 			$condi = "";
-			$id = $data['body'][$i]["id"];
-			$customerkey = trim($data['body'][$i]["CustomerKey"]);
-			$nomcustomer = trim($data['body'][$i]["CustomerName"]);
-			if( isset($CustomerKey) && $CustomerKey != "" && $customerkey == $CustomerKey ){
+			$idrol = $data['body'][$i]["IdRol"];
+			$nombrerol = trim($data['body'][$i]["RolNombre"]);
+			if( isset($IdRol) && $IdRol != "" && $idrol == $IdRol ){
 				$condi = ' selected="selected" ';
 			}
-			$select .= '<option value="'. $customerkey .'"'. $condi .'>'. $nomcustomer .'</option>';
+			$select .= '<option value="'. $idrol .'"'. $condi .'>'. $nombrerol .'</option>';
 		}
 	}		
 }
