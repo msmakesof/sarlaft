@@ -30,8 +30,13 @@
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var id = button.data('id') 
 		  $('#delete_id').val(id)
-		})
+		})		
 		
+		$( "#addCargoModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#UserName2').focus();
+			}, 15000)
+		});
 		
 		$( "#edit_cargo" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
@@ -44,8 +49,11 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#editCargosModal').modal('hide');
+					setTimeout(function (){
+						load(1); location.reload();
+					}, 3000)
+					
 				  }
 			});
 		  event.preventDefault();
@@ -63,8 +71,11 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
+					//load(1);location.reload();
 					$('#addCargosModal').modal('hide');
+					setTimeout(function (){
+						load(1); location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
@@ -81,8 +92,11 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
+					//load(1);location.reload();
 					$('#deleteCargosModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();

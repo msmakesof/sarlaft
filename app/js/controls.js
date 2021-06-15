@@ -44,8 +44,10 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#editControlModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
@@ -63,8 +65,10 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#addControlModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
@@ -81,8 +85,10 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#deleteControlModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();

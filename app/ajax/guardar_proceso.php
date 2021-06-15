@@ -12,6 +12,7 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 		$UserKey=$_SESSION['UserKey'];
 		$DateStamp=date("Y-m-d H:i:s");
 		$sql="INSERT INTO ProcesosSarlaft (CustomerKey, UserKey, DateStamp, ProcesosName, ProcesosKey) VALUES ('".$CustomerKey."','".$UserKey."','".$DateStamp."','".$ProcesosName."','".$ProcesosKey."')";
+		//echo $sql;
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {

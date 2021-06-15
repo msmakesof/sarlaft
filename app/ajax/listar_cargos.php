@@ -16,15 +16,18 @@ if($action == 'ajax'){
 						<th class='text-center'>#</th>
 						<th class='text-left'>Nombre Cargo </th>
 						<th class='text-center'>Eventos</th>
-						<th class='text-left'>Acciones</th>
-						
+						<th class='text-left'>Acciones</th>						
 					</tr>
 				</thead>
 				<tbody>	
 						<?php 
 						$finales=0;
 						$i=1;
-						while($row = sqlsrv_fetch_array($query)){	
+						if ( $query === false)
+						{
+							die(print_r(sqlsrv_errors(), true));
+						}
+						while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
 							$CargosId=$row['CargosId'];
 							$CustomerKey=$row['CustomerKey'];
 							$CargosKey=$row['CargosKey'];
@@ -39,10 +42,9 @@ if($action == 'ajax'){
 							<td class='text-left'>
 								<a href="#"  data-target="#editCargoModal" class="edit" data-toggle="modal" data-name="<?php echo $CargosName?>"  data-id="<?php echo $CargosId; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i></a>
 								<a href="#deleteCargoModal" class="delete" data-toggle="modal" data-id="<?php echo $CargosId;?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
-                    		</td>
+							</td>
 						</tr>
-						<?php }?>
-
+						<?php }	?>
 				</tbody>			
 			</table>
 		</div>	

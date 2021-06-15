@@ -9,7 +9,7 @@ include ('is_logged.php');
 	
 
 	// DELETE FROM  database
-    $sql = "DELETE FROM  CargosSarlaft WHERE CargosId='$id'";
+    $sql = "DELETE FROM  CargosSarlaft WHERE CargosId='$id'";	
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {

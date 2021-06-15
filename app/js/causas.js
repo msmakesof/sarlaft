@@ -43,9 +43,11 @@
 						$("#resultados").html("Enviando...");
 					  },
 					success: function(datos){
-					$("#resultados").html(datos);
-					load(1);location.reload();
+					$("#resultados").html(datos);					
 					$('#editCausaModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
@@ -62,9 +64,11 @@
 						$("#resultados").html("Enviando...");
 					  },
 					success: function(datos){
-					$("#resultados").html(datos);
-					load(1);location.reload();
+					$("#resultados").html(datos);					
 					$('#addCausaModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
@@ -81,8 +85,10 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#deleteCausaModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();

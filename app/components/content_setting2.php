@@ -19,7 +19,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Eventos 
+                                                Eventos ...
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                         <?php
@@ -29,14 +29,18 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $na = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $na = 0; }
+                        else { $na = sqlsrv_num_rows( $stmt ); }
+                        //$na = sqlsrv_num_rows( $stmt );
                         if($na=='0'){$nas='0';}else{$nas='1';}
 
                         $sql = "SELECT CustomerKey FROM CargosSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nb = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nb = 0; }
+                        else { $nb = sqlsrv_num_rows( $stmt ); }
+                        //$nb = sqlsrv_num_rows( $stmt );
                         if($nb=='0'){$nbs='0';}else{$nbs='1';}                       
 
 
@@ -44,7 +48,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nc = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nc = 0; }
+                        else { $nc = sqlsrv_num_rows( $stmt ); }
+                        //$nc = sqlsrv_num_rows( $stmt );
                         if($nc=='0'){$ncs='0';}else{$ncs='1';}
 
 
@@ -52,7 +58,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nd = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nd = 0; }
+                        else { $nd = sqlsrv_num_rows( $stmt ); }
+                        //$nd = sqlsrv_num_rows( $stmt );
                         if($nd=='0'){$nds='0';}else{$nds='1';}
 
 
@@ -60,7 +68,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ne = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $na = 0; }
+                        else { $ne = sqlsrv_num_rows( $stmt ); }
+                        //$ne = sqlsrv_num_rows( $stmt );
                         if($ne=='0'){$nes='0';}else{$nes='1';}
 
 
@@ -68,7 +78,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nf = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nf = 0; }
+                        else { $nf = sqlsrv_num_rows( $stmt ); }
+                        //$nf = sqlsrv_num_rows( $stmt );
                         if($nf=='0'){$nfs='0';}else{$nfs='1';}
 
 
@@ -76,7 +88,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ng = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ng = 0; }
+                        else { $ng = sqlsrv_num_rows( $stmt ); }
+                        //$ng = sqlsrv_num_rows( $stmt );
                         if($ng=='0'){$ngs='0';}else{$ngs='1';}
 
 
@@ -84,7 +98,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nh = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nh = 0; }
+                        else { $nh = sqlsrv_num_rows( $stmt ); }
+                        //$nh = sqlsrv_num_rows( $stmt );
                         if($nh=='0'){$nhs='0';}else{$nhs='1';}
 
                         $total=$nas+$nbs+$ncs+$nds+$nes+$nfs+$ngs+$nhs;
@@ -131,14 +147,18 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sc = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sc = 0; }
+                        else { $sc = sqlsrv_num_rows( $stmt ); }
+                        //$sc = sqlsrv_num_rows( $stmt );
                         if($sc=='0'){$scs='0';}else{$scs='1';}
 
                         $sql = "SELECT CustomerKey FROM SegProductosSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sp = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sp = 0; }
+                        else { $sp = sqlsrv_num_rows( $stmt ); }
+                        //$sp = sqlsrv_num_rows( $stmt );
                         if($sp=='0'){$sps='0';}else{$sps='1';}                      
 
 
@@ -146,7 +166,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sl = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sl = 0; }
+                        else { $sl = sqlsrv_num_rows( $stmt ); }
+                        //$sl = sqlsrv_num_rows( $stmt );
                         if($sl=='0'){$sls='0';}else{$sls='1';}
 
 
@@ -154,7 +176,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sj = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sj = 0; }
+                        else { $sj = sqlsrv_num_rows( $stmt ); }
+                        //$sj = sqlsrv_num_rows( $stmt );
                         if($sj=='0'){$sjs='0';}else{$sjs='1';}
 
                         $segm=$scs+$sps+$sls+$sjs;
@@ -199,14 +223,18 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nad = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nad = 0; }
+                        else { $nad = sqlsrv_num_rows( $stmt ); }
+                        //$nad = sqlsrv_num_rows( $stmt );
                         if($nad=='0'){$nad='0';}else{$nad='1';}
 
                         $sql = "SELECT CustomerKey FROM OportunidadesSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nbo = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nbo = 0; }
+                        else { $nbo = sqlsrv_num_rows( $stmt ); }
+                        //$nbo = sqlsrv_num_rows( $stmt );
                         if($nbo=='0'){$nbd='0';}else{$nbd='1';}                       
 
 
@@ -214,7 +242,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ncf = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ncf = 0; }
+                        else { $ncf = sqlsrv_num_rows( $stmt ); }
+                        //$ncf = sqlsrv_num_rows( $stmt );
                         if($ncf=='0'){$ncd='0';}else{$ncd='1';}
 
 
@@ -222,7 +252,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nda = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nda = 0; }
+                        else { $nda = sqlsrv_num_rows( $stmt ); }
+                        //$nda = sqlsrv_num_rows( $stmt );
                         if($nda=='0'){$ndd='0';}else{$ndd='1';}
 
 
@@ -267,7 +299,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ncp = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ncp = 0; }
+                        else { $ncp = sqlsrv_num_rows( $stmt ); }
+                        //$ncp = sqlsrv_num_rows( $stmt );
                         echo $ncp;
                     ?>
 
@@ -282,10 +316,7 @@
                                 </div>
                             </div> </a>
                         </div>
-
-                    </div>
-
- 
+                    </div> 
 
                     <!-- Content Row -->
 
@@ -364,8 +395,5 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
                 <!-- /.container-fluid -->

@@ -16,15 +16,18 @@ if($action == 'ajax'){
 						<th class='text-center'>#</th>
 						<th class='text-left'>Nombre Causa </th>
 						<th class='text-center'>Eventos</th>
-						<th class='text-left'>Acciones</th>
-						
+						<th class='text-left'>Acciones</th>						
 					</tr>
 				</thead>
 				<tbody>	
 						<?php 
 						$finales=0;
 						$i=1;
-						while($row = sqlsrv_fetch_array($query)){	
+						if ( $query === false)
+						{
+							die(print_r(sqlsrv_errors(), true));
+						}						
+						while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {	
 							$id=$row['id'];
 							$CustomerKey=$row['CustomerKey'];
 							$CausasKey=$row['CausasKey'];
@@ -41,7 +44,7 @@ if($action == 'ajax'){
 								<a href="#deleteCausaModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
                     		</td>
 						</tr>
-						<?php }?>
+						<?php } ?>
 
 				</tbody>			
 			</table>

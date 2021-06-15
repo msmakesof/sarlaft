@@ -2,7 +2,8 @@
 // Conexión a DB Creadas automaticamente
 $a=$_SESSION["Keyp"];
 $serverName = "PMALAP-004\SQLEXPRESS";  //"LAPTOP-C19VUK67"; //serverName\instanceName
-$connectionInfo = array( "Database"=>'E'.$a.'', "UID"=>"sa", "PWD"=>"Answer934@");
+//$connectionInfo = array( "Database"=>'E'.$a.'', "UID"=>"sa", "PWD"=>"Answer934@");    // Esta es la conexion para los clientes
+$connectionInfo = array( "Database"=>'sarlaft', "UID"=>"sa", "PWD"=>"Answer934@");      // Esta es laconexion standar
 $conn = sqlsrv_connect( $serverName, $connectionInfo);
 
 if( $conn ) {

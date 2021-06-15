@@ -44,13 +44,20 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#editProcesoModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
 			});
 		  event.preventDefault();
 		});
 		
+		$( "#addProcesoModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#UserName2').focus();
+			}, 15000)
+		});
 		
 		$( "#add_proceso" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
@@ -63,11 +70,13 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#addProcesoModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)
 				  }
-			});
-		  event.preventDefault();
+			});			
+			 event.preventDefault();
 		});
 		
 		$( "#delete_proceso" ).submit(function( event ) {
@@ -81,8 +90,10 @@
 					  },
 					success: function(datos){
 					$("#resultados").html(datos);
-					load(1);location.reload();
 					$('#deleteProcesoModal').modal('hide');
+					setTimeout(function (){
+						load(1);location.reload();
+					}, 3000)					
 				  }
 			});
 		  event.preventDefault();

@@ -12,8 +12,7 @@
         <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: <?php echo $row['CustomerColor'];?>" >
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index">
-
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div ><img src="../img/as riesgos.png" width="100%"></div>
             </a>
 
@@ -23,14 +22,14 @@
             <!-- Nav Item - Dashboard -->
 
             <li class="nav-item active">
-                <a class="nav-link" href="./setting">
+                <a class="nav-link" href="./setting.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./UGR">
+                <a class="nav-link" href="./UGR.php">
                     <i class="far fa-calendar-check"></i>
-                    <span>UGR</span></a>
+                    <span>UGR...</span></a>
             </li>                         
 
             <!-- Divider -->
@@ -44,13 +43,11 @@
             <!-- Nav Item - Pages Collapse Menu -->
 
              <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-calendar-week"></i>
                     <span>Eventos</span>
                 </a>
-                <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
+                <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Eventos:</h6>
                            <?php
@@ -61,14 +58,18 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $na = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $na = 0; }
+                        else { $na = sqlsrv_num_rows( $stmt ); }
+                        //$na = sqlsrv_num_rows( $stmt );
                         if($na=='0'){$nas='red';}else{$nas='';}
 
                         $sql = "SELECT CustomerKey FROM CargosSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nb = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nb = 0; }
+                        else { $nb = sqlsrv_num_rows( $stmt ); }
+                        //$nb = sqlsrv_num_rows( $stmt );
                         if($nb=='0'){$nbs='red';}else{$nbs='';}                       
 
 
@@ -76,7 +77,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nc = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nc = 0; }
+                        else { $nc = sqlsrv_num_rows( $stmt ); }
+                        //$nc = sqlsrv_num_rows( $stmt );
                         if($nc=='0'){$ncs='red';}else{$ncs='';}
 
 
@@ -84,7 +87,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nd = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nd = 0; }
+                        else { $nd = sqlsrv_num_rows( $stmt ); }
+                        //$nd = sqlsrv_num_rows( $stmt );
                         if($nd=='0'){$nds='red';}else{$nds='';}
 
 
@@ -92,7 +97,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ne = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ne = 0; }
+                        else { $ne = sqlsrv_num_rows( $stmt ); }
+                        //$ne = sqlsrv_num_rows( $stmt );
                         if($ne=='0'){$nes='red';}else{$nes='';}
 
 
@@ -100,7 +107,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nf = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nf = 0; }
+                        else { $nf = sqlsrv_num_rows( $stmt ); }
+                        //$nf = sqlsrv_num_rows( $stmt );
                         if($nf=='0'){$nfs='red';}else{$nfs='';}
 
 
@@ -108,7 +117,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ng = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ng = 0; }
+                        else { $ng = sqlsrv_num_rows( $stmt ); }
+                        //$ng = sqlsrv_num_rows( $stmt );
                         if($ng=='0'){$ngs='red';}else{$ngs='';}
 
 
@@ -116,18 +127,20 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nh = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nh = 0; }
+                        else { $nh = sqlsrv_num_rows( $stmt ); }
+                        //$nh = sqlsrv_num_rows( $stmt );
                         if($nh=='0'){$nhs='red';}else{$nhs='';}
 
                         ?>                     
-                        <a class="collapse-item" href="Procesos" style="color: <?php echo $nas;?>">Procesos</a>
-                        <a class="collapse-item" href="Cargos" style="color: <?php echo $nbs;?>">Cargos</a>
-                        <a class="collapse-item" href="Responsables" style="color: <?php echo $ncs;?>">Responsables</a>
-                        <a class="collapse-item" href="Causas" style="color: <?php echo $nds;?>">Causas</a>
-                        <a class="collapse-item" href="EventosdeRiesgo" style="color: <?php echo $nes;?>">Eventos de Riesgo</a>
-                        <a class="collapse-item" href="Consecuencias" style="color: <?php echo $nfs;?>">Consecuencias</a>
-                        <a class="collapse-item" href="Controles" style="color: <?php echo $ngs;?>">Controles</a>
-                        <a class="collapse-item" href="Tratamientos" style="color: <?php echo $nhs;?>">Tratamientos</a>                        
+                        <a class="collapse-item" href="Procesos.php" style="color: <?php echo $nas;?>">Procesos</a>
+                        <a class="collapse-item" href="Cargos.php" style="color: <?php echo $nbs;?>">Cargos</a>
+                        <a class="collapse-item" href="Responsables.php" style="color: <?php echo $ncs;?>">Responsables</a>
+                        <a class="collapse-item" href="Causas.php" style="color: <?php echo $nds;?>">Causas</a>
+                        <a class="collapse-item" href="EventosdeRiesgo.php" style="color: <?php echo $nes;?>">Eventos de Riesgo</a>
+                        <a class="collapse-item" href="Consecuencias.php" style="color: <?php echo $nfs;?>">Consecuencias</a>
+                        <a class="collapse-item" href="Controles.php" style="color: <?php echo $ngs;?>">Controles</a>
+                        <a class="collapse-item" href="Tratamientos.php" style="color: <?php echo $nhs;?>">Tratamientos</a>                        
                     </div>
                 </div>
             </li>           
@@ -149,14 +162,18 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sc = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sc = 0; }
+                        else { $sc = sqlsrv_num_rows( $stmt ); }
+                        //$sc = sqlsrv_num_rows( $stmt );
                         if($sc=='0'){$scs='red';}else{$scs='';}
 
                         $sql = "SELECT CustomerKey FROM SegProductosSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sp = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sp = 0; }
+                        else { $sp = sqlsrv_num_rows( $stmt ); }
+                        //$sp = sqlsrv_num_rows( $stmt );
                         if($sp=='0'){$sps='red';}else{$sps='';}                      
 
 
@@ -164,7 +181,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sl = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sl = 0; }
+                        else { $sl = sqlsrv_num_rows( $stmt ); }
+                        //$sl = sqlsrv_num_rows( $stmt );
                         if($sl=='0'){$sls='red';}else{$sls='';}
 
 
@@ -172,15 +191,17 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $sj = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $sj = 0; }
+                        else { $sj = sqlsrv_num_rows( $stmt ); }
+                        //$sj = sqlsrv_num_rows( $stmt );
                         if($sj=='0'){$sjs='red';}else{$sjs='';}
 
 
                         ?>                         
-                        <a class="collapse-item" href="SegClientes" style="color: <?php echo $scs;?>">Clientes</a>
-                        <a class="collapse-item" href="SegProductos" style="color: <?php echo $sps;?>">Producto</a>
-                        <a class="collapse-item" href="SegCanales" style="color: <?php echo $sls;?>">Canales</a>
-                        <a class="collapse-item" href="SegJurisdiccion" style="color: <?php echo $sjs;?>">Jurisdicción</a>
+                        <a class="collapse-item" href="SegClientes.php" style="color: <?php echo $scs;?>">Clientes</a>
+                        <a class="collapse-item" href="SegProductos.php" style="color: <?php echo $sps;?>">Producto</a>
+                        <a class="collapse-item" href="SegCanales.php" style="color: <?php echo $sls;?>">Canales</a>
+                        <a class="collapse-item" href="SegJurisdiccion.php" style="color: <?php echo $sjs;?>">Jurisdicción</a>
                     </div>
                 </div>
             </li>
@@ -190,21 +211,27 @@
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>DOFA</span>
                 </a>
-                                                    <?php
+                <?php
                         $CustomerKey=$_SESSION['Keyp']; 
+                        //echo "CK....$CustomerKey<br>";
 
                         $sql = "SELECT CustomerKey FROM DebilidadesSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nad = sqlsrv_num_rows( $stmt );
-                        if($nad=='0'){$nads='red';}else{$nads='';}
+                        //echo "stmt.....$stmt<br>";
+                        if ( $stmt == ''){ $nad = 0; }
+                        else { $nad = sqlsrv_num_rows( $stmt ); }
+                        //echo "nad.....$nad<br>";
+                        if($nad=='0' ){$nads='red';}else{$nads='';}
 
                         $sql = "SELECT CustomerKey FROM OportunidadesSarlaft WHERE CustomerKey='$CustomerKey'";
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nbo = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nbo = 0; }
+                        else { $nbo = sqlsrv_num_rows( $stmt ); }
+                        //$nbo = sqlsrv_num_rows( $stmt );
                         if($nbo=='0'){$nbos='red';}else{$nbos='';}                    
 
 
@@ -212,7 +239,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $ncf = sqlsrv_num_rows( $stmt );
+                        //$ncf = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $ncf = 0; }
+                        else { $ncf = sqlsrv_num_rows( $stmt ); }
                         if($ncf=='0'){$ncfs='red';}else{$ncfs='';}
 
 
@@ -220,7 +249,9 @@
                         $params = array();
                         $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                         $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                        $nda = sqlsrv_num_rows( $stmt );
+                        //$nda = sqlsrv_num_rows( $stmt );
+                        if ( $stmt == ''){ $nda = 0; }
+                        else { $nda = sqlsrv_num_rows( $stmt ); }
                         if($nda=='0'){$ndas='red';}else{$ndas='';}
 
                         ?>                
@@ -228,21 +259,21 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Dofa:</h6>
-                        <a class="collapse-item" href="Debilidades" style="color: <?php echo $nads;?>">Debilidades</a>
-                        <a class="collapse-item" href="Oportunidades" style="color: <?php echo $nbos;?>">Oportunidades</a>
-                        <a class="collapse-item" href="Fortalezas" style="color: <?php echo $ncfs;?>">Fortalezas</a>
-                        <a class="collapse-item" href="Amenazas" style="color: <?php echo $ndas;?>">Amenazas</a>
+                        <a class="collapse-item" href="Debilidades.php" style="color: <?php echo $nads;?>">Debilidades</a>
+                        <a class="collapse-item" href="Oportunidades.php" style="color: <?php echo $nbos;?>">Oportunidades</a>
+                        <a class="collapse-item" href="Fortalezas.php" style="color: <?php echo $ncfs;?>">Fortalezas</a>
+                        <a class="collapse-item" href="Amenazas.php" style="color: <?php echo $ndas;?>">Amenazas</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Escalas">
+                <a class="nav-link" href="Escalas.php">
                     <i class="fas fa-balance-scale"></i>
                     <span>Escalas</span></a>
             </li>                       
             <li class="nav-item">
-                <a class="nav-link" href="Planes">
+                <a class="nav-link" href="Planes.php">
                     <i class="fas fa-clipboard-list"></i>
                     <span>Planes</span></a>
             </li>
@@ -257,8 +288,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Configuración:</h6>
                 
-                        <a class="collapse-item" href="#Usuarios">Usuarios</a>
-                        <a class="collapse-item" href="#UserSetup">Privilegios</a>                        
+                        <a class="collapse-item" href="#Usuarios.php">Usuarios</a>
+                        <a class="collapse-item" href="#UserSetup.php">Privilegios</a>                        
                     </div>
                 </div>
             </li>                      
@@ -270,7 +301,7 @@
                 Addons
             </div>
             <li class="nav-item ">
-                <a class="nav-link" href="./Clientes">
+                <a class="nav-link" href="./Clientes.php">
                     <i class="fas fa-home"></i>
                     <span>Volver a Home</span></a>
             </li>

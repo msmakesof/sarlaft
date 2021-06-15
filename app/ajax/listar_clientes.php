@@ -44,7 +44,7 @@ if($action == 'ajax'){
 							<td class='text-left'>E<?php echo $CustomerDB;?></td>
 							<td class='text-left'><?php echo $CustomerCity;?></td>
 							<td class='text-left'><?php echo $CustomerName;?></td>
-							<td class='text-center' ><?php echo $CustomerNit;?></td>
+							<td class='text-center'><?php echo $CustomerNit;?></td>
 							<td class='text-center'><a href="logo.php?id=<?php echo $id;?>" data-toggle="modal" data-target="#modal-avisolegal"><img src='img/<?php echo $CustomerLogo;?>' width='45' height='20'  border='0'/></a></td>
 							<td class='text-center'><?php echo $colorud;?></td>
 							<td class='text-center'><a href="?Keyp=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'><i class="fas fa-sign-in-alt"></i></a></td>							

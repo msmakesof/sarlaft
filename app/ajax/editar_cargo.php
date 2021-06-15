@@ -9,7 +9,7 @@ include ('is_logged.php');
 	
 	$id=intval($_POST['edit_id']);
 	// UPDATE data into database
-    $sql = "UPDATE CargosSarlaft SET CargosName='".$CargosName."' WHERE CargosId='".$id."' ";
+    $sql = "UPDATE CargosSarlaft SET CargosName='".$CargosName."' WHERE CargosId='".$id."' ";	
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {
