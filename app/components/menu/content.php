@@ -7,7 +7,18 @@
                         <h2>Administrador de <b>Riesgos</b> - <?php echo strtoupper($tabla); ?></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addUserModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo <?php echo strtoupper($tabla); ?></span></a>
+                        <div>
+                            <a href="" id="xpdf" class="btn btn-success">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Exportar</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#addUserModal" class="btn btn-primary" data-toggle="modal">
+                                <i class="material-icons">&#xE147;</i>
+                                <span>Agregar nuevo <?php echo strtoupper($tabla); ?></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

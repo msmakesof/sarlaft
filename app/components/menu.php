@@ -1,7 +1,7 @@
         <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" style="background-color: <?php echo $reg['UserColor'];?>" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
 
                 <div ><img src="../img/as riesgos.png" width="100%"></div>
             </a>

@@ -1,7 +1,7 @@
 <?php include 'ajax/is_logged.php';?>
 <?php //require_once 'components/sql_server_login.php';?>
 <?php
-//echo $_POST['id'];
+echo $_POST['id'];
 // mks 20210516  verificar cUrl
 include 'curl/usuario/queryUserKey.php';
 //echo "info...$info<br>";

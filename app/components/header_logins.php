@@ -5,8 +5,8 @@
   <meta name="description" content="Ingreso plataforma Sarlaft ">
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="icon" type="image/x-icon" href="images/logo.ico" />
-  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-      <script>
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>  
+  <script>
   $(document).on('ready',function(){
 
     $('#btn-ingresar').click(function(){

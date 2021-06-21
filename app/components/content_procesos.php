@@ -7,7 +7,17 @@
                         <h2>Administrar <b>Procesos</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addProcesoModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo proceso</span></a>
+                        <div>
+                            <a href="" id="xpdf" class="btn btn-success">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Exportar</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#addProcesoModal" class="btn btn-primary" data-toggle="modal">
+                                <i class="material-icons">&#xE147;</i> <span>Agregar nuevo proceso</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

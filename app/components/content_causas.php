@@ -7,7 +7,15 @@
                         <h2>Administrar <b>Causas</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addCausaModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo causa</span></a>
+                        <div>
+                            <a href="" id="xpdf" class="btn btn-success">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>Exportar</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="#addCausaModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo causa</span></a>
+                        </div>
                     </div>
                 </div>
             </div>

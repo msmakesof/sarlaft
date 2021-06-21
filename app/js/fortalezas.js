@@ -1,6 +1,7 @@
 		$(function() {
 			load(1);
 		});
+		
 		function load(page){
 			var query=$("#q").val();
 			var per_page=10;
@@ -18,6 +19,102 @@
 				}
 			})
 		}
+		
+		var headRows = function() {
+			return [{
+			  id: "ID",
+			  name: "Name",
+			}];
+		};
+
+		var bodyRows = function(rowCount) {
+			rowCount = rowCount || 10;
+			let body = [];
+
+			for (var i = 1; i <= rowCount; i++) {
+			  body.push({
+				id: i,
+				name: "Name " + i
+			  });
+			}
+			return body;
+		}	
+	
+		$("#xpdf").on('click', function(event){			
+			//var login = ;
+			//alert(param);			
+			let base64Img	
+			base64Img = "img/edit.png"	
+				
+			const { jsPDF } = window.jspdf            
+			const doc = new jsPDF('p', 'pt', 'letter')
+			var totalPagesExp = "{total_pages_count_string}"			
+			
+			doc.autoTable({ 
+				useCORS: true,
+				columns: [
+					{ header: ' ', dataKey: 'no' },
+					{ header: 'Nombre', dataKey: 'FortalezasName' },
+				],
+				  
+				startY: doc.autoTable() + 70,
+				tableWidth: 'auto',
+				margin: {top: 80,
+				bottom: 60,
+				left: 40,
+				width: 522} ,
+				body: bodyRows(40),
+				beforePageContent: function(data) {
+					doc.text("Header", 170, 50);
+				},
+				styles: { overflow: "linebreak" },
+				bodyStyles: { valign: "top" },
+				theme: "striped",
+				showHead: "everyPage",
+				pageBreak: 'always',
+				didDrawPage: function (data) {					
+					// Header
+					doc.setFontSize(20);
+					doc.setTextColor(40);
+					doc.text("Reporte de Fortalezas", data.settings.margin.left+190, 40);
+					
+					 if (base64Img) {
+						doc.addImage(base64Img, 'PNG', data.settings.margin.left, 15, 140, 30);
+					}
+
+					// Footer
+					let nro = doc.internal.getNumberOfPages() -1
+					var str = "Página " + nro;
+					// Total page number plugin only available in jspdf v1.0+
+					if (typeof doc.putTotalPages === 'function') {
+						
+					  str = str + " de " + totalPagesExp;
+					}
+
+					doc.setFontSize(10);
+
+					// jsPDF 1.4+ uses getWidth, <1.4 uses .width
+					var pageSize = doc.internal.pageSize;
+					var pageHeight = pageSize.height
+					  ? pageSize.height
+					  : pageSize.getHeight();
+					doc.text(str, data.settings.margin.left, pageHeight - 10);
+					
+					doc.text("Usuario: ", data.settings.margin.left+400, pageHeight-10, 0);
+				},				
+				html: '#example'
+			})
+			
+			doc.deletePage(1) //Elimina primera hoja en blanco
+			
+			// Total page number plugin only available in jspdf v1.0+
+			if (typeof doc.putTotalPages === 'function') {
+			  doc.putTotalPages(totalPagesExp);
+			}
+			
+			doc.save('fortalezas.pdf')
+		})
+		
 		$('#editFortalezasModal').on('show.bs.modal', function (event) {
 			setTimeout(function (){
 				$('#edit_name').focus();
