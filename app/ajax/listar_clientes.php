@@ -47,21 +47,25 @@ if($action == 'ajax'){
 							<td class='text-center'><?php echo $CustomerNit;?></td>
 							<td class='text-center'><a href="logo.php?id=<?php echo $id;?>" data-toggle="modal" data-target="#modal-avisolegal"><img src='img/<?php echo $CustomerLogo;?>' width='45' height='20'  border='0'/></a></td>
 							<td class='text-center'><?php echo $colorud;?></td>
-							<td class='text-center'><a href="?Keyp=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'><i class="fas fa-sign-in-alt"></i></a></td>							
-							<td class='text-center'><a href="?Keypugr=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'><i class="fab fa-artstation"></i></a></td>
+							<td class='text-center'>
+								<a href="?Keyp=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
+									<i class="fas fa-sign-in-alt"></i>
+								</a>
+							</td>							
+							<td class='text-center'>
+								<a href="?Keypugr=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
+									<i class="fab fa-artstation"></i>
+								</a>
+							</td>
 							<td class='text-left'>
 								<a href="#"  data-target="#editClienteModal" class="edit" data-toggle="modal" data-name="<?php echo $CustomerName?>" data-city="<?php echo $CustomerCity?>" data-nit="<?php echo $CustomerNit?>" data-color="<?php echo $CustomerColor;?>" data-id="<?php echo $id; ?>"><i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i></a>
 								<a href="#deleteClienteModal" class="delete" data-toggle="modal" data-key="<?php echo $CustomerKey?>" data-id="<?php echo $id;?>"><i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i></a>
                     		</td>
 						</tr>
 						<?php }?>
-
 				</tbody>			
 			</table>
 		</div>	
-
-	
 	<?php	
 	}
-	?>          
-		  
+	?>

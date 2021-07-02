@@ -1,6 +1,6 @@
 
 		<!-- Footer -->
-			<footer id="footer">
+			<footer id="footer" style="margin-top:-5em;">
 				<div class="inner">
 					<div class="copyright">
 						&copy; Todos los derechos reservados <a href="https://precisionstools.com" target="_blank">Precisions Tools SAS</a>.

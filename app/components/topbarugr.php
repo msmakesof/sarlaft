@@ -11,12 +11,12 @@
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="./Clientes" id="alertsDropdown"  aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="./Clientes.php" id="alertsDropdown"  aria-haspopup="true" aria-expanded="false">
                                 <div style="font-size:12px; color: #fff"> <i class="fas fa-home fa-fw"></i> Home </div>
                             </a>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="./Setting" id="alertsDropdown"  aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="./Setting.php" id="alertsDropdown"  aria-haspopup="true" aria-expanded="false">
                                 <div style="font-size:12px;color: #fff"><i class="fab fa-battle-net"></i> Setup </div>
                             </a>
                         </li>
@@ -33,7 +33,7 @@
                                 <h6 class="dropdown-header">
                                     Dashboard
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="UGR6">
+                                <a class="dropdown-item d-flex align-items-center" href="UGR6.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -44,7 +44,7 @@
                                         Logo cliente en menú, fijo Menú y Evento Riesgo
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="UGR2F">
+                                <a class="dropdown-item d-flex align-items-center" href="UGR2F.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -55,7 +55,7 @@
                                         Logo cliente junto a cuadros de calor, fijo Menú y Evento Riesgo
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="UGR3">
+                                <a class="dropdown-item d-flex align-items-center" href="UGR3.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -66,7 +66,7 @@
                                         Logo Cliente junto a cuadros de calor, fijo menu,  evento de riesgo y cuadro calor.
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="UGR4">
+                                <a class="dropdown-item d-flex align-items-center" href="UGR4.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-danger">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -77,7 +77,7 @@
                                         Logo Cliente junto a cuadros de calor, fijo menu,  Evento de Riesgo y Factores de Riesgo.
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="UGR5">
+                                <a class="dropdown-item d-flex align-items-center" href="UGR5.php">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-danger">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -88,7 +88,7 @@
                                         Ejemplo 2 con manejo de cuadro
                                     </div>
                                 </a>                                                                    
-                                <a class="dropdown-item text-center small text-gray-500" href="UGR">Volver Tablero original</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="UGR.php">Volver Tablero original</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown no-arrow mx-1">

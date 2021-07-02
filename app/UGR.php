@@ -9,7 +9,7 @@
           $stmt = sqlsrv_query( $conn, $sql , $params, $options );
           $na = sqlsrv_num_rows( $stmt );
           if($na=='0'){
-            header("location: ./UGR2");
+            header("location: ./UGR2.php");
           }else{
           $query=sqlsrv_query($conn,"SELECT EventosdeRiesgoKey FROM GestiondeRiesgoSarlaft WHERE CustomerKey=".$_SESSION['Keyp']." ORDER BY id DESC");
           $reg=sqlsrv_fetch_array($query);
@@ -18,7 +18,7 @@
           }
      }else{
 
-          header("location: ./UGR2");
+          header("location: ./UGR2.php");
      }
 ?>
 

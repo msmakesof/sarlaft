@@ -43,7 +43,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	}
 	else
 	{
-		// Exixte email
+		// Existe email
 		if( $dataUsuarioEmail["itemCount"] > 0)
 		{			
 			for($i=0; $i<count($dataUsuarioEmail['body']); $i++)
@@ -55,7 +55,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			  $_SESSION["UserTipo"] =    trim($dataUsuarioEmail['body'][$i]["UserTipo"]);
 			  $_SESSION["UserStatus"] =  trim($dataUsuarioEmail['body'][$i]["UserStatus"]);
 			}
-			$cantidad = 1;
+			$cantidad = 1;			
 		}
 	}	
 }

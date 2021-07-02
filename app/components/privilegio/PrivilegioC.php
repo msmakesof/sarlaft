@@ -34,24 +34,37 @@ else{
 
     <!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">    
+    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<style>
+	.loader {
+		position: fixed;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		background: url('img/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+		opacity: .8;
+	}
+	</style>
 </head>
 <body>
-<section class="content">		
+<section class="content">
 	  <!-- Content Header (Page header) -->
     <section class="content-header">
-			<div class="container-fluid">
-				<div class="row mb-2">
-					<div class="col-sm-12">
-						<h3>
-              <i class="nav-icon fas fa-id-card" style="color:blue"></i>&nbsp;
-              Consulta Privilegios para Rol: <?php echo $NombreRol; ?>
-            </h3> 
-					</div>				
-				</div>
-			</div><!-- /.container-fluid -->
-		</section>
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-12">
+					<h3>
+						<i class="nav-icon fas fa-id-card" style="color:blue"></i>&nbsp;
+						Consulta Privilegios para Rol: <?php echo $NombreRol; ?>
+					</h3> 
+				</div>				
+			</div>
+		</div><!-- /.container-fluid -->
+	</section>
     <form id="formqry">
+		<div class="loader"></div>
       <div class="card-body">              
           <!-- Cargo los Menus -->
           <?php
@@ -155,49 +168,48 @@ else{
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
 $( document ).ready(function() {
-
-  $('#grabar').click(function(e) {
-    var selected = [];
-    $(":checkbox[name='chk[]']").each(function() {
-      if (this.checked) {
-        // agregar cada elemento.
-        selected.push($(this).val());
-      }
-    });
-    e.preventDefault()
-    if (selected.length) {	  
-		$.post("ajax/privilegio/guarda.php", {'id': <?php echo $_POST['id']; ?>, 'iduser': <?php echo  $iduser; ?>, 'ids': JSON.stringify($('[name="chk[]"]').serializeArray())}, function(result){			
-			let tipo = ""
-			let titulo = ""
-			if( result.substr(1, 1) == "S")
-			{
-				tipo = "success"
-				titulo = "El(los) Privilegio(s) han sido grabados al Rol."
+	$(".loader").fadeOut("slow");
+	
+  	$('#grabar').click(function() {
+		var selected = [];
+		$(":checkbox[name='chk[]']").each(function() {
+		  if (this.checked) {
+			// agregar cada elemento.
+			selected.push($(this).val());
+		  }
+		});		
+		
+		var parametros = {'id': <?php echo $_POST['id']; ?>, 'iduser': <?php echo  $iduser; ?>, 'ids': JSON.stringify($('[name="chk[]"]').serializeArray())};		
+		$.ajax({
+			type: "POST",
+			url: "ajax/privilegio/guarda.php", 
+			data: parametros,
+			beforeSend: function(objeto){
+				$("#resultados").html("Enviando...");
+			},
+			success: function(datos){
+				var str2 = datos.replace(/\n|\r/g, "");
+				//alert("str2....."+str2);				
+				if( str2 == "S")
+				{
+					tipo = "success"
+					titulo = "Privilegio grabado al Rol correctamente."
+				}
+				else
+				{
+					tipo = "warning"
+					titulo = "Registro no fue Actualizado"
+				}
+				swal({
+					position: 'top-end',
+					type: ''+tipo,
+					title: ''+titulo,
+					showConfirmButton: true,
+					timer: 2000
+				})
 			}
-			else
-			{
-				tipo = "warning"
-				titulo = "Registro no fue Actualizado"
-			}
-			 swal({
-				position: 'top-end',
-				type: ''+tipo,
-				title: ''+titulo,
-				showConfirmButton: true,
-				timer: 3000
-			});
-		});
-    }
-    else{
-      swal({
-						position: 'top-end',
-						type: 'warning',
-						title: 'Debe seleccionar al menos una opción',
-						showConfirmButton: true,
-						timer: 5000
-					});
-    }
-  }); 
+		})
+	});
 
   $("#selectall").on("click", function() {  
     $(".form-check-input").prop("checked", this.checked);  
@@ -209,13 +221,56 @@ $( document ).ready(function() {
       $("#selectall").prop("checked", true);  
     } else {  
       $("#selectall").prop("checked", false);  
-    }  
+    }
   });  
 
   $("#salir").on('click', function(event){
 		location.href = 'Roles.php';	
 	});	
 });
+
+function xver(par1) {
+	var total = par1
+	alert("Tot..."+total);
+    //if (selected.length > 0) {
+	if ( total > 0) {		
+		$.post("ajax/privilegio/guarda.php", {'id': <?php echo $_POST['id']; ?>, 'iduser': <?php echo  $iduser; ?>, 'ids': JSON.stringify($('[name="chk[]"]').serializeArray())}, function(result){						
+			let tipo = ""
+			let titulo = ""
+			let rta  = result			
+			alert(rta.length);
+				//$(".loader").fadeOut("slow");
+			
+				if( rta.substr(1, 1) == "S")
+				{
+					tipo = "success"
+					titulo = "El(los) Privilegio(s) han sido grabados al Rol."
+				}
+				else
+				{
+					tipo = "warning"
+					titulo = "Registro no fue Actualizado"
+				}
+				swal({
+					position: 'top-end',
+					type: ''+tipo,
+					title: ''+titulo,
+					showConfirmButton: true,
+					//timer: 5000
+				})
+			
+		});
+    }
+    else{
+		swal({
+			position: 'top-end',
+			type: 'warning',
+			title: 'Debe seleccionar al menos una opción',
+			showConfirmButton: true,
+			timer: 5000
+		});
+    }
+}
 </script>
 </body>
 </html>

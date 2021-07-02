@@ -5,7 +5,7 @@ require_once 'app/config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 
-$clave = "12345678<br>";
+$clave = "1234"; //"Gabriela2011";
 echo "Password del usuario....".$clave."<br>";
 // Comparo las claves, pero primero descifro la clave 
 echo "-------------  NEW  --------------<br>";        
