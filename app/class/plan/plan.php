@@ -1,16 +1,31 @@
 <?php
-    class Action{
+    class PlanesSarlaft{
 
         // Connection
         private $conn;
 
         // Table
-        private $db_table = "Action";
+        private $db_table = "PlanesSarlaft";
 
         // Columns
-		public $ACC_IdAccion;
-		public $ACC_Nombre;
-		public $ACC_IdEstado;
+		public $id;
+		public $PlanesKey;
+		public $PlanesName;
+		public $PlanesResponsable;
+		public $PlanesTarea;
+		public $PlanesPlazo;
+		public $PlanesAprueba;
+		public $PlanesNivelPrioridad;
+		public $PlanesRespSeguimiento;
+		public $PlanesRespAprobacion;
+		public $PlanesFInicio;
+		public $PlanesFSeguimiento;
+		public $PlanesFTerminacion;
+		public $PlanesAvance;
+		public $PlanesStatus;
+		public $CustomerKey;
+		public $UserKey;
+		public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -18,10 +33,32 @@
         }
 
         // GET ALL
-        public function getAccion(){
-            $sql = "SELECT ACC_IdAccion, ACC_Nombre, ACC_IdEstado, STA_Nombre FROM ". $this->db_table ." 
-            JOIN State ON State.STA_IdEstado = ACC_IdEstado ORDER BY ACC_Nombre ";            
+        //public function getPlan($offset, $per_page){
+		public function getPlan(){	
+            $sql = "SELECT id
+			,PlanesKey
+			,PlanesName
+			,PlanesResponsable
+			,PlanesTarea
+			,PlanesPlazo
+			,PlanesAprueba
+			,PlanesNivelPrioridad
+			,PlanesRespSeguimiento
+			,PlanesRespAprobacion
+			,PlanesFInicio
+			,PlanesFSeguimiento
+			,PlanesFTerminacion
+			,PlanesAvance
+			,PlanesStatus
+			,P.CustomerKey
+			,P.UserKey
+			,P.DateStamp
+			,R.ResponsablesName AS NombreResponsable			
+			FROM sarlaft.dbo.PlanesSarlaft P, ResponsablesSarlaft R 
+			WHERE R.ResponsablesId = P.PlanesResponsable			
+			ORDER BY PlanesName  ";
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			//echo $sql;	//	OFFSET $offset ROWS FETCH NEXT $per_page ROWS ONLY	
 			$stmt->execute();
 			return $stmt;
         }

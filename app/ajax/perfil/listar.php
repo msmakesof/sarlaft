@@ -14,16 +14,23 @@ include('../../components/table.php');
 ?>
 				<tr>
 					<th class='text-center'>#</th>
-					<th class='text-left'>Nombre </th>						
+					<th class='text-left'>Nombre </th>
 					<th class='text-center'>Estado</th>
 					<th class='text-left'>Acciones</th>						
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<th class='text-center'>#</th>
+					<th class='text-left'>Nombre </th>
+					<th class='text-center'>Estado</th>
+					<th class='text-left'>Acciones</th>
+				</tr>
+			</tfoot>
 			<tbody>	
 				<?php
 				include '../../curl/perfil/listar.php';
 				foreach($data as $key => $row) {}
-				echo '<tbody>';
 				if( $key == "message")
 				{
 					echo '<tr>

@@ -1,0 +1,15 @@
+
+	"buttons": [
+    'copy', 'csv', 'excel', 'pdf', 'print'
+  ],
+  "language": {
+    "paginate": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+    },
+    "buttons": {
+        "copy": 'Copiar',
+        "csv": 'Exportar a CSV',
+        ...
+    }
+  },

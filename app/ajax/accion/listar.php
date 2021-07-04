@@ -9,21 +9,29 @@ if($action == 'ajax'){
 //$query = sqlsrv_query($con,"SELECT IdRol, RolNombre, IdEstado FROM RolUsers ");
 $j=1;
 ?>
+<br>
 <?php
 include('../../components/table.php');
 ?>
 				<tr>
 					<th class='text-center'>#</th>
-					<th class='text-left'>Nombre </th>						
+					<th class='text-left'>Nombre </th>
 					<th class='text-center'>Estado</th>
 					<th class='text-left'>Acciones</th>						
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<th class='text-center'>#</th>
+					<th class='text-left'>Nombre </th>
+					<th class='text-center'>Estado</th>
+					<th class='text-left'>Acciones</th>
+				</tr>
+			</tfoot>
 			<tbody>	
 				<?php
 				include '../../curl/accion/listar.php';
-				foreach($data as $key => $row) {}
-				echo '<tbody>';
+				foreach($data as $key => $row) {}				
 				if( $key == "message")
 				{
 					echo '<tr>

@@ -10,9 +10,15 @@
         private $subdominio= "";
         private $company="ASRiesgos";
         private $protocol ="http";
-
-        public $conn;		
+        // Para los SP
+        private $sphostpc = "PMALAP-004\\SQLEXPRESS";
+        private $spdbname = "sarlaft";
+        private $spusername = "sa";
+        private $sppassword = "Answer934@";
+        
+        public $conn;
 		public $urlServicios;
+        public $sparr;
 		
 		public function getUrl(){
 			// Cuando es Solo Dominio
@@ -32,5 +38,10 @@
 			}
             return $this->conn;
         }
-    }  
+
+        public function getSParr(){
+            $this->sparr= array($this->sphostpc, $this->spdbname, $this->spusername, $this->sppassword);
+            return $this->sparr;
+        }
+    }
 ?>

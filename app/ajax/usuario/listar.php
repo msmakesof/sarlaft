@@ -22,6 +22,17 @@ include('../../components/table.php');
 					<th class='text-left'>Acciones</th>						
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<th class='text-center'>#</th>
+					<th class='text-left'>Nombre </th>
+					<th class='text-left'>Email </th>
+					<th class='text-center'>Estado</th>
+					<th class='text-center'>Compañía</th>
+					<th class='text-left'>Rol </th>
+					<th class='text-left'>Acciones</th>
+				</tr>
+			</tfoot>
 			<tbody>	
 				<?php
 				$getUrl = new Database();
@@ -67,7 +78,6 @@ include('../../components/table.php');
 
 				include '../../curl/usuario/listar.php';
 				foreach($data as $key => $row) {}
-				echo '<tbody>';
 				if( $key == "message")
 				{
 					echo '<tr>

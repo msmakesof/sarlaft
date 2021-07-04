@@ -1,7 +1,8 @@
 		$(function() {
 			load(1);
 		});
-		$('.select2').select2();
+		$('.select2').select2();				
+		
 		let tabla = "estado";
 		let estado = "";
 		
@@ -105,7 +106,7 @@
 					
 					doc.text("Usuario: ", data.settings.margin.left+400, pageHeight-10, 0);
 				},				
-				html: '#example'
+				html: '#dataTable'
 			})
 			
 			doc.deletePage(1) //Elimina primera hoja en blanco
