@@ -18,7 +18,7 @@
 						</div>
 						<div class="form-group">
 							<label>Nit</label>
-							<input type="number" name="edit_nit" id="edit_nit" value="edit_nit" class="form-control" required>
+							<input type="number" name="edit_nit" id="edit_nit" class="form-control" required>
 						</div>						
 						<div class="form-group">
 						</div>

@@ -107,7 +107,7 @@
 					
 					doc.text("Usuario: ", data.settings.margin.left+400, pageHeight-10, 0);
 				},				
-				html: '#example'
+				html: '#dataTable'
 			})
 			
 			doc.deletePage(1) //Elimina primera hoja en blanco
@@ -211,15 +211,15 @@
 		  event.preventDefault();
 		});
 	
-			$( "#new_plan" ).submit(function( event ) {
-		  var parametros = $(this).serialize();
+		$( "#new_plan" ).submit(function( event ) {
+			var parametros = $(this).serialize();
 			$.ajax({
 					type: "POST",
 					url: "ajax/newtarea_plan.php",
 					data: parametros,
 					 beforeSend: function(objeto){
-						$("#resultados").html("Enviando...");
-					  },
+							$("#resultados").html("Enviando...");
+						},
 					success: function(datos){
 					$("#resultados").html(datos);
 					$('#newTareaPlanModal').modal('hide');
@@ -228,7 +228,7 @@
 					}, 3000)
 				  }
 			});
-		  event.preventDefault();
+			event.preventDefault();
 		});	
 		
 		$( "#add_plan" ).submit(function( event ) {

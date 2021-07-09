@@ -16,7 +16,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	$clave = encryptor('encrypt', $passw);
 
 	$url = $urlServicios."api/usuario/buscar.php?email=$email&passw=$clave";
-	//echo  $url;
+	echo  $url;
+	echo "<script>alert(".$url.");</script>";
 	$resultado = "";
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);

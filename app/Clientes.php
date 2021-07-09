@@ -4,7 +4,7 @@
 
 // mks 20210516  verificar cUrl
 include 'curl/cliente/consulta.php';
-echo "info...$info<br>";
+//echo "info...$info<br>";
 //echo $_SESSION['UserKey'];
 
 $query_empresa=sqlsrv_query($con,"SELECT UserColor, id FROM UsersAuth WHERE UserKey=".$_SESSION['UserKey']."");
@@ -18,7 +18,7 @@ $reg=sqlsrv_fetch_array($query_empresa);
         if (empty($_GET['Keyp'])) { $Keyp="";} else { $Keyp = strtolower($_GET["Keyp"]);}
         if($Keyp!=NULL){
           $_SESSION["Keyp"] = $Keyp;
-          header("location: ./setting.php");
+          header("location: ./Setting.php");
           }
     ?>
     <?php

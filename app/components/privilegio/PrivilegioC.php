@@ -85,22 +85,24 @@ else{
           else
           {
             echo '
+            <table id="example1" class="table table-bordered table-striped table-sm" style="width:100%; padding:0px 10%">
+              <tr>
+                <td>
+                  <div style="float:right; margin-left:20px"><input type="checkbox" id="selectall"> Marcar Todos</div>
+                </td>
+              </tr>
+            </table>
               <table id="example1" class="table table-bordered table-striped table-sm" style="width:100%; padding:0px 10%">
                 <thead>
-                  <tr>
-                    <th rowspan="2" style="text-align:center">Nombre Menu</th>
-                    <th colspan="4" style="text-align:center">
-                      <div style="float:left; width:45%; margin-left:20px">Acción</div>
-                      <div style="float:left; width:45%; margin-left:20px"><input type="checkbox" id="selectall"> Marcar Todos</div>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th style="text-align:center">Consultar</th>
-                    <th style="text-align:center">Crear</th>
-                    <th style="text-align:center">Eliminar</th>
-                    <th style="text-align:center">Modificar</th>
+                  <tr style="text-align:center">
+                    <th colspan="2" style="text-align:center; width:60%">Nombre Menu</th>
+                    <th style="text-align:center; width:10%">Consultar</th>
+                    <th style="text-align:center; width:10%">Crear</th>
+                    <th style="text-align:center; width:10%">Eliminar</th>
+                    <th style="text-align:center; width:10%">Modificar</th>
                   </tr>
                 </thead>
+                <tbody>
               ';
             
               if( $data["itemCount"] > 0)
@@ -112,7 +114,7 @@ else{
                   $StatusMenu = $data['body'][$i]['OPC_IdEstado'];
 
                   echo "<tr>";
-                  echo "<td>$NombreMenu</td>";
+                  echo "<td colspan='2'>$NombreMenu</td>";
                   if( $dataAccion["itemCount"] > 0)
                   {
                     for($j=0; $j<count($dataAccion['body']); $j++)
@@ -144,7 +146,7 @@ else{
                         }
                       }
                       echo '<td style="text-align:center">
-                      <input type="checkbox" class="form-check-input" value="'.$id.'A'.$idAccion.'" name="chk[]" '.$checked.'>
+                        <input type="checkbox" class="form-check-input" value="'.$id.'A'.$idAccion.'" name="chk[]" '.$checked.'>
                       </td>';
 
                     }
@@ -152,7 +154,7 @@ else{
                   echo "</tr>";
                 }
               }
-            echo '</table>';
+            echo '<tbody></table>';
           }
           ?>  
               

@@ -39,13 +39,19 @@ if($action == 'ajax'){
 							$finales++;
 							$colorud='<span style="background: '.$CustomerColor.';border-radius: 0.8em;-moz-border-radius: 0.8em;-webkit-border-radius: 0.8em;color: #ffffff;display: inline-block;font-weight: bold;line-height: 1.6em;margin-right: 15px;text-align: center;width: 1.6em; "><i class="fas fa-tint"></i></span>';
 							?>
-						<tr class="<?php echo $text_class;?>">
+						<tr class="<?php //echo $text_class;?>">
 							<td class='text-center'><?php echo $i++;?></td>
 							<td class='text-left'>E<?php echo $CustomerDB;?></td>
 							<td class='text-left'><?php echo $CustomerCity;?></td>
 							<td class='text-left'><?php echo $CustomerName;?></td>
 							<td class='text-center'><?php echo $CustomerNit;?></td>
-							<td class='text-center'><a href="logo.php?id=<?php echo $id;?>" data-toggle="modal" data-target="#modal-avisolegal"><img src='img/<?php echo $CustomerLogo;?>' width='45' height='20'  border='0'/></a></td>
+							<td class='text-center'>
+								<!-- <a href="logo.php?id=<?php echo $id;?>"><img src='img/<?php echo $CustomerLogo;?>' width='45' height='20'  border='0'/></a> -->
+								
+								<a onclick="mks(<?php echo $id;?>)" style="cursor: pointer">
+									<img src='img/<?php echo $CustomerLogo;?>' width='45' height='20' border='0'/>
+								</a>
+							</td>
 							<td class='text-center'><?php echo $colorud;?></td>
 							<td class='text-center'>
 								<a href="?Keyp=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>

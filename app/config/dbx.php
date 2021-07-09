@@ -10,6 +10,8 @@
         private $subdominio= "";
         private $company="ASRiesgos";
         private $protocol ="http";
+        // Para los Cientes
+        private $db_nameCli = "sarlaft";
         // Para los SP
         private $sphostpc = "PMALAP-004\\SQLEXPRESS";
         private $spdbname = "sarlaft";
@@ -31,6 +33,18 @@
             $this->conn = null;
             try {				
 				$this->conn = new PDO("sqlsrv:Server=". $this->hostpc.";Database=". $this->db_name, $this->username, $this->password);			  
+				$this->conn->exec("set names utf8");
+			}
+			catch(PDOException $exception){
+				echo "Connection error: " . $exception->getMessage();
+			}
+            return $this->conn;
+        }
+
+        public function getConnectionCli(){
+            $this->conn = null;
+            try {				
+				$this->conn = new PDO("sqlsrv:Server=". $this->hostpc.";Database=". $this->db_nameCli, $this->username, $this->password);			  
 				$this->conn->exec("set names utf8");
 			}
 			catch(PDOException $exception){

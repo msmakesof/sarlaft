@@ -21,11 +21,11 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 							$PlanesStatus='1';
 							date_default_timezone_set("America/Bogota");
 							$PlanesKey=time();
-							$CustomerKey=$_SESSION['Keyp'];
+							$CustomerKey=$_POST['CustomerKey']; //$_SESSION['Keyp'];
 							$UserKey=$_SESSION['UserKey'];
 							$DateStamp=date("Y-m-d H:i:s");
 
-		$sql="INSERT INTO PlanesSarlaft (PlanesKey, PlanesName ,PlanesResponsable , PlanesTarea , PlanesPlazo , PlanesAprueba , PlanesNivelPrioridad, PlanesRespSeguimiento , PlanesRespAprobacion , PlanesFInicio , PlanesFSeguimiento , PlanesFTerminacion , PlanesAvance , PlanesStatus, UserKey, DateStamp) VALUES ('".$PlanesKey."','".$PlanesName."','".$PlanesResponsable."','".$PlanesTarea."','".$PlanesPlazo."','".$PlanesAprueba."','".$PlanesNivelPrioridad."','".$PlanesRespSeguimiento."','".$PlanesRespAprobacion."','".$PlanesFInicio."','".$PlanesFSeguimiento."','".$PlanesFTerminacion."','".$PlanesAvance."','".$PlanesStatus."','".$UserKey."','".$DateStamp."')";
+		$sql="INSERT INTO PlanesSarlaft (PlanesKey, PlanesName ,PlanesResponsable , PlanesTarea , PlanesPlazo , PlanesAprueba , PlanesNivelPrioridad, PlanesRespSeguimiento , PlanesRespAprobacion , PlanesFInicio , PlanesFSeguimiento , PlanesFTerminacion , PlanesAvance , PlanesStatus, UserKey, DateStamp, CustomerKey) VALUES ('".$PlanesKey."','".$PlanesName."','".$PlanesResponsable."','".$PlanesTarea."','".$PlanesPlazo."','".$PlanesAprueba."','".$PlanesNivelPrioridad."','".$PlanesRespSeguimiento."','".$PlanesRespAprobacion."','".$PlanesFInicio."','".$PlanesFSeguimiento."','".$PlanesFTerminacion."','".$PlanesAvance."','".$PlanesStatus."','".$UserKey."','".$DateStamp."','".$CustomerKey."')";
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {

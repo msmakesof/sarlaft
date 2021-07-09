@@ -1,5 +1,5 @@
-
     <?php
+		require_once 'components/sql_server.php';	
         if (empty($_SESSION['Keyp'])) { $CustomerKey="";} else { $CustomerKey = strtolower($_SESSION["Keyp"]);}
 
             $CustomerKey=$_SESSION["Keyp"];

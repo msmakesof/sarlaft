@@ -8,9 +8,10 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">				
-						<div class="form-group">
+						<div class="form-group">						
 							<label>Nombre Plan</label>
 							<textarea class="form-control" id="PlanesName2" name="PlanesName2" rows="3" required></textarea>
+							<input type="hidden" name="CustomerKey" id="CustomerKey" value="<?php echo trim($_SESSION['Keyp']); ?>">
 						</div>	
 						<div class="form-group">
 							  <div class="form-group">

@@ -18,7 +18,7 @@
 						</div>
 						<div class="form-group">
 							<label>Nit</label>
-							<input type="number" name="CustomerNit2" id="CustomerNit2" class="form-control" required>
+							<input type="input" name="CustomerNit2" id="CustomerNit2" class="form-control" maxlength="12" required>
 						</div>
 						<div class="form-group">
 							<label>Color</label>
@@ -33,3 +33,7 @@
 			</div>
 		</div>
 	</div>
+	<script src="./plugins/jquery-numeric/jquery.numeric.js"></script>
+	<script>
+	$("#CustomerNit2").numeric();
+	</script>

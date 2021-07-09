@@ -102,7 +102,7 @@
 					
 					doc.text("Usuario: ", data.settings.margin.left+400, pageHeight-10, 0);
 				},				
-				html: '#example'
+				html: '#dataTable'
 			})
 			
 			doc.deletePage(1) //Elimina primera hoja en blanco

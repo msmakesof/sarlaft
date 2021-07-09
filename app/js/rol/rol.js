@@ -307,10 +307,10 @@
 		  event.preventDefault();
 		});		
 
-		function mks(p1,p2){			
+		function mks(p1,p2){
 			let archivo = "Priv"
 			if(p2 == 'C'){
 				archivo = "Privc"
 			}			
-			$.post("../app/"+archivo+".php",{ id: p1 }).done(function( data ) { $( "body" ).html(data);})			
+			$.post("../app/"+archivo+".php",{ id: p1 }).done(function( data ) { $( "body" ).html(data);})
 		}

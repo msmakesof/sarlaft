@@ -1,10 +1,9 @@
-
     <div class="container">
         <div class="table-wrapper">
             <?php include("components/color.php");?>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Administrar <b>Planes</b></h2>
+                        <h2>Gestión de <b>Planes</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -21,11 +20,9 @@
             </div>
 
             <div class='clearfix'></div>
-
             <div id="loader"></div><!-- Carga de datos ajax aqui -->
             <div id="resultados"></div><!-- Carga de datos ajax aqui -->
-            <div class='outer_div'></div><!-- Carga de datos ajax aqui -->
-            
+            <div class='outer_div'></div><!-- Carga de datos ajax aqui -->            
             
         </div>
     </div>

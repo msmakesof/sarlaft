@@ -64,21 +64,20 @@
         }
 		
 		// READ single ID
-        public function getIdAccion(){
-            $sql = "SELECT TOP 1 ACC_IdAccion, ACC_Nombre, ACC_IdEstado FROM ". $this->db_table ." WHERE ACC_IdAccion = ? ";			
+        public function getIdPlan(){
+            $sql = "SELECT TOP 1 id, PlanesName FROM ". $this->db_table ." WHERE id = ? AND CustomerKey = ? ";			
 
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindParam(1, $this->IdPerfil);
+            $stmt->bindParam(1, $this->id);
+			$stmt->bindParam(2, $this->ck);
 
             $stmt->execute();
 
             $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
             
-			$this->IdPerfil = $dataRow['IdPerfil'];
-			$this->NombrePerfil = $dataRow['NombrePerfil'];
-			$this->IdEstado = $dataRow['IdEstado']; 
-            $this->STA_Nombre = $dataRow['STA_Nombre'];         
+			$this->id = $dataRow['id'];
+			$this->PlanesName = $dataRow['PlanesName'];
         }
 
         // Busca Nombre para controlar Duplicados

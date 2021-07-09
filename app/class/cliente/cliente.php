@@ -43,5 +43,41 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+        // Busca Nombre para controlar Duplicados
+        public function getBuscaNombre(){
+            $sql = "SELECT count(id) AS CustomerName
+                      FROM ". $this->db_table ."
+                    WHERE CustomerName = ? AND id <> ? ";
+
+            $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->CustomerName, PDO::PARAM_STR);
+			$stmt->bindParam(2, $this->id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $this->CustomerName = $dataRow['CustomerName'];
+        }
+
+        // Busca Nit para controlar Duplicados
+        public function getBuscaNit(){
+            $sql = "SELECT count(id) AS CustomerNit
+                      FROM ". $this->db_table ."
+                    WHERE CustomerNit = ? AND id <> ? ";
+
+            $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->CustomerNit, PDO::PARAM_STR);
+			$stmt->bindParam(2, $this->id, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $this->CustomerNit = $dataRow['CustomerNit'];
+        }
     }
 ?>

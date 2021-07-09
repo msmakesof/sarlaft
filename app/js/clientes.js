@@ -38,9 +38,11 @@
 			  });
 			}
 			return body;
-		}	
+		}
+
+			
 	
-		$("#xpdf").on('click', function(event){			
+		$("#xpdf").on('click', function(event){
 			//var login = ;
 			//alert(param);			
 			let base64Img	
@@ -152,13 +154,56 @@
 					type: "POST",
 					url: "ajax/editar_cliente.php",
 					data: parametros,
-					 beforeSend: function(objeto){
+					beforeSend: function(objeto){
 						$("#resultados").html("Enviando...");
-					  },
+					},
 					success: function(datos){
-					$("#resultados").html(datos);
-					load(1);location.reload();
-					$('#editClienteModal').modal('hide');
+						//alert(datos);
+						m = datos.trim();
+						//alert(m);
+						$("#resultados").html(datos);
+						//load(1);location.reload();
+						$('#editClienteModal').modal('hide');
+						let msj = m.substr(0,1);   //datos.substr(1,1);
+						//alert(msj);
+						let type;
+						let txt;
+						if(msj == 'U'){
+							type = 'success';
+							txt = 'El Cliente ha sido actualizado con éxito.';
+						}
+						else if(msj == 'E'){
+							type= 'warning';
+							txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+						}
+						else if(msj == 'I'){
+							type= 'warning';
+							txt = 'Ya existe un Registro grabado con el mismo Nit.';
+						}
+						else if(msj == 'F'){
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						else if(msj == 'D'){
+							type= 'error';
+							txt ='Error Desconocido.';
+						}
+						else{
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						swal({
+							position: 'top-end',
+							type: ''+type,
+							title: ''+txt,
+							showConfirmButton: true,
+							timer: 5000
+						});
+						setTimeout(function() {
+							load(1);
+							location.reload();
+						}, 3000);
+					
 				  }
 			});
 		  event.preventDefault();
@@ -172,18 +217,67 @@
 
 		$( "#add_cliente" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
+		  let timerInterval
 			$.ajax({
 					type: "POST",
 					url: "ajax/guardar_cliente.php",
 					data: parametros,
-					 beforeSend: function(objeto){
-						$("#resultados").html("Enviando...");
+					beforeSend: function(objeto){
+						//$("#resultados").html("Enviando...");
+						swal({
+							position: 'top-end',
+							type: 'info',
+							title: 'Verificando información...Un momento',
+							showConfirmButton: false,
+							timer: 5000,
+							imageUrl: 'img/ajax-loader.gif',
+							imageAlt: 'Custom image',
+						});
 					  },
 					success: function(datos){
-					$("#resultados").html(datos);
-					load(1);location.href = "./Clientes?Keyps=2";
-					$('#addClienteModal').modal('hide');
-				  }
+						m= datos.trim();
+						$("#resultados").html(datos);
+						$('#addClienteModal').modal('hide');						
+						//load(1);location.href = "./Clientes.php?Keyps=2";
+						let msj = m.substr(0,1);
+						let type;
+						let txt;
+						if(msj == 'O'){
+							type = 'success';
+							txt = 'El Cliente ha sido guardado con éxito.';
+						}
+						else if(msj == 'E'){
+							type= 'warning';
+							txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+						}
+						else if(msj == 'I'){
+							type= 'warning';
+							txt = 'Ya existe un Registro grabado con el mismo Nit.';
+						}
+						else if(msj == 'F'){
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						else if(msj == 'D'){
+							type= 'error';
+							txt ='Error Desconocido.';
+						}
+						else{
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						swal({
+							position: 'top-end',
+							type: ''+type,
+							title: ''+txt,
+							showConfirmButton: true,
+							timer: 5000
+						});
+						setTimeout(function() {
+							load(1);
+							location.reload();
+						}, 3000);						
+					}
 			});
 		  event.preventDefault();
 		});
@@ -205,3 +299,7 @@
 			});
 		  event.preventDefault();
 		});
+		
+		function mks(p1){					
+			$.post("../app/logo.php",{ id: p1 }).done(function( data ) { $( "body" ).html(data);})
+		}

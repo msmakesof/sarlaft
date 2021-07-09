@@ -1,5 +1,5 @@
 	<?php
-				/* Connect To Database*/
+	/* Connect To Database*/
 	require_once ("../components/sql_server_login.php");
 				sqlsrv_query($con,"SET NAMES 'utf8'");
 				if (isset($_FILES["imagefile"])){
