@@ -273,9 +273,28 @@
                     <span>Escalas</span></a>
             </li>                       
             <li class="nav-item">
-                <a class="nav-link" href="Planes.php">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Planes</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-users"></i>
+                    <span>Planes</span>
+                </a>
+				<div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Factores Fuentes de Riesgo:</h6>
+                        <a class="collapse-item" href="Tiposriesgo.php" style="color: <?php echo $nads;?>">Tipos de Riesgo</a>
+                        <a class="collapse-item" href="Factoresriesgo.php" style="color: <?php echo $nbos;?>">Factores de Riesgo</a>
+                        <a class="collapse-item" href="RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>
+                        <a class="collapse-item" href="Control.php" style="color: <?php echo $ndas;?>">Control</a>
+						<a class="collapse-item" href="Probabilidad.php" style="color: <?php echo $ndas;?>">Probabilidad</a>
+						<a class="collapse-item" href="Consecuencia.php" style="color: <?php echo $ndas;?>">Consecuencia</a>
+						<a class="collapse-item" href="Nivelriesgo.php" style="color: <?php echo $ndas;?>">Nivel de Riesgo</a>
+						<a class="collapse-item" href="Efectividad.php" style="color: <?php echo $ndas;?>">Efectividad</a>
+						<a class="collapse-item" href="Categoria.php" style="color: <?php echo $ndas;?>">Categoría</a>
+						<a class="collapse-item" href="Realizado.php" style="color: <?php echo $ndas;?>">Realizado</a>
+						<a class="collapse-item" href="cliente/tables.php" style="color: <?php echo $ndas;?>">Planes</a>
+                    </div>
+                </div>
             </li>
              <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities4"

@@ -134,7 +134,7 @@
 		  $('#new_name').val(name)
 		  var key = button.data('key') 
 		  $('#new_key').val(key)		  
-		  /*var responsable = button.data('responsable') 
+		  var responsable = button.data('responsable') 
 		  $('#new_responsable').val(responsable)
 		  var tarea = button.data('tarea') 
 		  $('#new_tarea').val(tarea)
@@ -155,7 +155,7 @@
 		  var termina = button.data('termina') 
 		  $('#new_termina').val(termina)
 		  var avance = button.data('avance') 
-		  $('#new_avance').val(avance) */
+		  $('#new_avance').val(avance)
 		  var id = button.data('id') 
 		  $('#new_id').val(id)
 		})		
@@ -300,6 +300,7 @@
 		  event.preventDefault();
 		});
 		
-		function mks(p1, p2){			
-			$.post("../app/Planestarea.php",{ 'id': p1, 'ck': p2 }).done(function( data ) { $( "body" ).html(data);})
+		function cmks(p1, p2){			
+			//$.post("../app/Planestarea.php",{ 'id': p1, 'ck': p2 }).done(function( data ) { $( "body" ).html(data);})
+			
 		}

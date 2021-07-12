@@ -10,16 +10,23 @@ include 'curl/cliente/consulta.php';
 $query_empresa=sqlsrv_query($con,"SELECT UserColor, id FROM UsersAuth WHERE UserKey=".$_SESSION['UserKey']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 
-//echo "keyp.....".$_GET['Keyp']."<br>";
-//echo "Keypugr.....".$_GET['Keypugr']."<br>";
-//echo "Keyps.....".$_GET['Keyps']."<br>";
+echo "keyp.....".$_GET['Keyp']."<br>";
+echo "Keypugr.....".$_GET['Keypugr']."<br>";
+echo "Keyps.....".$_GET['Keyps']."<br>";
 ?>
     <?php
         if (empty($_GET['Keyp'])) { $Keyp="";} else { $Keyp = strtolower($_GET["Keyp"]);}
         if($Keyp!=NULL){
           $_SESSION["Keyp"] = $Keyp;
-          header("location: ./Setting.php");
+          header("location: ./Setting.php");		
           }
+		
+		if (empty($_GET['KeypNew'])) { $Keyp="";} else { $Keyp = strtolower($_GET["KeypNew"]);}
+        if($Keyp!=NULL){
+          $_SESSION["KeypNew"] = $Keyp;
+          ////header("location: ./Setting.php");
+		  header("location: cliente/tables.php");
+          }		
     ?>
     <?php
         if (empty($_GET['Keypugr'])) { $Keyp="";} else { $Keyp = strtolower($_GET["Keypugr"]);}

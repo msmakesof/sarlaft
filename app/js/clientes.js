@@ -235,7 +235,7 @@
 						});
 					  },
 					success: function(datos){
-						m= datos.trim();
+						let m= datos.trim();
 						$("#resultados").html(datos);
 						$('#addClienteModal').modal('hide');						
 						//load(1);location.href = "./Clientes.php?Keyps=2";

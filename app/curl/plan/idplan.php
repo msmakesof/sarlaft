@@ -7,7 +7,7 @@ $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	$url = $urlServicios."api/plan/idplan.php?id=".$_POST['id']."&ck=".$_POST['ck'];
-	//echo "url...$url<br>";
+	echo "url idplan...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);

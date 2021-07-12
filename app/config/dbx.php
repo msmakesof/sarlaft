@@ -21,6 +21,8 @@
         public $conn;
 		public $urlServicios;
         public $sparr;
+		public $a;
+		public $connectionInfo;
 		
 		public function getUrl(){
 			// Cuando es Solo Dominio
@@ -57,5 +59,24 @@
             $this->sparr= array($this->sphostpc, $this->spdbname, $this->spusername, $this->sppassword);
             return $this->sparr;
         }
+		
+		//Conexion basica
+		public function getConnectionCli2($par1){			
+			//$serverName = $this->hostpc;  //"PMALAP-004\SQLEXPRESS";  //"LAPTOP-C19VUK67"; //serverName\instanceName
+			$this->conn = null;
+			$this->a = $par1;
+			//$connectionInfo = array( "Database"=>'E'.$a.'', "UID"=>"sa", "PWD"=>"Answer934@");    // Esta es la conexion para los clientes
+			$this->connectionInfo = array( "Database"=>$this->db_nameCli, "UID"=>$this->username, "PWD"=>$this->password);      // Esta es la conexion standar
+			$this->conn = sqlsrv_connect( $this->hostpc, $this->connectionInfo);
+
+			if( $this->conn ) {
+				 //echo "Conexión establecida.<br />";				 
+			}else{
+				 echo "Conexión no se pudo establecer.<br />";
+				 die( print_r( sqlsrv_errors(), true));
+			}
+			return $this->conn;
+		}
+		//		
     }
 ?>

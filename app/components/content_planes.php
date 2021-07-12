@@ -34,3 +34,5 @@
     <!-- Delete Modal HTML -->
     <?php include("modal/modal_delete_plan.php");?>
     <script src="js/planes/planes.js"></script>
+	<!-- <script src="js/planes.js"></script>  -->
+	

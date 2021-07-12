@@ -6,10 +6,10 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if (isset($_POST['id']) && $_POST['id'] != "") 
 {
-  //echo "<br>id...".$_POST['id']."<br>"; echo "<br>ck...".$_POST['ck']."<br>";
+ echo "<br>id...".$_POST['id']."<br>"; echo "<br>ck...".$_POST['ck']."<br>";
   include('curl/plan/idplan.php'); 
   $NombrePlan = strtoupper($datarol['PlanesName']);
-  $iduser =$_SESSION['UserKey'];
+  $iduser =$_SESSION['UserKey'];  
 }
 else{
 ?> 
@@ -27,6 +27,38 @@ else{
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sarlaft Tareas por Plan</title>    
     
+			
+	<link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="vendor/fontawesome-free/css/all.min.css" type="text/css">
+	<!-- Custom styles for this template-->
+    <link rel="stylesheet" href="css/sb-admin-2.css">	
+	<link rel="stylesheet" href="css/bt/bootstrap.min.css">
+		
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
+	<!-- DataTables -->	
+	<link rel="stylesheet" href="vendor/datatables/dataTables.bootstrap4.min.css">
+	
+	<!-- Select2 -->
+	<link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>	
+  
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>   	
+	  
+	<!-- Select2 -->
+	<script src="plugins/select2/js/select2.full.min.js"></script>
+	<script src="plugins/redirect/jquery.redirect.js"></script>
+	
+	<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+	<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+	
+<!-- expor pdf -->
+<script src="plugins/pdf/jspdf.min.js"></script>
+<script src="plugins/pdf/jspdf-autotable.js"></script>
+
     	
 	<style>
 	.loader {
@@ -71,22 +103,20 @@ else{
             <tbody>
             <!-- Cargo Tareas -->
               <?php         
-              include('curl/plan/listartareas.php');
-              foreach($data as $key => $row) {}
+              include('../curl/plan/listartareas.php');
+              foreach($datatar as $key => $row) {}
               if( $key == "message")
               {
                 echo '<tr>
-                    <td colspan="2">'. $data["message"] .'</td>
-                  </tr>
-                  </tbody>
-                </table>';
+                    <td colspan="2">'. $datatar["message"] .'</td>
+                  </tr>';
               }
               else{
-                for($i=0; $i<count($data['body']); $i++)
+                for($k=0; $k<count($datatar['body']); $k++)
                 {
-                  $id = $data['body'][$i]['TPP_IdTareaxPlan'];
-                  $IdPlan = trim($data['body'][$i]['TPP_IdPlan']);
-                  $NombreTarea = $data['body'][$i]['TPP_NombreTarea'];
+                  $id = $datatar['body'][$k]['TPP_IdTareaxPlan'];
+                  $IdPlan = trim($datatar['body'][$k]['TPP_IdPlan']);
+                  $NombreTarea = trim($datatar['body'][$k]['TPP_NombreTarea']);
               ?>
               <tr>
                   <td><?php echo trim($NombreTarea); ?></td>
@@ -110,14 +140,17 @@ else{
       </div>
     </form>
 </section>
-
-
 <script>
 //$.noConflict();
 $( document ).ready(function() {	
+alert(88);
 	$(".loader").fadeOut("slow");
+	$("#salir").on('click', function(event){
+		alert(7);
+		location.href = 'Planes.php';	
+	});
 
-	var idioma= {
+	var idiomas= {
 		"sProcessing":     "Procesando...",
 		"sLengthMenu":     "Mostrar _MENU_ registros",
 		"sZeroRecords":    "No se encontraron resultados",
@@ -163,14 +196,8 @@ $( document ).ready(function() {
 		"info": true,
 		"autoWidth": true,
 		"lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
-		"language": idioma
+		"language": idiomas
 	});
-
-  	alert(7);
-  	$("#salir").on('click', function(event){
-		location.href = 'Planes.php';	
-	})
-  		
 })
 </script>
 </body>

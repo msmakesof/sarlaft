@@ -27,7 +27,8 @@ $reg['UserColor'] = $UserColor;
 <!DOCTYPE html>
 <html lang="es">
 
-<?php include 'components/header.php';?>
+<?php //include 'components/header.php';?>
+
 <body id="page-top">
     <div role="dialog" tabindex="-1" class="modal fade" id="modal-avisolegal" >
         <div class="modal-dialog" role="document">
@@ -54,6 +55,7 @@ $reg['UserColor'] = $UserColor;
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
     <?php include 'components/settings.php';?>
+
 </body>
 </html>
 <?php

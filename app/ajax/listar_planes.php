@@ -66,7 +66,7 @@ if($action == 'ajax'){
 					<tr id="miTablaAnswer">
 						<th class='text-center'>#</th>
 						<!--<th class='text-center'>Codigo</th>-->
-						<th class='text-center'>Nombre del Plan </th>
+						<th class='text-center'>Nombre del Plan... </th>
 						<th class='text-left'>Responsable </th>
 						<th class='text-center'>Tarea </th>
 						<th class='text-center'>Nueva Tarea </th>

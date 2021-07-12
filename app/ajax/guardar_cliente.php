@@ -90,8 +90,8 @@ if (empty($_POST['CustomerName2']))
 				$sql="INSERT INTO CustomerSarlaft (CustomerNit, CustomerDB,CustomerName, CustomerCity, CustomerStatus, CustomerColor, CustomerLogo, CustomerKey, UserKey, DateStamp) VALUES ('".$CustomerNit."','".$CustomerDB."','".$CustomerName."','".$CustomerCity."','".$CustomerStatus."','".$CustomerColor."','".$CustomerLogo."','".$CustomerKey."','".$UserKey."','".$DateStamp."')";
 				$query = sqlsrv_query($con,$sql);
 				$sqls = "CREATE DATABASE E".$CustomerDB."";		
-				$query = sqlsrv_query($con,$sqls);
-
+				$query = sqlsrv_query($con,$sqls);				
+				
 				// if product has been added successfully
 				if ($query) {
 					//$messages[] = "El cliente ha sido guardado con éxito.";

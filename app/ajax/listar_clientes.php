@@ -18,6 +18,7 @@ if($action == 'ajax'){
 						<th class='text-center'>Logo</th>
 						<th class='text-center'>Color</th>
 						<th class='text-center'>Configurar</th>
+						<th class='text-center'>Configurar New</th>
 						<th class='text-center'>UGR</th>
 						<th class='text-left'>Acciones</th>
 						
@@ -57,7 +58,14 @@ if($action == 'ajax'){
 								<a href="?Keyp=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
 									<i class="fas fa-sign-in-alt"></i>
 								</a>
-							</td>							
+							</td>
+
+							<td class='text-center'>
+								<a href="?KeypNew=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
+									<i class="fas fa-sign-in-alt"></i>
+								</a>
+							</td>
+							
 							<td class='text-center'>
 								<a href="?Keypugr=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
 									<i class="fab fa-artstation"></i>

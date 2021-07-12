@@ -7,7 +7,7 @@ $reg=sqlsrv_fetch_array($query_empresa);
 <!DOCTYPE html>
 <html lang="es">
 
-<?php include 'components/header.php';?>
+<?php include 'components/header2.php';?>
 <body id="page-top">
     <div id="wrapper">
 
