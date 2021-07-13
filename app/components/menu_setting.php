@@ -276,7 +276,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
                     aria-expanded="true" aria-controls="collapseUtilities4">
                     <i class="fas fa-users"></i>
-                    <span>Planes</span>
+                    <span>Parametrización</span>
                 </a>
 				<div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
@@ -292,6 +292,20 @@
 						<a class="collapse-item" href="Efectividad.php" style="color: <?php echo $ndas;?>">Efectividad</a>
 						<a class="collapse-item" href="Categoria.php" style="color: <?php echo $ndas;?>">Categoría</a>
 						<a class="collapse-item" href="Realizado.php" style="color: <?php echo $ndas;?>">Realizado</a>
+                    </div>
+                </div>
+            </li>
+			
+			<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities9"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-users"></i>
+                    <span>Planes</span>
+                </a>
+				<div id="collapseUtilities9" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Generación del Plan:</h6>                       
 						<a class="collapse-item" href="cliente/tables.php" style="color: <?php echo $ndas;?>">Planes</a>
                     </div>
                 </div>

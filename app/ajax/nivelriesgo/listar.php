@@ -47,7 +47,10 @@ if($action == 'ajax')
 							<tr>
 								<td class='text-center'><?php echo $j++;?></td>
 								<td class='text-left'><?php echo $Name;?></td>
-								<td class='text-left'><?php echo $color;?></td>
+								<td class='text-left' style="text-align:center !important">
+									<label style="background-color:<?php echo $color ;?>; width:25px; height:25px"></label>
+									<div style="color:white; font-size:1px"><?php echo $color ;?></div>
+								</td>
 								<td class='text-left'>
 									<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-name="<?php echo $Name; ?>" data-color="<?php echo $color; ?>" data-id="<?php echo $id; ?>">
 										<i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i>
