@@ -3,15 +3,15 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/cargos/cargos.php';
+    include_once '../../class/responsables/responsable.php';
 
     $database = new Database();
     $db = $database->getConnectionCli();
 
-    $items = new Cargos($db);
-    $items->CustomerKey = $_GET['ck'];
+    $items = new Responsables($db);
+	$items->CustomerKey = $_GET['ck'];
 
-    $stmt = $items->getAll();
+    $stmt = $items->getAll();   //respseguir
     $itemCount = $stmt->rowCount();
 
     if($itemCount > 0){
@@ -23,11 +23,8 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "CargosId" => $CargosId,
-                "CustomerKey" => $CustomerKey,
-                "CargosKey" => $CargosKey,
-				"CargosName" => $CargosName,
-                "UserKey" => $UserKey
+                "ResponsablesId" => $ResponsablesId,
+                "ResponsablesName" => $ResponsablesName
             );
             array_push($estadoArr["body"], $e);
         }

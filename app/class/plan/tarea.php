@@ -11,6 +11,9 @@
 		public $TPP_IdTareaxPlan;
 		public $TPP_IdPlan;
 		public $TPP_NombreTarea;
+		public $TPP_CustomerKey;
+		public $TPP_UserKey;
+		public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -34,13 +37,28 @@
 
          // GET ALL Tareas x Plan
 		public function getTareasPlan(){
-            $sql = "SELECT TPP_IdTareaxPlan, TPP_IdPlan, TPP_NombreTarea
+            $sql = "SELECT TPP_IdTareaxPlan, TPP_IdPlan, TPP_NombreTarea,TPP_CustomerKey
 			FROM ". $this->db_table ."
-			WHERE TPP_IdPlan = ?
+			WHERE TPP_IdPlan = ? AND TPP_CustomerKey = ?
 			ORDER BY TPP_NombreTarea ";
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->TPP_IdPlan);
+			$stmt->bindParam(2, $this->TPP_CustomerKey);
+			
+			$stmt->execute();
+			return $stmt;
+        }
+		
+		// Cuenta las tareas de cada plan
+		public function getContarTareasPlan(){
+            $sql = "SELECT count(TPP_IdTareaxPlan) AS TotalTareas
+			FROM ". $this->db_table ."
+			WHERE TPP_IdPlan = ? AND TPP_CustomerKey = ? ";
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+
+            $stmt->bindParam(1, $this->TPP_IdPlan);
+			$stmt->bindParam(2, $this->TPP_CustomerKey);
 			
 			$stmt->execute();
 			return $stmt;
@@ -68,13 +86,14 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(TPP_IdTareaxPlan) AS TPP_NombreTarea
                     FROM ". $this->db_table ."
-                    WHERE TPP_NombreTarea = ? AND TPP_IdPlan = ? AND TPP_IdTareaxPlan <> ? ";
+                    WHERE TPP_NombreTarea = ? AND TPP_CustomerKey = ? AND TPP_IdPlan = ? AND TPP_IdTareaxPlan <> ? ";
 //echo $sql;
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->TPP_NombreTarea, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->TPP_IdPlan, PDO::PARAM_INT);
-			$stmt->bindParam(3, $this->TPP_IdTareaxPlan, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->TPP_NombreTarea, PDO::PARAM_STR);			
+			$stmt->bindParam(2, $this->TPP_CustomerKey, PDO::PARAM_STR);			
+			$stmt->bindParam(3, $this->TPP_IdPlan, PDO::PARAM_INT);
+			$stmt->bindParam(4, $this->TPP_IdTareaxPlan, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -84,19 +103,27 @@
         }
 		
 		// CREATE
-		public function createTarea(){
-			$sqlQuery = "INSERT INTO ". $this->db_table ." (TPP_IdPlan, TPP_NombreTarea ) VALUES ( :idplan, :nombretarea )";
-			echo $sqlQuery ;
+		public function create(){
+			$sqlQuery = "INSERT INTO ". $this->db_table ." (TPP_IdPlan, TPP_NombreTarea, TPP_CustomerKey, TPP_UserKey, TPP_TareasKey, DateStamp ) VALUES ( :idplan, :nombre, :ck, :uk, :tk, :ds )";
+			//echo $sqlQuery ;
 			
 			$stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		
 			// sanitize
 			$this->TPP_IdPlan = htmlspecialchars(strip_tags($this->TPP_IdPlan));
 			$this->TPP_NombreTarea = htmlspecialchars(strip_tags($this->TPP_NombreTarea));
+			$this->TPP_CustomerKey = htmlspecialchars(strip_tags($this->TPP_CustomerKey));
+			$this->TPP_UserKey = htmlspecialchars(strip_tags($this->TPP_UserKey));
+			$this->TPP_TareasKey = htmlspecialchars(strip_tags($this->TPP_TareasKey));
+			$this->DateStamp = htmlspecialchars(strip_tags($this->DateStamp));
 		
 			// bind data			
 			$stmt->bindParam(":idplan", $this->TPP_IdPlan, PDO::PARAM_INT);
-			$stmt->bindParam(":nombretarea", $this->TPP_NombreTarea, PDO::PARAM_STR);
+			$stmt->bindParam(":nombre", $this->TPP_NombreTarea, PDO::PARAM_STR);
+			$stmt->bindParam(":ck", $this->TPP_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(":uk", $this->TPP_UserKey, PDO::PARAM_STR);
+			$stmt->bindParam(":tk", $this->TPP_TareasKey, PDO::PARAM_STR);
+			$stmt->bindParam(":ds", $this->DateStamp, PDO::PARAM_STR);
 		
 			if($stmt->execute()){
 				return true;
@@ -105,24 +132,25 @@
 		}
 
 		// UPDATE
-        public function updateAccion(){
+        public function update(){
             $sqlQuery = "UPDATE ". $this->db_table ."
                     SET
-                    ACC_Nombre = :accionnombre,
-                    ACC_IdEstado = :idestado
-                    WHERE ACC_IdAccion = :id ";
+                    TPP_NombreTarea = :nombre
+                    WHERE TPP_IdTareaxPlan = :id AND TPP_IdPlan = :idplan AND TPP_CustomerKey = :ck ";
 			//echo   $sqlQuery;
         
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         
-            $this->ACC_Nombre=htmlspecialchars(strip_tags($this->ACC_Nombre));
-			$this->ACC_IdEstado=htmlspecialchars(strip_tags($this->ACC_IdEstado));
-            $this->ACC_IdAccion=htmlspecialchars(strip_tags($this->ACC_IdAccion));
+            $this->TPP_NombreTarea=htmlspecialchars(strip_tags($this->TPP_NombreTarea));			
+            $this->TPP_IdTareaxPlan=htmlspecialchars(strip_tags($this->TPP_IdTareaxPlan));
+			$this->TPP_IdPlan=htmlspecialchars(strip_tags($this->TPP_IdPlan));
+			$this->TPP_CustomerKey=htmlspecialchars(strip_tags($this->TPP_CustomerKey));
         
             // bind data
-            $stmt->bindParam(":accionnombre", $this->ACC_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(":idestado", $this->ACC_IdEstado, PDO::PARAM_INT);
-            $stmt->bindParam(":id", $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $this->TPP_NombreTarea, PDO::PARAM_STR);			
+            $stmt->bindParam(":id", $this->TPP_IdTareaxPlan, PDO::PARAM_INT);
+			$stmt->bindParam(":idplan", $this->TPP_IdPlan, PDO::PARAM_INT);
+			$stmt->bindParam(":ck", $this->TPP_CustomerKey, PDO::PARAM_STR);
         
             if($stmt->execute()){
                return true;
@@ -131,14 +159,18 @@
         }        
 
         // DELETE
-        function deleteAccion(){
-            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ACC_IdAccion = ? ";
+        function delete(){
+            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE TPP_IdTareaxPlan = ? AND TPP_CustomerKey = ? AND TPP_IdPlan = ?";
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         
-            $this->ACC_IdAccion = htmlspecialchars(strip_tags($this->ACC_IdAccion));
+            $this->TPP_IdTareaxPlan = htmlspecialchars(strip_tags($this->TPP_IdTareaxPlan));
+			$this->TPP_CustomerKey = htmlspecialchars(strip_tags($this->TPP_CustomerKey));
+			$this->TPP_IdPlan = htmlspecialchars(strip_tags($this->TPP_IdPlan));
 
             // bind data
-            $stmt->bindParam(1, $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->TPP_IdTareaxPlan, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->TPP_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->TPP_IdPlan, PDO::PARAM_INT);
         
             if($stmt->execute()){
                 return true;

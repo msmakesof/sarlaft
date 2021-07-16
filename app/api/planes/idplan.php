@@ -7,18 +7,29 @@
     
     include_once '../../config/dbx.php';
     include_once '../../class/plan/plan.php';
-    
+
     $database = new Database();
     $db = $database->getConnectionCli();
-    
     $item = new Planes($db);
 	
-	$data = $_GET['id'];
-	$item->id = $data; 
-    
-    if($item->delete()){
-        echo "S";  //json_encode("Borra Plan.");
-    } else{
-        echo "N";  // json_encode("Plan no puede ser Borrado");
+	$item->id = isset($_GET['id']) ? $_GET['id'] : die();
+    $item->ck = isset($_GET['ck']) ? $_GET['ck'] : die();
+	
+	$item->getIdPlan();
+
+    if($item->PlanesName != null){
+        // create array
+        $emp_arr = array(
+			"id" => $item->id,
+			"PlanesName" => $item->PlanesName,
+		);            
+		http_response_code(200);
+        echo json_encode($emp_arr);
+    }
+    else{
+        http_response_code(404);
+        echo json_encode(
+            array("message" => "Registro No Encontrado.")
+        );
     }
 ?>

@@ -2,11 +2,10 @@
 include '../is_logged.php';
 //Archivo verifica que el usario que intenta acceder a la URL esta logueado
 	if (empty($_POST['Name2'])){
-		$errors[] = "Ingresa el nombre del Plan.";
+		$errors[] = "Ingresa Descripcion de la Tarea.";
 	} 
 	elseif (!empty($_POST['Name2']))
-	{		
-		//require_once ("../../components/sql_server_login.php");
+	{
 		require_once '../../config/dbx.php';
 		$getUrl = new Database();
 		$urlServicios = $getUrl->getUrl();
@@ -14,24 +13,14 @@ include '../is_logged.php';
 		// escaping, additionally removing everything that could be (html/javascript-) code
 		$nombre = trim($_POST["Name2"]);
 		$nombre = str_replace(' ','%20',strtoupper($nombre));
-		$responsable = trim($_POST["responsable"]);
-		$plazo = trim($_POST["plazo"]);
-		$aprueba = trim($_POST["aprueba"]);
-		$respseguimiento = trim($_POST["respseguimiento"]);
-		$nivelprioridad = trim($_POST["nivelprioridad"]);
-		$respaprobacion = trim($_POST["respaprobacion"]);
-		$fechainicio = trim($_POST["fechainicio"]);
-		$fechaseguimiento = trim($_POST["fechaseguimiento"]);
-		$fechaterminacion = trim($_POST["fechaterminacion"]);
-		$avance = trim($_POST["avance"]);
-		$CustomerKey = $_SESSION['Keyp'];
-		$UserKey = $_SESSION['UserKey'];
-
+		$ck = trim($_POST["CustomerKey"]);
+		$idplan = trim($_POST["IdPlan"]);
+		
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/planes/revisarnombre.php?nombre=$nombre&id=0";
+		$url = $urlServicios."api/tareas/revisarnombre.php?nombre=$nombre&ck=".$_SESSION['Keyp']."&idplan=".$idplan."&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -60,10 +49,12 @@ include '../is_logged.php';
 			$messages[] = 'E';
 		}
 		else
-		{		
-			// Si todo va bien se hace el Insert
-			$params = "Nombre=$nombre&responsable=$responsable&plazo=$plazo&aprueba=$aprueba&respseguimiento=$respseguimiento&nivelprioridad=$nivelprioridad&respaprobacion=$respaprobacion&fechainicio=$fechainicio&fechaseguimiento=$fechaseguimiento&fechaterminacion=$fechaterminacion&avance=$avance&ck=$CustomerKey&uk=$UserKey";
-			$url = $urlServicios."api/planes/crear.php?$params";
+		{
+			// Si todo va bien se hace el Insert			
+			$CustomerKey = $_SESSION['Keyp'];
+			$UserKey = $_SESSION['UserKey'];
+			$params = "Nombre=$nombre&CK=$CustomerKey&UK=$UserKey&IdPlan=$idplan";
+			$url = $urlServicios."api/tareas/crear.php?$params";			
 			//echo $url;
 			$query = "";
 			$resultado = "";

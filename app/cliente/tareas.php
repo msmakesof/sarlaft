@@ -5,6 +5,15 @@ $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
 //echo "color". $reg['CustomerColor'];
+if (isset($_POST['id']) && $_POST['id'] != "" ){
+    //$pid = $_POST['pid'];
+    $IdPlan = $_POST['id'];
+    //echo "<br>IdPlan...".$IdPlan;
+}
+else{
+    header('Location: tables.php');
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,9 +46,12 @@ $CustomerKey = $_SESSION['Keyp'];
 	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
+    <!-- expor pdf -->
+    <script src="../plugins/pdf/jspdf.min.js"></script>
+    <script src="../plugins/pdf/jspdf-autotable.js"></script>
+
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
-
 </head>
 
 <body id="page-top">
@@ -301,140 +313,87 @@ $CustomerKey = $_SESSION['Keyp'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Planes</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tareas por Planes</h1>
                     <p class="mb-4"></p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div style="float:left">
-                                <h6 class="m-0 font-weight-bold text-primary"><?php echo strtoupper($reg['CustomerName']); ?></h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Empresa: <?php echo strtoupper($reg['CustomerName']); ?></h6>
+								<h6 class="m-0 font-weight-bold text-primary">Plan: <?php echo strtoupper($_POST['np']); ?></h6>
                             </div>
                             <div style="float:right">
-                                <div style="float:left; margin-right:10px">
-                                    <a id="btn-AddDate" href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">                                    
-                                        <i class="fas fa-plus-circle"></i>
-                                        <span>Crear Plan</span>
-                                    </a>
-                                </div>
-                                <!-- <div style="float:right">
-                                    <a href="" id="xpdf" class="btn btn-success">
-                                        <i class="fa fa-file-pdf-o"></i>
-                                        <span>Exportar</span>
-                                    </a>
-                                </div> -->
+                                <a id="btn-AddDate" href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span>Crear Tarea</span>
+                                </a>
+
+                                <!-- a id="xpdf" href="#" class="btn btn-success">
+                                    <i class="fa fa-file-pdf-o"></i>
+                                    <span>Exportar</span>  -->
+
+								<a id="btn-goDate" href="tables.php" class="btn btn-danger">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span>Volver a Planes</span>
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                        <th class='text-center'>Nombre Plan</th>
-                                            <th class='text-center'>Nombre Responsable</th>
-                                            <th class='text-left'>Plazo </th>
-                                            <th class='text-left'>Cargos </th>
-                                            <th class='text-center'>Nivel Prioridad</th>
-                                            <th class='text-center'>Responsable Seguimiento</th>
-                                            <th class='text-center'>Responsable Aprobación</th>
-                                            <th class='text-center'>Fecha Inicio</th>
-                                            <th class='text-center'>Fecha Seguimiento</th>
-                                            <th class='text-center'>Fech Terminacion</th>
-                                            <th class='text-center'>Avance</th>
-                                            <th class='text-left'>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th class='text-center'>Nombre Plan</th>
-                                            <th class='text-center'>Nombre Responsable</th>
-                                            <th class='text-left'>Plazo </th>
-                                            <th class='text-left'>Cargos </th>
-                                            <th class='text-center'>Nivel Prioridad</th>
-                                            <th class='text-center'>Responsable Seguimiento</th>
-                                            <th class='text-center'>Responsable Aprobación</th>
-                                            <th class='text-center'>Fecha Inicio</th>
-                                            <th class='text-center'>Fecha Seguimiento</th>
-                                            <th class='text-center'>Fech Terminacion</th>
-                                            <th class='text-center'>Avance</th>
-                                            <th class='text-left'>Acciones</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    <?php
-						include '../curl/plan/listarall.php';
-						foreach($data as $key => $row) {}
-						if( $key == "message"){	// No existen registros
-							echo '<tr>
-									<td colspan="15">'. $data["message"] .'</td>
-								</tr>';
-						}
-						else
-						{							
-							$j=1;
-							for($i=0; $i<count($data['body']); $i++)
-							{
-								$PlanesId=trim($data['body'][$i]['id']);
-								$PlanesKey=trim($data['body'][$i]['PlanesKey']);
-								$PlanesName=trim($data['body'][$i]['PlanesName']);
-								$PlanesResponsable=trim($data['body'][$i]['PlanesResponsable']);
-								$PlanesTarea=trim($data['body'][$i]['PlanesTarea']);
-								$PlanesPlazo=trim($data['body'][$i]['PlanesPlazo']);
-								$PlanesAprueba=trim($data['body'][$i]['PlanesAprueba']);
-								$PlanesNivelPrioridad=trim($data['body'][$i]['PlanesNivelPrioridad']);	
-								$PlanesRespSeguimiento=trim($data['body'][$i]['PlanesRespSeguimiento']);
-								$PlanesRespAprobacion=trim($data['body'][$i]['PlanesRespAprobacion']);
-								$PlanesFInicio=trim($data['body'][$i]['PlanesFInicio']);
-								$PlanesFSeguimiento=trim($data['body'][$i]['PlanesFSeguimiento']);
-								$PlanesFTerminacion=trim($data['body'][$i]['PlanesFTerminacion']);
-								$PlanesAvance=trim($data['body'][$i]['PlanesAvance']);
-								$PlanesStatus=trim($data['body'][$i]['PlanesStatus']);
-								$NombreResponsable=trim($data['body'][$i]['NombreResponsable']);
-								$CargosName=trim($data['body'][$i]['CargosName']);
-								$NombreResponsableSeg=trim($data['body'][$i]['NombreResponsableSeg']);
-								$NombreResponsableApr=trim($data['body'][$i]['NombreResponsableApr']);
-								$CustomerKey=trim($data['body'][$i]['CustomerKey']);
-
-                                // Tareas por Plan y Customer
-                                //include '../curl/plan/listartareas.php';
-                                //$nrotareaes = 
-						?>	
-						<tr>
-							<td class='text-left'><?php echo $PlanesName;?></td>							
-							<td class='text-left' ><?php echo $NombreResponsable ;?></td>							
-							<td class='text-center'><?php echo $PlanesPlazo;?></td>							
-							<td class='text-left'><?php echo $CargosName ;?></td>							
-							<td class='text-left'><?php echo $PlanesNivelPrioridad;?></td>							
-							<td class='text-left'><?php echo $NombreResponsableSeg ;?></td>							
-							<td class='text-left'><?php echo $NombreResponsableApr ;?></td>
-							<td class='text-left'><?php echo $PlanesFInicio;?></td>
-							<td class='text-left'><?php echo $PlanesFSeguimiento;?></td>
-							<td class='text-left'><?php echo $PlanesFTerminacion;?></td>
-							<td class='text-center'><?php echo $PlanesAvance;?></td>
-							<td class='text-rigth'>
-								<a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $PlanesName?>" data-responsable="<?php echo $PlanesResponsable?>" 
-                                data-tarea="<?php echo $PlanesTarea?>" data-plazo="<?php echo $PlanesPlazo?>" data-aprueba="<?php echo $PlanesAprueba?>" 
-                                data-nivelp="<?php echo $PlanesNivelPrioridad?>" data-resps="<?php echo $PlanesRespSeguimiento?>" data-respa="<?php echo $PlanesRespAprobacion?>" 
-                                data-inicio="<?php echo $PlanesFInicio?>" data-fseg="<?php echo $PlanesFSeguimiento?>" data-termina="<?php echo $PlanesFTerminacion?>" 
-                                data-avance="<?php echo $PlanesAvance?>" data-id="<?php echo $PlanesId; ?>">
-                                    <i class="fas fa-pen" data-toggle="tooltip" title="Editar Plan" style="color:orange"></i>
-                                </a>
-								
-								<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-                                    <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Plan" style="color:red"></i>
-                                </a>
-                                
-                                <a href="javascript:vodi(0);"  onclick="mks(<?php echo $PlanesId; ?>,'<?php echo $PlanesName; ?>')" class="tareas">
-                                    <i class="fas fa-list-alt" data-toggle="tooltip" title="Gestión Tareas" style="color:green"></i>
-                                </a>
-							
-							</td>
-						</tr>
-					<?php }	
-					}
-					?>                                        
-                                    </tbody>
-                                </table>
+                                <div id="tt"><?php //include 'tablatareas.php' ;?></div>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th class='text-center'>Tarea</th>
+            <th class='text-left'>Acciones</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class='text-center'>Tarea</th>
+            <th class='text-left'>Acciones</th>
+        </tr>
+    </tfoot>
+    <tbody>
+    <?php
+        //echo "<br>".$pid. ' --  '. $pck ;
+        $pid = $IdPlan;
+        $pck = $CustomerKey ;
+        include '../curl/plan/listatareasplan.php';
+        foreach($data as $key => $row) {}
+        if( $key == "message"){	// No existen registros
+            echo '<tr>
+                    <td colspan="2">'. $data["message"] .'</td>
+                </tr>';
+        }
+        else
+        {							
+            $j=1;
+            for($i=0; $i<count($data['body']); $i++)
+            {
+                $TareaId=trim($data['body'][$i]['TPP_IdTareaxPlan']);
+                $IdPlan=trim($data['body'][$i]['TPP_IdPlan']);
+                $TareaName=trim($data['body'][$i]['TPP_NombreTarea']);
+                $CustomerKey=trim($data['body'][$i]['TPP_CustomerKey']);
+    ?>	
+    <tr>
+        <td class='text-left'><?php echo $TareaName;?>  <?php echo $IdPlan; ?></td>
+        <td class='text-rigth'>
+            <a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $TareaName; ?>"  data-idplan="<?php echo $IdPlan; ?>" data-ck="<?php echo $CustomerKey; ?>" data-id="<?php echo $TareaId; ?>">
+                <i class="fas fa-pen" data-toggle="tooltip" title="Editar Tarea" style="color:orange"></i>
+            </a>
+            
+            <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $TareaId;?>" data-idplan="<?php echo $IdPlan; ?>" data-ck="<?php echo $CustomerKey; ?>">
+                <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Tarea" style="color:red"></i>
+            </a>
+        </td>
+    </tr>
+<?php }	
+}
+?>                                        
+    </tbody>
+</table>
                             </div>
                         </div>
                     </div>
@@ -448,12 +407,12 @@ $CustomerKey = $_SESSION['Keyp'];
                 </button>  -->
 
                 <!-- Modal -->
-                <div class="modal fade bd-example-modal-xl" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
+                <div class="modal fade bd-example-modal-md" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-header">                            
                                 <h5 class="modal-title" id="exampleModalLabel" style="color:blue;text-shadow: 0.1em 0.1em 0.2em black; font-size:24px">
-                                    <i class="fas fa-address-card"></i>  Crear Plan
+                                    <i class="fas fa-address-card"></i>  Crear Tarea
                                 </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true" style="color:red">&times;</span>
@@ -461,94 +420,23 @@ $CustomerKey = $_SESSION['Keyp'];
                             </div>
                             <div class="modal-body">
                                 <form id="f">
-
                                     <div class="form-group row">
                                         <div class="col-md-12">
-                                            <label>Nombre Plan</label>
-                                            <textarea class="form-control" id="Name2" name="Name2" rows="2" placeholder="Digite nombre del Plan" required></textarea>
+                                            <label>Nombre Tarea</label>
+                                            <textarea class="form-control" id="Name2" name="Name2" rows="4" placeholder="Digite descripción de la Tarea" required></textarea>
                                             <input type="hidden" name="CustomerKey" id="CustomerKey" value="<?php echo trim($_SESSION['Keyp']); ?>">
+                                            <input type="hidden" name="IdPlan" id="IdPlan" value="<?php echo trim($IdPlan); ?>">
                                         </div>
                                     </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-5">
-                                            <label for="exampleFormControlSelect1">Responsable</label>
-                                            <select class="form-control select2" id="responsable" name="responsable" required>
-                                                <option value="">Seleccione una opción</option>    									
-                                                <?php include("../curl/responsables/listar.php"); ?>
-                                            </select>
-                                        </div> 
-                                        <div class="col-md-2">
-                                            <label>Plazo</label>
-                                            <input type="number" name="plazo" id="plazo" class="form-control" required>
-                                        </div>
-                                    
-                                        <div class="col-md-5">
-                                            <label for="exampleFormControlSelect1">Aprueba</label>
-                                            <select class="form-control select2" id="aprueba" name="aprueba" required>
-                                                <option value="">Seleccione una opción</option>    									
-                                                <?php include("../curl/cargos/listar.php"); ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-2">
-                                            <label for="exampleFormControlSelect1">Nivel de Prioridad</label>
-                                            <select class="form-control select2" id="nivelprioridad" name="nivelprioridad" required>
-                                                <option value="">Seleccione una opción</option>
-                                                <option value="Alto">Alto</option>
-                                                <option value="Medio">Medio</option>
-                                                <option value="Bajo">Bajo</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label for="exampleFormControlSelect1">Responsable del Seguimiento</label>
-                                            <select class="form-control select2" id="respseguimiento" name="respseguimiento" required>
-                                                <option value="">Seleccione una opción</option>
-                                                <?php include("../curl/responsables/listar.php"); ?>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="col-md-5">
-                                            <label for="exampleFormControlSelect1">Responsable de la Aprobación</label>
-                                            <select class="form-control select2" id="respaprobacion" name="respaprobacion" required>
-                                                <option value="">Seleccione una opción</option>
-                                                <?php include("../curl/responsables/listar.php"); ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-3">
-                                            <label>Fecha de Inicio</label>
-                                            <input type="date" name="fechainicio" id="fechainicio" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Fecha de Seguimiento</label>
-                                            <input type="date" name="fechaseguimiento" id="fechaseguimiento" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Fecha de Terminación</label>
-                                            <input type="date" name="fechaterminacion" id="fechaterminacion" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>% Avance</label>
-                                            <input type="number" name="avance" id="avance" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    
                                 </form>    
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>                                
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <!-- End of Main Content -->
 
@@ -597,12 +485,12 @@ $CustomerKey = $_SESSION['Keyp'];
     <div id="emx"></div>
 
     <!-- Edit Modal -->
-    <div class="modal fade bd-example-modal-xl" id="editModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+    <div class="modal fade bd-example-modal-md" id="editModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel" style="color:red;text-shadow: 0.1em 0.1em 0.2em black; font-size:24px">
-                        <i class="far fa-edit"></i>   Editando Plan
+                        <i class="far fa-edit"></i>   Editando Tarea
                     </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" style="color:red">×</span>
@@ -612,66 +500,14 @@ $CustomerKey = $_SESSION['Keyp'];
                     <form id="ef">
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <label>Nombre Plan</label>
-                                <textarea class="form-control" id="eName2" name="eName2" rows="2" placeholder="Digite nombre del Plan" required></textarea>
-                                <input type="hidden" name="eid" id="eid" >
+                                <label>Nombre Tarea</label>
+                                <textarea class="form-control" id="eName2" name="eName2" rows="4" placeholder="Digite descripción de la Tarea" required></textarea>
+                                <input type="hidden" name="eid" id="eid">
+                                <input type="hidden" name="eCustomerKey" id="eCustomerKey">
+                                <input type="hidden" name="eIdPlan" id="eIdPlan">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-5">
-                                <label for="exampleFormControlSelect1">Responsable</label>
-                                <select class="form-control select2" id="eresponsable" name="eresponsable" required></select>
-                            </div> 
-                            <div class="col-md-2">
-                                <label>Plazo</label>
-                                <input type="number" name="eplazo" id="eplazo" class="form-control" required>
-                            </div>
-                        
-                            <div class="col-md-5">
-                                <label for="exampleFormControlSelect1">Aprueba</label>
-                                <select class="form-control select2" id="eaprueba" name="eaprueba" required></select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-2">
-                                <label for="exampleFormControlSelect1">Nivel de Prioridad</label>
-                                <select class="form-control select2" id="enivelprioridad" name="enivelprioridad" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Alto">Alto</option>
-                                    <option value="Medio">Medio</option>
-                                    <option value="Bajo">Bajo</option>
-                                </select>
-                            </div>
-                            <div class="col-md-5">
-                                <label for="exampleFormControlSelect1">Responsable del Seguimiento</label>
-                                <select class="form-control select2" id="erespseguimiento" name="erespseguimiento" required></select>
-                            </div>
-                            
-                            <div class="col-md-5">
-                                <label for="exampleFormControlSelect1">Responsable de la Aprobación</label>
-                                <select class="form-control select2" id="erespaprobacion" name="erespaprobacion" required></select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-3">
-                                <label>Fecha de Inicio</label>
-                                <input type="date" name="efechainicio" id="efechainicio" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Fecha de Seguimiento</label>
-                                <input type="date" name="efechaseguimiento" id="efechaseguimiento" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Fecha de Terminación</label>
-                                <input type="date" name="efechaterminacion" id="efechaterminacion" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label>% Avance</label>
-                                <input type="number" name="eavance" id="eavance" class="form-control" required>
-                            </div>
-                        </div>
-                    </form>
+					</form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="eguardar">Guardar</button>
@@ -687,13 +523,15 @@ $CustomerKey = $_SESSION['Keyp'];
 			<div class="modal-content">
 				<form name="delete_plan" id="delete_plan">
 					<div class="modal-header">						
-						<h4 class="modal-title">Eliminar Plan</h4>
+						<h4 class="modal-title">Eliminar Tarea</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<p>¿Seguro que quieres eliminar este registro?</p>
 						<p class="text-warning"><small>Esta acción no se puede deshacer.</small></p>
 						<input type="hidden" name="delete_id" id="delete_id">
+                        <input type="hidden" name="delCustomerKey" id="delCustomerKey">
+                        <input type="hidden" name="delIdPlan" id="delIdPlan">
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">
@@ -707,7 +545,6 @@ $CustomerKey = $_SESSION['Keyp'];
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -727,15 +564,6 @@ $CustomerKey = $_SESSION['Keyp'];
     <!-- Select2 -->
 	<script src="../plugins/select2/js/select2.full.min.js"></script>
 
-    <!-- Redirect -->
-	<script src="../plugins/redirect/jquery.redirect.js"></script>
-
-    <!-- expor pdf -->
-    <script src="../plugins/pdf/jspdf.min.js"></script>
-    <script src="../plugins/pdf/jspdf-autotable.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
-    <script src="https://rawgit.com/someatoms/jsPDF-AutoTable/master/dist/jspdf.plugin.autotable.js"></script> -->
-
     <!-- Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
 
@@ -749,14 +577,39 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
-        function mks(p1,p2){		
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
-            $.redirect("tareas.php", {id: p1, np : p2 });
-		}
-        
-        
+        function upd(){
+                var idplan = <?php echo $IdPlan; ?>;
+                var cky = "<?php echo $CustomerKey; ?>";
+                parametros = "pid="+idplan+"&pck="+cky;
+                $.ajax({
+                    //async: false,
+                    type: "POST",
+                    url: "tablatareas.php",
+                    data: parametros,
+                    beforeSend: function(objeto){
+                        /*swal({
+							position: 'top-end',
+							type: 'info',
+							title: 'Actualizando información...Un momento',
+							showConfirmButton: false,
+							timer: 3000,
+							imageUrl: '../img/ajax-loader.gif',
+							imageAlt: 'Custom image',
+						});*/
+                    },
+                    success: function(datos){
+                        $("#tt").html(datos)
+                    }
+                });
+                event.preventDefault();
+            }
+
         $(document).ready(function(){
             $('.select2').select2()
+
+            var table = $('#dataTable').DataTable();
+            //alert(1);
+
             $('#exampleModal').on('show.bs.modal', function () {
                 setTimeout(function (){
                     $('#Name2').focus()
@@ -768,179 +621,105 @@ $CustomerKey = $_SESSION['Keyp'];
                 var button = $(event.relatedTarget)
                 var name = button.data('name') 
 			    $('#eName2').val(name)
-                responsable = button.data('responsable')
-                $('#eresponsable').val(responsable)
-                let parametros = "idresponsable="+responsable+"&ck=<?php echo $CustomerKey; ?>";
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    url: "../ajax/planes/editarestado.php",
-                    data: parametros,
-                    success: function(datos){
-                        let slct = '<select class="form-control" name="eresponsable" id="eresponsable" style="width: 100%;" required>';
-                            slct += datos;
-                            slct += '</select>';
-                        $("#eresponsable").html(slct)
-                    }	
-                })
-                var plazo = button.data('plazo') 
-			    $('#eplazo').val(plazo)
+         
+                var ck = button.data('ck') 
+			    $('#eCustomerKey').val(ck)
 
-                aprueba = button.data('aprueba')
-                $('#eaprueba').val(aprueba)
-                let pars = "idcargos="+aprueba+"&ck=<?php echo $CustomerKey; ?>";
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    url: "../ajax/cargos/editarestado.php",
-                    data: pars,
-                    success: function(datos){
-                        let slct = '<select class="form-control" name="eaprueba" id="eaprueba" style="width: 100%;" required>';
-                            slct += datos;
-                            slct += '</select>';
-                        $("#eaprueba").html(slct)
-                    }	
-                })
+                var ip = button.data('idplan') 
+			    $('#eIdPlan').val(ip)
 
-                nivelprioridad = button.data('nivelp')
-                $('#enivelprioridad').val(nivelprioridad)
-                let npa = ""; let npm = ""; let npb = "";
-                if(nivelprioridad =="Alto"){ npa= " selected='selected'"}
-                else if(nivelprioridad =="Medio"){ npm= " selected='selected'"} 
-                else if(nivelprioridad =="Bajo"){ npb= " selected='selected'"}
-                let slct = '<select class="form-control" name="enivelprioridad" id="enivelprioridad" style="width: 100%;" required>';
-                    slct += '<option value="">Seleccione una opción</option>'
-                    slct += '<option value="Alto"'+ npa +'>Alto</option>'
-                    slct += '<option value="Medio"'+ npm +'>Medio</option>'
-                    slct += '<option value="Bajo"'+ npb +'>Bajo</option>'
-                    slct += '</select>';
-                $("#enivelprioridad").html(slct)
-
-                respseguimiento = button.data('resps')
-                $('#erespseguimiento').val(respseguimiento)
-                $.post("../ajax/responsables/respseguir.php", {idrespseguir: respseguimiento, ck: <?php echo $CustomerKey; ?> }, function(result){                   
-                    let slct = '<select class="form-control" name="erespseguimiento" id="erespseguimiento" style="width: 100%;" required>';
-                        slct += result;
-                        slct += '</select>';
-                    $("#erespseguimiento").html(slct)
-                });
-
-                respaprobacion = button.data('respa')
-                $('#erespaprobacion').val(respaprobacion)
-                let paramet = "idrespseguir="+respaprobacion+"&ck=<?php echo $CustomerKey; ?>";
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    url: "../ajax/responsables/respseguir.php",
-                    data: paramet,
-                    success: function(datos){
-                        let slct = '<select class="form-control" name="erespaprobacion" id="erespaprobacion" style="width: 100%;" required>';
-                            slct += datos;
-                            slct += '</select>';
-                        $("#erespaprobacion").html(slct)
-                    }	
-                })
-                
-                var finicio = button.data('inicio') 
-			    $('#efechainicio').val(finicio)
-
-                var fseguimiento = button.data('fseg') 
-			    $('#efechaseguimiento').val(fseguimiento)
-
-                var fterminacion = button.data('termina') 
-			    $('#efechaterminacion').val(fterminacion)
-
-                var avance = button.data('avance') 
-			    $('#eavance').val(avance)
-            
                 var id = button.data('id') 
 			    $('#eid').val(id)
-            })
+            });
+
+            $("#save").on('click', function(event){
+                //alert(45);
+            });
+            //alert(2);
 
             $("#guardar").on('click', function(event){
-                //alert(7);
-                var $inputs = $('#f').find(':input[type="text"]') //INPUTS
-                var $selects = $('#f').find('select') //SELECTS
-
-                $inputs.each(function(index, element) {
-                    if ($(element).val().length <= 0) {
-                        $(element).css("border", "solid 2px #FA5858");
-                    }
-                })
-
-                $selects.each(function(index, element) {
-                    if ( $(element).val() ==0) {
-                        $(element).css("border", "solid 2px #FA5858");
-                    }
-                })
-                var parametros = $('#f').serialize()
-                $.ajax({
-					type: "POST",
-					url: "../ajax/planes/guardar.php",
-					data: parametros,
-					beforeSend: function(objeto){
-						swal({
-							position: 'top-end',
-							type: 'info',
-							title: 'Verificando información...Un momento',
-							showConfirmButton: false,
-							timer: 5000,
-							imageUrl: '../img/ajax-loader.gif',
-							imageAlt: 'Custom image',
-						});
-					  },
-					success: function(datos){
-						let m= datos.trim();
-						$("#resultados").html(datos);
-						$('#exampleModal').modal('hide');
-						let msj = m.substr(0,1);
-						let type;
-						let txt;
-						if(msj == 'O'){
-							type = 'success';
-							txt = 'Plan ha sido guardado con éxito.';
+				//alert(55);
+				let nombre = $("#Name2").val()
+                if( nombre == "" ){
+					swal({
+						position: 'top-end',
+						type: 'info',
+						title: 'Debe ingresar informacion en la descripción de la Tarea.',
+						showConfirmButton: true,
+						timer: 5000,
+						imageUrl: '../img/ajax-loader.gif',
+						imageAlt: 'Custom image',
+					});
+				}
+				else{
+					var parametros = $('#f').serialize()
+					$.ajax({
+						type: "POST",
+						url: "../ajax/tareas/guardar.php",
+						data: parametros,
+						beforeSend: function(objeto){
+							swal({
+								position: 'top-end',
+								type: 'info',
+								title: 'Verificando información...Un momento',
+								showConfirmButton: false,
+								timer: 5000,
+								imageUrl: '../img/ajax-loader.gif',
+								imageAlt: 'Custom image',
+							});
+						  },
+						success: function(datos){
+							let m= datos.trim();
+							//$("#resultados").html(datos);
+							$('#exampleModal').modal('hide');
+							let msj = m.substr(0,1);
+							let type;
+							let txt;
+							if(msj == 'O'){
+								type = 'success';
+								txt = 'Tarea ha sido guardada con éxito.';
+							}
+							else if(msj == 'E'){
+								type= 'warning';
+								txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+							}
+							else if(msj == 'I'){
+								type= 'warning';
+								txt = 'Debe ingresar información en todos los campos.';
+							}
+							else if(msj == 'F'){
+								type= 'error';
+								txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+							}
+							else if(msj == 'D'){
+								type= 'error';
+								txt ='Error Desconocido.';
+							}
+							else{
+								type= 'error';
+								txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+							}
+							swal({
+								position: 'top-end',
+								type: ''+type,
+								title: ''+txt,
+								showConfirmButton: true,
+								timer: 3000
+							});
+							setTimeout(function() {
+								location.reload();
+							}, 3000);
 						}
-						else if(msj == 'E'){
-							type= 'warning';
-							txt = 'Ya existe un Registro grabado con el mismo Nombre.';
-						}
-						else if(msj == 'I'){
-							type= 'warning';
-							txt = 'Debe ingresar información en todos los campos.';
-						}
-						else if(msj == 'F'){
-							type= 'error';
-							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-						}
-						else if(msj == 'D'){
-							type= 'error';
-							txt ='Error Desconocido.';
-						}
-						else{
-							type= 'error';
-							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-						}
-						swal({
-							position: 'top-end',
-							type: ''+type,
-							title: ''+txt,
-							showConfirmButton: true,
-							timer: 5000
-						});
-						setTimeout(function() {
-							location.reload();
-						}, 3000);
-					}
-			    });
-                event.preventDefault()
+					});
+				}	
+                event.preventDefault()				
             })
 
             $("#eguardar").on('click', function(event){
-                //alert(7);
                 var parametros = $('#ef').serialize()
                 $.ajax({
 					type: "POST",
-					url: "../ajax/planes/editar.php",
+					url: "../ajax/tareas/editar.php",
 					data: parametros,
 					beforeSend: function(objeto){
 						swal({
@@ -955,14 +734,14 @@ $CustomerKey = $_SESSION['Keyp'];
 					  },
 					success: function(datos){
 						let m= datos.trim();
-						$("#resultados").html(datos);
+						//$("#resultados").html(datos);
 						$('#editModal').modal('hide');
 						let msj = m.substr(0,1);
 						let type;
 						let txt;
 						if(msj == 'U'){
 							type = 'success';
-							txt = 'Plan ha sido actualizado con éxito.';
+							txt = 'Tarea ha sido actualizada con éxito.';
 						}
 						else if(msj == 'E'){
 							type= 'warning';
@@ -989,11 +768,15 @@ $CustomerKey = $_SESSION['Keyp'];
 							type: ''+type,
 							title: ''+txt,
 							showConfirmButton: true,
-							timer: 5000
+							timer: 3000
 						});
-						setTimeout(function() {
+                        setTimeout(function() {
 							location.reload();
 						}, 3000);
+
+                        /*if(msj=="U"){
+                            upd();
+                        }*/
 					}
 			    });
                 event.preventDefault()
@@ -1003,13 +786,19 @@ $CustomerKey = $_SESSION['Keyp'];
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var id = button.data('id') 
                 $('#delete_id').val(id)
+
+                var ck = button.data('ck') 
+			    $('#delCustomerKey').val(ck)
+
+                var ip = button.data('idplan') 
+			    $('#delIdPlan').val(ip)
             })
 
             $( "#borrar" ).on('click', function( event ) {
                 var parametros = $("#delete_plan").serialize();
                 $.ajax({
                     type: "POST",
-                    url: "../ajax/planes/delete.php",
+                    url: "../ajax/tareas/delete.php",
                     data: parametros,
                     beforeSend: function(objeto){
                         swal({
@@ -1031,7 +820,7 @@ $CustomerKey = $_SESSION['Keyp'];
                         let txt;
                         if(msj == 'B'){
                             type = 'success';
-                            txt = 'Plan ha sido eliminado con éxito';
+                            txt = 'Tarea ha sido eliminada con éxito';
                         }
                         else if(msj == 'D'){
                             type= 'error';
@@ -1046,39 +835,31 @@ $CustomerKey = $_SESSION['Keyp'];
                             type: ''+ type,
                             title: ''+ txt,
                             showConfirmButton: true,
-                            timer: 5000
+                            timer: 3000
                         });
                         setTimeout(function() {
                             location.reload();
-                        }, 13000);
+                        }, 3000);
                     }
                 });
                 event.preventDefault();
             });
 
-            $("#cerrar").on('click', function(){
-                location.reload();
+            $("#cerrar").on('click', function(event){
+                $('#exampleModal').modal('hide');
             })
 
             $("#ecerrar").on('click', function(){
-                location.reload();
+                $('#editModal').modal('hide')
             })
 
             $(".close").on('click', function(){
-                location.reload();
+                $('#exampleModal').modal('hide');
+                $('#editModal').modal('hide')
             })
 
 
-            $("#hpdf").on('click', function(event){
-                const { jsPDF } = window.jspdf 
-                const doc = new jsPDF('p', 'pt');
-                var elem = document.getElementById("dataTable");
-                var res = doc.autoTableHtmlToJson(elem);
-                doc.autoTable(res.columns, res.data);
-                doc.save("table.pdf");
-            });
-
-            $("#pdf").on('click', function(event){
+            $("#xpdf").on('click', function(event){
                 //var login = ;
                 //alert(param);			
                 let base64Img	
@@ -1091,35 +872,24 @@ $CustomerKey = $_SESSION['Keyp'];
                 doc.autoTable({ 
                     useCORS: true,
                     columns: [
-                        { header: 'Nombre', dataKey: 'PlanesName' },
-                        { header: 'Responsable', dataKey: 'PlanesResponsable' },
-                        { header: 'Plazo', dataKey: 'PlanesPlazo' },
-                        { header: 'Cargo', dataKey: 'PlanesAprueba' },
-                        { header: 'Nivel Prioridad', dataKey: 'PlanesNivelPrioridad' },
+                        { header: 'Nombre', dataKey: 'TPP_NombreTarea' },					
                     ],
                     
                     startY: doc.autoTable() + 70,
                     tableWidth: 'auto',
-                    margin: {top: 30,
-                        bottom: 30,
-                        left: 40,
-                        width: 522
-                    } ,                    
+                    margin: {top: 80,
+                    bottom: 60,
+                    left: 40,
+                    width: 522} ,
+                    body: bodyRows(40),
                     beforePageContent: function(data) {
-                        doc.text("Header",170, 50);
+                        doc.text("Header", 170, 50);
                     },
-                    styles: { 
-                        overflow: "linebreak", 
-                        columnWidth: "wrap",
-                        fontSize: 10, 
-                        cellPadding: 4, 
-                        overflowColumns: 'linebreak'
-                    },
+                    styles: { overflow: "linebreak" },
                     bodyStyles: { valign: "top" },
                     theme: "striped",
                     showHead: "everyPage",
                     pageBreak: 'always',
-                    body: bodyRows(5),
                     didDrawPage: function (data) {					
                         // Header
                         doc.setFontSize(20);
@@ -1159,15 +929,13 @@ $CustomerKey = $_SESSION['Keyp'];
                     doc.putTotalPages(totalPagesExp);
                 }
                 
-                doc.save('planes.pdf')
+                doc.save('tareas.pdf')
             })
 
         })
-
     </script>
-
-<script>
-            var idioma= {
+    <script>                
+        var idioma= {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
             "sZeroRecords":    "No se encontraron resultados",
@@ -1196,7 +964,7 @@ $CustomerKey = $_SESSION['Keyp'];
                 "copySuccess": {
                     "_": '%d filas copiadas al portapapeles',
                     "1": '1 fila copiada al portapapeles'
-                },              
+                },
 
                 "pageLength": {
                 "_": "Mostrar %d filas",
@@ -1216,9 +984,9 @@ $CustomerKey = $_SESSION['Keyp'];
             "autoWidth": true,
             "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
             "language": idioma
-        });
-    </script>
-   
+        });       
+    
+    </script>    
 
 </body>
 

@@ -1,19 +1,19 @@
 <?php
-    class Cargos{
+    class Responsables{
 
         // Connection
         private $conn;
 
         // Table
-        private $db_table = "CargosSarlaft";
+        private $db_table = "ResponsablesSarlaft";
 
         // Columns
-		public $CargosId;
+		public $ResponsablesId;
 		public $CustomerKey;
-		public $CargosKey;
-        public $CargosName;
-        public $UserKey;
-        public $DateStamp ;
+		public $ResponsablesKey;
+		public $ResponsablesName;
+		public $UserKey;
+		public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -22,10 +22,18 @@
 
         // GET ALL
         public function getAll(){
-            $sql = "SELECT CargosId, CustomerKey, CargosKey, CargosName, UserKey FROM ". $this->db_table ." 
-            WHERE CustomerKey = ? ORDER BY CargosName ";
-			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-            $stmt->bindParam(1, $this->CustomerKey);
+            $sql = "SELECT ResponsablesId, CustomerKey, ResponsablesKey, ResponsablesName FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY ResponsablesName ";            
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));			
+			$stmt->bindParam(1, $this->CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+		
+		 // GET ALL
+        public function getAllrespseguir(){
+            $sql = "SELECT ResponsablesId, ResponsablesName FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY ResponsablesName ";            
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));			
+			$stmt->bindParam(1, $this->CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }

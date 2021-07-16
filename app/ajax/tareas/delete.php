@@ -9,9 +9,11 @@ elseif (!empty($_POST['delete_id']))
 	$urlServicios = $getUrl->getUrl();
 	
 	$id=intval($_POST['delete_id']);
+	$ck = trim($_POST["delCustomerKey"]);
+	$idplan = intval($_POST["delIdPlan"]);
 	$query="";
 	$msjx = "";
-	$url = $urlServicios."api/planes/delete.php?id=$id";
+	$url = $urlServicios."api/tareas/delete.php?id=$id&ck=$ck&idplan=$idplan";
 	//echo "url...$url";
 	
 	$resultado="";

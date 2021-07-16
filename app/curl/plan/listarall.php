@@ -9,8 +9,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	//$per_page = 
 	//$offset =
-	//$params= "per_page=$per_page&offset=$offset";
-	$url = $urlServicios."api/plan/lista.php";   //?$params";
+	//$params= "per_page=$per_page&offset=$offset";	
+	$url = $urlServicios."api/planes/lista.php?ck=".$CustomerKey;   //?$params";
 	//echo "url...$url<br>";
 	
 	$resultado="";

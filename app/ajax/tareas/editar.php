@@ -3,7 +3,8 @@ if (empty($_POST['eid'])){
 	$errors[] = "ID está vacío.";
 } 
 elseif (!empty($_POST['eid']))
-{	
+{
+	////require_once ("../components/sql_server_login.php");		
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
@@ -11,24 +12,16 @@ elseif (!empty($_POST['eid']))
 	// escaping, additionally removing everything that could be (html/javascript-) code
 	$nombre = trim($_POST["eName2"]);
 	$nombre = str_replace(' ','%20',strtoupper($nombre));
-	$responsable = trim($_POST["eresponsable"]);
-	$plazo = trim($_POST["eplazo"]);
-	$aprueba = trim($_POST["eaprueba"]);	
-	$nivelprioridad = trim($_POST["enivelprioridad"]);
-	$respseguimiento = trim($_POST["erespseguimiento"]);
-	$respaprobacion = trim($_POST["erespaprobacion"]);
-	$fechainicio = trim($_POST["efechainicio"]);
-	$fechaseguimiento = trim($_POST["efechaseguimiento"]);
-	$fechaterminacion = trim($_POST["efechaterminacion"]);
-	$avance = trim($_POST["eavance"]);	
+	$ck = trim($_POST["eCustomerKey"]);
+	$idplan = intval($_POST["eIdPlan"]);
 	$id=intval($_POST['eid']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
-	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/planes/revisarnombre.php?nombre=$nombre&id=$id";
-	
+	// Se verifica si el nombre existe para evitar duplicados.	
+	$url = $urlServicios."api/tareas/revisarnombre.php?nombre=$nombre&ck=$ck&idplan=$idplan&id=$id";
+	//echo $url;
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -60,8 +53,8 @@ elseif (!empty($_POST['eid']))
 	{		
 		$query="";		
 		// Si todo va bien se hace el Update
-		$params = "Nombre=$nombre&responsable=$responsable&plazo=$plazo&aprueba=$aprueba&respseguimiento=$respseguimiento&nivelprioridad=$nivelprioridad&respaprobacion=$respaprobacion&fechainicio=$fechainicio&fechaseguimiento=$fechaseguimiento&fechaterminacion=$fechaterminacion&avance=$avance&Id=$id";
-		$url = $urlServicios."api/planes/update.php?$params";
+		$params = "Nombre=$nombre&Id=$id&CK=$ck&IdPlan=$idplan";
+		$url = $urlServicios."api/tareas/update.php?$params";
 		//echo "url...$url";
 		
 		$resultado="";
@@ -86,7 +79,7 @@ elseif (!empty($_POST['eid']))
 			JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 		);
 		
-		// if plan has been updated successfully
+		// if rol has been updated successfully
 		if ($query) {
 			$messages[] = "U"; //Update.";
 		} else {

@@ -3,14 +3,15 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/accion/accion.php';
+    include_once '../../class/responsables/responsable.php';
 
     $database = new Database();
-    $db = $database->getConnection();
+    $db = $database->getConnectionCli();
 
-    $items = new Action($db);
+    $items = new Responsables($db);
+	$items->CustomerKey = $_GET['ck'];
 
-    $stmt = $items->getAccion();
+    $stmt = $items->getAll();
     $itemCount = $stmt->rowCount();
 
     if($itemCount > 0){
@@ -22,17 +23,13 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "ACC_IdAccion" => $ACC_IdAccion,
-                "ACC_Nombre" => $ACC_Nombre,
-				"ACC_IdEstado" => $ACC_IdEstado,
-                "STA_Nombre" => $STA_Nombre
+                "ResponsablesId" => $ResponsablesId,
+                "ResponsablesName" => $ResponsablesName
             );
-
             array_push($estadoArr["body"], $e);
         }
         echo json_encode($estadoArr);
     }
-
     else{
         http_response_code(404);
         echo json_encode(

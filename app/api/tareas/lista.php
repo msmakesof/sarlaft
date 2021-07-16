@@ -3,13 +3,12 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/cargos/cargos.php';
+    include_once '../../class/tiposriesgo/tiposriesgo.php';
 
     $database = new Database();
-    $db = $database->getConnectionCli();
+    $db = $database->getConnectionCLi();
 
-    $items = new Cargos($db);
-    $items->CustomerKey = $_GET['ck'];
+    $items = new TiposRiesgo($db);
 
     $stmt = $items->getAll();
     $itemCount = $stmt->rowCount();
@@ -23,11 +22,11 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "CargosId" => $CargosId,
-                "CustomerKey" => $CustomerKey,
-                "CargosKey" => $CargosKey,
-				"CargosName" => $CargosName,
-                "UserKey" => $UserKey
+                "TIR_IdTipoRiesgo" => $TIR_IdTipoRiesgo,
+                "TIR_Nombre" => $TIR_Nombre,
+				"TIR_CustomerKey" => $TIR_CustomerKey,
+                "TIR_UserKey" => $TIR_UserKey,
+                "TIR_TipoRiesgoKey" => $TIR_TipoRiesgoKey
             );
             array_push($estadoArr["body"], $e);
         }

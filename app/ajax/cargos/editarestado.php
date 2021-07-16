@@ -1,12 +1,12 @@
 <?php
-$Estado = $_POST['idestado'];
+$Cargos = $_POST['idcargos'];
 //echo "state   ".$Estado;
 require_once '../../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();		
 $resultado = "";
-
-$url = $urlServicios."api/estado/lista.php";
+$ck= $_POST['ck'];
+$url = $urlServicios."api/cargos/lista.php?ck=$ck";
 //echo "url...$url<br>";
 $resultado="";
 $ch = curl_init();
@@ -20,7 +20,7 @@ curl_setopt($ch, CURLOPT_POST, 0);
 $resultado = curl_exec ($ch);
 curl_close($ch);
 $mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-$data = json_decode($mestado, true);	
+$xdata = json_decode($mestado, true);	
 
 $json_errors = array(
 	JSON_ERROR_NONE => 'No se ha producido ningún error',
@@ -28,30 +28,31 @@ $json_errors = array(
 	JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 	JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 );
-foreach($data as $key => $row) {}
-$select = '';
-//$select = '<select class="form-control select2" name="edit_estado" id="edit_estado" style="width: 100%;" required>';
-$select .= '<option value="">Seleccione Opción</option>';
-if( $key == "message")
-{
-	$select .= '<option value="">'. $data["message"] .'</option>';
-}
-else
-{
-	if( $data["itemCount"] > 0)
-	{			
-		for($i=0; $i<count($data['body']); $i++)
-		{				
-			$condi = "";
-			$idestado = $data['body'][$i]["STA_IdEstado"];
-			$nomestado = trim($data['body'][$i]["STA_Nombre"]);
-			if( isset($Estado) && $Estado != "" && $idestado == $Estado ){
-				$condi = ' selected="selected" ';
+foreach($xdata as $key => $row) {}
+	$xselect = '';
+	$xselect .= '<option value="">Seleccione Opción</option>';
+	if( $key == "message")
+	{
+		$select .= '<option value="">'. $xdata["message"] .'</option>';
+	}
+	else
+	{
+		//if( $xdata["itemCount"] > 0)
+		//{			
+			for($i=0; $i<count($xdata['body']); $i++)
+			{				
+				$condi = "";
+				$id = $xdata['body'][$i]["CargosId"];
+				$ck = $xdata['body'][$i]["CustomerKey"];
+				$cark = $xdata['body'][$i]["CargosKey"];				
+				$nombre = trim($xdata['body'][$i]["CargosName"]);
+				$uk = $xdata['body'][$i]["UserKey"];
+				if( isset($Cargos) && $Cargos != "" && $id == $Cargos ){
+					$condi = ' selected="selected" ';
+				}
+				$xselect .= '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
 			}
-			$select .= '<option value="'. $idestado .'"'. $condi .'>'. $nomestado .'</option>';
-		}
-	}		
-}
-//$select .= '</select>';
-echo $select;
+		//}		
+	}
+echo $xselect;
 ?>

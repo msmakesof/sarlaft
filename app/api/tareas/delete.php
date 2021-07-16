@@ -6,19 +6,23 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/plan/plan.php';
+    include_once '../../class/plan/tarea.php';
     
     $database = new Database();
     $db = $database->getConnectionCli();
     
-    $item = new Planes($db);
+    $item = new TareasPlan($db);
 	
 	$data = $_GET['id'];
-	$item->id = $data; 
+	$ck = $_GET['ck'];
+	$idplan = $_GET['idplan'];
+	$item->TPP_IdTareaxPlan = $data;
+	$item->TPP_CustomerKey = $ck;
+	$item->TPP_IdPlan = $idplan;
     
     if($item->delete()){
-        echo "S";  //json_encode("Borra Plan.");
+        echo "S";  //json_encode("Borra Tarea.");
     } else{
-        echo "N";  // json_encode("Plan no puede ser Borrado");
+        echo "N";  // json_encode("Tarea no puede ser Borrado");
     }
 ?>

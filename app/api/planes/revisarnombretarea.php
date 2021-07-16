@@ -6,22 +6,24 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/plan/plan.php';
+include_once '../../class/plan/tarea.php';
 
 $database = new Database();
-$db = $database->getConnection();
-$item = new RolUsers($db);
+$db = $database->getConnectionCli();
+$item = new TareasPlan($db);
 
-$item->PlanesName = isset($_GET['nombre']) ? $_GET['nombre'] : die();
-$item->id = isset($_GET['id']) ? $_GET['id'] : die();
+$item->TPP_NombreTarea = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->TPP_IdPlan = isset($_GET['idplan']) ? $_GET['idplan'] : die();
+$item->TPP_IdTareaxPlan = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();
 
-if($item->PlanesName != null){
+if($item->TPP_NombreTarea != null){
 	// create array
 	$emp_arr = array(            
-		"encontrados" => $item->PlanesName
-	);  
+		"encontrados" => $item->TPP_NombreTarea
+	);
+  
 	http_response_code(200);
 	echo json_encode($emp_arr);
 }      

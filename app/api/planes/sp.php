@@ -1,15 +1,9 @@
-<?php    
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-    
+<?php 
+////require_once '../../components/sql_serverx.php';
 require_once '../../config/sql_serversp.php';
 
-$ck = trim($_GET['ck']);
-$params = array (
-	array($ck , SQLSRV_PARAM_IN),
-);
-$spSQL = "{call dbo.sp_ListaPlan(?)}";
-$REC = sqlsrv_prepare($conn, $spSQL, $params);
+$spSQL = "{call dbo.sp_ListaPlan()}";
+$REC = sqlsrv_prepare($conn, $spSQL);
 
 if(sqlsrv_execute($REC)){    
 
@@ -57,9 +51,10 @@ if(sqlsrv_execute($REC)){
         echo json_encode(
             array("message" => "Registro No Encontrado.")
         );
-    }    
+    }
+    
 }
 else {
     die( print_r( sqlsrv_errors(), true));
-}
+}    
 ?>
