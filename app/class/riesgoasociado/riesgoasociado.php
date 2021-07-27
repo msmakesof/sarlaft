@@ -29,6 +29,17 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+        // GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT RIA_IdRiesgoAsociado, RIA_CustomerKey, RIA_Nombre, RIA_UserKey, RIA_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE RIA_CustomerKey = ? ORDER BY RIA_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->bindParam(1, $this->RIA_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
 		
 		// READ single ID
         public function getIdFR(){

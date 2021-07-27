@@ -29,6 +29,18 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+         // GET ALL por CK
+         public function getCkAll(){
+            $sql = "SELECT FAR_IdFactorRiesgo, FAR_CustomerKey, FAR_Nombre, FAR_UserKey, FAR_FactorRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE FAR_CustomerKey = ?  ORDER BY FAR_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->bindParam(1, $this->FAR_CustomerKey);
+
+			$stmt->execute();
+			return $stmt;
+        }
 		
 		// READ single ID
         public function getIdFR(){

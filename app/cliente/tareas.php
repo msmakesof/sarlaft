@@ -84,7 +84,10 @@ else{
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <?php include('menucli.php'); ?>
+            <?php include('menucli.php'); 
+			//include('../components/menu_setting.php')
+			?>
+			
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -378,7 +381,7 @@ else{
                 $CustomerKey=trim($data['body'][$i]['TPP_CustomerKey']);
     ?>	
     <tr>
-        <td class='text-left'><?php echo $TareaName;?>  <?php echo $IdPlan; ?></td>
+        <td class='text-left'><?php echo $TareaName;?></td>
         <td class='text-rigth'>
             <a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $TareaName; ?>"  data-idplan="<?php echo $IdPlan; ?>" data-ck="<?php echo $CustomerKey; ?>" data-id="<?php echo $TareaId; ?>">
                 <i class="fas fa-pen" data-toggle="tooltip" title="Editar Tarea" style="color:orange"></i>

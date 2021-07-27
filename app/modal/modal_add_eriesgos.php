@@ -24,7 +24,7 @@
         <div id="resp3" class=" text-primary"></div>
       </div>
       <div class="modal-footer">
-        <a href="./Escalas" class="btn btn-secondary" >Cerrar</button></a>
+        <a href="./Escalas.php" class="btn btn-secondary" >Cerrar</button></a>
         <button type="button" id="btn-ingresar3" class="btn btn-info">Registrar</button>
       </div>
     </div>

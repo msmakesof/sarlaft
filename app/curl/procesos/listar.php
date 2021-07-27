@@ -1,13 +1,14 @@
 <?php
 //include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
-require_once '../../config/dbx.php';
+require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
+$IdProceso ="";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/perfil/lista.php";
-	////echo "url...$url<br>";
+	$url = $urlServicios."api/procesos/lista.php?ck=$CustomerKey";
+	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -28,6 +29,27 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 	);
-	return $data;
+	foreach($data as $key => $row) {}
+	
+	if( $key == "message")
+	{
+		echo '<option value="">'. $data["message"] .'</option>';
+	}
+	else
+	{
+		if( $data["itemCount"] > 0)
+		{			
+			for($i=0; $i<count($data['body']); $i++)
+			{				
+				$condi = "";
+				$id = $data['body'][$i]["id"];
+				$nombre = trim($data['body'][$i]["ProcesosName"]);
+				if( isset($IdProceso) && $IdProceso != "" && $id == $IdProceso ){
+					$condi = ' selected="selected" ';
+				}
+				echo '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
+			}
+		}		
+	}
 }
 ?>

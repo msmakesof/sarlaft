@@ -25,13 +25,23 @@
         // GET ALL
         public function getAll(){
             $sql = "SELECT PRO_IdProbabilidad, PRO_CustomerKey, PRO_Nombre, PRO_Escala, PRO_Color, PRO_UserKey, PRO_TipoRiesgoKey, DateStamp 
-            FROM ". $this->db_table ." ORDER BY PRO_Nombre ";
+            FROM ". $this->db_table ." ORDER BY PRO_Escala, PRO_Nombre DESC";
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->execute();
 			return $stmt;
         }
 		
+		// GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT PRO_IdProbabilidad, PRO_CustomerKey, PRO_Nombre, PRO_Escala, PRO_Color, PRO_UserKey, PRO_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE PRO_CustomerKey = ? ORDER BY PRO_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->PRO_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
 		// READ single ID
         public function getIdFR(){
             $sql = "SELECT TOP 1 ACC_IdAccion, ACC_Nombre, ACC_IdEstado FROM ". $this->db_table ." WHERE ACC_IdAccion = ? ";			

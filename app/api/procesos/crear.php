@@ -6,19 +6,19 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/accion/accion.php';
+include_once '../../class/procesos/procesos.php';
 
 $database = new Database();
-$db = $database->getConnection();
-$item = new Action($db);
+$db = $database->getConnectionCli();
+$item = new Procesos($db);
 
-$NombreAccion = trim($_GET['NombreAccion']);
-$Estado = trim($_GET['Estado']);
+$ProcesosName = trim($_GET['NombreAccion']);
+//$Estado = trim($_GET['Estado']);
 
-$item->ACC_Nombre = $NombreAccion;
-$item->ACC_IdEstado = $Estado;
+$item->ProcesosName = $ProcesosName;
+//$item->ACC_IdEstado = $Estado;
 
-if($item->createAccion())
+if($item->create())
 {
 	echo 'S'; 
 } 

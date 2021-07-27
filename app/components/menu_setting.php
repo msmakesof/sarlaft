@@ -9,7 +9,7 @@
             $row = sqlsrv_fetch_array($result);
                  
     ?>
-        <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: <?php echo $row['CustomerColor'];?>" >
+        <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #4e73df !important <?php //echo $row['CustomerColor'];?>" >
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
@@ -282,15 +282,15 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Factores Fuentes de Riesgo:</h6>
+						<a class="collapse-item" href="Categoria.php" style="color: <?php echo $ndas;?>">Escala de Categoría</a>
+						<a class="collapse-item" href="Control.php" style="color: <?php echo $ndas;?>">Escala de Control</a>
+						<a class="collapse-item" href="Consecuencia.php" style="color: <?php echo $ndas;?>">Escala de Consecuencia</a>
+						<a class="collapse-item" href="Efectividad.php" style="color: <?php echo $ndas;?>">Escala de Efectividad</a>
+						<a class="collapse-item" href="Nivelriesgo.php" style="color: <?php echo $ndas;?>">Escala de Nivel de Riesgo</a>
+						<a class="collapse-item" href="Probabilidad.php" style="color: <?php echo $ndas;?>">Escala de Probabilidad</a>						
                         <a class="collapse-item" href="Tiposriesgo.php" style="color: <?php echo $nads;?>">Tipos de Riesgo</a>
                         <a class="collapse-item" href="Factoresriesgo.php" style="color: <?php echo $nbos;?>">Factores de Riesgo</a>
                         <a class="collapse-item" href="RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>
-                        <a class="collapse-item" href="Control.php" style="color: <?php echo $ndas;?>">Control</a>
-						<a class="collapse-item" href="Probabilidad.php" style="color: <?php echo $ndas;?>">Probabilidad</a>
-						<a class="collapse-item" href="Consecuencia.php" style="color: <?php echo $ndas;?>">Consecuencia</a>
-						<a class="collapse-item" href="Nivelriesgo.php" style="color: <?php echo $ndas;?>">Nivel de Riesgo</a>
-						<a class="collapse-item" href="Efectividad.php" style="color: <?php echo $ndas;?>">Efectividad</a>
-						<a class="collapse-item" href="Categoria.php" style="color: <?php echo $ndas;?>">Categoría</a>
 						<a class="collapse-item" href="Realizado.php" style="color: <?php echo $ndas;?>">Realizado</a>
                     </div>
                 </div>
@@ -307,6 +307,22 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Generación del Plan:</h6>                       
 						<a class="collapse-item" href="cliente/tables.php" style="color: <?php echo $ndas;?>">Planes</a>
+                    </div>
+                </div>
+            </li>
+			
+			<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities10"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-users"></i>
+                    <span>Riesgo</span>
+                </a>
+				<div id="collapseUtilities10" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Unidad de Riesgo:</h6>
+						<a class="collapse-item" href="cliente/listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
+						<a class="collapse-item" href="cliente/er.php" style="color: <?php echo $ndas;?>">Riesgo</a>
                     </div>
                 </div>
             </li>

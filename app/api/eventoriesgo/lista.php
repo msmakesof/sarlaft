@@ -3,14 +3,15 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/accion/accion.php';
+    include_once '../../class/eventoriesgo/eventoriesgo.php';
 
     $database = new Database();
-    $db = $database->getConnection();
+    $db = $database->getConnectionCli();
 
-    $items = new Action($db);
-
-    $stmt = $items->getAccion();
+    $items = new EventoRiesgo($db);
+	$items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
+	
+    $stmt = $items->getAll();
     $itemCount = $stmt->rowCount();
 
     if($itemCount > 0){
@@ -22,16 +23,14 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "ACC_IdAccion" => $ACC_IdAccion,
-                "ACC_Nombre" => $ACC_Nombre,
-				"ACC_IdEstado" => $ACC_IdEstado,
-                "STA_Nombre" => $STA_Nombre
+                "id" => $id,
+                "CustomerKey" => $CustomerKey,
+				"EventosdeRiesgoName" => $EventosdeRiesgoName,
+				"UserKey" => $UserKey,                
             );
-
             array_push($estadoArr["body"], $e);
         }
-        echo json_encode($estadoArr);
-    }
+        echo json_encode($estadoArr);    }
 
     else{
         http_response_code(404);

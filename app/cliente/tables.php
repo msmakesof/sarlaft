@@ -48,7 +48,7 @@ $CustomerKey = $_SESSION['Keyp'];
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: <?php echo $reg['CustomerColor'];?> !important">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -330,7 +330,8 @@ $CustomerKey = $_SESSION['Keyp'];
                                 <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                        <th class='text-center'>Nombre Plan</th>
+											<th class='text-left'>Acciones</th>
+											<th class='text-center'>Nombre Plan</th>
                                             <th class='text-center'>Nombre Responsable</th>
                                             <th class='text-left'>Plazo </th>
                                             <th class='text-left'>Cargos </th>
@@ -341,12 +342,12 @@ $CustomerKey = $_SESSION['Keyp'];
                                             <th class='text-center'>Fecha Seguimiento</th>
                                             <th class='text-center'>Fech Terminacion</th>
                                             <th class='text-center'>Avance</th>
-                                            <th class='text-left'>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th class='text-center'>Nombre Plan</th>
+                                            <th class='text-left'>Acciones</th>
+											<th class='text-center'>Nombre Plan</th>
                                             <th class='text-center'>Nombre Responsable</th>
                                             <th class='text-left'>Plazo </th>
                                             <th class='text-left'>Cargos </th>
@@ -356,8 +357,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                             <th class='text-center'>Fecha Inicio</th>
                                             <th class='text-center'>Fecha Seguimiento</th>
                                             <th class='text-center'>Fech Terminacion</th>
-                                            <th class='text-center'>Avance</th>
-                                            <th class='text-left'>Acciones</th>
+                                            <th class='text-center'>Avance</th>                                            
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -394,23 +394,11 @@ $CustomerKey = $_SESSION['Keyp'];
 								$NombreResponsableSeg=trim($data['body'][$i]['NombreResponsableSeg']);
 								$NombreResponsableApr=trim($data['body'][$i]['NombreResponsableApr']);
 								$CustomerKey=trim($data['body'][$i]['CustomerKey']);
-
                                 // Tareas por Plan y Customer
                                 //include '../curl/plan/listartareas.php';
                                 //$nrotareaes = 
 						?>	
 						<tr>
-							<td class='text-left'><?php echo $PlanesName;?></td>							
-							<td class='text-left' ><?php echo $NombreResponsable ;?></td>							
-							<td class='text-center'><?php echo $PlanesPlazo;?></td>							
-							<td class='text-left'><?php echo $CargosName ;?></td>							
-							<td class='text-left'><?php echo $PlanesNivelPrioridad;?></td>							
-							<td class='text-left'><?php echo $NombreResponsableSeg ;?></td>							
-							<td class='text-left'><?php echo $NombreResponsableApr ;?></td>
-							<td class='text-left'><?php echo $PlanesFInicio;?></td>
-							<td class='text-left'><?php echo $PlanesFSeguimiento;?></td>
-							<td class='text-left'><?php echo $PlanesFTerminacion;?></td>
-							<td class='text-center'><?php echo $PlanesAvance;?></td>
 							<td class='text-rigth'>
 								<a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $PlanesName?>" data-responsable="<?php echo $PlanesResponsable?>" 
                                 data-tarea="<?php echo $PlanesTarea?>" data-plazo="<?php echo $PlanesPlazo?>" data-aprueba="<?php echo $PlanesAprueba?>" 
@@ -426,9 +414,19 @@ $CustomerKey = $_SESSION['Keyp'];
                                 
                                 <a href="javascript:vodi(0);"  onclick="mks(<?php echo $PlanesId; ?>,'<?php echo $PlanesName; ?>')" class="tareas">
                                     <i class="fas fa-list-alt" data-toggle="tooltip" title="Gestión Tareas" style="color:green"></i>
-                                </a>
-							
+                                </a>							
 							</td>
+							<td class='text-left'><?php echo $PlanesName;?></td>							
+							<td class='text-left' ><?php echo $NombreResponsable ;?></td>							
+							<td class='text-center'><?php echo $PlanesPlazo;?></td>							
+							<td class='text-left'><?php echo $CargosName ;?></td>							
+							<td class='text-left'><?php echo $PlanesNivelPrioridad;?></td>							
+							<td class='text-left'><?php echo $NombreResponsableSeg ;?></td>							
+							<td class='text-left'><?php echo $NombreResponsableApr ;?></td>
+							<td class='text-left'><?php echo $PlanesFInicio;?></td>
+							<td class='text-left'><?php echo $PlanesFSeguimiento;?></td>
+							<td class='text-left'><?php echo $PlanesFTerminacion;?></td>
+							<td class='text-center'><?php echo $PlanesAvance;?></td>
 						</tr>
 					<?php }	
 					}

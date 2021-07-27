@@ -25,9 +25,20 @@
         // GET ALL
         public function getAll(){
             $sql = "SELECT CSC_IdConsecuencia, CSC_CustomerKey, CSC_Nombre, CSC_Escala, CSC_Color, CSC_UserKey, CSC_TipoRiesgoKey, DateStamp 
-            FROM ". $this->db_table ." ORDER BY CSC_Nombre ";
+            FROM ". $this->db_table ." ORDER BY CSC_Escala, CSC_Nombre DESC ";
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->execute();
+			return $stmt;
+        }
+		
+		// GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT CSC_IdConsecuencia, CSC_CustomerKey, CSC_Nombre, CSC_Escala, CSC_Color, CSC_UserKey, CSC_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE CSC_CustomerKey = ? ORDER BY CSC_Escala, CSC_Nombre DESC ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CSC_CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }

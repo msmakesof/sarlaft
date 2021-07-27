@@ -6,21 +6,21 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/accion/accion.php';
+include_once '../../class/procesos/procesos.php';
 
 $database = new Database();
-$db = $database->getConnection();
-$item = new Action($db);
+$db = $database->getConnectionCli();
+$item = new Procesos($db);
 
-$item->ACC_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
-$item->ACC_IdAccion = isset($_GET['id']) ? $_GET['id'] : die();
+$item->ProcesosName = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();
 
-if($item->ACC_Nombre != null){
+if($item->ProcesosName != null){
 	// create array
 	$emp_arr = array(            
-		"encontrados" => $item->ACC_Nombre
+		"encontrados" => $item->ProcesosName
 	);
   
 	http_response_code(200);

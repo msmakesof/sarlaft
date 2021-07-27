@@ -18,7 +18,7 @@
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/estado/revisarnombre.php?nombre=$estadonombre&id=0";
+		$url = $urlServicios."api/procesos/revisarnombre.php?nombre=$estadonombre&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -50,7 +50,7 @@
 		{		
 			// Si todo va bien se hace el Insert
 			$params = "NombreEstado=$estadonombre";
-			$url = $urlServicios."api/estado/crear.php?$params";			
+			$url = $urlServicios."api/procesos/crear.php?$params";			
 
 			$query = "";
 			$resultado = "";

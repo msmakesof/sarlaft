@@ -1,16 +1,19 @@
 <?php
-    class Action{
+    class Procesos{
 
         // Connection
         private $conn;
 
         // Table
-        private $db_table = "Action";
+        private $db_table = "ProcesosSarlaft";
 
         // Columns
-		public $ACC_IdAccion;
-		public $ACC_Nombre;
-		public $ACC_IdEstado;
+		public $id;
+		public $CustomerKey;
+		public $EventosdeRiesgoKey;
+		public $ProcesosName;
+		public $UserKey;
+		public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -18,10 +21,11 @@
         }
 
         // GET ALL
-        public function getAccion(){
-            $sql = "SELECT ACC_IdAccion, ACC_Nombre, ACC_IdEstado, STA_Nombre FROM ". $this->db_table ." 
-            JOIN State ON State.STA_IdEstado = ACC_IdEstado ORDER BY ACC_Nombre ";            
+        public function getAll(){
+            $sql = "SELECT id, CustomerKey, ProcesosName, UserKey FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY ProcesosName ";
+            //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->bindParam(1, $this->CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }
@@ -46,24 +50,24 @@
 
         // Busca Nombre para controlar Duplicados
         public function getBuscaNombre(){
-            $sql = "SELECT count(ACC_IdAccion) AS ACC_Nombre
+            $sql = "SELECT count(id) AS ProcesosName
                       FROM ". $this->db_table ."
-                    WHERE ACC_Nombre = ? AND ACC_IdAccion <> ? ";
+                    WHERE ProcesosName = ? AND id <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->ACC_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->ProcesosName, PDO::PARAM_STR);
+			$stmt->bindParam(2, $this->id, PDO::PARAM_INT);
 
             $stmt->execute();
 
             $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            $this->ACC_Nombre = $dataRow['ACC_Nombre'];
+            $this->ProcesosName = $dataRow['ProcesosName'];
         }
 		
 		// CREATE
-		public function createAccion(){
+		public function create(){
 			$sqlQuery = "INSERT INTO ". $this->db_table ." (ACC_Nombre, ACC_IdEstado ) VALUES ( :nombreaccion , :idestado )";
 			//echo $sqlQuery ;
 			

@@ -30,6 +30,17 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+        // GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT NIR_IdNivelRiesgo, NIR_CustomerKey, NIR_Nombre, NIR_Color, NIR_UserKey, NIR_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE NIR_CustomerKey = ? ORDER BY NIR_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->bindParam(1, $this->NIR_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
 		
 		// READ single ID
         public function getIdFR(){

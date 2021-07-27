@@ -30,6 +30,17 @@
 			return $stmt;
         }
 		
+		// GET ALL
+        public function getCkAll(){
+            $sql = "SELECT TIR_IdTipoRiesgo, TIR_CustomerKey, TIR_Nombre, TIR_UserKey, TIR_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE TIR_CustomerKey = ? ORDER BY TIR_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->TIR_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+		
 		// READ single ID
         public function getIdFR(){
             $sql = "SELECT TOP 1 ACC_IdAccion, ACC_Nombre, ACC_IdEstado FROM ". $this->db_table ." WHERE ACC_IdAccion = ? ";			
