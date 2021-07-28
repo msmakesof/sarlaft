@@ -309,7 +309,7 @@
                         <a class="collapse-item" href="../Tiposriesgo.php" style="color: <?php echo $nads;?>">Tipos de Riesgo</a>
                         <a class="collapse-item" href="../Factoresriesgo.php" style="color: <?php echo $nbos;?>">Factores de Riesgo</a>
                         <a class="collapse-item" href="../RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>						
-						<a class="collapse-item" href="../Realizado.php" style="color: <?php echo $ndas;?>">Realizado</a>
+						<a class="collapse-item" href="../Escalacalificacion.php" style="color: <?php echo $ndas;?>">Escala Calificación</a>
                     </div>
                 </div>
             </li>			

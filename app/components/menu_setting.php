@@ -267,11 +267,11 @@
                 </div>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="Escalas.php">
                     <i class="fas fa-balance-scale"></i>
                     <span>Escalas</span></a>
-            </li>                       
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
                     aria-expanded="true" aria-controls="collapseUtilities4">
@@ -291,7 +291,7 @@
                         <a class="collapse-item" href="Tiposriesgo.php" style="color: <?php echo $nads;?>">Tipos de Riesgo</a>
                         <a class="collapse-item" href="Factoresriesgo.php" style="color: <?php echo $nbos;?>">Factores de Riesgo</a>
                         <a class="collapse-item" href="RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>
-						<a class="collapse-item" href="Realizado.php" style="color: <?php echo $ndas;?>">Realizado</a>
+						<a class="collapse-item" href="Escalacalificacion.php" style="color: <?php echo $ndas;?>">Escala Calificación</a>
                     </div>
                 </div>
             </li>
