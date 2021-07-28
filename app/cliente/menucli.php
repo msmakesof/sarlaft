@@ -293,7 +293,7 @@
 			 <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
                     aria-expanded="true" aria-controls="collapseUtilities4">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-cubes"></i>
                     <span>Parametrización</span>
                 </a>
 				<div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
@@ -316,7 +316,7 @@
 			<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities9"
                     aria-expanded="true" aria-controls="collapseUtilities4">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-chart-line"></i>
                     <span>Planes</span>
                 </a>
 				<div id="collapseUtilities9" class="collapse" aria-labelledby="headingUtilities"
@@ -324,15 +324,16 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Generación del Plan:</h6>  
                         <!-- <a class="collapse-item" href="interseccion.php" style="color: <?php echo $ndas;?>">Intersección</a>-->
-						<a class="collapse-item" href="listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
+						<a class="collapse-item" href="./listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
 						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>
+						<a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
                     </div>
                 </div>
             </li>
 			<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities10"
                     aria-expanded="true" aria-controls="collapseUtilities4">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-bolt"></i>
                     <span>Riesgo</span>
                 </a>
 				<div id="collapseUtilities10" class="collapse" aria-labelledby="headingUtilities"
@@ -340,6 +341,25 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Unidad de Riesgo:</h6>                       
 						<a class="collapse-item" href="./er.php" style="color: <?php echo $ndas;?>">Riesgo</a>
+                    </div>
+                </div>
+            </li>
+			
+			<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities19"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-tools"></i>
+                    <span>Herramientas</span>
+                </a>
+				<div id="collapseUtilities19" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Herramientas:</h6>  
+                        <a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">DashBoard</a>
+						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Matriz Riesgos</a>
+						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Mapa de Calor</a>
+						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Informe General</a>
+						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Reporte Eventos</a>
                     </div>
                 </div>
             </li>
@@ -373,7 +393,8 @@
                     </div>
                 </div>
             </li> -->
-
+			<!-- Divider -->
+            <hr class="sidebar-divider">
             <li class="nav-item">
                 <a class="nav-link collapsed" href="../Clientes.php">
                     <i class="fas fa-home"></i>

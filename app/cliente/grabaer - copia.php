@@ -44,8 +44,6 @@ $trafinicio ="";
 $traffinal ="";
 $trafseguir ="";
 $nro=0;
-$mtra=[];
-$insert_TRA="";
 foreach($js as $key=>$value){
 	if(is_array($value)){
 		//echo "\n m....".$key . ': ' . '<br>';
@@ -53,53 +51,10 @@ foreach($js as $key=>$value){
 		
 		foreach($value as $key2=>$value2){
 			echo "\n key2....".$key2 . ': ' . '<br>';
-			//echo "filas key2..".count($value2).'<br>';
-			
-			if($key2 == "CON"){
-				echo "filas key2..".count($value2).'<br>';
-				foreach($value2 as $key3=>$value3){
-					echo "\n key3....".$key3 . ': ' .'<br>';
-					echo "filas key3..".count($value3).'<br>';
-					
-					foreach($value3 as $key4=>$value4){
-						echo "$key4......$value4<br>";						
-					}
-				}				
-			}
-			
-			if($key2 == "TRA"){
-				$m="";
-				echo "filas key2..".count($value2).'<br>';
-				foreach($value2 as $key3=>$value3){
-					echo "\n key3....".$key3 . ': ' .'<br>';
-					echo "filas key3..".count($value3).'<br>';
-					//$f=1;
-					foreach($value3 as $key4=>$value4){
-						echo "$key4......$value4<br>";
-						$m .= $value4.' , ' ;
-						//array_push($mtra, $value4);
-						/*
-						if($f<=count($value3))
-						{
-							
-						}
-						else{
-							$insert_TRA.="insert into...($m);";
-							$m="";
-						}
-						$f++;
-						*/
-					}					
-				}
-				echo $m."<br>";
-				//echo "<br>insertra...".$insert_TRA."<br>";
-				//print_r($mtra);
-			}
 			
 			foreach($value2 as $key3=>$value3){
-				//echo "\n key3....".$key3 . ': ' .'<br>';
-				//echo "filas key3..".count($value3).'<br>';
-				
+				echo "\n key3....".$key3 . ': ' .'<br>';
+				echo count($value3).'<br>';
 				foreach($value3 as $key4=>$value4){
 					//echo "\n key4....".$key4 . ': ' . $value4 .'<br>';
 					
@@ -189,8 +144,8 @@ foreach($js as $key=>$value){
 							//echo "nx0...".$value3[0]."<br>";
 							//echo "nx1...".$value3[1]."<br>";
 						//}
-						//echo $nro++;
-						//echo "<br>";
+						echo $nro++;
+						echo "<br>";
 							/*
 							switch ($key4) {								
 								case "fecini":

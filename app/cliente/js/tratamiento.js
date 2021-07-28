@@ -10,22 +10,16 @@ $("#addtra").on('click', function(){
 		var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
 		slct = '<div style="width:100%; float:left"><select class="form-control trata" id="trata" name="trata">';					
 		slct += opc;
-		slct += '</select></div>'; ////+ delet ;
+		slct += '</select></div>';
 		itemtratamiento = itemtratamiento + 1;
+		var nro =itemtratamiento;
 		
 		var tabla="";
-		tabla+='<tr id="TRA'+itemtratamiento+'">';
-		//tabla+='<td style="width:10%"></td>';
-		tabla+='<td style="width:100%">'+ slct + '<br>';   // + '</td>';
-		//tabla+='<td style="width:10%"></td>';
-		//tabla+='</tr>';
+		tabla+='<tr id="TRA'+itemtratamiento+'">';		
+		tabla+='<td style="width:100%">'+ slct + '<br>'; 
 		
-		var tablainterna=''; //<table id="tratainterna">';
-		//tablainterna+= '<thead>';		
-		
-		//tablainterna+= '</thead>';
-		tablainterna+= '<tbody id="tbody">';
-		//tablainterna+= tabla;
+		var tablainterna=''; 
+		tablainterna+= '<tbody id="tbody">';		
 			tablainterna+= '<tr id="TRA'+itemtratamiento+'">';
 				tablainterna+= '<td colspan="3">';
 					
@@ -35,77 +29,30 @@ $("#addtra").on('click', function(){
 								tablainterna+= slct + '<br>';
 								
 								tablainterna+= '<div style="clear:both; width:100%"> </div>';
-								tablainterna+= '<div style="float:left; width:13%">Estatus</div>';
-								tablainterna+= '<div style="float:left; width:13%">Prioridad</div>';
-								tablainterna+= '<div style="float:left; width:17%">Fecha Inicial</div>';
-								tablainterna+= '<div style="float:left; width:17%">Fecha Final</div>';
-								tablainterna+= '<div style="float:left; width:17%">Fecha Seguimiento</div>';
-								tablainterna+= '<div style="float:left; width:23%">Plan Acción</div>';
+								tablainterna+= '<div style="float:left; width:13%; text-align:center">Estatus</div>';
+								tablainterna+= '<div style="float:left; width:13%; text-align:center">Prioridad</div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center">Fecha Inicial</div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center">Fecha Final</div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center">Fecha Seguimiento</div>';
+								tablainterna+= '<div style="float:left; width:23%; text-align:center">Plan Acción</div>';
 								tablainterna+= '<div style="clear:both; width:100%"> </div>';
 								
-								tablainterna+= '<div style="float:left; width:13%"><select class="tratastatus" id="tratastatus" name="tratastatus"><option value="">Seleccione</option><option value="1">Registrado</option><option value="2">Diferido</option><option value="3">Corregido</option></select></div>';
-								tablainterna+= '<div style="float:left; width:13%"><select class="tratapriori" id="tratapriori" name="tratapriori"><option value="">Seleccione</option><option value="1">Alto</option><option value="2">Medio</option><option value="3">Bajo</option></select></div>';
-								tablainterna+= '<div style="float:left; width:17%"><input type="date" class="input-sm tratafinicio" id="tratafinicio" size="10" maxlength="10" style="width: 144px; fontSize:12px"/></div>';
-								tablainterna+= '<div style="float:left; width:17%"><input type="date" class="input-sm trataffinal" id="trataffinal" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
-								tablainterna+= '<div style="float:left; width:17%"><input type="date" class="input-sm tratafseg" id="tratafseg" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
-								tablainterna+= '<div style="float:left; width:23%">Plan Acción</div>';
-
-								
-								
-									/*tablainterna+= '<table>';
-									tablainterna+= '<tr style="text-align:center">';
-									tablainterna+= '<td style="width:10%">Estatus</td>';
-									tablainterna+= '<td style="width:10%">Prioridad</td>';
-									tablainterna+= '<td style="width:15%">Fecha Inicial</td>';
-									tablainterna+= '<td style="width:15%">Fecha Final</td>';
-									tablainterna+= '<td style="width:15%">Fecha Seguimiento</td>';
-									tablainterna+= '<td style="width:35%">Plan Acción</td>';
-									tablainterna+= '</tr>';		
-									tablainterna+= '<tr>';
-									tablainterna+= '<td style="width:10%"><select class="tratastatus" id="tratastatus" name="tratastatus"><option value="">Seleccione</option><option value="1">Registrado</option><option value="2">Diferido</option><option value="3">Corregido</option></select></td>';
-									tablainterna+= '<td style="width:10%"><select class="tratapriori" id="tratapriori" name="tratapriori"><option value="">Seleccione</option><option value="1">Alto</option><option value="2">Medio</option><option value="3">Bajo</option></select></td>';
-									tablainterna+= '<td style="width:15%"><input type="date" class="input-sm tratafinicio" id="tratafinicio" size="10" maxlength="10" style="width: 144px; fontSize:12px"/></td>';
-									tablainterna+= '<td style="width:15%"><input type="date" class="input-sm trataffinal" id="trataffinal" size="10" maxlength="10" style="width:144px; fontSize:12px"/></td>';
-									tablainterna+= '<td style="width:15%"><input type="date" class="input-sm tratafseg" id="tratafseg" size="10" maxlength="10" style="width:144px; fontSize:12px"/></td>';
-									tablainterna+= '<td style="width:35%"></td>';
-									tablainterna+= '</tr>';
-									tablainterna+= '</table>';*/
-									
-						
+								tablainterna+= '<div style="float:left; width:13%; text-align:center"><select class="tratastatus" id="tratastatus'+nro+'" name="tratastatus"><option value="">Seleccione</option><option value="1">Registrado</option><option value="2">Diferido</option><option value="3">Corregido</option></select></div>';
+								tablainterna+= '<div style="float:left; width:13%; text-align:center"><select class="tratapriori" id="tratapriori'+nro+'" name="tratapriori"><option value="">Seleccione</option><option value="1">Alto</option><option value="2">Medio</option><option value="3">Bajo</option></select></div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm tratafinicio" id="tratafinicio'+nro+'" size="10" maxlength="10" style="width: 144px; fontSize:12px"/></div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm trataffinal" id="trataffinal'+nro+'" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
+								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm tratafseg" id="tratafseg'+nro+'" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
+								tablainterna+= '<div style="float:left; width:23%; text-align:center">Plan Acción</div>';
+													
 							tablainterna+= '</td>';
 						tablainterna+= '</tr>';
 					tablainterna+= '</table>';
-					tablainterna+= delet ;
-					
+					tablainterna+= delet ;					
 					
 				tablainterna+= '</td>';			
 			tablainterna+= '</tr>';
 		tablainterna+= '</tbody>';
-		//tablainterna+='</table>';
-		
-		//$("#tabtra").append('<tr id="TRA'+itemtratamiento+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		
-		//var delet='<div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>'; tratainterna
-		
-		/* Original
-		var tabla="";
-		tabla+='<tr id="TRA'+itemtratamiento+'">';
-		//tabla+='<td style="width:10%"></td>';
-		tabla+='<td colspan="3" style="width:100%">'+ slct + '<br>' + tablainterna + '</td>';
-		//tabla+='<td style="width:10%"></td>';
-		tabla+='</tr>';
-		$("#tabtra").append(tabla);  + slct + '<br>' + tablainterna + */
-		
-		/*var tabla="";
-		tabla+='<tr id="TRA'+itemtratamiento+'">';
-		tabla+='<td colspan="3" style="width:100%">';
-		tabla+='<table id="tratainterna">';
-		tabla+='<tbody><tr>';
-		tabla+='<td>'+ slct + '<br>' + tablainterna +'</td>';
-		tabla+='</tr></tbody>';
-		tabla+='</table>';
-		tabla+='</td>';
-		tabla+='</tr>';*/
+
 		$("#tabtra").append(tablainterna);
 		
 		$('.delete').off().click(function(e) {
@@ -113,9 +60,6 @@ $("#addtra").on('click', function(){
 		});
 	})
 })
-
-//$('#tratafinicio').mask("99/99/9999", {placeholder: 'dd/mm/yyyy' })
-//$("#date1").mask("99/99/9999", {placeholder: 'dd/mm/yyyy'});
 
 $('#addTratamientoModal').on('show.bs.modal', function (event) {
 	$('#TratamientosName2').val('')
