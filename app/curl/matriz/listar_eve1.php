@@ -1,7 +1,9 @@
 <?php
 //include 'ajax/is_logged.php';
+
+$CustomerKey = $_POST['ck'];
 // mks 20210516  verificar cUrl
-require_once '../config/dbx.php';
+require_once '../../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
@@ -185,7 +187,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
 						<td rowspan="2" style="width:60%">
 							<div class="tituloMat2" style="text-align:center">CONSECUENCIA</div>
-							<?php include 'matriz.php'?>
+							<?php include('matriz.php'); ?>
 						</td>
 					</tr>
 					<tr>
@@ -211,7 +213,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
 						<td rowspan="2" style="width:60%">
 							<div class="tituloMat2" style="text-align:center">CONSECUENCIA</div>
-							<?php include 'matriz.php'?>
+							<?php include('matriz.php'); ?>
 						</td>
 					</tr>
 					<tr>

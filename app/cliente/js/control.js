@@ -1,7 +1,20 @@
 let CKCtr = global.key;
 let itemcontrol = 0
+var slctresp = '';
+var selDocmun = '';
+var selAplica = '';
+var selEfec = '';
+var selEval = '';
+var opcesca = ''; 
+let valpromedio = 0;
+let valdocum = 0;
+let valaplica = 0;
+let valefec = 0;
+let valeval = 0;
 $("#addctr").on('click', function(){
 	let slct = '';
+	itemcontrol = itemcontrol + 1;
+	
 	$.get("../api/controles/lista_eve.php", {ck: CKCtr  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
@@ -10,14 +23,40 @@ $("#addctr").on('click', function(){
 		//var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
 		slct = '<div style="width:100%; float:left"><select class="form-control control" id="control" name="control">';					
 		slct += opc;
-		slct += '</select></div>';
+		slct += '</select></div>';	
+		
+		$.get("../api/escalacalificacion/lista_eve.php", {ck: CKCtr }, function(escala){			
+			opcesca = "<option value=''>Seleccione</option>";
+			$.each(escala.body, function(i, item) {
+				opcesca +="<option value='"+ item.ESC_IdEscalaCalificacion +"'>"+ item.ESC_Valor +"</option>";
+			})
+			selDocmun ='';
+			selDocmun += '<select class="seldocum" id="seldocum'+itemcontrol+'" name="seldocum'+itemcontrol+'">';
+			selDocmun += opcesca;
+			selDocmun += '</select>';
+			
+			selAplica = '';
+			selAplica += '<select class="selaplica" id="selaplica'+itemcontrol+'" name="selaplica'+itemcontrol+'">';
+			selAplica += opcesca;
+			selAplica += '</select>';
+			
+			selEfec = '';
+			selEfec += '<select class="selefec" id="selefec'+itemcontrol+'" name="selefec'+itemcontrol+'">';
+			selEfec += opcesca;
+			selEfec += '</select>';
+			
+			selEval = '';
+			selEval += '<select class="seleval" id="seleval'+itemcontrol+'" name="seleval'+itemcontrol+'">';
+			selEval += opcesca;
+			selEval += '</select>';
+			
+		//})		
 	
-	
-		var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
-		itemcontrol = itemcontrol + 1;
-			var slctresp = '';
+			var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
+			slctresp = '';
 			$.get("../api/responsables/lista_eve.php", {ck: CKCtr }, function(resp){			
-				var opcresp = "<option value=''>Seleccione opción</option>";
+				var opcresp = "<option value=''>Seleccione</option>";
 				$.each(resp.body, function(i, item) {
 					opcresp +="<option value='"+ item.ResponsablesId +"'>"+ item.ResponsablesName +"</option>";
 				});
@@ -25,6 +64,7 @@ $("#addctr").on('click', function(){
 				slctresp += opcresp;
 				//slctresp += '</select>';
 				//alert(slctresp);
+		    //})
 			
 				var tablainterna='';
 				tablainterna+= '<tbody id="tbody">';
@@ -52,20 +92,39 @@ $("#addctr").on('click', function(){
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
 										tablainterna+= '<select class="ctrejecutor" id="ctrejecutor" name="ctrejecutor">'+ slctresp;
 										tablainterna+= '</select></div>';
-										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrefectividad" id="ctrefectividad" name="ctrefectividad"><option value="">Seleccione</option></select></div>';
-										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrfrecuencia" id="ctrfrecuencia" name="ctrfrecuencia"><option value="">Seleccione</option></select></div>';
-										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrcategoria" id="ctrcategoria" name="ctrcategoria"><option value="">Seleccione</option><option value="A">Ambas</option></select></div>';
+										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrefectividad" id="ctrefectividad" name="ctrefectividad"><option value="">Seleccione</option><option value="1">Adecuado</option>><option value="2">Bueno</option></select></div>';
+										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrfrecuencia" id="ctrfrecuencia" name="ctrfrecuencia"><option value="">Seleccione</option><option value="1">Diario</option><option value="2">Semanal</option></select></div>';
+										tablainterna+= '<div style="float:left; width:17%; text-align:center"><select class="ctrcategoria" id="ctrcategoria" name="ctrcategoria"><option value="">Seleccione</option><option value="P">Preventivo</option><option value="C">Correctivo</option><option value="A">Ambas</option></select></div>';
 										tablainterna+= '<div style="float:left; width:15%; text-align:center"><select class="ctrrealizado" id="ctrrealizado" name="ctrrealizado"><option value="">Seleccione</option><option value="S">Si</option><option value="N">No</option></select></div>';
 										
 										tablainterna+= '<div style="clear:both; width:100%">&nbsp;</div>';
 										tablainterna+= '<div style="clear:both; width:100%; text-align:center; background-color: #D3D3D3;"> Calificación del Control </div>';
-										tablainterna+= '<div style="float:left; width:13%; text-align:center">Documentado</div>';
-										tablainterna+= '<div style="float:left; width:13%; text-align:center">Aplicado</div>';
-										tablainterna+= '<div style="float:left; width:17%; text-align:center">Efectivo</div>';
-										tablainterna+= '<div style="float:left; width:17%; text-align:center">Evaluado</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">Documentado</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">Aplicado</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">Efectivo</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">Evaluado</div>';
 										tablainterna+= '<div style="float:left; width:17%; background-color: #D3D3D3; text-align:center">Promedio</div>';
 										tablainterna+= '<div style="float:left; width:23%; background-color: #D3D3D3; text-align:center">Calificación</div>';
 										tablainterna+= '<div style="clear:both; width:100%"> </div>';
+										
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">';
+										tablainterna+= selDocmun ;
+										tablainterna+= '</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">';
+										tablainterna+= selAplica ;
+										tablainterna+= '</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">';
+										tablainterna+= selEfec ;
+										tablainterna+= '</div>';
+										tablainterna+= '<div style="float:left; width:15%; text-align:center">';
+										tablainterna+= selEval ;
+										tablainterna+= '</div>';
+										tablainterna+= '<div style="float:left; width:17%; text-align:center !important">';
+										tablainterna+= '<input type="text" id="promedio'+itemcontrol+'" maxlength="10" style="background-color: #D3D3D3; text-align:center" readonly/>' ;
+										tablainterna+= '</div>';
+										tablainterna+= '<div style="float:left; width:23%; text-align:center">';
+										tablainterna+= '<input type="text" id="calificacion'+itemcontrol+'" maxlength="10" readonly/>' ;
+										tablainterna+= '</div>';
 							
 									tablainterna+= '</td>';
 								tablainterna+= '</tr>';
@@ -77,16 +136,162 @@ $("#addctr").on('click', function(){
 					tablainterna+= '</tr>';
 				tablainterna+= '</tbody>';
 
-			$("#tabctr").append(tablainterna);
+				$("#tabctr").append(tablainterna);
+				
+				$('.delete').off().click(function(e) {
+					$(this).parent('td').parent('tr').remove();			
+				});
+				
+				var infodocumtxt = 0;
+				var infoaplicatxt = 0;
+				var infoefectxt = 0;
+				var infoevaltxt = 0;
+				
+				$("#seldocum"+itemcontrol).on('change', function(){
+					//valdocum = $(this).val()	
+					var infodocum = $(this).children("option:selected").val();
+					infodocumtxt = $(this).children("option:selected").text();
+					
+					var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+					infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+					
+					var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+					infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+					
+					var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+					infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+					
+					infodocumtxt = parseInt(infodocumtxt);
+					infoaplicatxt =parseInt(infoaplicatxt);
+					infoefectxt = parseInt(infoefectxt);
+					infoevaltxt = parseInt(infoevaltxt);
+					//alert(infodocum+'  '+infoaplica);
+					var contar = 0;
+					var sumatoria = 0;
+					var totpromedio = 0;
+					if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+					if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+					if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+					if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+					//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+					//alert("sum..."+sumatoria+"  / contar..."+contar);
+					totpromedio = sumatoria/contar ;
+					totpromedio = Math.round(totpromedio);
+					$("#promedio"+itemcontrol).val( totpromedio )
+				})
+				
+				$("#selaplica"+itemcontrol).on('change', function(){
+					//valaplica = $(this).val()	
+					var infoaplica = $(this).children("option:selected").val();
+					infoaplicatxt = $(this).children("option:selected").text();
+					
+					var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+					infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+					
+					var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+					infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+					
+					var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+					infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+					
+					infodocumtxt = parseInt(infodocumtxt); 
+					infoaplicatxt =parseInt(infoaplicatxt);
+					infoefectxt = parseInt(infoefectxt);  
+					infoevaltxt = parseInt(infoevaltxt);  
+					//alert(infodocum+'  '+infoaplica);
+					var contar = 0;
+					var sumatoria = 0;
+					var totpromedio = 0;
+					if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+					if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+					if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+					if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+					//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+					//alert("sum..."+sumatoria+"  / contar..."+contar);
+					totpromedio = sumatoria/contar ;
+					totpromedio = Math.round(totpromedio);
+					$("#promedio"+itemcontrol).val( totpromedio )
+				})
+				
+				$("#selefec"+itemcontrol).on('change', function(){
+					//valaplica = $(this).val()	
+					var infoefec = $(this).children("option:selected").val();
+					infoefectxt = $(this).children("option:selected").text();
+					
+					var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+					infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+					
+					var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+					infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+					
+					var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+					infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+					
+					infodocumtxt = parseInt(infodocumtxt); 
+					infoaplicatxt =parseInt(infoaplicatxt);
+					infoefectxt = parseInt(infoefectxt);  
+					infoevaltxt = parseInt(infoevaltxt);  
+					//alert(infodocum+'  '+infoaplica);
+					var contar = 0;
+					var sumatoria = 0;
+					var totpromedio = 0;
+					if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+					if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+					if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+					if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+					//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+					//alert("sum..."+sumatoria+"  / contar..."+contar);
+					totpromedio = sumatoria/contar ;
+					totpromedio = Math.round(totpromedio);
+					$("#promedio"+itemcontrol).val( totpromedio )
+				})
+				
+				$("#seleval"+itemcontrol).on('change', function(){
+					//valaplica = $(this).val()	
+					var infoeval = $(this).children("option:selected").val();
+					infoevaltxt = $(this).children("option:selected").text();
+					
+					var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+					infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+					
+					var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+					infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+					
+					var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+					infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+					
+					infodocumtxt = parseInt(infodocumtxt); 
+					infoaplicatxt =parseInt(infoaplicatxt);
+					infoefectxt = parseInt(infoefectxt);  
+					infoevaltxt = parseInt(infoevaltxt);  
+					//alert(infodocum+'  '+infoaplica);
+					var contar = 0;
+					var sumatoria = 0;
+					var totpromedio = 0;
+					if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+					if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+					if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+					if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+					//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+					//alert("sum..."+sumatoria+"  / contar..."+contar);
+					totpromedio = sumatoria/contar ;
+					totpromedio = Math.round(totpromedio);
+					$("#promedio"+itemcontrol).val( totpromedio )
+				})
 			
-			$('.delete').off().click(function(e) {
-				$(this).parent('td').parent('tr').remove();			
-			});
+			})   // select responsables
 		
-		})
+		})  //seldocum, selAplica ...
 		
-	})
+	})	// select Controles
+	
+	
+			function fpromedio(){
+				
+			}
 })
+
+/**/
 
 $('#addControlModal').on('show.bs.modal', function (event) {
 	$('#ControlesName2').val('')

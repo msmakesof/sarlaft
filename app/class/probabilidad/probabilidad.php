@@ -35,7 +35,7 @@
 		// GET ALL por CK
         public function getCkAll(){
             $sql = "SELECT PRO_IdProbabilidad, PRO_CustomerKey, PRO_Nombre, PRO_Escala, PRO_Color, PRO_UserKey, PRO_TipoRiesgoKey, DateStamp 
-            FROM ". $this->db_table ." WHERE PRO_CustomerKey = ? ORDER BY PRO_Nombre ";
+            FROM ". $this->db_table ." WHERE PRO_CustomerKey = ? ORDER BY PRO_Escala DESC ";
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->bindParam(1, $this->PRO_CustomerKey);

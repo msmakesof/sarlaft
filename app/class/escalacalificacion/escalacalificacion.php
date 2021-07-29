@@ -30,6 +30,17 @@
 			return $stmt;
         }
 		
+		// GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT ESC_IdEscalaCalificacion, ESC_Valor, ESC_CustomerKey, ESC_EscalaKey, ESC_UserKey
+            FROM ". $this->db_table ." WHERE ESC_CustomerKey = ? ORDER BY ESC_Valor ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->ESC_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+		
 		// READ single ID
         public function getIdFR(){
             $sql = "SELECT TOP 1 ACC_IdAccion, ACC_Nombre, ACC_IdEstado FROM ". $this->db_table ." WHERE ACC_IdAccion = ? ";			

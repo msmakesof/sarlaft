@@ -21,50 +21,16 @@ table.gen td{
 	border-style: solid;
 	padding: 3px;
 }
-
-.celda {
-margin:0 auto;
-text-align:center;
-}
 </style>
 <?php
-//Prametros para mover la bolita
-	if( isset($_POST["pfila"]) && $_POST["pfila"] > 0 ){
-		$posfil = $_POST["pfila"];
-		//$poscol = 1;
-	}
-	else {
-		$posfil = 0;
-	}
 
-	if( isset($_POST["pcols"]) && $_POST["pcols"] > 0 ){
-		$poscol = $_POST["pcols"];
-		//$posfil = 1;
-	}
-	else {
-		$poscol = 0;
-	}
-	
-	if( isset($_POST["ck"]) && $_POST["ck"] != "" ){
-		$CustomerKey=$_POST["ck"];
-	}
-	else{
-		$CustomerKey=$CustomerKey;
-	}	
-	
-	if( isset($_POST["ruta"]) && $_POST["ruta"] != "" ){
-		$ruta=$_POST["ruta"];
-	}
-	else{
-		$ruta="";
-	}
-	
-//echo "posfil....$posfil<br>";
-//echo "poscol....$poscol<br>";
-//echo "ck...".$CustomerKey;
+//if(isset($fil))
+//include '../ajax/is_logged.php';
 
+
+////$CustomerKey=$_SESSION['Keyp'];
 // mks 20210516  verificar cUrl
-require_once $ruta.'../config/dbx.php';
+require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
@@ -132,13 +98,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
-						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';	
+						$condimg = '<img src="../../img/circle.png" width="16px" height="16px">';	
 					} 
 					else { 
 						$condimg = "&nbsp;"; 
 					}
 
-					$tabla.="<td id='".$id."' style='". $color ."; vertical-align:middle;'>" . $condimg . "</td>";
+					$tabla.="<td id='".$id."' class='celda' style='". $color ."; text-align:center'>" . $condimg . "</td>";
 				}
 				$m--;
 				$tabla.="</tr>";
@@ -149,5 +115,4 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	}
 	//return $dataintermatriz;
 }
-
 ?>
