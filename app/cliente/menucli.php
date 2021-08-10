@@ -230,6 +230,22 @@
                 </div>
             </li>
 			<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities17"
+                    aria-expanded="true" aria-controls="collapseUtilities4">
+                    <i class="fas fa-cubes"></i>
+                    <span>Contexto</span>
+                </a>
+				<div id="collapseUtilities17" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Información Básica:</h6>
+						<a class="collapse-item" href="../Infobasica.php" style="color: <?php echo $ndas;?>">Información Básica</a>
+						<a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
+						<a class="collapse-item" href="../Contexto.php" style="color: <?php echo $ndas;?>">Contexto Interno y Externo</a>
+                    </div>
+                </div>
+            </li>
+			<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
@@ -290,7 +306,7 @@
                     </div>
                 </div>
             </li>
-			 <li class="nav-item">
+			<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
                     aria-expanded="true" aria-controls="collapseUtilities4">
                     <i class="fas fa-cubes"></i>
@@ -325,8 +341,7 @@
                         <h6 class="collapse-header">Generación del Plan:</h6>  
                         <!-- <a class="collapse-item" href="interseccion.php" style="color: <?php echo $ndas;?>">Intersección</a>-->
 						<a class="collapse-item" href="./listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
-						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>
-						<a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
+						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>						
                     </div>
                 </div>
             </li>

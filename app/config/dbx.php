@@ -66,7 +66,8 @@
 			$this->conn = null;
 			$this->a = $par1;
 			//$connectionInfo = array( "Database"=>'E'.$a.'', "UID"=>"sa", "PWD"=>"Answer934@");    // Esta es la conexion para los clientes
-			$this->connectionInfo = array( "Database"=>$this->db_nameCli, "UID"=>$this->username, "PWD"=>$this->password);      // Esta es la conexion standar
+			$this->connectionInfo = array( "Database"=>$this->db_nameCli, "UID"=>$this->username, "PWD"=>$this->password, 
+                           "CharacterSet" => "UTF-8");      // Esta es la conexion standar
 			$this->conn = sqlsrv_connect( $this->hostpc, $this->connectionInfo);
 
 			if( $this->conn ) {
