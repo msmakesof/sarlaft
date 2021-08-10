@@ -23,7 +23,7 @@ $reg=sqlsrv_fetch_array($query_empresa);
 
                 <?php include 'components/infobasica/content.php';?>
             </div>
-                <?php include 'components/footer.php';?>
+                <?php //include 'components/footer.php';?>
         </div>
 
     </div>

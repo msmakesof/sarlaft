@@ -29,6 +29,10 @@ text-align:center;
 </style>
 <?php
 //Prametros para mover la bolita
+	if( isset($_POST["er"]) && $_POST["er"] > 0 ){
+		$er = $_POST["er"];
+	}
+	
 	if( isset($_POST["pfila"]) && $_POST["pfila"] > 0 ){
 		$posfil = $_POST["pfila"];
 		//$poscol = 1;
@@ -50,7 +54,14 @@ text-align:center;
 	}
 	else{
 		$CustomerKey=$CustomerKey;
-	}	
+	}
+	
+	if( isset($_POST["uk"]) && $_POST["uk"] != "" ){
+		$UserKey=$_POST["uk"];
+	}
+	else{
+		$UserKey=$UserKey;
+	}
 	
 	if( isset($_POST["ruta"]) && $_POST["ruta"] != "" ){
 		$ruta=$_POST["ruta"];
@@ -133,6 +144,46 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
 						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';	
+						$PosicioActualFils = $posfil;
+						$PosicioActualCols = $poscol;
+						
+						// Aki verifico si la matriz de control tiene movimiento
+						$mov_filri=0;
+						$mov_colri=0;
+						$getConnectionCli2 = new Database();
+						$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+						
+						// Inserto registro en Movimiento Matriz Riesgo Inherente
+						date_default_timezone_set("America/Bogota");
+						$DateStamp=date("Y-m-d H:i:s");						
+						$sqlmov="INSERT INTO MOV_MatrizInherente (MOV_IdEventoMRI, MOV_FilaMRI, MOV_ColumnaMRI, MOV_CustomerKeyMRI, MOV_DateStampMRI, MOV_UserKeyMRI) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."')";
+						$query = sqlsrv_query($conn,$sqlmov);
+						
+						
+						$mov_filrc = 0;
+						$mov_colrc = 0;
+						$TieneControl="";
+						//$sqlmov=sqlsrv_query($conn,"SELECT MOV_FilaMRC, MOV_ColumnaMRC FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er);
+						$sqlmov=sqlsrv_query($conn,"SELECT TOP 1 MOV_TieneControlMRC FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." ORDER BY MOV_IdMovimientoMRC DESC ");
+						$reg = sqlsrv_fetch_array($sqlmov);
+						//echo "sqlmov...$sqlmov<br>";
+						//if($sqlmov){							
+							
+							////$mov_filrc = $reg['MOV_FilaMRC'];
+							////$mov_colrc = $reg['MOV_ColumnaMRC'];
+							$TieneControl=$reg['MOV_TieneControlMRC'];
+						//}
+						//echo "mov_mri....$mov_mri   mov_mrc....$mov_mrc<br>";
+						////if( ($mov_filrc == 0 && $mov_colrc == 0) || ($mov_filrc == "" && $mov_colrc == "") ){
+						//if($TieneControl == "" || $TieneControl == "N"){
+						if($TieneControl != "S"){
+							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
+							$query = sqlsrv_query($conn,$sqlmov);
+						}
+						//if( $mov_mri > 0 ){
+						//	$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRI =$posfil, MOV_ColumnaMRI=$poscol WHERE MOV_CustomerKey=$CustomerKey AND MOV_IdEvento = $er";
+						//	$query = sqlsrv_query($conn,$sqlmov);
+						//}
 					} 
 					else { 
 						$condimg = "&nbsp;"; 

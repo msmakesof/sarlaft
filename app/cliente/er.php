@@ -1,6 +1,40 @@
 <?php include '../ajax/is_logged.php';?>
-<?php require_once '../components/sql_server.php';
-$query_empresa=sqlsrv_query($con,"SELECT id, CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+<?php 
+$UserKey=$_SESSION['UserKey'];
+//require_once '../components/sql_server.php';
+require_once '../config/dbx.php';
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+
+$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
+$regtit=sqlsrv_fetch_array($query_titulo);
+$IdTitulo = trim($regtit['TIT_IdTitulo']);
+$NombreTitulo = trim($regtit['TIT_Nombre']);
+
+$query_escalacalificacion=sqlsrv_query($conn,"SELECT TOP 1 ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey=".$_SESSION['Keyp']."");
+$regescala=sqlsrv_fetch_array($query_escalacalificacion);
+$EscalaValor = trim($regescala['ESC_Valor']);
+
+$ValorAplicado =0;
+$ValorEfectivo =0;
+$SumaAplicado_Efectivo = 0;
+$Umbral = 0;
+if ($EscalaValor == 5){
+	//$SumaAplicado_Efectivo = 20;
+	$ValorAplicado =10;
+	$ValorEfectivo =10;
+	$Umbral = 50;
+}
+else {
+	//$SumaAplicado_Efectivo = 4;
+	$ValorAplicado =2;
+	$ValorEfectivo =2;
+	$Umbral = 10;
+}
+$PosicioActualFils = 0;
+$PosicioActualCols = 0;
+
+$query_empresa=sqlsrv_query($conn,"SELECT id, CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
@@ -68,6 +102,25 @@ $consecutivo = $reg['id'].'-'.$consec2;
 		background: url('img/loader.gif') 50% 50% no-repeat rgb(249,249,249);
 		opacity: .8;
 	}
+	
+	.xxheaderMatriz {
+	  /* The important part: */
+	  position: sticky !important;
+	  top: 0 !important;
+	  
+	  /* misc styling */
+	  padding: 5px;
+	  margin-bottom: 5px;
+	  /* */
+	  background-color: lightgreen; 
+	}
+	
+	.headerMatriz {
+		position: -webkit-sticky; /* Safari */
+		position: fixed;
+		top: 80px;
+		z-index:100;
+		}
 	</style>
 </head>
 
@@ -218,7 +271,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
                         <div class="card-body">
                             <div class="xtable-responsive">
 							<form id="formap">
-								
+								<input type="hidden" id="hder">
 								<div class="form-group row">
 									<div class="col-sm-2">
                                         <label>Consecutivo</label>
@@ -278,7 +331,9 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</select>
 										</div>
 									</div>								
-									
+				
+				
+				 <div class="xheaderMatriz">
 									<div class="form-group row" id="parmatriz">
 										<div class="col-md-12">
 										<?php //include("../curl/matriz/listar_eve.php"); //
@@ -334,6 +389,24 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$sel_prob.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
 		}
 		$sel_prob.= "</select>";
+		
+		// Este es para la imagen de la matriz de inherente a Control cuando es la primera vez
+		$sel_prob11= "";
+		$sel_prob11="<select class='form-control mprob' id='prob11' name='prob11' required style='font-size:12px'>";
+		$sel_prob11.="<option value=''>Seleccione opción</option>";
+		for($i=0; $i<count($dataprob['body']); $i++)
+		{				
+			$condi = "";
+			$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
+			$color = trim($dataprob['body'][$i]["PRO_Color"]);
+			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
+				$condi = ' selected="selected" ';
+			}
+			$sel_prob11.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
+		}
+		$sel_prob11.= "</select>";
 
 		$sel_prob2="<select class='form-control mprob2' id='prob2' name='prob2' required style='font-size:12px'>";
 		$sel_prob2.="<option value=''>Seleccione opción</option>";
@@ -399,6 +472,24 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$sel_csc.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
 		}
 		$sel_csc.= "</select>";
+		
+		// Para la matriz de control cuando es imagen 
+		$sel_csc11="";
+		$sel_csc11="<select class='form-control mconsec' id='consec11' name='consec11' required style='font-size:12px'>";
+		$sel_csc11.="<option value=''>Seleccione opción</option>";
+		for($i=0; $i<count($datacsc['body']); $i++)
+		{				
+			$condicsc = "";
+			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
+			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
+			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
+			$color = trim($datacsc['body'][$i]["CSC_Color"]);
+			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
+				$condicsc = ' selected="selected" ';
+			}
+			$sel_csc11.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
+		}
+		$sel_csc11.= "</select>";
 
 		$IdItemcs2c="";
 		$sel_csc2="<select class='form-control mconsec2' id='consec2' name='consec2' required style='font-size:12px'>";
@@ -452,7 +543,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						<!-- <td> <div id="lblprob"></div> </td> -->
 						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
 						<td rowspan="2" style="width:60%">
-							<div class="tituloMat2" style="text-align:center">CONSECUENCIA</div>
+							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizz">
 							<?php include('../curl/matriz/matriz.php'); ?>
@@ -463,7 +554,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						</td>
 					</tr>
 					<tr>
-						<td class="subtitMat" style="width:35%">Consecuencia
+						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
 						<?php echo $sel_csc;?>
 						</td>
 						<!-- <td> <div id="lblconsec"></div> </td> -->
@@ -471,38 +562,89 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				</tbody>
 			</table>
 		</td>
-		<td>
+		
+		<td id="clonmatriz"> <!-- Matriz Control Imagen-->
 			<table class="table table-bordered" style="width:100%">
 				<tbody>
 					<tr>
-						<td colspan="4" class="tituloMat3" style="width:100%">MATRIZ DE RIESGO CON CONTROL</td>
+						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%">Probabilidad
+						<?php echo $sel_prob11;?>
+						</td>
+						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
+						<td rowspan="2" style="width:60%">
+							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
+							
+							<div id="matrizzControl">
+							<?php 
+							//include('../curl/matriz/matriz.php'); 
+							include('../curl/matriz/matrizcontrol.php');							
+							?>
+							</div>	
+							
+							<div id="matrizz1Control"></div>
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
+						<?php echo $sel_csc11;?>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		
+		<td id="matcon">
+			<table class="table table-bordered" style="width:100%">
+				<tbody>
+					<tr>
+						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL...
+						<?php //echo "pos Ini Filas....$PosicioActualFils.....pos Ini Cols....$PosicioActualCols"; ?>
+						</td>
 					</tr>
 					<tr>
 						<td class="subtitMat" style="width:35%">Probabilidad
 						<?php echo $sel_prob2;?>
 						</td>
-						<!-- <td> <div id="lblprob2"></div></td> -->
 						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
 						<td rowspan="2" style="width:60%">
-							<div class="tituloMat2" style="text-align:center">CONSECUENCIA</div>
-							<?php include('../curl/matriz/matriz.php'); ?>
+							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
+							
+							<div id="matrizzControlR">
+							<?php include('../curl/matriz/matrizcontrol.php'); ?>
+							</div>	
+							
+							<div id="matrizz1ControlR"></div>
+							
 						</td>
 					</tr>
 					<tr>
-						<td class="subtitMat" style="width:35%">Consecuencia
+						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
 						<?php echo $sel_csc2;?>
-						</td>
-						<!-- <td> <div id="lblconsec2"> </td> -->
+						</td>			
 					</tr>
 				</tbody>
 			</table>
 		</td>
+		
 	</tr>
-</table>
+</table> 
+
 <?php	
-}
+}  // Fin Comprobamos si hay soporte para cURL
 ?>
 										
+</div>
+	</div><!-- zona parmatriz -->
+									
+									</div><!-- zona freeze -->
+									
+									<div class="form-group row">
+										<div class="col-md-12">
+										<?php include("../curl/controles/listar_eve.php"); ?>
 										</div>
 									</div>
 									
@@ -536,11 +678,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 										</div>
 									</div>
 									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/controles/listar_eve.php"); ?>
-										</div>
-									</div>
+									<!-- Ubicacion ORIGINAL de Controles -->
+									
 									
 									<div class="form-group row">
 										<div class="col-md-12">
@@ -699,14 +838,183 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	<script src="js/amenaza.js"></script>
 
     <script>
-        function mks(p1,p2){		
+		var categoria_regla1 = '';
+		var moverfila_regla1 = 0;
+		var movercosl_regla1 = 0;
+		var realizado_regla2 = '';
+		var mover_regla3 = 0;
+		var suma_regla4 = 0;
+		
+		var PosicionInicialFils = 0;
+		var PosicionInicialCols = 0;
+		
+		var posinifils = 0;
+		var posinicols = 0;
+		
+		// Parametros a enviar para la matriz de control
+		var moverbolita = "N";  //  Realizado S / N
+		var moverfils = 0;      //  Categoria: Preventivo  mueve hacia Abajo
+		var movercols = 0;		//  Categoria: Correctivo  mueve hacia Izquierda
+		                        //  Categoria: Ambos       mueve hacia Abajo y a la Izquierda 
+		posicionesmover = 0;    
+		// Fin Parametros a enviar para la matriz de control
+		
+        function mks(p1,p2){
 			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
             $.redirect("tareas.php", {id: p1, np : p2 });
-		}        
+		}
+		
+		function fnCategoria(pValue, pidSelect){
+			//alert(pValue.value);
+			//alert(pidSelect);
+			var itemcontrol = pidSelect;
+			// Para la Categoria
+			var txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = txtCat.substr(0,1);
+			
+			moverfils = 0;
+			movercols = 0;
+			
+			////alert('Categoria...'+txtCat);
+			
+			if( txtCat == "P" ){  
+				//alert('Cat:  mover Abajo');  
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){  
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else { 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			
+			fnMatRiesgo(moverbolita,posinifils,posinicols,moverfils,movercols,posicionesmover,itemcontrol)
+			///fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover)
+		}
+		
+		function fnRealizado(pValue, pidSelect){
+			moverbolita = pValue.value;  // S o N
+			var itemcontrol = pidSelect;
+			////alert("Realizado par1:  "+moverbolita);
+			//alert("Realizado par2:  "+pidSelect);
+			
+			fnMatRiesgo(moverbolita,posinifils,posinicols,moverfils,movercols,posicionesmover,itemcontrol)
+			///fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover)
+		}
+		
+		function fnRegla_3_4(parDoc, parApl, parEfe, parEva){
+			//alert(parAplicadoEfectivo);
+			var valDoc = parDoc;
+			if ( isNaN(valDoc) ){valDoc = 0;}
+			//alert('valDoc...'+valDoc);
+			var valApl = parApl;
+			if ( isNaN(valApl) ){valApl = 0;}
+			var valEfe = parEfe;
+			if ( isNaN(valEfe) ){valEfe = 0;}
+			var valEva = parEva;
+			if ( isNaN(valEva) ){valEva = 0;}
+			//var mover_regla3 = 0;
+			posicionesmover = 0;
+			var valorAplicado = <?php echo $ValorAplicado; ?>; //10
+			var ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
+			var sumaitems = valDoc + valApl + valEfe + valEva;
+			
+			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){
+				//mover_regla3 = 1;
+				posicionesmover = 1;
+				//alert('sumaitems...'+sumaitems);
+				if( sumaitems >= <?php echo $Umbral; ?> ){
+					//mover_regla3 = 2;
+					posicionesmover = 2;
+				}
+			}
+			else {
+				//mover_regla3 = 0;
+				posicionesmover = 0;
+			}
+			//alert("Mover Posiciones..."+mover_regla3);
+			//console.log(mover_regla3);
+			
+			fnMatRiesgo(moverbolita,posinifils,posinicols,moverfils,movercols,posicionesmover,itemcontrol)
+			///fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover)
+		}
+		
+		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7){
+		///function fnMatRiesgo(p1,p2,p3,p4){
+			var moverbolita = p1;
+			var posinifils = p2;
+			var posinicols = p3;
+			var moverfils = p4;
+			var movercols = p5;
+			var posicionAmover = p6;
+			var itemcontrol = p7;
+			
+				/*alert('fnMR moverbolita...'+moverbolita)
+				alert('fnMR moverfils...'+moverfils);
+				alert('fnMR movercols...'+movercols);
+				alert('fnMR posicionesmover...'+posicionesmover);*/
+			
+			////var posinifils = 0; //$("#prob1").find('option:selected').val();
+			////var posinicols = 0; //$("#consec1").find('option:selected').val();
+			var er = $("#hder").val();
+
+			/*
+			var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "../curl/matriz/movs.php",
+				data: params,
+				success: function(datos){
+					//alert(datos);
+					if(datos != "nd"){
+						x = JSON.parse(datos);
+						$.each(x.body, function(i, item) {
+							posinifils = item.MOV_FilaMRC;
+							posinicols = item.MOV_ColumnaMRC;
+						});
+					}
+				}
+			})*/
+			
+			var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+posinifils+"&pcols="+posinicols+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
+				alert('params...'+paramet);
+			
+			//alert('Antes de entrar: posinifils....'+posinifils+'   -  posinicols...'+posinicols);
+			if( moverbolita == 'N' ){ // || posicionAmover == 0
+				moverfils = 0;
+				movercols = 0;
+				posicionesmover =0 ;
+			}
+			else
+			{
+				$.ajax({
+					type: "POST",
+					url: "../curl/matriz/matrizcontrol.php",
+					data: paramet,
+					success: function(datos){
+						//alert(datos);
+						posicionesmover =0 ;
+						$("#matrizzControl").hide();
+						$("#matrizz1Control").show();
+						$("#matrizz1Control").html(datos);						
+					}
+				})
+			}			
+		}
+			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");			
 			$("#zonadata").hide()	
-            $('.select2').select2()			
+            $('.select2').select2()	
+
+			$("#matcon").hide();
+			$('#clonmatriz').show();			
 			
             $('#exampleModal').on('show.bs.modal', function () {
                 setTimeout(function (){
@@ -716,7 +1024,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			
 			$("#eventoriesgo").on('change', function(){
 				var er = $(this).val();
+				var csc = $("#consecutivo").val();
 				if (er != ""){
+					$.ajax({
+						type: "POST",
+						url: "grabaerzero.php",
+						data: {'csc': csc, 'er': er},
+						success: function(datos){
+							//alert(datos);
+							$("#hder").prop('value', datos);
+						}
+					})
 					$("#zonadata").show()
 				}
 				else{
@@ -736,45 +1054,101 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			})
 			
 			$("#matrizz1").hide();
+			$("#matrizz1Control").hide();
+			
 			$("#prob1").on('change', function(){
 				var txt = $(this).find('option:selected').val();
-				var cols = $("#consec1").find('option:selected').val();	
-				if ( cols == ""){ cols =1; }
-				//alert( $(this).val() );				
-				var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&pfila="+txt+"&pcols="+cols+"&ruta=../";
-				//alert(paramet);
+				var cols = $("#consec1").find('option:selected').val();
+				var er = $("#hder").val();
+				var afecta ="";
+				
+				$("#prob11").val(txt);
+				$("#consec11").val(cols);
+				$("#prob11 option[value='']").remove();
+				$("#prob1 option[value='']").remove();
+				
+				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
 				$.ajax({
-                    type: "POST",
-                    url: "../curl/matriz/matriz.php",
-					data: paramet,
-                    success: function(datos){
-                        //alert(datos);
-						$("#matrizz").hide();
-						$("#matrizz1").show();
-						$("#matrizz1").html(datos);
-                    }	
-                })
+					async: false,
+					type: "POST",
+					url: "../curl/matriz/afecta.php",
+					data: params,
+					success: function(datos){
+						//alert(datos);
+						afecta = datos;
+					}
+				})
+				
+				
+				//if ( cols == ""){ cols =1; }
+				//alert( $(this).val() );
+				if ( txt != "" && cols != "" ){	
+					var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+txt+"&pcols="+cols+"&ruta=../";
+					//alert(paramet);
+					$.ajax({
+						type: "POST",
+						url: "../curl/matriz/matriz.php",
+						data: paramet,
+						success: function(datos){
+							//alert(datos);
+							$("#matrizz").hide();
+							$("#matrizzControl").hide();
+							$("#matrizz1").show();
+							$("#matrizz1Control").show();
+							$("#matrizz1").html(datos);
+							if(afecta != "S"){
+								$("#matrizz1Control").html(datos);
+							}
+						}
+					})
+				}
 			})
 			
 			$("#consec1").on('change', function(){
 				var txt = $(this).find('option:selected').val();
 				var fila = $("#prob1").find('option:selected').val();
-				if ( fila == ""){ fila =1; }
-				//alert( $(this).val() );				
-				var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&pfila="+fila+"&pcols="+txt+"&ruta=../";
-				//alert(paramet);
+				var er = $("#hder").val();
+				var afecta ="";
+				$("#prob11").val(fila);
+				$("#consec11").val(txt);
+				$("#consec1 option[value='']").remove();
+				$("#consec11 option[value='']").remove();
+
+				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
 				$.ajax({
-                    type: "POST",
-                    url: "../curl/matriz/matriz.php",
-					data: paramet,
-                    success: function(datos){
-                        //alert(datos);
-						$("#matrizz").hide();
-						$("#matrizz1").show();
-						$("#matrizz1").html(datos);
-                    }	
-                })
-			})
+					async: false,
+					type: "POST",
+					url: "../curl/matriz/afecta.php",
+					data: params,
+					success: function(datos){
+						//alert(datos);
+						afecta = datos;
+					}
+				})				
+				
+				//if ( fila == ""){ fila =1; }
+				//alert( $(this).val() );
+				if ( fila != "" && txt != ""){
+					var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+fila+"&pcols="+txt+"&ruta=../";
+					//alert(paramet);
+					$.ajax({
+						type: "POST",
+						url: "../curl/matriz/matriz.php",
+						data: paramet,
+						success: function(datos){
+							//alert(datos);
+							$("#matrizz").hide();
+							$("#matrizzControl").hide();
+							$("#matrizz1").show();
+							$("#matrizz1Control").show();
+							$("#matrizz1").html(datos);
+							if( afecta != "S"){
+								$("#matrizz1Control").html(datos);
+							}
+						}	
+					})
+				}	
+			})			
 
 			//$("#consec1").on('change', function(){
 			//	var txt = $(this).find('option:selected').text();
@@ -1151,9 +1525,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
             $(".close").on('click', function(){
                 location.reload();
             })
-			
-			
-			
         })
 		//var global = { key: "<?php echo $CustomerKey; ?>" };
     </script>

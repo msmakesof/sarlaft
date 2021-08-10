@@ -1,9 +1,9 @@
-<div id="addDebilidadesModal" class="modal fade">
+<div id="addConsecuenciaModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form name="add_debilidades" id="add_debilidades">
+				<form name="add_consecuencia" id="add_consecuencia">
 					<div class="modal-header">						
-						<h4 class="modal-title">Agregar Probabilidad</h4>
+						<h4 class="modal-title">Agregar <?php echo $NombreTitulo; ?></h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					

@@ -362,7 +362,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                     </tfoot>
                                     <tbody>
                                     <?php
-						include '../curl/plan/listarall.php';
+						include '../curl/plan/listar_eve.php';
 						foreach($data as $key => $row) {}
 						if( $key == "message"){	// No existen registros
 							echo '<tr>

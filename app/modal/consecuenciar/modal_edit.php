@@ -1,9 +1,9 @@
-<div id="editUserModal" class="modal fade">
+<div id="editConsecuenciaModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="edit_user" id="edit_user">
+			<form name="edit_consecuencia" id="edit_consecuencia">
 				<div class="modal-header">						
-					<h4 class="modal-title">Editar Probabilidad.</h4>
+					<h4 class="modal-title">Editar <?php echo $NombreTitulo; ?>.</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">					

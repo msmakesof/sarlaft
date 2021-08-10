@@ -239,7 +239,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Información Básica:</h6>
-						<a class="collapse-item" href="../Infobasica.php" style="color: <?php echo $ndas;?>">Información Básica</a>
+						<a class="collapse-item" href="Infobasica.php" style="color: <?php echo $ndas;?>">Información Básica</a>
 						<a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
 						<a class="collapse-item" href="../Contexto.php" style="color: <?php echo $ndas;?>">Contexto Interno y Externo</a>
                     </div>
@@ -312,19 +312,27 @@
                     <i class="fas fa-cubes"></i>
                     <span>Parametrización</span>
                 </a>
+				<?php
+				$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
+				$regtit=sqlsrv_fetch_array($query_titulo);
+				//$IdTitulo = trim($regtit['TIT_IdTitulo']);
+				$NombreTitulo = trim($regtit['TIT_Nombre']);
+				?>
 				<div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Factores Fuentes de Riesgo:</h6>
-						<a class="collapse-item" href="../Categoria.php" style="color: <?php echo $ndas;?>">Escala de Categoría</a>						
+						<a class="collapse-item" href="../Calificacion.php" style="color: <?php echo $ndas;?>">Escala de Calificación</a>
+                        <a class="collapse-item" href="../Categoria.php" style="color: <?php echo $ndas;?>">Escala de Categoría</a>
 						<a class="collapse-item" href="../Control.php" style="color: <?php echo $ndas;?>">Escala de Control</a>
-						<a class="collapse-item" href="../Consecuencia.php" style="color: <?php echo $ndas;?>">Escala de Consecuencia</a>
+						<a class="collapse-item" href="../Consecuencia.php" style="color: <?php echo $ndas;?>">Escala de <?php echo $NombreTitulo; ?></a>
 						<a class="collapse-item" href="../Efectividad.php" style="color: <?php echo $ndas;?>">Escala Efectividad</a>
 						<a class="collapse-item" href="../Nivelriesgo.php" style="color: <?php echo $ndas;?>">Escala de Nivel de Riesgo</a>
 						<a class="collapse-item" href="../Probabilidad.php" style="color: <?php echo $ndas;?>">Escala de Probabilidad</a>
                         <a class="collapse-item" href="../Tiposriesgo.php" style="color: <?php echo $nads;?>">Tipos de Riesgo</a>
                         <a class="collapse-item" href="../Factoresriesgo.php" style="color: <?php echo $nbos;?>">Factores de Riesgo</a>
-                        <a class="collapse-item" href="../RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>						
+                        <a class="collapse-item" href="../RiesgoAsociado.php" style="color: <?php echo $ncfs;?>">Riesgo Asociado</a>
+						<a class="collapse-item" href="../Frecuencia.php" style="color: <?php echo $ncfs;?>">Frecuencia</a>
 						<a class="collapse-item" href="../Escalacalificacion.php" style="color: <?php echo $ndas;?>">Escala Calificación</a>
                     </div>
                 </div>

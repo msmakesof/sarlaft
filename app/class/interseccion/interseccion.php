@@ -37,6 +37,20 @@
 			return $stmt;
         }
 		
+		// GET ALL
+		public function getMovtoMatrizControl(){	
+            $sql = "SELECT TOP 1 MOV_IdMovimientoMRC, MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC	
+			FROM MOV_MatrizControl
+			WHERE MOV_CustomerKeyMRC = ? AND MOV_IdEventoMRC = ? ORDER BY MOV_IdMovimientoMRC DESC ";
+			//echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+				//	OFFSET $offset ROWS FETCH NEXT $per_page ROWS ONLY
+			$stmt->bindParam(1, $this->MOV_CustomerKeyMRC);
+			$stmt->bindParam(2, $this->MOV_IdEventoMRC);			
+			$stmt->execute();
+			return $stmt;
+        }
+		
 		// READ single ID
         public function getIdInterseccion(){
             $sql = "SELECT TOP 1 INT_IdInterseccion, INT_Filas, INT_Columnas, INT_CustomerKey, INT_USerKey, INT_InterseccionKey, DateStamp FROM ". $this->db_table ." WHERE INT_IdInterseccion = ? AND INT_CustomerKey = ? ";			

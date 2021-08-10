@@ -55,10 +55,10 @@ if($action == 'ajax')
 									<div style="color:white; font-size:1px"><?php echo $color ;?></div>
 								</td>
 								<td class='text-left'>
-									<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-name="<?php echo $Name; ?>" data-escala="<?php echo $escala; ?>" data-color="<?php echo $color; ?>" data-id="<?php echo $id; ?>">
+									<a href="#" data-target="#editConsecuenciaModal" class="edit" data-toggle="modal" data-name="<?php echo $Name; ?>" data-escala="<?php echo $escala; ?>" data-color="<?php echo $color; ?>" data-id="<?php echo $id; ?>">
 										<i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i>
 									</a>
-									<a href="#deleteUserModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>">
+									<a href="#deleteConsecuenciaModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>">
 										<i class="material-icons" data-toggle="tooltip" title="Eliminar">&#xE872;</i>
 									</a>
 								</td>

@@ -1,6 +1,9 @@
 let CKTra = global.key;
 let itemtratamiento = 0
+let selPlan = "";
 $("#addtra").on('click', function(){
+	
+		
 	let slct = '';
 	$.get("../api/tratamientos/lista_eve.php", {ck: CKTra  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
@@ -12,7 +15,17 @@ $("#addtra").on('click', function(){
 		slct += opc;
 		slct += '</select></div>';
 		itemtratamiento = itemtratamiento + 1;
-		var nro =itemtratamiento;
+		var nro =itemtratamiento;		
+		
+		
+		// Select Plan
+	$.get("../api/planes/lista_eve.php", {ck: CKTra }, function(planes){
+		var opcplan = "<option value=''>Seleccione</option>";
+		$.each(planes.body, function(i, item) {
+			opcplan +="<option value='"+ item.id +"'>"+ item.PlanesName +"</option>";
+		});
+		selPlan += opcplan;
+	
 		
 		var tabla="";
 		tabla+='<tr id="TRA'+itemtratamiento+'">';		
@@ -42,7 +55,9 @@ $("#addtra").on('click', function(){
 								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm tratafinicio" id="tratafinicio'+nro+'" size="10" maxlength="10" style="width: 144px; fontSize:12px"/></div>';
 								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm trataffinal" id="trataffinal'+nro+'" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
 								tablainterna+= '<div style="float:left; width:17%; text-align:center"><input type="date" class="input-sm tratafseg" id="tratafseg'+nro+'" size="10" maxlength="10" style="width:144px; fontSize:12px"/></div>';
-								tablainterna+= '<div style="float:left; width:23%; text-align:center">Plan Acción</div>';
+								tablainterna+= '<div style="float:left; width:23%; text-align:center">';
+								tablainterna+= '<select class="trataplan" id="trataplan'+nro+'" name="trataplan">'+selPlan;
+								tablainterna+= '</select></div>';
 													
 							tablainterna+= '</td>';
 						tablainterna+= '</tr>';
@@ -58,7 +73,11 @@ $("#addtra").on('click', function(){
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();			
 		});
-	})
+		
+	}) // Select Planes
+		
+		
+	})  // Select Tratamiento
 })
 
 $('#addTratamientoModal').on('show.bs.modal', function (event) {

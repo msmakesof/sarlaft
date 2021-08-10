@@ -29,6 +29,17 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+         // GET ALL por CK
+         public function getCkAll(){
+            $sql = "SELECT  EFE_IdEfectividad, EFE_CustomerKey, EFE_Nombre, EFE_UserKey, EFE_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE EFE_CustomerKey = ? ORDER BY EFE_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
 		
 		// READ single ID
         public function getIdFR(){

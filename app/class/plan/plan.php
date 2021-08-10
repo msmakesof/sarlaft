@@ -63,6 +63,43 @@
 			return $stmt;
         }
 		
+		// GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT id
+				,PlanesKey
+				,PlanesName
+				,PlanesResponsable
+				,PlanesTarea
+				,PlanesPlazo
+				,PlanesAprueba
+				,PlanesNivelPrioridad
+				,PlanesRespSeguimiento
+				,PlanesRespAprobacion
+				,PlanesFInicio
+				,PlanesFSeguimiento
+				,PlanesFTerminacion
+				,PlanesAvance
+				,PlanesStatus
+				,P.CustomerKey
+				,P.UserKey
+				,P.DateStamp
+				,R.ResponsablesName AS NombreResponsable
+				,C.CargosName
+				,RS.ResponsablesName AS NombreResponsableSeg
+				,RA.ResponsablesName AS NombreResponsableApr
+				FROM sarlaft.dbo.PlanesSarlaft P
+				JOIN ResponsablesSarlaft R ON R.ResponsablesId = P.PlanesResponsable
+				JOIN CargosSarlaft C ON C.CargosId = P.PlanesAprueba
+				JOIN ResponsablesSarlaft RS ON RS.ResponsablesId = P.PlanesRespSeguimiento
+				JOIN ResponsablesSarlaft RA ON RA.ResponsablesId = P.PlanesRespAprobacion 
+            WHERE P.CustomerKey = ? ORDER BY PlanesName ";
+            // echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+		
 		// READ single ID
         public function getIdPlan(){
             $sql = "SELECT TOP 1 id, PlanesName FROM ". $this->db_table ." WHERE id = ? AND CustomerKey = ? ";			

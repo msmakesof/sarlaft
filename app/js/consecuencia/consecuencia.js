@@ -112,8 +112,127 @@
 			
 			doc.save('consecuencia.pdf')
 		})
+
+		$('#editModiftituloModal').on('show.bs.modal', function (event) {
+			setTimeout(function (){
+				$('#edit_nametitulo').focus();
+			}, 1000)
+			var button = $(event.relatedTarget) // Button that triggered the modal
+			var name = button.data('nametitulo')
+			$('#edit_nametitulo').val(name)
+			var id = button.data('idtitulo')
+			$('#edit_idtitulo').val(id)
+		})		
+
+		$( "#fedit_titulo" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			  $.ajax({
+				  type: "POST",
+				  url: "ajax/consecuencia/editartitulo.php",
+				  data: parametros,
+				  beforeSend: function(objeto){
+					  $("#resultados").html("Enviando...");
+				  },
+				  success: function(datos){
+					  m = datos.trim();	
+					  $("#resultados").html(datos);
+					  $('#editModiftituloModal').modal('hide');
+					  let msj = m.substr(0,1);
+					  let type;
+					  let txt;
+					  if(msj == 'U'){
+						  type = 'success';
+						  txt = 'Título ha sido actualizado con éxito.';
+					  }
+					  else if(msj == 'E'){
+						  type= 'warning';
+						  txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+					  }
+					  else if(msj == 'F'){
+						  type= 'error';
+						  txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+					  }
+					  else if(msj == 'D'){
+						  type= 'error';
+						  txt ='Error Desconocido.';
+					  }
+					  else{
+						  type= 'error';
+						  txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+					  }
+					  swal({
+						  position: 'top-end',
+						  type: ''+type,
+						  title: ''+txt,
+						  showConfirmButton: true,
+						  timer: 5000
+					  });
+					  setTimeout(function (){
+						  load(1);location.reload();
+					  }, 3000)
+				  }
+			  });
+			event.preventDefault();
+		});
 		
-		$('#editUserModal').on('show.bs.modal', function (event) {
+		$( "#addConsecuenciaModal" ).on('show.bs.modal', function () {			
+			setTimeout(function (){
+				$('#Name2').focus();
+			}, 1000)
+		});
+
+		$( "#add_consecuencia" ).submit(function( event ) {
+			var parametros = $(this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "ajax/consecuencia/guardar.php",
+				data: parametros,
+				beforeSend: function(objeto){
+					$("#resultados").html("Enviando...");
+				},
+				success: function(datos){
+					let m= datos.trim();
+					$("#resultados").html(datos);
+					$('#addConsecuenciaModal').modal('hide');
+					let msj = m.substr(0,1);
+					let type;
+					let txt;
+					if(msj == 'O'){
+						type = 'success';
+						txt = 'Consecuencia ha sido guardada con éxito.';
+					}
+					else if(msj == 'E'){
+						type= 'warning';
+						txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+					}
+					else if(msj == 'F'){
+						type= 'error';
+						txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+					}
+					else if(msj == 'D'){
+						type= 'error';
+						txt ='Error Desconocido.';
+					}
+					else{
+						type= 'error';
+						txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+					}
+					swal({
+						position: 'top-end',
+						type: ''+type,
+						title: ''+txt,
+						showConfirmButton: true,
+						timer: 5000
+					});
+					setTimeout(function (){
+						load(1);location.reload();	
+					}, 3000)
+				}
+			});
+			event.preventDefault();
+		});
+		
+		$('#editConsecuenciaModal').on('show.bs.modal', function (event) {
 			setTimeout(function (){
 				$('#edit_name').focus();
 			}, 1000)
@@ -128,19 +247,7 @@
 			$('#edit_id').val(id)
 		})
 		
-		$('#deleteUserModal').on('show.bs.modal', function (event) {
-		  	var button = $(event.relatedTarget) // Button that triggered the modal
-		  	var id = button.data('id') 
-		  	$('#delete_id').val(id)
-		})
-		
-		$( "#addDebilidadesModal" ).on('show.bs.modal', function () {			
-			setTimeout(function (){
-				$('#Name2').focus();
-			}, 1000)
-		});
-		
-		$( "#edit_user" ).submit(function( event ) {
+		$( "#edit_consecuencia" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
 			$.ajax({
 				type: "POST",
@@ -152,7 +259,7 @@
 				success: function(datos){
 					m = datos.trim();	
 					$("#resultados").html(datos);
-					$('#editUserModal').modal('hide');
+					$('#editConsecuenciaModal').modal('hide');
 					let msj = m.substr(0,1);
 					let type;
 					let txt;
@@ -163,10 +270,6 @@
 					else if(msj == 'E'){
 						type= 'warning';
 						txt = 'Ya existe un Registro grabado con el mismo Nombre.';
-					}
-					else if(msj == 'I'){
-						type= 'warning';
-						txt = 'Ya existe un Registro grabado con el mismo Nit.';
 					}
 					else if(msj == 'F'){
 						type= 'error';
@@ -193,65 +296,16 @@
 				}
 			});
 		  event.preventDefault();
-		});
+		});	
+
+
+		$('#deleteConsecuenciaModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget) // Button that triggered the modal
+			var id = button.data('id') 
+			$('#delete_id').val(id)
+	  	})
 		
-		
-		$( "#add_debilidades" ).submit(function( event ) {
-		  	var parametros = $(this).serialize();
-			$.ajax({
-				type: "POST",
-				url: "ajax/consecuencia/guardar.php",
-				data: parametros,
-				beforeSend: function(objeto){
-					$("#resultados").html("Enviando...");
-				},
-				success: function(datos){
-					let m= datos.trim();
-					$("#resultados").html(datos);
-					$('#addDebilidadesModal').modal('hide');
-					let msj = m.substr(0,1);
-					let type;
-					let txt;
-					if(msj == 'O'){
-						type = 'success';
-						txt = 'Consecuencia ha sido guardada con éxito.';
-					}
-					else if(msj == 'E'){
-						type= 'warning';
-						txt = 'Ya existe un Registro grabado con el mismo Nombre.';
-					}
-					else if(msj == 'I'){
-						type= 'warning';
-						txt = 'Ya existe un Registro grabado con el mismo Nit.';
-					}
-					else if(msj == 'F'){
-						type= 'error';
-						txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-					}
-					else if(msj == 'D'){
-						type= 'error';
-						txt ='Error Desconocido.';
-					}
-					else{
-						type= 'error';
-						txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-					}
-					swal({
-						position: 'top-end',
-						type: ''+type,
-						title: ''+txt,
-						showConfirmButton: true,
-						timer: 5000
-					});
-					setTimeout(function (){
-						load(1);location.reload();	
-					}, 3000)
-				}
-			});
-		  event.preventDefault();
-		});
-		
-		$( "#delete_user" ).submit(function( event ) {
+		$( "#delete_consecuencia" ).submit(function( event ) {
 		  var parametros = $(this).serialize();
 			$.ajax({
 				type: "POST",
@@ -263,7 +317,7 @@
 				success: function(datos){
 					let m= datos.trim();
 					$("#resultados").html(datos);
-					$('#deleteUserModal').modal('hide');
+					$('#deleteConsecuenciaModal').modal('hide');
 					let msj = m.substr(0,1);
 					let type;
 					let txt;

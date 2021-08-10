@@ -29,6 +29,17 @@
 			$stmt->execute();
 			return $stmt;
         }
+
+        // GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT CAT_IdCategoria, CAT_CustomerKey, CAT_Nombre, CAT_UserKey, CAT_TipoRiesgoKey, DateStamp
+            FROM ". $this->db_table ." WHERE CAT_CustomerKey = ? ORDER BY CAT_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CAT_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
 		
 		// READ single ID
         public function getIdFR(){
