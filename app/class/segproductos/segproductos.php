@@ -1,16 +1,18 @@
 <?php
-    class Action{
+    class SegProductos{
 
         // Connection
         private $conn;
 
         // Table
-        private $db_table = "Action";
+        private $db_table = "SegProductosSarlaft";
 
         // Columns
-		public $ACC_IdAccion;
-		public $ACC_Nombre;
-		public $ACC_IdEstado;
+		public $id;
+		public $CustomerKey;
+		public $SegProductosName;
+        public $UserKey;
+        public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -19,9 +21,20 @@
 
         // GET ALL
         public function getAccion(){
-            $sql = "SELECT ACC_IdAccion, ACC_Nombre, ACC_IdEstado, STA_Nombre FROM ". $this->db_table ." 
-            JOIN State ON State.STA_IdEstado = ACC_IdEstado ORDER BY ACC_Nombre ";            
+            $sql = "SELECT id, CustomerKey, SegProductosName, UserKey FROM ". $this->db_table ." 
+            ORDER BY SegProductosName ";            
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->execute();
+			return $stmt;
+        }
+
+        // GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT id, CustomerKey, SegProductosName, UserKey
+            FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY SegProductosName ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }

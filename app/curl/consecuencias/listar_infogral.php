@@ -4,10 +4,9 @@
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
-$IdEventoRiesgo = "";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/eventoriesgo/lista.php?ck=$CustomerKey";
+	$url = $urlServicios."api/consecuencias/lista_eve.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -43,8 +42,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			{				
 				$condi = "";
 				$id = $data['body'][$i]["id"];
-				$nombre = trim($data['body'][$i]["EventosdeRiesgoName"]);
-				if( isset($IdEventoRiesgo) && $IdEventoRiesgo != "" && $id == $IdEventoRiesgo ){
+				$nombre = trim($data['body'][$i]["ConsecuenciasName"]);
+				if( isset($IdConsecuencias) && $IdConsecuencias != "" && $id == $IdConsecuencias ){
 					$condi = ' selected="selected" ';
 				}
 				echo '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';

@@ -17,8 +17,13 @@
 	$DateStamp=date("Y-m-d H:i:s");	
 
     ////$sqlmov="UPDATE MOV_MatrizControl SET MOV_NumControl = ".$nc." WHERE MOV_CustomerKeyMRC='".$ck."' AND MOV_IdEventoMRC = ".$er ;
-    $sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_NumControl) VALUES (".$er.",'".$ck."','".$DateStam."','S',".$nc.") ";
+    $sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_NumControl) VALUES (".$er.",'".$ck."','".$DateStamp."','S',".$nc."); SELECT SCOPE_IDENTITY() as LastId; ";
 	//echo "upd.........$sqlmov<br>";
 	$query = sqlsrv_query($conn,$sqlmov);
-   
+    $next_result = sqlsrv_next_result($query);
+    $row = sqlsrv_fetch_array($query); 
+    $LastId = $row['LastId'];
+    $sqlmov="UPDATE MOV_MatrizControl SET MOV_NumControl = ".$LastId." WHERE MOV_IdMovimientoMRC =". $LastId. " AND MOV_CustomerKeyMRC='".$ck."' AND MOV_IdEventoMRC=".$er;
+    $query = sqlsrv_query($conn,$sqlmov);
+    echo $LastId;
 ?>

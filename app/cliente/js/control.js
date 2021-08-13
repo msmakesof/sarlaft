@@ -1,5 +1,5 @@
 let CKCtr = global.key;
-let itemcontrol = 0
+var itemcontrol = 0
 let slctresp = '';
 let selDocmun = '';
 let selAplica = '';
@@ -14,22 +14,35 @@ let valeval = 0;
 let selEfectividad;
 let selFrecuencia;
 let selCategoria = '';
-var posicionesmover = 0; 
+var RegistroActual = 0;
 $("#addctr").on('click', function(){
 	var er =  $("#hder").val();
+	moverbolita = "N";
+	moverfils = 0;
+	movercols = 0;
+	posicionesmover = 0;
+	valDoc = 0;
+	valApl = 0;
+	valEfe = 0;
+	valEva = 0;
 	////alert("Evento Riesgo.."+er);
 	let slct = '';	
 	itemcontrol = itemcontrol + 1;
 	var prmts = "ck="+CKCtr+"&er="+er+"&nc="+itemcontrol;
 	$.ajax({
-		async: true,
+		async: false,
 		type: "POST",
 		url: "../api/matriz/updateMatrizControl.php",
 		data: prmts,
 		success: function(datos){
-	
+			//*alert('datos.....'+datos);
+			RegistroActual = datos;
+			//*alert('reg Actual......'+RegistroActual);
 		}
 	})
+
+	itemcontrol = RegistroActual;
+	alert('itc....'+itemcontrol);
 	
 	$.get("../api/controles/lista_eve.php", {ck: CKCtr  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
@@ -86,7 +99,7 @@ $("#addctr").on('click', function(){
 						$.each(datos.body, function(i, item) {
 							//posinifils = item.MOV_Fila;
 							//posinicols = item.MOV_Columna;
-							opccategoria +="<option value='"+ item.CAT_IdCategoria +"'>"+ item.CAT_Nombre +"</option>";
+							opccategoria +="<option value='"+ item.CAT_IdCategoria +'-'+ itemcontrol +"'>"+ item.CAT_Nombre +"</option>";
 						});
 					//}
 					selCategoria += opccategoria;
@@ -97,26 +110,26 @@ $("#addctr").on('click', function(){
 		
 		$.get("../api/escalacalificacion/lista_eve.php", {ck: CKCtr }, function(escala){			
 			opcesca = "<option value=''>Seleccione</option>";
-			$.each(escala.body, function(i, item) {
-				opcesca +="<option value='"+ item.ESC_IdEscalaCalificacion +"'>"+ item.ESC_Valor +"</option>";
+			$.each(escala.body, function(i, item) { //+"-"+ itemcontrol 
+				opcesca +="<option value='"+ item.ESC_IdEscalaCalificacion +'-'+ itemcontrol +"'>"+ item.ESC_Valor +"</option>";
 			})
 			selDocmun ='';
-			selDocmun += '<select class="seldocum" id="seldocum'+itemcontrol+'" name="seldocum'+itemcontrol+'" onChange="fxselDocum(seldocum'+itemcontrol+')">';
+			selDocmun += '<select class="seldocum" id="seldocum'+itemcontrol+'" name="seldocum'+itemcontrol+'" onChange="fxselDocum(seldocum'+itemcontrol+',this.options[this.selectedIndex].value)">';
 			selDocmun += opcesca;
 			selDocmun += '</select>';
 			
 			selAplica = '';
-			selAplica += '<select class="selaplica" id="selaplica'+itemcontrol+'" name="selaplica'+itemcontrol+'" onChange="fxselAplica(selaplica'+itemcontrol+')">';
+			selAplica += '<select class="selaplica" id="selaplica'+itemcontrol+'" name="selaplica'+itemcontrol+'" onChange="fxselAplica(selaplica'+itemcontrol+',this.options[this.selectedIndex].value)">';
 			selAplica += opcesca;
 			selAplica += '</select>';
 			
 			selEfec = '';
-			selEfec += '<select class="selefec" id="selefec'+itemcontrol+'" name="selefec'+itemcontrol+'" onChange="fxselEfec(selefec'+itemcontrol+')">';
+			selEfec += '<select class="selefec" id="selefec'+itemcontrol+'" name="selefec'+itemcontrol+'" onChange="fxselEfec(selefec'+itemcontrol+',this.options[this.selectedIndex].value)">';
 			selEfec += opcesca;
 			selEfec += '</select>';
 			
 			selEval = '';
-			selEval += '<select class="seleval" id="seleval'+itemcontrol+'" name="seleval'+itemcontrol+'" onChange="fxselEval(seleval'+itemcontrol+')">';
+			selEval += '<select class="seleval" id="seleval'+itemcontrol+'" name="seleval'+itemcontrol+'" onChange="fxselEval(seleval'+itemcontrol+',this.options[this.selectedIndex].value)">';
 			selEval += opcesca;
 			selEval += '</select>';
 			
@@ -138,7 +151,7 @@ $("#addctr").on('click', function(){
 			
 				var tablainterna='';
 				tablainterna+= '<tbody id="tbody">';
-					tablainterna+= '<tr id="CTR'+itemcontrol+'">';
+					tablainterna+= '<tr id="CTR-'+itemcontrol+'">';
 						tablainterna+= '<td colspan="3">';
 							
 							tablainterna+= '<table id="controlinterna" style="width:100%">';
@@ -146,7 +159,7 @@ $("#addctr").on('click', function(){
 									tablainterna+= '<td  style="width:100%">';
 										tablainterna+= slct + '<br>';
 										
-										tablainterna+= '<div style="clear:both; width:100%; text-align:center"> </div>';
+										tablainterna+= '<div style="clear:both; width:100%; text-align:center"></div>';
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">Propietario</div>';
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">Ejecutor</div>';
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">Efectividad</div>';
@@ -170,10 +183,10 @@ $("#addctr").on('click', function(){
 										tablainterna+= '</select></div>';
 
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-										tablainterna+= '<select class="ctrcategoria" id="ctrcategoria'+ itemcontrol +'" name="ctrcategoria" onChange="fnCategoria(this,itemcontrol)">'+selCategoria;
+										tablainterna+= '<select class="ctrcategoria" id="ctrcategoria'+ itemcontrol +'" name="ctrcategoria" onChange="fnCategoria(this)">'+selCategoria;
 										tablainterna+= '</select></div>';
 										tablainterna+= '<div style="float:left; width:15%; text-align:center">';
-										tablainterna+= '<select class="ctrrealizado" id="ctrrealizado'+ itemcontrol +'" name="ctrrealizado" onChange="fnRealizado(this,itemcontrol)"><option value="">Seleccione</option><option value="S">Si</option><option value="N">No</option>';
+										tablainterna+= '<select class="ctrrealizado" id="ctrrealizado'+ itemcontrol +'" name="ctrrealizado" onChange="fnRealizado(this)"><option value="">Seleccione</option><option value="S-'+itemcontrol+'">Si</option><option value="N-'+itemcontrol+'">No</option>';
 										tablainterna+= '</select></div>';
 										
 										tablainterna+= '<div style="clear:both; width:100%">&nbsp;</div>';
@@ -210,7 +223,6 @@ $("#addctr").on('click', function(){
 							tablainterna+= '</table>';
 							tablainterna+= delet ;
 							
-							
 						tablainterna+= '</td>';			
 					tablainterna+= '</tr>';
 				tablainterna+= '</tbody>';
@@ -218,7 +230,31 @@ $("#addctr").on('click', function(){
 				$("#tabctr").append(tablainterna);
 				
 				$('.delete').off().click(function(e) {
-					$(this).parent('td').parent('tr').remove();			
+					let regdel = $(this).parent('td').parent('tr').attr('id');
+					let posicion = regdel.indexOf('-');
+					if (posicion !== -1){
+						var registroborrar = regdel.substr(posicion+1) ;
+					}
+
+					//$(this).parent('td').parent('tr').remove();
+					alert('xdel...'+registroborrar);
+
+					$.ajax({
+						async: true,
+						type: "POST",
+						//url: "../api/matriz/delete_control.php?ck="+CKCtr+"&id="+registroborrar,
+						url: "../api/matriz/delete_control.php",
+						data:  {'ck': CKCtr, 'id': registroborrar},
+						success: function(datos){
+							alert(datos);
+							if( $.trim(datos) == "S" ){
+								//$(this).parent('td').parent('tr').remove();
+								$('.delete').parent('td').parent('tr').remove();
+								//$("#matcon").load();
+								$("#matcon").load(location.href + " #matcon");
+							}
+						}
+					})
 				});
 				
 				// funciones para promedio y calificacion
@@ -232,184 +268,197 @@ $("#addctr").on('click', function(){
 })
 
 
-var infodocumtxt = 0;
-var infoaplicatxt = 0;
-var infoefectxt = 0;
-var infoevaltxt = 0;
-var totsumatoria = 0;
+	var infodocumtxt = 0;
+	var infoaplicatxt = 0;
+	var infoefectxt = 0;
+	var infoevaltxt = 0;
+	var totsumatoria = 0;
 
-//$("#seldocum"+itemcontrol).on('change', function(){
-function fxselDocum(ParId){
-	var itemcontrol = ParId.name;
-	itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-	//alert(itemcontrol);
-	var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
-	infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-	
-	var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
-	infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-	
-	var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
-	infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-	
-	var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
-	infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-	
-	infodocumtxt = parseInt(infodocumtxt);
-	infoaplicatxt =parseInt(infoaplicatxt);
-	infoefectxt = parseInt(infoefectxt);
-	infoevaltxt = parseInt(infoevaltxt);
-	//alert(infodocum+'  '+infoaplica);
-	var contar = 0;
-	var sumatoria = 0;
-	var totpromedio = 0;
-	if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
-	if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
-	if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
-	if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
-	//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-	//alert("sum..."+sumatoria+"  / contar..."+contar);
-	totpromedio = sumatoria/contar ;
-	totpromedio = Math.round(totpromedio);
-	$("#promedio"+itemcontrol).val( totpromedio )
-	var totsumatoria = sumatoria;
-	fxSumar(totsumatoria, itemcontrol)
-	fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt)
-}
+	//$("#seldocum"+itemcontrol).on('change', function(){
+	function fxselDocum(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		alert('from controljs........'+itemcontrol);
+		//alert('from controljs ParReg name........'+ParReg.name);
+		//alert('from controljs ParReg id........'+ParReg.id);
+		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
+		//itemcontrol = pidSelect;
+		itemcontrol = itemcontrol.substr(8);
 
-//$("#selaplica"+itemcontrol).on('change', function(){
-function fxselAplica(ParId){
-	var itemcontrol = ParId.name;
-	itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-	var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
-	infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-	
-	var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
-	infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-	
-	var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
-	infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-	
-	var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
-	infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-	
-	infodocumtxt = parseInt(infodocumtxt); 
-	infoaplicatxt =parseInt(infoaplicatxt);
-	infoefectxt = parseInt(infoefectxt);  
-	infoevaltxt = parseInt(infoevaltxt);  
-	//alert(infodocum+'  '+infoaplica);
-	var contar = 0;
-	var sumatoria = 0;
-	var totpromedio = 0;
-	if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
-	if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
-	if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
-	if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-	//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-	//alert("sum..."+sumatoria+"  / contar..."+contar);
-	var totsumatoria = sumatoria;
-	totpromedio = sumatoria/contar ;
-	totpromedio = Math.round(totpromedio);
-	$("#promedio"+itemcontrol).val( totpromedio )
-	fxSumar(totsumatoria, itemcontrol)
-	//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
-	//fnAplicadoEfectivo(SumaAplicadoEfectivo)
-	fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt)
-}
+		//alert('from controljs........'+itemcontrol);
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+		//alert("sum..."+sumatoria+"  / contar..."+contar);
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg)
+	}
 
-//$("#selefec"+itemcontrol).on('change', function(){
-function fxselEfec(ParId){
-	var itemcontrol = ParId.name;
-	itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-	var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
-	infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-	
-	var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
-	infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-	
-	var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
-	infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-	
-	var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
-	infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-	
-	infodocumtxt = parseInt(infodocumtxt); 
-	infoaplicatxt =parseInt(infoaplicatxt);
-	infoefectxt = parseInt(infoefectxt);  
-	infoevaltxt = parseInt(infoevaltxt);  
-	//alert(infodocum+'  '+infoaplica);
-	var contar = 0;
-	var sumatoria = 0;
-	var totpromedio = 0;
-	if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
-	if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
-	if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
-	if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-	//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-	//alert("sum..."+sumatoria+"  / contar..."+contar);
-	var totsumatoria = sumatoria;
-	totpromedio = sumatoria/contar ;
-	totpromedio = Math.round(totpromedio);
-	$("#promedio"+itemcontrol).val( totpromedio )
-	fxSumar(totsumatoria, itemcontrol)
-	//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
-	//fnAplicadoEfectivo(SumaAplicadoEfectivo)
-	fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt)
-}
+	//$("#selaplica"+itemcontrol).on('change', function(){
+	function fxselAplica(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
+		//itemcontrol = pidSelect;
+		itemcontrol = itemcontrol.substr(9);
 
-//$("#seleval"+itemcontrol).on('change', function(){
-function fxselEval(ParId){
-	var itemcontrol = ParId.name;
-	itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-	var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
-	infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-	
-	var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
-	infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-	
-	var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
-	infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-	
-	var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
-	infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-	
-	infodocumtxt = parseInt(infodocumtxt); 
-	infoaplicatxt =parseInt(infoaplicatxt);
-	infoefectxt = parseInt(infoefectxt);  
-	infoevaltxt = parseInt(infoevaltxt);  
-	//alert(infodocum+'  '+infoaplica);
-	var contar = 0;
-	var sumatoria = 0;
-	var totpromedio = 0;
-	if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
-	if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
-	if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
-	if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-	//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-	//alert("sum..."+sumatoria+"  / contar..."+contar);
-	var totsumatoria = sumatoria;
-	totpromedio = sumatoria/contar ;
-	totpromedio = Math.round(totpromedio);
-	$("#promedio"+itemcontrol).val( totpromedio )
-	fxSumar(totsumatoria, itemcontrol)
-	fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt)
-}
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt); 
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);  
+		infoevaltxt = parseInt(infoevaltxt);  
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+		//alert("sum..."+sumatoria+"  / contar..."+contar);
+		var totsumatoria = sumatoria;
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		fxSumar(totsumatoria, itemcontrol)
+		//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
+		//fnAplicadoEfectivo(SumaAplicadoEfectivo)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+	}
 
-function fxSumar(parSumar, parIdControl){
-//	alert(parSumar);
-let id = "";
-let nombre = "";
-let color = "";
-$.get("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
-	id = data.body[0]["CAL_IdCalificacion"];
-	nombre = data.body[0]["CAL_Nombre"];
-	color = data.body[0]["CAL_Color"];
-	$("#calificacion"+parIdControl).css("background-color", color);
-	$("#calificacion"+parIdControl).attr("value", nombre);
-	console.log(color);
-})
+	//$("#selefec"+itemcontrol).on('change', function(){
+	function fxselEfec(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
+		//itemcontrol = pidSelect;
+		itemcontrol = itemcontrol.substr(7);
 
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt); 
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);  
+		infoevaltxt = parseInt(infoevaltxt);  
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+		//alert("sum..."+sumatoria+"  / contar..."+contar);
+		var totsumatoria = sumatoria;
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		fxSumar(totsumatoria, itemcontrol)
+		//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
+		//fnAplicadoEfectivo(SumaAplicadoEfectivo)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+	}
 
+	//$("#seleval"+itemcontrol).on('change', function(){
+	function fxselEval(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
+		//itemcontrol = pidSelect;
+		itemcontrol = itemcontrol.substr(7);
+
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt); 
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);  
+		infoevaltxt = parseInt(infoevaltxt);  
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt;  }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
+		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
+		//alert("sum..."+sumatoria+"  / contar..."+contar);
+		var totsumatoria = sumatoria;
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		fxSumar(totsumatoria, itemcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+	}
+
+	function fxSumar(parSumar, parIdControl){
+	//	alert(parSumar);
+	let id = "";
+	let nombre = "";
+	let color = "";
+	$.get("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
+		id = data.body[0]["CAL_IdCalificacion"];
+		nombre = data.body[0]["CAL_Nombre"];
+		color = data.body[0]["CAL_Color"];
+		$("#calificacion"+parIdControl).css("background-color", color);
+		$("#calificacion"+parIdControl).attr("value", nombre);
+		console.log(color);
+	})
 }
 /**/
 

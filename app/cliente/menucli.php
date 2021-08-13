@@ -380,8 +380,8 @@
                         <h6 class="collapse-header">Herramientas:</h6>  
                         <a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">DashBoard</a>
 						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Matriz Riesgos</a>
-						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Mapa de Calor</a>
-						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Informe General</a>
+						<a class="collapse-item" href="./base.php" style="color: <?php echo $ndas;?>">Mapa de Calor</a>
+						<a class="collapse-item" href="./infogeneral.php" style="color: <?php echo $ndas;?>">Informe General</a>
 						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Reporte Eventos</a>
                     </div>
                 </div>

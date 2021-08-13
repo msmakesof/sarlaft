@@ -4,6 +4,7 @@ Author: Mauricio Sanchez Sierra
 Date: 2021-07-27
 Description:  Programa para calcular ubicacion de 
 la bolita en la Matriz de Control
+
 **********************************************/
 ?>
 <style>
@@ -65,7 +66,7 @@ text-align:center;
 		$moverbol = 'N';
 	}	
 	
-	//Parametros para mover la bolita
+	//Prametros para mover la bolita
 	if( isset($_POST["pfila"]) && $_POST["pfila"] > 0 ){
 		$posfil = $_POST["pfila"];
 		//$poscol = 1;
@@ -80,7 +81,8 @@ text-align:center;
 	}
 	else {
 		$poscol = 0;
-	}	
+	}
+	
 	
 	// Mover Abajo 1= S, 0 = N
 	if( isset($_POST["pmoverAbajo"]) && $_POST["pmoverAbajo"] != "" ){
@@ -125,7 +127,29 @@ text-align:center;
 	else{
 		$ruta="";
 	}
-
+	
+	/**************[ NO ]**************
+	// Cuantas filas y columnas me muevo 	
+	if( $pmoverfils == -1 && $pmovercols == 0 ){
+		$posfil = $posfil - $pposicionmover;
+		$poscol = $poscol;
+	}
+	else if($pmoverfils == 0 && $pmovercols == -1){
+		$poscol = $poscol - $pposicionmover;
+		$posfil = $posfil;	
+	}
+	else{
+		$posfil = $posfil - $pposicionmover;
+		$poscol = $poscol - $pposicionmover;
+	}
+	
+	//Revisar esto
+	if($posfil <=0 ){$posfil=0;}
+	if($poscol <=0 ){$poscol=0;}
+	//
+	***************************************/
+	
+	
 /**************[ NO ]**************
 //echo "posfil....$posfil<br>";
 //echo "poscol....$poscol<br>";
@@ -184,10 +208,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		$MOV_FilsMovidas = 0;
 		$MOV_ColsMovidas = 0;
-		// Para la cantidad de posiciones q movio para Fils y Cols, esto será usado en la sumatoria para cada control
+		// Para la cantidad de posiciones q movio para Fils y Cols, esto será usado para la sumatoria para cada control
 		// Debo tener en cuenta cuando haya cambio en Posibilidad y Consecuencia en la MRI
-		echo "multi fils:  $pmoverfils * $pposicionmover<br>";
-		echo "multi cols:  $pmovercols * $pposicionmover<br>";
+		//*echo "multi fils:  $pmoverfils * $pposicionmover<br>";
+		//*echo "multi cols:  $pmovercols * $pposicionmover<br>";
 		
 		if($moverbol == "N"){
 			$MOV_FilsMovidas = 0;
@@ -205,17 +229,22 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		////  Resto filas y columnas movidas a la posicion actual de la MRI
 		$posfilx = $PosActualFilsMRI - $MOV_FilsMovidas;
-		$poscolx = $PosActualColsMRI - $MOV_ColsMovidas;		
-
-			//$sqlmov=sqlsrv_query($conn,"SELECT MAX(MOV_IdMovimientoMRC) AS DELMX FROM MOV_MatrizControl WHERE //MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er) ;
-			//$regtot = sqlsrv_fetch_array($sqlmov);
+		$poscolx = $PosActualColsMRI - $MOV_ColsMovidas;
+		
+		////if ( $MOV_FilsMovidas > 0 || $MOV_ColsMovidas > 0){
+			$sqlmov=sqlsrv_query($conn,"SELECT MAX(MOV_IdMovimientoMRC) AS DELMX FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er) ;
+			$regtot = sqlsrv_fetch_array($sqlmov);
+			$DELMX = $regtot['DELMX'] ;			
+			//*echo "DELMX....$DELMX<br>";
 			
-			$DELMX = $IdMovimientoMRC;   //////$regtot['DELMX'] ;			
-			//*echo "DELMX....$DELMX<br>";			
-
-						$sqlmov="";
-						$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'");
+			////date_default_timezone_set("America/Bogota");
+			////$DateStamp=date("Y-m-d H:i:s");	
 						
+						/**/
+						$sqlmov="";
+						$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol."  AND MOV_TieneControlMRC = 'S'");
+						
+						// AND MOV_IdMovimientoMRC =".$DELMX."
 						
 			//*echo "sel TotControl.......SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'<br>";
 						//$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_TieneControlMRC = 'S'");
@@ -224,6 +253,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						echo "Antes de ins o upd    CuentaTotal....$CuentaTotal<br>";
 						
 						date_default_timezone_set("America/Bogota");
+						
 						$DateStamp=date("Y-m-d H:i:s");	
 						
 						if($CuentaTotal == 0){						
@@ -236,21 +266,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					echo "upd.........$sqlmov<br>";
 							$query = sqlsrv_query($conn,$sqlmov);
 						}
-						
-						$cadena = str_replace("'",'"',$sqlmov);
-						$MAC = '';
-						ob_start();
-						system('ipconfig/all');
-						$mycom=ob_get_contents(); 
-						ob_clean(); 
-						$findme = "Physical";
-						$pmac = strpos($mycom, $findme); 
-						$MAC=substr($mycom,($pmac+36),17);
-						
-						// ingresa registro en el log de Auditoria
-						$sqllog="INSERT INTO LOG_LogAuditoria (LOG_CustomerKey, LOG_UserKey, LOG_Accion, LOG_Descripcion, LOG_IpAddress, LOG_Module, LOG_DateStamp) VALUES ('$CustomerKey','$UserKey','Grabar', '$cadena','$MAC','Evento de Riesgo','$DateStamp') ";
-						$query = sqlsrv_query($conn,$sqllog);
-						//echo "sqllog....$sqllog<br>";
+		////}////
+		
 		
 		// Sumatoria por Filas y Columnas en la Matriz de Riesgo de Control o Residual   //" AND MOV_NumControl=".$nrocontrol)
 		//MAX(MOV_IdMovimientoMRC) AS DELMX, 
@@ -318,12 +335,29 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
+					
+						
 						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';	
+						// guardo la posicion actual de la fila y columna
+						////$PosicioActualFils = $posfil;
+						////$PosicioActualCols = $poscol;
+						////echo "pos Filas....$PosicioActualFils.....pos Cols....$PosicioActualCols";
+						
+						//echo "pos Filas....$posfil.....pos Cols....$poscol";
+						
+						//echo "<input type='hidden' id='hfils' value='".$PosicioActualFils."'>"
+						//echo "<input type='hidden' id='hcols' value='".$PosicioActualCols."'>"
+						
+						//guardo posicion
+						
+						
 						
 						/* debo indicarle en que momento debe grabar el registro */
 						
 						//$sqlmov="DELETE FROM MOV_MatrizControl WHERE MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC = ".$DELMX." AND MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er;
 						//echo $sqlmov."<br>";
+						
+						
 					} 
 					else { 
 						$condimg = "&nbsp;"; 
@@ -337,6 +371,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$tabla.="</tbody></table>";
 			echo $tabla;
 		}
-	}	
+	}
+	//return $dataintermatriz;
 }
+
 ?>

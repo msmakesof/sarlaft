@@ -87,7 +87,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	}
 	.titulo{
 		font-weight: bold;
-		color: black; text-shadow: grey 0.1em 0.1em 0.2em
+		color: white; text-shadow: grey 0.1em 0.1em 0.2em;
+		font-size:3em;
 	}
 	
 	.maytit{text-shadow: 1px 1px white, -1px -1px #333; font-family: fantasy}
@@ -120,7 +121,29 @@ $consecutivo = $reg['id'].'-'.$consec2;
 		position: fixed;
 		top: 80px;
 		z-index:100;
-		}
+	}
+	
+	.filtros {
+		background-color:red;
+		color: white;
+		text-align: center;
+	}
+	
+	.titulogrid{
+		font-size:10px;
+		color: white;
+		text-align: center;
+		background-color:gray;
+	}
+	
+	.headt td {
+		min-width: 20px !important;
+		height: 20px !important;
+	}
+	
+	.combo{
+		width: 250px;
+	}
 	</style>
 </head>
 
@@ -250,7 +273,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800 maytit">Unidad Evento de Riesgo</h1>
+                    <h1 class="h3 mb-2 text-gray-800 maytit">Herramientas</h1>
                     <p class="mb-4"></p>
 
                     <!-- DataTales Example -->
@@ -273,7 +296,193 @@ $consecutivo = $reg['id'].'-'.$consec2;
 							<form id="formap">
 								<input type="hidden" id="hder">
 								<div class="form-group row">
-									<div class="col-sm-2">
+									<div class="col-md-12">
+										<table style="width:100%;">
+											<tr>
+												<td style="text-align:center; border: black 1px solid;"><img src="../img/edit.png" style="width:180px;"></td>
+												<td style="background-color:red; text-align:center; border: red 1px solid;">
+													<span class="titulo">INFORME GENERAL</span>
+												</td>
+												<td style="background-color:red; border: red 1px solid;">
+													<button type="button" class="btn btn-danger" style="border: 1px solid #FFFFFF;" id="buscar">Buscar</button>
+												</td>
+												<td style="background-color:red; border: red 1px solid;">
+													<button type="button" class="btn btn-danger" style="border: 1px solid #FFFFFF;" id="nuevo">
+														Nuevo Informe
+													</button>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="margin:0.5em"></div>
+									
+									<div class="col-md-12">
+										<table style="width:100%;">
+											<tr>
+												<td>
+													<table style="width:100%;">
+														<tr>
+															<td class="filtros">Nro. Caso</td>
+															<td>
+																<select class="combo" id="caso">
+																	<option value=""></option>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Evento</td>
+															<td>
+																<select class="combo" id="evento">
+																	<option value=""></option>
+																	<?php include("../curl/eventosriesgo/listar.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Proceso</td>
+															<td>
+																<select class="combo" id="proceso">
+																	<option value=""></option>
+																	<?php include("../curl/procesos/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Responsable</td>
+															<td>
+																<select class="combo" id="responsable">
+																	<option value=""></option>
+																	<?php include("../curl/responsables/listar.php"); ?>
+																</select>
+															</td>
+														</tr>
+													</table>													
+												</td>
+												<td>
+												<table style="width:100%;">
+														<tr>
+															<td class="filtros">Causas</td>
+															<td>
+																<select class="combo" id="causas">
+																	<option value=""></option>
+																	<?php include("../curl/causas/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Consecuencias</td>
+															<td>
+																<select class="combo" id="consecuencias">
+																	<option value=""></option>
+																	<?php include("../curl/consecuencias/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Control</td>
+															<td>
+																<select class="combo" id="control">
+																	<option value=""></option>
+																	<?php include("../curl/control/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Tratamiento</td>
+															<td>
+																<select class="combo" id="tratamiento">
+																	<option value=""></option>
+																	<?php include("../curl/tratamientos/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td>
+												<table style="width:100%;">
+														<tr>
+															<td class="filtros">Seg. Clientes</td>
+															<td>
+																<select class="combo" id="segclientes">
+																	<option value=""></option>
+																	<?php include("../curl/segclientes/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Seg. Productos</td>
+															<td>
+																<select class="combo" id="segproductos">
+																	<option value=""></option>
+																	<?php include("../curl/segproductos/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Seg. Canales</td>
+															<td>
+																<select class="combo" id="segcanales">
+																	<option value=""></option>
+																	<?php include("../curl/segcanales/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Seg. Jurisdicciones</td>
+															<td>
+																<select class="combo" id="segjurisdiccion">
+																	<option value=""></option>
+																	<?php include("../curl/segjurisdiccion/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td>
+												<table style="width:100%;">
+														<tr>
+															<td class="filtros">Debilidades</td>
+															<td>
+																<select class="combo" id="debilidades">
+																	<option value=""></option>
+																	<?php include("../curl/debilidades/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Oportunidades</td>
+															<td>
+																<select class="combo" id="oportunidades">
+																	<option value=""></option>
+																	<?php include("../curl/oportunidades/listar_infogral.php"); ?>	
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Fortalezas</td>
+															<td>
+																<select class="combo" id="fortalezas">
+																	<option value=""></option>
+																	<?php include("../curl/fortalezas/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td class="filtros">Amenazas</td>
+															<td>
+																<select class="combo" id="amenazas">
+																	<option value=""></option>
+																	<?php include("../curl/amenazas/listar_infogral.php"); ?>
+																</select>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- <div class="col-sm-2">
                                         <label>Consecutivo</label>
                                         <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $consecutivo; ?>" readonly>
                                     </div>
@@ -283,55 +492,10 @@ $consecutivo = $reg['id'].'-'.$consec2;
                                             <option value="">Seleccione una opción</option>
                                             <?php include("../curl/eventosriesgo/listar.php"); ?>
                                         </select>
-                                    </div>
+                                    </div> -->
 								</div>	
 									
 								<div id="zonadata">	
-									<div class="form-group row">
-										<div class="col-md-10">
-											<div style="width:100px">
-											<label>Proceso</label>
-											<a href="#" id="mcreapro" style="padding-left:10px" data-target="#addProcesoModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-												<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Proceso" style="color:orange; cursor:pointer"></i>
-											</a>
-											</div>											
-											<select class="form-control select2" id="proceso" name="proceso" required>
-												<option value="">Seleccione una opción</option>
-												<?php include("../curl/procesos/listar.php"); ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<div class="col-md-10">
-											<div style="width:100px">
-											<label>Cargo</label>
-											<a href="#" id="mcreacar" style="padding-left:10px" data-target="#addCargoModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-												<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Cargos" style="color:orange; cursor:pointer"></i>
-											</a>
-											</div>
-											<select class="form-control select2" id="cargo" name="cargo" required>
-												<option value="">Seleccione una opción</option>
-												<?php include("../curl/cargos/listar.php"); ?>
-											</select>
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<div class="col-md-10">
-											<div style="width:130px">
-											<label>Responsable</label>
-											<a href="#" id="mcreares" style="padding-left:10px" data-target="#addResponsableModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-												<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Responsable" style="color:orange; cursor:pointer"></i>
-											</a>
-											</div>
-											<select class="form-control select2" id="responsable" name="responsable" required>
-												<option value="">Seleccione una opción</option>
-												<?php include("../curl/responsables/listar.php"); ?>
-											</select>
-										</div>
-									</div>								
-				
 				
 				 <div class="xheaderMatriz">
 									<div class="form-group row" id="parmatriz">
@@ -530,40 +694,115 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 </style>
 <table style="width:100% !important">
 	<tr>
-		<td>	
+		<td>
 			<table class="table table-bordered" style="width:100%">
-				<tbody>
+				<tbody>					
 					<tr>
-						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO INHERENTE</td>
+						<td></td>
+						<td class="titulogrid">IMPROBABLE</td>
+						<td class="titulogrid">RARO</td>
+						<td class="titulogrid">POSIBLE</td>
+						<td class="titulogrid">PROBABLE</td>
+						<td class="titulogrid">CERTEZA</td>
+						
 					</tr>
 					<tr>
-						<td class="subtitMat" style="width:35%">Probabilidad
-						<?php echo $sel_prob;?>
-						</td>
-						<!-- <td> <div id="lblprob"></div> </td> -->
-						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
-						<td rowspan="2" style="width:60%">
-							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
-							
-							<div id="matrizz">
+						<td class="titulogrid" style="height:20px !important">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
 							<?php include('../curl/matriz/matriz.php'); ?>
-							</div>	
-							
-							<div id="matrizz1"></div>
-							
+							</div>
 						</td>
 					</tr>
-					<tr>
-						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
-						<?php echo $sel_csc;?>
-						</td>
-						<!-- <td> <div id="lblconsec"></div> </td> -->
+					<tr class="headt">
+						<td class="titulogrid">GRAVE</td>
 					</tr>
+					<tr class="headt">
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr>					
 				</tbody>
 			</table>
 		</td>
 		
-		<td id="clonmatriz"> <!-- Matriz Control Imagen-->
+		<td>
+			<table class="table table-bordered" style="width:100%">
+				<tbody>					
+					<tr>
+						<td></td>
+						<td class="titulogrid">IMPROBABLE</td>
+						<td class="titulogrid">RARO</td>
+						<td class="titulogrid">POSIBLE</td>
+						<td class="titulogrid">PROBABLE</td>
+						<td class="titulogrid">CERTEZA</td>
+						
+					</tr>
+					<tr>
+						<td class="titulogrid">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
+							<?php include('../curl/matriz/matriz.php'); ?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">GRAVE</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr>					
+				</tbody>
+			</table>
+		</td>
+		
+		<td>
+			<table class="table table-bordered" style="width:100%">
+				<tbody>					
+					<tr>
+						<td></td>
+						<td class="titulogrid">IMPROBABLE</td>
+						<td class="titulogrid">RARO</td>
+						<td class="titulogrid">POSIBLE</td>
+						<td class="titulogrid">PROBABLE</td>
+						<td class="titulogrid">CERTEZA</td>
+						
+					</tr>
+					<tr>
+						<td class="titulogrid">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
+							<?php include('../curl/matriz/matriz.php'); ?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">GRAVE</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr>					
+				</tbody>
+			</table>			
+		</td>
+		
+		<!-- <td id="clonmatriz"> Matriz Control Imagen
 			<table class="table table-bordered" style="width:100%">
 				<tbody>
 					<tr>
@@ -595,9 +834,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 				</tbody>
 			</table>
-		</td>
+		</td> -->
 		
-		<td id="matcon">
+		<!-- <td id="matcon">
 			<table class="table table-bordered" style="width:100%">
 				<tbody>
 					<tr>
@@ -628,7 +867,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 				</tbody>
 			</table>
-		</td>
+		</td>   -->
 		
 	</tr>
 </table> 
@@ -642,89 +881,14 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									</div><!-- zona freeze -->
 									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/controles/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/tiposriesgo/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/factoresriesgo/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/riesgoasociado/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/causas/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/consecuencia/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<!-- Ubicacion ORIGINAL de Controles -->
-									
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/tratamientos/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/debilidades/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/oportunidades/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/fortalezas/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/amenazas/listar_eve.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php //include("../curl/consecuencia/listar_eve.php"); ?>
-										</div>
-									</div>								
-									
 								</div>
 							</form>	
                             </div>
 							
-							<div>
+							<!--<div>
 								<button type="button" class="btn btn-primary" id="pguardar">Guardar</button>
 								<button class="btn btn-danger" type="button" data-dismiss="modal" id="ecerrar">Salir</button>
-							</div>
+							</div>  -->
                         </div>						
                     </div>
                 </div>
@@ -820,173 +984,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	
-
 
     <script>
-		var categoria_regla1 = '';
-		var moverfila_regla1 = 0;
-		var movercosl_regla1 = 0;
-		var realizado_regla2 = '';
-		var suma_regla4 = 0;
-		
-		var PosicionInicialFils = 0;
-		var PosicionInicialCols = 0;
-		// Parametros a enviar para la matriz de control
-		var moverbolita = "N";  //  Realizado S / N
-		var moverfils = 0;      //  Categoria: Preventivo  mueve hacia Abajo
-		var movercols = 0;		//  Categoria: Correctivo  mueve hacia Izquierda
-		                        //  Categoria: Ambos       mueve hacia Abajo y a la Izquierda 
-		var posicionesmover = 0;
-		itemcontrol = 0;
-		var valDoc = 0;
-		var valApl = 0;
-		var valEfe = 0;
-		var valEva = 0;
-		// Fin Parametros a enviar para la matriz de control
-		
-        function mks(p1,p2){
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
-            $.redirect("tareas.php", {id: p1, np : p2 });
-		}		
-		
-		function fnCategoria(pValue){
-			//alert('pValue....'+pValue.value);			
-			var cadena = pValue.value;
-			let posicion = cadena.indexOf('-');
-			if (posicion !== -1){
-				itemcontrol = cadena.substr(posicion+1) ;
-			}
-			alert('itemcontrol...'+itemcontrol);
-	
-			// Para la Categoria
-			var txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
-			txtCat = txtCat.substr(0,1);
-			
-			moverfils = 0;
-			movercols = 0;
-			
-			////alert('Categoria...'+txtCat);			
-			if( txtCat == "P" ){  
-				//alert('Cat:  mover Abajo');  
-				movercols = 0;
-				moverfils = 1;
-			}
-			else if( txtCat == "C" ){  
-				//alert('Cat:  mover Izquierda');
-				movercols = 1;
-				moverfils = 0;
-			}
-			else { 
-				//alert('Cat:  mover Abajo e Izquierda'); 
-				movercols = 1;
-				moverfils = 1;
-			}
-			
-			//posicionesmover = 0;			
-			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
-			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
-			let sumaitems = valDoc + valApl + valEfe + valEva;
-			
-			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
-				posicionesmover = 1;
-				if( sumaitems >= <?php echo $Umbral; ?> ){
-					posicionesmover = 2;
-				}
-			}
-			else {
-				posicionesmover = 0;
-			}
-			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
-		}
-		
-		function fnRealizado(pValue){
-			moverbolita = pValue.value;  // S o N
-			itemcontrol = moverbolita.substr(2);
-			alert(itemcontrol);
-			moverbolita = moverbolita.substr(0,1);			
-			
-			//let posicionesmover = 0;
-			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
-			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
-			let sumaitems = valDoc + valApl + valEfe + valEva;
-			
-			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
-				posicionesmover = 1;
-				if( sumaitems >= <?php echo $Umbral; ?> ){
-					posicionesmover = 2;
-				}
-			}
-			else {
-				posicionesmover = 0;
-			}
-			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
-		}
-		
-		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl){
-			valDoc = parDoc;
-			if ( isNaN(valDoc) ){valDoc = 0;}
-			//alert('valDoc...'+valDoc);
-			valApl = parApl;
-			if ( isNaN(valApl) ){valApl = 0;}
-			//alert('valApl....'+valApl);
-			valEfe = parEfe;
-			if ( isNaN(valEfe) ){valEfe = 0;}
-			//alert('valEfe....'+valEfe);
-			valEva = parEva;
-			if ( isNaN(valEva) ){valEva = 0;}
-			//alert('valEva....'+valEva);
-			let posicion = parItemCtrl.indexOf('-');
-			if (posicion !== -1){
-				itemcontrol = parItemCtrl.substr(posicion+1) ;
-			}
-			alert('itemcontrol...'+itemcontrol);			
-			//let posicionesmover = 0;
-			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
-			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
-			let sumaitems = valDoc + valApl + valEfe + valEva;
-			
-			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
-				posicionesmover = 1;
-				if( sumaitems >= <?php echo $Umbral; ?> ){
-					posicionesmover = 2;
-				}
-			}
-			else {
-				posicionesmover = 0;
-			}
-			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
-		}		
-		
-		function fnMatRiesgo(p1,p2,p3,p4,p5){
-			var moverbolita = p1;
-			var moverfils = p2;
-			var movercols = p3;
-			var posicionAmover = p4;
-			itemcontrol = p5;
-			var er = $("#hder").val();
-			
-			var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
-			alert('params...'+paramet);
-			$.ajax({
-				type: "POST",
-				url: "../curl/matriz/matrizcontrol.php",
-				data: paramet,
-				success: function(datos){
-					posicionesmover =0 ;
-					$("#matrizzControl").hide();
-					$("#matrizz1Control").show();
-					$("#matrizz1Control").html(datos);
-				}
-			})
-		}		
-			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
-			$("#zonadata").hide()
+			//$("#zonadata").hide()
+			$("#zonadata").show()
             $('.select2').select2()
 
 			$("#matcon").hide();
@@ -1017,472 +1020,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$("#zonadata").hide()
 				}
 			})
-			
-			/*$("#tr").on('change', function(){
-				var sel_tr = $(this).val();
-				alert($(this).val());
-				if(sel_tr == ""){
-					
-				}
-				else{
-					
-				}
-			})*/
-			
+
 			$("#matrizz1").hide();
 			$("#matrizz1Control").hide();
-			
-			$("#prob1").on('change', function(){
-				var txt = $(this).find('option:selected').val();
-				var cols = $("#consec1").find('option:selected').val();
-				var er = $("#hder").val();
-				var afecta ="";
-				
-				$("#prob11").val(txt);
-				$("#consec11").val(cols);
-				$("#prob11 option[value='']").remove();
-				$("#prob1 option[value='']").remove();
-				
-				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
-				$.ajax({
-					async: false,
-					type: "POST",
-					url: "../curl/matriz/afecta.php",
-					data: params,
-					success: function(datos){
-						//alert(datos);
-						afecta = datos;
-					}
-				})
-				
-				if ( txt != "" && cols != "" ){	
-					var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+txt+"&pcols="+cols+"&ruta=../";
-					//alert(paramet);
-					$.ajax({
-						type: "POST",
-						url: "../curl/matriz/matriz.php",
-						data: paramet,
-						success: function(datos){
-							//alert(datos);
-							$("#matrizz").hide();
-							$("#matrizzControl").hide();
-							$("#matrizz1").show();
-							$("#matrizz1Control").show();
-							$("#matrizz1").html(datos);
-							if(afecta != "S"){
-								$("#matrizz1Control").html(datos);
-							}
-						}
-					})
-				}
-			})
-			
-			$("#consec1").on('change', function(){
-				var txt = $(this).find('option:selected').val();
-				var fila = $("#prob1").find('option:selected').val();
-				var er = $("#hder").val();
-				var afecta ="";
-				$("#prob11").val(fila);
-				$("#consec11").val(txt);
-				$("#consec1 option[value='']").remove();
-				$("#consec11 option[value='']").remove();
 
-				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
-				$.ajax({
-					async: false,
-					type: "POST",
-					url: "../curl/matriz/afecta.php",
-					data: params,
-					success: function(datos){
-						//alert(datos);
-						afecta = datos;
-					}
-				})				
-				
-				//if ( fila == ""){ fila =1; }
-				//alert( $(this).val() );
-				if ( fila != "" && txt != ""){
-					var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+fila+"&pcols="+txt+"&ruta=../";
-					//alert(paramet);
-					$.ajax({
-						type: "POST",
-						url: "../curl/matriz/matriz.php",
-						data: paramet,
-						success: function(datos){
-							//alert(datos);
-							$("#matrizz").hide();
-							$("#matrizzControl").hide();
-							$("#matrizz1").show();
-							$("#matrizz1Control").show();
-							$("#matrizz1").html(datos);
-							if( afecta != "S"){
-								$("#matrizz1Control").html(datos);
-							}
-						}	
-					})
-				}	
-			})			
-
-			//$("#consec1").on('change', function(){
-			//	var txt = $(this).find('option:selected').text();
-			//	$("#lblconsec").html(txt);
-			//	alert( $(this).val() );
-			//})
-
-			$("#prob2").on('change', function(){
-				var txt = $(this).find('option:selected').text();
-				$("#lblprob2").html(txt);
-			})
-
-			$("#consec2").on('change', function(){
-				var txt = $(this).find('option:selected').text();
-				$("#lblconsec2").html(txt);
-			})			
 			
 			$("#pguardar").on('click', function(event){
-                //alert(7);				
-				var filas = [];
-				$('#tabcau tbody tr').each(function() {
-					var selopc = $(this).find('td').eq(0).text();
-					var fila = { selopc	};
-					filas.push(fila);
-				})
-				//console.log(filas);				
-				//alert(filas);
 				
-				var mks = [];  // Array Ppal				
-				var consecut =[];
-				tmp = {	'id' : $("#consecutivo").val() }
-				consecut.push(tmp)
-				sof20 = {'ICO' : consecut }
-				mks.push(sof20)
-				
-				var eri =[];
-				tmp = {	'id' : $("#eventoriesgo").val() }
-				eri.push(tmp)
-				sof0 = {'ERI' : eri }
-				mks.push(sof0)
-				
-				var pro =[];
-				tmp = {	'id' : $("#proceso").val() }
-				pro.push(tmp)
-				sof1 = {'PRO' : pro }
-				mks.push(sof1)
-				
-				var car =[];
-				tmp = {	'id' : $("#cargo").val() }
-				car.push(tmp)
-				sof3 = {'CAR' : car }
-				mks.push(sof3)
-				
-				var res =[];
-				tmp = {	'id' : $("#responsable").val() }
-				res.push(tmp)
-				sof4 = {'RES' : res }
-				mks.push(sof4)
-				
-				var Efilas = []; // Este es el array ppal para los select anidados				
-				var tir =[];
-				let selTir = $('.tiporie');
-				selTir.each(function (){
-					let select = $(this);
-					var fila = { select };
-					Efilas.push(fila);
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						tir.push(tmp)
-					}
-				});
-				sof5 = { 'TIR': tir }
-				mks.push(sof5)
-				
-				var far=[];
-				let selFar = $('.factorie');
-				selFar.each(function () {
-					let select = $(this);
-					var fila = { select };
-					Efilas.push(fila);
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						far.push(tmp)
-					}
-				})
-				sof6 = { 'FAR': far }
-				mks.push(sof6)							
-				
-				var ria = [];
-				let selRia = $('.ria');  
-				selRia.each(function () {
-					let select = $(this);
-					var fila = { select	};
-					Efilas.push(fila);
-					//console.log(select.val());
-					if (select.val() != ""){
-						tmp ={ 'id' : select.val() }
-						ria.push(tmp)
-					}
-				});
-				sof2 = { 'RIA': ria	}
-				mks.push(sof2)
-				
-				var cau = [];				
-				let selCuasa = $('.causa');  
-				selCuasa.each(function () {
-					let select = $(this);
-					var fila = { select	};
-					Efilas.push(fila);
-					////console.log(select.val());
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						cau.push(tmp)
-					}
-				});
-				sof = {	'CAU': cau }
-				mks.push(sof)
-				
-				var con = []
-				let selCon = $('.consec')
-				selCon.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						con.push(tmp)
-					}
-				})
-				sof7 = {'CON' : con }
-				mks.push(sof7)
-				
-				/*
-				var tra = []				
-				let selTra = $('.trata')
-				//let tmpx
-				selTra.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						tra.push(tmp)
-					}
-				})
-				//sof8 = { 'TRA' : tra }
-				//mks.push(sof8)
-				
-				
-				var trastatus = []
-				let selTrastatus = $('.tratastatus')
-				selTrastatus.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'status' : select.val() }
-						trastatus.push(tmp)
-					}
-				})
-				sof8status = { 'TRA' : trastatus }
-				mks.push(sof8status)			
-				*/
-				
-				//
-				var tra = []
-				$("#body").html("");
-				$("#tratainterna tbody tr").each(function(index) {
-					var campo1, campo2, campo3, campo4, campo5, campo6;
-					$(this).find(":input").each(function(index2) {
-						//alert(index2+' valor: '+$(this).val());
-						switch (index2) {							
-							case 0:
-								campo1 = $(this).val();
-								break;
-							case 1:
-								campo2 = $(this).val();
-								break;
-							case 2:
-								campo3 = $(this).val();
-								break;
-							case 3:
-								campo4 = $(this).val();
-								break;
-							case 4:
-								campo5 = $(this).val();
-								break;
-							case 5:
-								campo6 = $(this).val();
-								break;	
-						}
-					});					
-					tmp = { 
-						'id' : campo1,
-						'status' : campo2,
-						'priori' : campo3,
-						'fecini' : campo4,
-						'fecfin' : campo5,
-						'fecseg' : campo6,
-					}
-					tra.push(tmp)
-				});
-				sof8 = { 'TRA' : tra }
-				mks.push(sof8)
-				//				
-				
-				/*
-				var traprioridad = []
-				let selTraprioridad = $('.tratapriori')
-				selTraprioridad.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						traprioridad.push(tmp)
-					}
-				})
-				sof8priori = { 'TRAPRI' : traprioridad }
-				mks.push(sof8priori)
-				
-				var trafinicio = []
-				let selTrafinicio = $('.tratafinicio')
-				selTrafinicio.each(function () {
-					let input = $(this)
-					var fila = { input }
-					console.log(fila)
-					Efilas.push(fila)
-					if (input.val() != ""){
-						tmp = { 'id' : input.val() }
-						trafinicio.push(tmp)
-					}
-				})
-				sof8finicio = { 'TRAFIN' : trafinicio }
-				mks.push(sof8finicio)
-				
-				var traffinal = []
-				let selTraffinal = $('.trataffinal')
-				selTraffinal.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						traffinal.push(tmp)
-					}
-				})
-				sof8ffinal = { 'TRAFFI' : traffinal }
-				mks.push(sof8ffinal)
-				
-				var trafseg = []
-				let selTrafseg = $('.tratafseg')
-				selTrafseg.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						trafseg.push(tmp)
-					}
-				})
-				sof8fseg = { 'TRASEG' : trafseg }
-				mks.push(sof8fseg)			
-				*/
-				
-				var deb = []
-				let selDeb = $('.debil')
-				selDeb.each(function () {
-					let select = $(this)
-					var fila = { select }
-					//console.log(fila)
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						deb.push(tmp)
-					}
-				})
-				sof9 = { 'DEB' : deb }
-				mks.push(sof9)
-				
-				var opo = []
-				let selOpo = $('.opor')
-				selOpo.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if(select.val() != ""){
-						tmp = { 'id' : select.val() }
-						opo.push(tmp)
-					}
-				})
-				sof10 = { 'OPO' : opo }
-				mks.push(sof10)
-				
-				var fortal = []
-				let selFor = $('.fortal')
-				selFor.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if(select.val() != ""){
-						tmp = { 'id' : select.val() }
-						fortal.push(tmp)
-					}
-				})
-				sof11 = { 'FOR' : fortal } 
-				mks.push(sof11)
-				
-				var ame = []
-				let selAme = $('.ame')
-				selAme.each(function (){
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if( select.val() != ""){
-						tmp = { 'id' : select.val() }
-						ame.push(tmp)
-					}
-				})
-				sof12 = { 'AME' : ame }
-				mks.push(sof12)				
-				
-				var mriprob =[];
-				tmp = {	'id' : $("#prob1").val() }
-				mriprob.push(tmp)
-				sof13 = {'MIP' : mriprob }
-				mks.push(sof13)
-				
-				var mricons =[];
-				tmp = {	'id' : $("#consec1").val() }
-				mricons.push(tmp)
-				sof14 = {'MIC' : mricons }
-				mks.push(sof14)
-				
-				var mcoprob =[];
-				tmp = {	'id' : $("#prob2").val() }
-				mcoprob.push(tmp)
-				sof15 = {'MCP' : mcoprob }
-				mks.push(sof15)
-				
-				var mcocons =[];
-				tmp = {	'id' : $("#consec2").val() }
-				mcocons.push(tmp)
-				sof16 = {'MCC' : mcocons }
-				mks.push(sof16)				
-				
-				////console.log(obj);
-				console.log(mks);
-				
-				//var paramet = $('#formap').serialize()
-				var paramet = mks
-				alert(paramet);
-				$.ajax({
-                    type: "POST",
-                    url: "grabaer.php",
-					data: { js : mks },
-                    success: function(datos){
-                        alert(datos);
-                    }	
-                })
 			})
+			
+			$("#nuevo").on('click', function(){
+			    
+				$("#formap").trigger("reset");
+            })
   
             $("#cerrar").on('click', function(){
                 location.reload();
@@ -1496,24 +1046,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
                 location.reload();
             })
         })
-		//var global = { key: "<?php echo $CustomerKey; ?>" };
     </script>
-	
-	<script> var global = { key: "<?php echo $CustomerKey; ?>" };</script>
-	<script src="js/proceso.js"></script>
-	<script src="js/cargo.js"></script>
-	<script src="js/responsable.js"></script>
-	<script src="js/tiporiesgo.js"></script>
-	<script src="js/factorriesgo.js"></script>
-	<script src="js/riesgoasociado.js"></script>
-	<script src="js/causa.js"></script>
-	<script src="js/consecuencia.js"></script>
-	<script src="js/control.js"></script>
-	<script src="js/tratamiento.js"></script>
-	<script src="js/debilidad.js"></script>
-	<script src="js/oportunidad.js"></script>
-	<script src="js/fortaleza.js"></script>
-	<script src="js/amenaza.js"></script>
-	
+
 </body>
 </html>

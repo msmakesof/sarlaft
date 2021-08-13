@@ -10,7 +10,7 @@
         // Columns
 		public $id;
 		public $CustomerKey;
-		public $EventosdeRiesgoKey;
+		public $ProcesosKey;
 		public $ProcesosName;
 		public $UserKey;
 		public $DateStamp;
@@ -26,6 +26,17 @@
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->bindParam(1, $this->CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+
+        // GET ALL por CK
+        public function getCkAll(){
+            $sql = "SELECT id, CustomerKey, ProcesosName, UserKey, DateStamp 
+            FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY ProcesosName ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }

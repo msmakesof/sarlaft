@@ -4,11 +4,10 @@
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
-$IdEventoRiesgo = "";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/eventoriesgo/lista.php?ck=$CustomerKey";
-	//echo "url...$url<br>";
+	$url = $urlServicios."api/causas/lista_eve.php?ck=$CustomerKey";
+	////echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -29,7 +28,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 	);
-	foreach($data as $key => $row) {}
+    foreach($data as $key => $row) {}
 	
 	if( $key == "message")
 	{
@@ -43,8 +42,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			{				
 				$condi = "";
 				$id = $data['body'][$i]["id"];
-				$nombre = trim($data['body'][$i]["EventosdeRiesgoName"]);
-				if( isset($IdEventoRiesgo) && $IdEventoRiesgo != "" && $id == $IdEventoRiesgo ){
+				$nombre = trim($data['body'][$i]["CausasName"]);
+				if( isset($IdCausas) && $IdCausas != "" && $id == $IdCausas ){
 					$condi = ' selected="selected" ';
 				}
 				echo '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';

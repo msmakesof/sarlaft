@@ -5,17 +5,15 @@
         private $conn;
 
         // Table
-        private $db_table = "Control";
+        private $db_table = "ControlesSarlaft";
 
         // Columns
-        public $CON_LlaveAcceso;
-		public $CON_LlaveInicial;
-		public $CON_LlaveIv;
-		public $CON_MetodoEncriptacion;
-		public $CON_TipoHash;
-		public $CON_Cookie;
-        public $CON_IdControl;       
-        //public $created;
+        public $id;
+		public $CustomerKey;
+		public $ControlesKey;
+		public $ControlesName;
+		public $UserKey;
+		public $DateStamp;
 
         // Db connection
         public function __construct($db){
@@ -24,13 +22,22 @@
 
         // GET ALL
         public function getControl(){
-            $sqlQuery = "SELECT CON_IdControl, CON_LlaveAcceso, CON_LlaveInicial, CON_LlaveIv, CON_MetodoEncriptacion, CON_TipoHash, CON_Cookie, STA_Nombre 
-			FROM " . $this->db_table . "
-			 JOIN State ON STA_IdEstado = CON_IdEstado 
-			WHERE CON_IdEstado = 1";
+            $sqlQuery = "SELECT id, CustomerKey, ControlesKey, ControlesName, UserKey
+			FROM " . $this->db_table . "  ORDER BY ControlesName";
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             $stmt->execute();
             return $stmt;
+        }
+
+         // GET ALL por CK
+         public function getCkAll(){
+            $sql = "SELECT id, CustomerKey, ControlesKey, ControlesName, UserKey
+            FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY ControlesName ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CustomerKey);
+			$stmt->execute();
+			return $stmt;
         }
 
         // CREATE
