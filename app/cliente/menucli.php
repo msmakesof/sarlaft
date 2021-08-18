@@ -349,7 +349,8 @@
                         <h6 class="collapse-header">Generación del Plan:</h6>  
                         <!-- <a class="collapse-item" href="interseccion.php" style="color: <?php echo $ndas;?>">Intersección</a>-->
 						<a class="collapse-item" href="./listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
-						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>						
+						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>
+                        <a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
                     </div>
                 </div>
             </li>
@@ -380,7 +381,7 @@
                         <h6 class="collapse-header">Herramientas:</h6>  
                         <a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">DashBoard</a>
 						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Matriz Riesgos</a>
-						<a class="collapse-item" href="./base.php" style="color: <?php echo $ndas;?>">Mapa de Calor</a>
+						<a class="collapse-item" href="./infogeneralmatriz.php" style="color: <?php echo $ndas;?>">Matriz Sarlaft</a>
 						<a class="collapse-item" href="./infogeneral.php" style="color: <?php echo $ndas;?>">Informe General</a>
 						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Reporte Eventos</a>
                     </div>

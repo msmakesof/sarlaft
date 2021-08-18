@@ -17,6 +17,7 @@ let selCategoria = '';
 var RegistroActual = 0;
 $("#addctr").on('click', function(){
 	var er =  $("#hder").val();
+	txtCat="";
 	moverbolita = "N";
 	moverfils = 0;
 	movercols = 0;

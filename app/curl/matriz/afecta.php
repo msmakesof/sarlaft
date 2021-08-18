@@ -1,4 +1,12 @@
 <?php
+/************************************************
+Created : Mauricio Sánchez Sierra
+Date: 2021-07-28
+Description: Verifica si el registro de la matriz de 
+             Riesgo tiene o no un Control Creado para
+			 saber en que momento realizar calculo 
+			 para la MRC
+*************************************************/
 if( isset($_POST["ck"]) && $_POST["ck"] != "" ){
 	$CustomerKey=$_POST["ck"];
 }

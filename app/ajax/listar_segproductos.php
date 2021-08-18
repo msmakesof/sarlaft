@@ -1,7 +1,9 @@
 <?php
-	include('is_logged.php');
+include('is_logged.php');
 	/* Connect To Database*/
-	require_once ("../components/sql_server.php");
+	require_once '../config/dbx.php';
+	$getConnectionCli2 = new Database();
+	$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 
 $action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 if($action == 'ajax'){

@@ -322,7 +322,7 @@ $TotalMatriz= $reg['TotalMatriz'];
                                 <h6 class="m-0 font-weight-bold text-primary"><?php echo strtoupper($CustomerName); ?></h6>
                             </div>
                             <div style="float:right">
-                                <?php if( $TotalMatriz == 0 ) { ?>
+                                <?php if( $TotalMatriz >= 0 ) { ?>
                                     <div style="float:left; margin-right:10px">
                                         <a href="interseccion.php" class="btn btn-primary" >                                    
                                             <i class="fas fa-plus-circle"></i>

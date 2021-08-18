@@ -1,20 +1,27 @@
 <?php
-    class Interseccion{
+    class MatrizControl{
 
         // Connection
         private $conn;
 
         // Table
-        private $db_table = "INT_Interseccion";
+        private $db_table = "MOV_MatrizControl";
 
         // Columns
-		public $INT_IdInterseccion;
-		public $INT_Filas;
-		public $INT_Columnas;
-		public $INT_CustomerKey;
-		public $INT_USerKey;
-		public $INT_InterseccionKey;
-		public $DateStamp;
+		public $MOV_IdMovimientoMRC;
+        public $MOV_IdEventoMRC;
+        public $MOV_FilaMRC;
+        public $MOV_ColumnaMRC;
+        public $MOV_CustomerKeyMRC;
+        public $MOV_DateStampMRC;
+        public $MOV_UserKeyMRC;
+        public $MOV_TieneControlMRC;
+        public $MOV_MoverFilas;
+        public $MOV_MoverCols;
+        public $MOV_PosicionesAMover;
+        public $MOV_NumControl;
+        public $MOV_FilsMovidas;
+        public $MOV_ColsMovidas;
 
         // Db connection
         public function __construct($db){
@@ -23,12 +30,10 @@
 
         // GET ALL
 		public function getCkAll(){	
-            $sql = "SELECT DISTINCT INT_IdInterseccion, INT_Filas, INT_Columnas, INT_CustomerKey
-			,INT_USerKey, INT_InterseccionKey, DateStamp			
+            $sql = "SELECT DISTINCT MOV_IdMovimientoMRC, MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_TieneControlMRC, MOV_MoverFilas, MOV_MoverCols
+			,MOV_PosicionesAMover, MOV_FilsMovidas, MOV_ColsMovidas			
 			FROM  ". $this->db_table ."
-			JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion
-			WHERE INT_CustomerKey = ?			
-			ORDER BY DateStamp, INT_Filas, INT_Columnas ";
+			WHERE INT_CustomerKey = ? ";
 			//echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 				//	OFFSET $offset ROWS FETCH NEXT $per_page ROWS ONLY
@@ -38,15 +43,18 @@
         }
 		
 		// GET ALL
-		public function getMovtoMatrizControl(){	
-            $sql = "SELECT TOP 1 MOV_IdMovimientoMRC, MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC	
-			FROM MOV_MatrizControl
-			WHERE MOV_CustomerKeyMRC = ? AND MOV_IdEventoMRC = ? ORDER BY MOV_IdMovimientoMRC DESC ";
+		public function getLabel(){	
+            $sql = "SELECT MOV_FilaMRC, MOV_ColumnaMRC, P.PRO_Nombre AS LBLProb, C.CSC_Nombre AS LBLConsec
+			FROM  ". $this->db_table ."
+            JOIN PRO_Probabilidad AS P ON P.PRO_Escala = MOV_FilaMRC
+            JOIN CSC_Consecuencia AS C ON C.CSC_Escala = MOV_ColumnaMRC
+			WHERE MOV_CustomerKeyMRC = ? AND MOV_IdEventoMRC = ? AND MOV_IdMovimientoMRC = ? ";
 			//echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 				//	OFFSET $offset ROWS FETCH NEXT $per_page ROWS ONLY
 			$stmt->bindParam(1, $this->MOV_CustomerKeyMRC);
-			$stmt->bindParam(2, $this->MOV_IdEventoMRC);			
+			$stmt->bindParam(2, $this->MOV_IdEventoMRC);
+            $stmt->bindParam(3, $this->MOV_IdMovimientoMRC);
 			$stmt->execute();
 			return $stmt;
         }
@@ -88,7 +96,7 @@
 		
 		// READ single Id para pintar la matriz coloreada en el Evento de Riesgo
         public function getIdMatrizEventoRiesgo(){
-            $sql = "SELECT INT_IdInterseccion, INT_Filas, INT_Columnas, INT_CustomerKey, INA_Fila, INA_Color FROM ". $this->db_table ." JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion WHERE INT_CustomerKey = ?  ORDER BY INT_IdInterseccion DESC ";			
+            $sql = "SELECT INT_IdInterseccion, INT_Filas, INT_Columnas, INT_CustomerKey, INA_Fila, INA_Color FROM ". $this->db_table ." JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion WHERE INT_CustomerKey = ? ";			
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 

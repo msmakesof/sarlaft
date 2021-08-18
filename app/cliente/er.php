@@ -1,5 +1,14 @@
-<?php include '../ajax/is_logged.php';?>
 <?php 
+/*************************************************************************
+Created : Mauricio Sánchez Sierra
+Date: 2021-07-13
+Description: 
+			 Genera la información básica para el Evento de Riesgo
+			 Graba el Evento de Riesgo.
+			 Genera el primer cálculo para la Matriz de Riesgo Inherente
+			 Genera el primer cálculo para la Matriz de Riesgo de Control
+**************************************************************************/
+include '../ajax/is_logged.php';
 $UserKey=$_SESSION['UserKey'];
 //require_once '../components/sql_server.php';
 require_once '../config/dbx.php';
@@ -338,7 +347,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 										<div class="col-md-12">
 										<?php //include("../curl/matriz/listar_eve.php"); //
 										
-										require_once '../config/dbx.php';
+										//require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
@@ -473,7 +482,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 		$sel_csc.= "</select>";
 		
-		// Para la matriz de control cuando es imagen 
+		// Para la matriz de control cuando es clonada 
 		$sel_csc11="";
 		$sel_csc11="<select class='form-control mconsec' id='consec11' name='consec11' required style='font-size:12px'>";
 		$sel_csc11.="<option value=''>Seleccione opción</option>";
@@ -570,8 +579,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL</td>
 					</tr>
 					<tr>
-						<td class="subtitMat" style="width:35%">Probabilidad
-						<?php echo $sel_prob11;?>
+						<td class="subtitMat" style="width:35%; background-color: #E1DFDF;">Probabilidad
+						<?php //echo $sel_prob11;?>
+						<div style="text-align:center; line-height: 50px;"><label id="lblprob2"></label></div>
 						</td>
 						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
 						<td rowspan="2" style="width:60%">
@@ -589,15 +599,18 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						</td>
 					</tr>
 					<tr>
-						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
-						<?php echo $sel_csc11;?>
+						<td class="subtitMat" style="width:35%; background-color: #E1DFDF;"><?php echo $NombreTitulo ; ?>
+						<?php //echo $sel_csc11;?>
+							<div style="text-align:center;">
+								<label id="lblconsec2"></label>
+							</div>
 						</td>			
 					</tr>
 				</tbody>
 			</table>
 		</td>
 		
-		<td id="matcon">
+		<!-- <td id="matcon">
 			<table class="table table-bordered" style="width:100%">
 				<tbody>
 					<tr>
@@ -628,7 +641,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 				</tbody>
 			</table>
-		</td>
+		</td> -->
 		
 	</tr>
 </table> 
@@ -837,6 +850,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		var moverfils = 0;      //  Categoria: Preventivo  mueve hacia Abajo
 		var movercols = 0;		//  Categoria: Correctivo  mueve hacia Izquierda
 		                        //  Categoria: Ambos       mueve hacia Abajo y a la Izquierda 
+		var txtCat = "";
 		var posicionesmover = 0;
 		itemcontrol = 0;
 		var valDoc = 0;
@@ -860,7 +874,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			alert('itemcontrol...'+itemcontrol);
 	
 			// Para la Categoria
-			var txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
 			txtCat = txtCat.substr(0,1);
 			
 			moverfils = 0;
@@ -907,7 +921,26 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			alert(itemcontrol);
 			moverbolita = moverbolita.substr(0,1);			
 			
-			//let posicionesmover = 0;
+			////alert('Categoria...'+txtCat);
+			// Para la Categoria
+			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = txtCat.substr(0,1);			
+			if( txtCat == "P" ){  
+				//alert('Cat:  mover Abajo');  
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){  
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else { 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
@@ -942,7 +975,29 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
 			}
-			alert('itemcontrol...'+itemcontrol);			
+			alert('itemcontrol...'+itemcontrol);
+			
+			
+			// Para la Categoria
+			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = txtCat.substr(0,1);
+			//alert('Categoria en 3y4...'+txtCat);
+			if( txtCat == "P" ){
+				//alert('Cat:  mover Abajo');
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else { 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			
 			//let posicionesmover = 0;
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
@@ -969,9 +1024,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			itemcontrol = p5;
 			var er = $("#hder").val();
 			
-			var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
+			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
 			alert('params...'+paramet);
 			$.ajax({
+				async: true,
 				type: "POST",
 				url: "../curl/matriz/matrizcontrol.php",
 				data: paramet,
@@ -980,9 +1036,30 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$("#matrizzControl").hide();
 					$("#matrizz1Control").show();
 					$("#matrizz1Control").html(datos);
+					
+					/* aki debo actualizar etiquetas para los labels de la MRC*/
+					let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
+					$.ajax({
+						async: true,
+						type: "POST",
+						url: "../curl/matriz/label.php",
+						data: parms,
+						success: function(datos){
+							let obj = JSON.parse(datos);
+							let x = JSON.stringify(datos);
+							x= x.substr(0,1);
+							if( x != "R" ){
+								$("#lblprob2").html(obj.body[0]['LBLProb']);
+								$("#lblconsec2").html(obj.body[0]['LBLConsec']);
+								$("#prob11").val(obj.body[0]['MOV_FilaMRC']);
+								$("#consec11").val(obj.body[0]['MOV_ColumnaMRC']);
+							}
+						}
+					})
+					//
 				}
-			})
-		}		
+			})			
+		}
 			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
@@ -1039,9 +1116,21 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				var afecta ="";
 				
 				$("#prob11").val(txt);
-				$("#consec11").val(cols);
+				$("#consec11").val(cols);				
 				$("#prob11 option[value='']").remove();
 				$("#prob1 option[value='']").remove();
+				if( txt == "" ){
+					$("#lblprob2").html();
+				}
+				else{
+					$("#lblprob2").html( $(this).find('option:selected').text() );	
+				}
+				if( cols == ""){
+					$("#lblconsec2").html();
+				} 
+				else{
+					$("#lblconsec2").html( $("#consec1").find('option:selected').text() );
+				}
 				
 				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
 				$.ajax({
@@ -1069,8 +1158,20 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$("#matrizz1").show();
 							$("#matrizz1Control").show();
 							$("#matrizz1").html(datos);
+							alert('afecta...'+afecta);
 							if(afecta != "S"){
-								$("#matrizz1Control").html(datos);
+								$("#matrizz1Control").html(datos);							
+							}
+							else{
+								paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
+								$.ajax({
+									type: "POST",
+									url: "../curl/matriz/matriznewmrc.php",
+									data: paramet,
+									success: function(xdatos){
+										$("#matrizz1Control").html(xdatos);
+									}
+								})
 							}
 						}
 					})
@@ -1086,6 +1187,20 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$("#consec11").val(txt);
 				$("#consec1 option[value='']").remove();
 				$("#consec11 option[value='']").remove();
+				if ( fila == "" ){
+					$("#lblprob2").html();
+				}
+				else {
+					$("#lblprob2").html( $("#prob1").find('option:selected').text() );	
+				}
+				
+				if ( txt == "" ){
+					$("#lblconsec2").html();
+				}
+				else {
+					$("#lblconsec2").html( $(this).find('option:selected').text() );	
+				}
+				
 
 				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
 				$.ajax({
@@ -1117,6 +1232,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$("#matrizz1").html(datos);
 							if( afecta != "S"){
 								$("#matrizz1Control").html(datos);
+							}
+							else{
+								paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
+								$.ajax({
+									type: "POST",
+									url: "../curl/matriz/matriznewmrc.php",
+									data: paramet,
+									success: function(xdatos){
+										$("#matrizz1Control").html(xdatos);
+									}
+								})
 							}
 						}	
 					})

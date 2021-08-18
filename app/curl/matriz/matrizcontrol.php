@@ -3,7 +3,8 @@
 Author: Mauricio Sanchez Sierra
 Date: 2021-07-27
 Description:  Programa para calcular ubicacion de 
-la bolita en la Matriz de Control
+la bolita en la Matriz de Control o Residual
+(Algoritmo de calculo para la MRC o MRR)
 **********************************************/
 ?>
 <style>
@@ -113,7 +114,7 @@ text-align:center;
 	else{
 		$nrocontrol = 0;
 	}
-	//echo "nrocontrol...$nrocontrol<br>";
+	echo "nrocontrol...$nrocontrol<br>";
 	
 	// Nro del Registro de Matriz Control que se está trabajando
 	$IdMovimientoMRC = $nrocontrol;
@@ -184,7 +185,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		$MOV_FilsMovidas = 0;
 		$MOV_ColsMovidas = 0;
-		// Para la cantidad de posiciones q movio para Fils y Cols, esto será usado en la sumatoria para cada control
+		// Para la cantidad de posiciones q movió para Fils y Cols, esto será usado en la sumatoria para cada control
 		// Debo tener en cuenta cuando haya cambio en Posibilidad y Consecuencia en la MRI
 		echo "multi fils:  $pmoverfils * $pposicionmover<br>";
 		echo "multi cols:  $pmovercols * $pposicionmover<br>";
@@ -203,7 +204,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		//*echo "echo 2- Filas movidas MOV_FilsMovidas.....$MOV_FilsMovidas    Cols Movidas:: MOV_ColsMovidas......$MOV_ColsMovidas<br>";
 		
-		////  Resto filas y columnas movidas a la posicion actual de la MRI
+		////  Resto filas y columnas movidas a la posición actual de la MRI
 		$posfilx = $PosActualFilsMRI - $MOV_FilsMovidas;
 		$poscolx = $PosActualColsMRI - $MOV_ColsMovidas;		
 
@@ -228,12 +229,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						
 						if($CuentaTotal == 0){						
 							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols, MOV_PosicionesAMover, MOV_NumControl, MOV_FilsMovidas, MOV_ColsMovidas) VALUES (".$er.",".$posfilx.",".$poscolx.",'".$CustomerKey."','".$DateStamp."','S','".$UserKey."',".$pmoverfils.",".$pmovercols.",".$pposicionmover.",".$nrocontrol.",".$MOV_FilsMovidas.",".$MOV_ColsMovidas.")";	
-					echo "sq insert MC.......$sqlmov<br>";
+					////echo "sq insert MC.......$sqlmov<br>";
 							$query = sqlsrv_query($conn,$sqlmov);	
 						}
 						else{							
 							$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfilx, MOV_ColumnaMRC=$poscolx, MOV_MoverFilas=$pmoverfils, MOV_MoverCols= $pmovercols, MOV_FilsMovidas = $MOV_FilsMovidas, MOV_ColsMovidas = $MOV_ColsMovidas, MOV_UserKeyMRC='$UserKey', MOV_DateStampMRC='$DateStamp', MOV_PosicionesAMover=$pposicionmover WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
-					echo "upd.........$sqlmov<br>";
+					////echo "upd.........$sqlmov<br>";
 							$query = sqlsrv_query($conn,$sqlmov);
 						}
 						
@@ -280,11 +281,29 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		$posfil = $PosActualFilsMRI - $SumFils ;//+ $MOV_FilsMovidas;  //$PosActualFilsMRI - $Sum_FilsMovidas; //$FilsAMover;
 		$poscol = $PosActualColsMRI - $SumCols ;//+ $MOV_ColsMovidas;  //$PosActualColsMRI - $Sum_ColsMovidas; //$ColsAMover;
 		
+		// Para evitar que la bolita desaparezca de la matriz para los valores mínimos y máximos
+		if($nrocontrol > 0){	
+			if ( $posfil <= 0){
+				$posfil = 1;
+			}
+			if ( $posfil > 5){
+				$posfil = 5;
+			}
+			
+			if ( $poscol <= 0){
+				$poscol = 1;
+			}
+			if ( $poscol > 5 ){
+				$poscol = 5;
+			}
+		}
 	
 		//*echo "3- Nueva ubicacion MRc  fils...$posfil    Cols....$poscol<br>";
 		//Actualizo la nueva ubicación de la bolita en MRC
 		$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfil, MOV_ColumnaMRC=$poscol WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
 		$query = sqlsrv_query($conn,$sqlmov);
+		
+		//Después de ubicar la bolita debo actualizar los textos de los labels de acuerdo a la nueva posición de ella		
 		
 		if( $dataintermatriz["itemCount"] > 0)
 		{
@@ -318,15 +337,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
-						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';	
-						
-						/* debo indicarle en que momento debe grabar el registro */
-						
-						//$sqlmov="DELETE FROM MOV_MatrizControl WHERE MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC = ".$DELMX." AND MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er;
-						//echo $sqlmov."<br>";
-					} 
-					else { 
-						$condimg = "&nbsp;"; 
+						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';
+					}
+					else {
+						$condimg = "&nbsp;";
 					}
 
 					$tabla.="<td id='".$id."' style='". $color ."; vertical-align:middle;'>" . $condimg . "</td>";

@@ -8,7 +8,7 @@
 					</div>
 					<div class="modal-body">					
 						<p>¿Seguro que quieres eliminar este registro?</p>
-						<p class="text-warning"><small>Esta acción no se puede deshacer.</small></p>
+						<p class="text-warning"><small>Esta acción NO se puede deshacer.  También redimensionará la Matriz de Intersección.</small></p>
 						<input type="hidden" name="delete_id" id="delete_id">
 					</div>
 					<div class="modal-footer">

@@ -275,6 +275,10 @@
 						type= 'error';
 						txt = 'Lo sentimos, el registro falló por conexión. Por favor, regrese y vuelva a intentarlo.';
 					}
+					else if(msj == 'X'){
+						type= 'warning';
+						txt = 'Atención: Existe un Evento de Riesgo utilizando la Intersección y No se Puede Borrar.';
+					}
 					else{
 						type= 'error';
 						txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';

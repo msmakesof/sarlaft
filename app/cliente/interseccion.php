@@ -1,5 +1,8 @@
 <?php include '../ajax/is_logged.php';?>
-<?php require_once '../components/sql_server.php';
+<?php //require_once '../components/sql_server.php';
+require_once ("../config/dbx.php");
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
