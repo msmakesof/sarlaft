@@ -151,7 +151,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						$color = $dataintermatriz['body'][$i]["INA_Color"];
 						
 						if( $id == $posicion ){
-
 							break;
 						}
 					}
@@ -191,11 +190,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						if( $TieneControl != "S" ){
 							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
 							$query = sqlsrv_query($conn,$sqlmov);
+							
+							//Grabo el control
+							//$sqlmov="INSERT INTO ECTR_Controles (ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria, ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdControl, ECTR_IdEventoMRC) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
+							//$query = sqlsrv_query($conn,$sqlmov);
 						}
 						else{
-							//$nuevaUbicacion="S";
-							//break;							
-							
 							//Calculo para determinar cantidad de posiciones a subir o bajar (filas)
 							$cantidadPosicionesFila = $MOV_FilaMRI - $posfil ;
 							//Calculo para determinar cantidad de posiciones a izquierda o derecha (columnas)
@@ -207,18 +207,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							
 							$MOV_FilaMRC = $reg['MOV_FilaMRC']; // Ubicacion en la Fila
 							$MOV_ColumnaMRC = $reg['MOV_ColumnaMRC']; // Ubicacion en la Columna
-							$MOV_IdMovimientoMRC = $reg['MOV_IdMovimientoMRC']; // Ubicacion en la Fila
-							
-							//Si el valor es positivo en la MRC debo saber la útima posición en la Fila
-							//if( $nuevaPosicionFila > 0 ){								
-							//}
+							$MOV_IdMovimientoMRC = $reg['MOV_IdMovimientoMRC']; // Ubicacion en la 
 							
 							$nuevaPosicionFila = $MOV_FilaMRC - $cantidadPosicionesFila;
 							$nuevaPosicionCols = $MOV_ColumnaMRC - $cantidadPosicionesCols;
-							
-							//$nuevaPosicionFila = variant_abs($nuevaPosicionFila);
-							//$nuevaPosicionesMover = variant_abs($nuevaPosicionFila);
-							//$nuevaFilasMovidas = $nuevaPosicionesMover;
 							
 							// Para evitar que la bolita desaparezca de la matriz para los valores mínimos y máximos			
 							if ( $nuevaPosicionFila <= 0){
@@ -238,104 +230,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							// Actualizo la posicion de la fila en la MRC
 							$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$nuevaPosicionFila, MOV_ColumnaMRC = $nuevaPosicionCols WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC = $MOV_IdMovimientoMRC";
 							$query = sqlsrv_query($conn,$sqlmov);
-							echo "mov upd....".$sqlmov."<br>";
-							/*
-							if( $query ){
-								$nuevaUbicacion="S";
-							}
-							*/
+							////echo "mov upd....".$sqlmov."<br>";
+							
 						}						
 					} 
 					else { 
 						$condimg = "&nbsp;"; 
 					}
-					
-					//if( $nuevaUbicacion == "S" ){
-						//$posfil = $nuevaPosicionFila;
-						//if($m == $posfil ) { // && $c == $poscol
-							//$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';
-						//}
-						//break;
-					//}					
-
 					$tabla.="<td id='".$id."' style='". $color ."; vertical-align:middle;'>" . $condimg . "</td>";
 				}
 				$m--;
 				$tabla.="</tr>";
 			}
-			//echo "NU.....$nuevaUbicacion<br>";
-			////if( $nuevaUbicacion == "S" ){
-				/*
-				//Calculo para determinar cantidad de posiciones a subir o bajar (filas)
-				$cantidadPosiciones = $MOV_FilaMRI - $posfil ;
-				
-				//Para saber la útima posición en la Fila de la MRC
-				$sqlmov=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_IdMovimientoMRC FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." ORDER BY MOV_IdMovimientoMRC DESC ");
-				$reg = sqlsrv_fetch_array($sqlmov);
-				
-				$MOV_FilaMRC = $reg['MOV_FilaMRC']; // Ubicacion en la Fila
-				$MOV_IdMovimientoMRC = $reg['MOV_IdMovimientoMRC']; // Ubicacion en la Fila
-				
-				//Si el valor es positivo en la MRC debo saber la útima posición en la Fila
-				//if( $nuevaPosicionFila > 0 ){								
-				//}
-				
-				$nuevaPosicionFila = $MOV_FilaMRC - $cantidadPosiciones;
-				
-				//$nuevaPosicionFila = variant_abs($nuevaPosicionFila);
-				//$nuevaPosicionesMover = variant_abs($nuevaPosicionFila);
-				//$nuevaFilasMovidas = $nuevaPosicionesMover;
-				
-				// Actualizo la posicion de la fila en la MRC
-				$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$nuevaPosicionFila WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC = $MOV_IdMovimientoMRC";
-				$query = sqlsrv_query($conn,$sqlmov);
-				echo "mov upd....".$sqlmov."<br>";
-				
-				
-				$sqlmov=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, MOV_IdMovimientoMRC FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC =".$MOV_IdMovimientoMRC." ORDER BY MOV_IdMovimientoMRC DESC ");
-				$reg = sqlsrv_fetch_array($sqlmov);
-				
-				
-				$posfil =$reg['MOV_FilaMRC'];
-				$poscol =$reg['MOV_ColumnaMRC'];
-				
-				//
-				$tabla="";
-				$tabla="x<table class='gen' id='matrizconR' style='text-align:center;width:100%'><tbody>";
-				$m = $fil;
-				for($f=1; $f<=$fil; $f++){
-					$tabla.="<tr>";
-					
-					for($c=1; $c<=$col; $c++){
-						$id="p".$m."c".$c;
-						$pid = '"'.$id.'"';
 
-						for($i=0; $i<count($dataintermatriz['body']); $i++)
-						{
-							$posicion = trim($dataintermatriz['body'][$i]["INA_Fila"]);
-							$color = $dataintermatriz['body'][$i]["INA_Color"];
-							
-							if( $id == $posicion ){
-
-								break;
-							}
-						}
-						$condimg = "";
-						if($m == $posfil && $c == $poscol) { 
-							$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';
-						}
-						else { 
-							$condimg = "&nbsp;";
-						}
-						$tabla.="<td id='".$id."' style='". $color ."; vertical-align:middle;'>" . $condimg . "</td>";
-					}
-					$m--;
-					$tabla.="</tr>";
-				}
-				*/
-				//				
-			//}//
-			
 			$tabla.="</tbody></table>";
 			echo $tabla;
 		}

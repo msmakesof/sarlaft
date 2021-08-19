@@ -23,6 +23,10 @@
     $next_result = sqlsrv_next_result($query);
     $row = sqlsrv_fetch_array($query); 
     $LastId = $row['LastId'];
+    
+    $sqlmov="INSERT INTO ECTR_Controles (ECTR_IdEventoMRC, ECTR_NumControl, ECTR_CustomerKey) VALUES (".$er.",".$LastId.",'".$ck."')";
+    $query = sqlsrv_query($conn,$sqlmov);
+
     $sqlmov="UPDATE MOV_MatrizControl SET MOV_NumControl = ".$LastId." WHERE MOV_IdMovimientoMRC =". $LastId. " AND MOV_CustomerKeyMRC='".$ck."' AND MOV_IdEventoMRC=".$er;
     $query = sqlsrv_query($conn,$sqlmov);
     echo $LastId;

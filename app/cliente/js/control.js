@@ -29,6 +29,7 @@ $("#addctr").on('click', function(){
 	////alert("Evento Riesgo.."+er);
 	let slct = '';	
 	itemcontrol = itemcontrol + 1;
+	////Crear el primer movimiento en la tabla MOV_MatrizControl y en ECTR_Controles
 	var prmts = "ck="+CKCtr+"&er="+er+"&nc="+itemcontrol;
 	$.ajax({
 		async: false,
@@ -43,7 +44,7 @@ $("#addctr").on('click', function(){
 	})
 
 	itemcontrol = RegistroActual;
-	alert('itc....'+itemcontrol);
+	/////alert('itc....'+itemcontrol);
 	
 	$.get("../api/controles/lista_eve.php", {ck: CKCtr  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
@@ -170,17 +171,17 @@ $("#addctr").on('click', function(){
 										tablainterna+= '<div style="clear:both; width:100%"> </div>';
 										
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-										tablainterna+= '<select class="ctrpropietario" id="ctrpropietario'+ itemcontrol +'" name="ctrpropietario">'+ slctresp ;
+										tablainterna+= '<select class="ctrpropietario" id="selprop'+itemcontrol+'" name="selprop'+ itemcontrol +'" onChange="fnselProp(selprop'+itemcontrol+',this.options[this.selectedIndex].value)">'+ slctresp ;
 										tablainterna+= '</select></div>';
 										
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-										tablainterna+= '<select class="ctrejecutor" id="ctrejecutor'+ itemcontrol +'" name="ctrejecutor">'+ slctresp;
+										tablainterna+= '<select class="ctrejecutor" id="selejec'+ itemcontrol +'" name="selejec'+ itemcontrol +'" onChange="fnselEjec(selejec'+itemcontrol+',this.options[this.selectedIndex].value)">'+ slctresp;
 										tablainterna+= '</select></div>';
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-										tablainterna+= '<select class="ctrefectividad" id="ctrefectividad'+ itemcontrol +'" name="ctrefectividad">'+selEfectividad;
+										tablainterna+= '<select class="ctrefectividad" id="selefct'+ itemcontrol +'" name="selefct'+ itemcontrol +'" onChange="fnselEfec(selefct'+itemcontrol+',this.options[this.selectedIndex].value)">'+selEfectividad;
 										tablainterna+= '</select></div>';
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-										tablainterna+= '<select class="ctrfrecuencia" id="ctrfrecuencia'+ itemcontrol +'" name="ctrfrecuencia">'+selFrecuencia;
+										tablainterna+= '<select class="ctrfrecuencia" id="selfrec'+ itemcontrol +'" name="selfrec'+ itemcontrol +'" onChange="fnselFrec(selfrec'+itemcontrol+',this.options[this.selectedIndex].value)">'+selFrecuencia;
 										tablainterna+= '</select></div>';
 
 										tablainterna+= '<div style="float:left; width:17%; text-align:center">';
@@ -237,22 +238,15 @@ $("#addctr").on('click', function(){
 						var registroborrar = regdel.substr(posicion+1) ;
 					}
 
-					//$(this).parent('td').parent('tr').remove();
-					alert('xdel...'+registroborrar);
-
+					$(this).parent('td').parent('tr').remove();
 					$.ajax({
 						async: true,
 						type: "POST",
-						//url: "../api/matriz/delete_control.php?ck="+CKCtr+"&id="+registroborrar,
 						url: "../api/matriz/delete_control.php",
 						data:  {'ck': CKCtr, 'id': registroborrar},
 						success: function(datos){
-							alert(datos);
 							if( $.trim(datos) == "S" ){
-								//$(this).parent('td').parent('tr').remove();
-								$('.delete').parent('td').parent('tr').remove();
-								//$("#matcon").load();
-								$("#matcon").load(location.href + " #matcon");
+								$("#prob1").trigger('change');
 							}
 						}
 					})
@@ -275,10 +269,75 @@ $("#addctr").on('click', function(){
 	var infoevaltxt = 0;
 	var totsumatoria = 0;
 
+
+	function fnselProp(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		//alert('it 0....'+itemcontrol);
+		itemcontrol = itemcontrol.substr(7);
+		//alert('it 1....'+itemcontrol);
+		
+		//Propietario
+		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+	}
+
+	function fnselEjec(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		itemcontrol = itemcontrol.substr(7);
+		//Propietario
+		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+	}
+
+	function fnselEfec(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		itemcontrol = itemcontrol.substr(7);
+		//Propietario
+		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+	}
+
+	function fnselFrec(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		itemcontrol = itemcontrol.substr(7);
+		//Propietario
+		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+	}
+
 	//$("#seldocum"+itemcontrol).on('change', function(){
 	function fxselDocum(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		alert('from controljs........'+itemcontrol);
+
+		////alert('from controljs........'+itemcontrol);
 		//alert('from controljs ParReg name........'+ParReg.name);
 		//alert('from controljs ParReg id........'+ParReg.id);
 		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)

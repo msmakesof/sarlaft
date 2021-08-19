@@ -114,7 +114,7 @@ text-align:center;
 	else{
 		$nrocontrol = 0;
 	}
-	echo "nrocontrol...$nrocontrol<br>";
+	/////echo "nrocontrol...$nrocontrol<br>";
 	
 	// Nro del Registro de Matriz Control que se está trabajando
 	$IdMovimientoMRC = $nrocontrol;
@@ -187,8 +187,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		$MOV_ColsMovidas = 0;
 		// Para la cantidad de posiciones q movió para Fils y Cols, esto será usado en la sumatoria para cada control
 		// Debo tener en cuenta cuando haya cambio en Posibilidad y Consecuencia en la MRI
-		echo "multi fils:  $pmoverfils * $pposicionmover<br>";
-		echo "multi cols:  $pmovercols * $pposicionmover<br>";
+		/////echo "multi fils:  $pmoverfils * $pposicionmover<br>";
+		/////echo "multi cols:  $pmovercols * $pposicionmover<br>";
 		
 		if($moverbol == "N"){
 			$MOV_FilsMovidas = 0;
@@ -206,59 +206,50 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		////  Resto filas y columnas movidas a la posición actual de la MRI
 		$posfilx = $PosActualFilsMRI - $MOV_FilsMovidas;
-		$poscolx = $PosActualColsMRI - $MOV_ColsMovidas;		
-
-			//$sqlmov=sqlsrv_query($conn,"SELECT MAX(MOV_IdMovimientoMRC) AS DELMX FROM MOV_MatrizControl WHERE //MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er) ;
-			//$regtot = sqlsrv_fetch_array($sqlmov);
+		$poscolx = $PosActualColsMRI - $MOV_ColsMovidas;
 			
-			$DELMX = $IdMovimientoMRC;   //////$regtot['DELMX'] ;			
+			$DELMX = $IdMovimientoMRC;
 			//*echo "DELMX....$DELMX<br>";			
 
-						$sqlmov="";
-						$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'");
-						
-						
-			//*echo "sel TotControl.......SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'<br>";
-						//$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_TieneControlMRC = 'S'");
-						$regcta = sqlsrv_fetch_array($sqlmov);
-						$CuentaTotal = $regcta['TotControl'];
-						echo "Antes de ins o upd    CuentaTotal....$CuentaTotal<br>";
-						
-						date_default_timezone_set("America/Bogota");
-						$DateStamp=date("Y-m-d H:i:s");	
-						
-						if($CuentaTotal == 0){						
-							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols, MOV_PosicionesAMover, MOV_NumControl, MOV_FilsMovidas, MOV_ColsMovidas) VALUES (".$er.",".$posfilx.",".$poscolx.",'".$CustomerKey."','".$DateStamp."','S','".$UserKey."',".$pmoverfils.",".$pmovercols.",".$pposicionmover.",".$nrocontrol.",".$MOV_FilsMovidas.",".$MOV_ColsMovidas.")";	
-					////echo "sq insert MC.......$sqlmov<br>";
-							$query = sqlsrv_query($conn,$sqlmov);	
-						}
-						else{							
-							$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfilx, MOV_ColumnaMRC=$poscolx, MOV_MoverFilas=$pmoverfils, MOV_MoverCols= $pmovercols, MOV_FilsMovidas = $MOV_FilsMovidas, MOV_ColsMovidas = $MOV_ColsMovidas, MOV_UserKeyMRC='$UserKey', MOV_DateStampMRC='$DateStamp', MOV_PosicionesAMover=$pposicionmover WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
-					////echo "upd.........$sqlmov<br>";
-							$query = sqlsrv_query($conn,$sqlmov);
-						}
-						
-						$cadena = str_replace("'",'"',$sqlmov);
-						$MAC = '';
-						ob_start();
-						system('ipconfig/all');
-						$mycom=ob_get_contents(); 
-						ob_clean(); 
-						$findme = "Physical";
-						$pmac = strpos($mycom, $findme); 
-						$MAC=substr($mycom,($pmac+36),17);
-						
-						// ingresa registro en el log de Auditoria
-						$sqllog="INSERT INTO LOG_LogAuditoria (LOG_CustomerKey, LOG_UserKey, LOG_Accion, LOG_Descripcion, LOG_IpAddress, LOG_Module, LOG_DateStamp) VALUES ('$CustomerKey','$UserKey','Grabar', '$cadena','$MAC','Evento de Riesgo','$DateStamp') ";
-						$query = sqlsrv_query($conn,$sqllog);
-						//echo "sqllog....$sqllog<br>";
+			$sqlmov="";
+			$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'");
+
+			$regcta = sqlsrv_fetch_array($sqlmov);
+			$CuentaTotal = $regcta['TotControl'];
+			/////echo "Antes de ins o upd    CuentaTotal....$CuentaTotal<br>";
+			
+			date_default_timezone_set("America/Bogota");
+			$DateStamp=date("Y-m-d H:i:s");	
+			
+			if($CuentaTotal == 0){						
+				$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols, MOV_PosicionesAMover, MOV_NumControl, MOV_FilsMovidas, MOV_ColsMovidas) VALUES (".$er.",".$posfilx.",".$poscolx.",'".$CustomerKey."','".$DateStamp."','S','".$UserKey."',".$pmoverfils.",".$pmovercols.",".$pposicionmover.",".$nrocontrol.",".$MOV_FilsMovidas.",".$MOV_ColsMovidas.")";	
+		////echo "sq insert MC.......$sqlmov<br>";
+				$query = sqlsrv_query($conn,$sqlmov);	
+			}
+			else{							
+				$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfilx, MOV_ColumnaMRC=$poscolx, MOV_MoverFilas=$pmoverfils, MOV_MoverCols= $pmovercols, MOV_FilsMovidas = $MOV_FilsMovidas, MOV_ColsMovidas = $MOV_ColsMovidas, MOV_UserKeyMRC='$UserKey', MOV_DateStampMRC='$DateStamp', MOV_PosicionesAMover=$pposicionmover WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
+		////echo "upd.........$sqlmov<br>";
+				$query = sqlsrv_query($conn,$sqlmov);
+			}
+			
+			$cadena = str_replace("'",'"',$sqlmov);
+			$MAC = '';
+			ob_start();
+			system('ipconfig/all');
+			$mycom=ob_get_contents(); 
+			ob_clean(); 
+			$findme = "Physical";
+			$pmac = strpos($mycom, $findme); 
+			$MAC=substr($mycom,($pmac+36),17);
+			
+			// ingresa registro en el log de Auditoria
+			$sqllog="INSERT INTO LOG_LogAuditoria (LOG_CustomerKey, LOG_UserKey, LOG_Accion, LOG_Descripcion, LOG_IpAddress, LOG_Module, LOG_DateStamp) VALUES ('$CustomerKey','$UserKey','Grabar', '$cadena','$MAC','Evento de Riesgo','$DateStamp') ";
+			$query = sqlsrv_query($conn,$sqllog);
+			//echo "sqllog....$sqllog<br>";
 		
-		// Sumatoria por Filas y Columnas en la Matriz de Riesgo de Control o Residual   //" AND MOV_NumControl=".$nrocontrol)
-		//MAX(MOV_IdMovimientoMRC) AS DELMX, 
+		// Sumatoria por Filas y Columnas en la Matriz de Riesgo de Control o Residual
 		$sqlmov=sqlsrv_query($conn,"SELECT SUM(MOV_FilsMovidas) AS SumFils, SUM(MOV_ColsMovidas) AS SumCols FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er) ;
 		$regtot = sqlsrv_fetch_array($sqlmov);
-		//$DELMX = $regtot['DELMX'] ;
-		//echo "DELMX....$DELMX<br>";
 		$SumFils = $regtot['SumFils'] ;
 		$SumCols = $regtot['SumCols'] ;
 		
@@ -272,14 +263,14 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		//*echo "2-1  filas Movidas en DB..$SumFils    Cols  Movidas en DB..$SumCols<br>";
 		$Sum_FilsMovidas = 0;
 		$Sum_ColsMovidas = 0;
-		$Sum_FilsMovidas = $SumFils ;  //+ $MOV_FilsMovidas;
-		$Sum_ColsMovidas = $SumCols ;  //+ $MOV_ColsMovidas;
+		$Sum_FilsMovidas = $SumFils ;
+		$Sum_ColsMovidas = $SumCols ;
 		
 		//echo "2-2  Sumat Movidas:: $SumFils + $MOV_FilsMovidas    Sumat Cols  Movidas:: $SumCols + $MOV_ColsMovidas<br>";
 		
 		// Ubicar la bolita en su nueva posicion (Fil, Col) en MRC
-		$posfil = $PosActualFilsMRI - $SumFils ;//+ $MOV_FilsMovidas;  //$PosActualFilsMRI - $Sum_FilsMovidas; //$FilsAMover;
-		$poscol = $PosActualColsMRI - $SumCols ;//+ $MOV_ColsMovidas;  //$PosActualColsMRI - $Sum_ColsMovidas; //$ColsAMover;
+		$posfil = $PosActualFilsMRI - $SumFils ;
+		$poscol = $PosActualColsMRI - $SumCols ;
 		
 		// Para evitar que la bolita desaparezca de la matriz para los valores mínimos y máximos
 		if($nrocontrol > 0){	

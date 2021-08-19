@@ -10,7 +10,6 @@ Description:
 **************************************************************************/
 include '../ajax/is_logged.php';
 $UserKey=$_SESSION['UserKey'];
-//require_once '../components/sql_server.php';
 require_once '../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -29,13 +28,11 @@ $ValorEfectivo =0;
 $SumaAplicado_Efectivo = 0;
 $Umbral = 0;
 if ($EscalaValor == 5){
-	//$SumaAplicado_Efectivo = 20;
 	$ValorAplicado =10;
 	$ValorEfectivo =10;
 	$Umbral = 50;
 }
 else {
-	//$SumaAplicado_Efectivo = 4;
 	$ValorAplicado =2;
 	$ValorEfectivo =2;
 	$Umbral = 10;
@@ -345,9 +342,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 				 <div class="xheaderMatriz">
 									<div class="form-group row" id="parmatriz">
 										<div class="col-md-12">
-										<?php //include("../curl/matriz/listar_eve.php"); //
-										
-										//require_once '../config/dbx.php';
+										<?php 
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
@@ -588,10 +583,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizzControl">
-							<?php 
-							//include('../curl/matriz/matriz.php'); 
-							include('../curl/matriz/matrizcontrol.php');							
-							?>
+							<?php include('../curl/matriz/matrizcontrol.php'); ?>
 							</div>	
 							
 							<div id="matrizz1Control"></div>
@@ -609,40 +601,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				</tbody>
 			</table>
 		</td>
-		
-		<!-- <td id="matcon">
-			<table class="table table-bordered" style="width:100%">
-				<tbody>
-					<tr>
-						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL...
-						<?php //echo "pos Ini Filas....$PosicioActualFils.....pos Ini Cols....$PosicioActualCols"; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="subtitMat" style="width:35%">Probabilidad
-						<?php echo $sel_prob2;?>
-						</td>
-						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
-						<td rowspan="2" style="width:60%">
-							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
-							
-							<div id="matrizzControlR">
-							<?php include('../curl/matriz/matrizcontrol.php'); ?>
-							</div>	
-							
-							<div id="matrizz1ControlR"></div>
-							
-						</td>
-					</tr>
-					<tr>
-						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
-						<?php echo $sel_csc2;?>
-						</td>			
-					</tr>
-				</tbody>
-			</table>
-		</td> -->
-		
+
 	</tr>
 </table> 
 
@@ -833,9 +792,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	
-
-
     <script>
 		var categoria_regla1 = '';
 		var moverfila_regla1 = 0;
@@ -860,7 +816,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Fin Parametros a enviar para la matriz de control
 		
         function mks(p1,p2){
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
             $.redirect("tareas.php", {id: p1, np : p2 });
 		}		
 		
@@ -871,7 +826,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			if (posicion !== -1){
 				itemcontrol = cadena.substr(posicion+1) ;
 			}
-			alert('itemcontrol...'+itemcontrol);
+			////alert('itemcontrol...'+itemcontrol);
 	
 			// Para la Categoria
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
@@ -918,7 +873,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		function fnRealizado(pValue){
 			moverbolita = pValue.value;  // S o N
 			itemcontrol = moverbolita.substr(2);
-			alert(itemcontrol);
+			////alert(itemcontrol);
 			moverbolita = moverbolita.substr(0,1);			
 			
 			////alert('Categoria...'+txtCat);
@@ -975,9 +930,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
 			}
-			alert('itemcontrol...'+itemcontrol);
-			
-			
+			////alert('itemcontrol...'+itemcontrol);			
 			// Para la Categoria
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
 			txtCat = txtCat.substr(0,1);
@@ -1025,9 +978,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
-			alert('params...'+paramet);
+			////alert('params...'+paramet);
 			$.ajax({
-				async: true,
+				async: false,
 				type: "POST",
 				url: "../curl/matriz/matrizcontrol.php",
 				data: paramet,
@@ -1040,7 +993,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					/* aki debo actualizar etiquetas para los labels de la MRC*/
 					let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
 					$.ajax({
-						async: true,
+						async: false,
 						type: "POST",
 						url: "../curl/matriz/label.php",
 						data: parms,
@@ -1056,9 +1009,41 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							}
 						}
 					})
-					//
 				}
 			})			
+		}
+		
+		function fnControl(pinfprop,pinfejec,pinfefec,pinffrec,pParReg){
+			//alert(pinfprop);
+			let valinfprop = pinfprop;
+			if ( isNaN(valinfprop) ){valinfprop = 0;}
+
+			let valinfejec = pinfejec;
+			if ( isNaN(valinfejec) ){valinfejec = 0;}
+
+			let valpinfefec = pinfefec;
+			if ( isNaN(valpinfefec) ){valpinfefec = 0;}
+
+			let valpinffrec = pinffrec;
+			if ( isNaN(valpinffrec) ){valpinffrec = 0;}
+			
+			let posicion = pParReg.indexOf('-');
+			if (posicion !== -1){
+				itemcontrol = pParReg.substr(posicion+1) ;
+			}
+
+			let er = $("#hder").val();			
+
+			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&prop="+valinfprop+"&ejec="+valinfejec+"&efec="+valpinfefec+"&frec="+valpinffrec+"&er="+er+"&nrocontrol="+itemcontrol;
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "../api/eventoriesgo/guardacontrol.php",
+				data: paramet,
+				success: function(datos){
+
+				}
+			})
 		}
 			
         $(document).ready(function(){
@@ -1094,17 +1079,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$("#zonadata").hide()
 				}
 			})
-			
-			/*$("#tr").on('change', function(){
-				var sel_tr = $(this).val();
-				alert($(this).val());
-				if(sel_tr == ""){
-					
-				}
-				else{
-					
-				}
-			})*/
 			
 			$("#matrizz1").hide();
 			$("#matrizz1Control").hide();
@@ -1158,7 +1132,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$("#matrizz1").show();
 							$("#matrizz1Control").show();
 							$("#matrizz1").html(datos);
-							alert('afecta...'+afecta);
+							//alert('afecta...'+afecta);
 							if(afecta != "S"){
 								$("#matrizz1Control").html(datos);							
 							}
@@ -1170,6 +1144,26 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									data: paramet,
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
+										
+										/* aki debo actualizar etiquetas para los labels de la MRC*/
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
+										$.ajax({
+											async: false,
+											type: "POST",
+											url: "../curl/matriz/label.php",
+											data: parms,
+											success: function(datos){
+												let obj = JSON.parse(datos);
+												let x = JSON.stringify(datos);
+												x= x.substr(0,1);
+												if( x != "R" ){
+													$("#lblprob2").html(obj.body[0]['LBLProb']);
+													$("#lblconsec2").html(obj.body[0]['LBLConsec']);
+													$("#prob11").val(obj.body[0]['MOV_FilaMRC']);
+													$("#consec11").val(obj.body[0]['MOV_ColumnaMRC']);
+												}
+											}
+										})
 									}
 								})
 							}
@@ -1199,8 +1193,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				}
 				else {
 					$("#lblconsec2").html( $(this).find('option:selected').text() );	
-				}
-				
+				}				
 
 				var params = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&er="+er+"&ruta=../";
 				$.ajax({
@@ -1214,8 +1207,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 				})				
 				
-				//if ( fila == ""){ fila =1; }
-				//alert( $(this).val() );
 				if ( fila != "" && txt != ""){
 					var paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&pfila="+fila+"&pcols="+txt+"&ruta=../";
 					//alert(paramet);
@@ -1241,19 +1232,35 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									data: paramet,
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
+										
+										/* aki debo actualizar etiquetas para los labels de la MRC*/
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
+										$.ajax({
+											async: false,
+											type: "POST",
+											url: "../curl/matriz/label.php",
+											data: parms,
+											success: function(datos){
+												let obj = JSON.parse(datos);
+												let x = JSON.stringify(datos);
+												x= x.substr(0,1);
+												if( x != "R" ){
+													$("#lblprob2").html(obj.body[0]['LBLProb']);
+													$("#lblconsec2").html(obj.body[0]['LBLConsec']);
+													$("#prob11").val(obj.body[0]['MOV_FilaMRC']);
+													$("#consec11").val(obj.body[0]['MOV_ColumnaMRC']);
+												}
+											}
+										})
 									}
 								})
 							}
-						}	
+						}
 					})
-				}	
-			})			
+				}
+			})
 
-			//$("#consec1").on('change', function(){
-			//	var txt = $(this).find('option:selected').text();
-			//	$("#lblconsec").html(txt);
-			//	alert( $(this).val() );
-			//})
+			
 
 			$("#prob2").on('change', function(){
 				var txt = $(this).find('option:selected').text();
