@@ -26,7 +26,6 @@ $("#addctr").on('click', function(){
 	valApl = 0;
 	valEfe = 0;
 	valEva = 0;
-	////alert("Evento Riesgo.."+er);
 	let slct = '';	
 	itemcontrol = itemcontrol + 1;
 	////Crear el primer movimiento en la tabla MOV_MatrizControl y en ECTR_Controles
@@ -37,21 +36,17 @@ $("#addctr").on('click', function(){
 		url: "../api/matriz/updateMatrizControl.php",
 		data: prmts,
 		success: function(datos){
-			//*alert('datos.....'+datos);
 			RegistroActual = datos;
-			//*alert('reg Actual......'+RegistroActual);
 		}
 	})
 
 	itemcontrol = RegistroActual;
-	/////alert('itc....'+itemcontrol);
 	
 	$.get("../api/controles/lista_eve.php", {ck: CKCtr  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.ControlesName +"</option>";
 		});
-		//var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
 		slct = '<div style="width:100%; float:left"><select class="form-control control" id="control" name="control">';					
 		slct += opc;
 		slct += '</select></div>';	
@@ -76,39 +71,24 @@ $("#addctr").on('click', function(){
 			selFrecuencia += opcfrecuencia;
 		})
 
-		// Select Categoria
-		/*
-		$.get("../api/categoria/lista_eve.php", {ck: CKCtr }, function(categoria){
-			selCategoria = "";
-			let opccategoria = "<option value=''>Seleccione</option>";
-			$.each(categoria.body, function(i, item) {
-				opccategoria +="<option value='"+ item.CAT_IdCategoria +"'>"+ item.CAT_Nombre +"</option>";
-			});
-			selCategoria += opccategoria;
-		})*/
-		//var params = "ck="+CKCtr;
-			$.ajax({
-				async: false,
-				type: "POST",
-				url: "../api/categoria/lista_eve.php?ck="+CKCtr,
-				//data:  {'ck': CKCtr },
-				success: function(datos){
-					//alert(datos);
-					selCategoria = "";
-					let opccategoria = "<option value=''>Seleccione</option>";
-					//if(datos != "nd"){
-						//x = JSON.parse(datos);
-						$.each(datos.body, function(i, item) {
-							//posinifils = item.MOV_Fila;
-							//posinicols = item.MOV_Columna;
-							opccategoria +="<option value='"+ item.CAT_IdCategoria +'-'+ itemcontrol +"'>"+ item.CAT_Nombre +"</option>";
-						});
-					//}
-					selCategoria += opccategoria;
-				}
-			})
-
-
+		$.ajax({
+			async: false,
+			type: "POST",
+			url: "../api/categoria/lista_eve.php?ck="+CKCtr,
+			//data:  {'ck': CKCtr },
+			success: function(datos){
+				//alert(datos);
+				selCategoria = "";
+				let opccategoria = "<option value=''>Seleccione</option>";
+				//if(datos != "nd"){
+					//x = JSON.parse(datos);
+					$.each(datos.body, function(i, item) {
+						opccategoria +="<option value='"+ item.CAT_IdCategoria +'-'+ itemcontrol +"'>"+ item.CAT_Nombre +"</option>";
+					});
+				//}
+				selCategoria += opccategoria;
+			}
+		})
 		
 		$.get("../api/escalacalificacion/lista_eve.php", {ck: CKCtr }, function(escala){			
 			opcesca = "<option value=''>Seleccione</option>";
@@ -134,8 +114,6 @@ $("#addctr").on('click', function(){
 			selEval += '<select class="seleval" id="seleval'+itemcontrol+'" name="seleval'+itemcontrol+'" onChange="fxselEval(seleval'+itemcontrol+',this.options[this.selectedIndex].value)">';
 			selEval += opcesca;
 			selEval += '</select>';
-			
-		//})		
 	
 			var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
 		
@@ -145,11 +123,7 @@ $("#addctr").on('click', function(){
 				$.each(resp.body, function(i, item) {
 					opcresp +="<option value='"+ item.ResponsablesId +"'>"+ item.ResponsablesName +"</option>";
 				});
-				//slctresp = '<select class="ctrpropietario" id="ctrpropietario" name="ctrpropietario">';
 				slctresp += opcresp;
-				//slctresp += '</select>';
-				//alert(slctresp);
-		    //})
 			
 				var tablainterna='';
 				tablainterna+= '<tbody id="tbody">';
@@ -261,21 +235,14 @@ $("#addctr").on('click', function(){
 	})	// select Controles
 	
 })
-
-
 	var infodocumtxt = 0;
 	var infoaplicatxt = 0;
 	var infoefectxt = 0;
 	var infoevaltxt = 0;
 	var totsumatoria = 0;
-
-
 	function fnselProp(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		//alert('it 0....'+itemcontrol);
 		itemcontrol = itemcontrol.substr(7);
-		//alert('it 1....'+itemcontrol);
-		
 		//Propietario
 		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -332,19 +299,11 @@ $("#addctr").on('click', function(){
 
 		fnControl(infprop,infejec,infefec,inffrec,ParReg)
 	}
-
-	//$("#seldocum"+itemcontrol).on('change', function(){
+	
 	function fxselDocum(ParId, ParReg){
 		var itemcontrol = ParId.name;
-
-		////alert('from controljs........'+itemcontrol);
-		//alert('from controljs ParReg name........'+ParReg.name);
-		//alert('from controljs ParReg id........'+ParReg.id);
-		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-		//itemcontrol = pidSelect;
 		itemcontrol = itemcontrol.substr(8);
-
-		//alert('from controljs........'+itemcontrol);
+	
 		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
 		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
 		
@@ -369,8 +328,6 @@ $("#addctr").on('click', function(){
 		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
 		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
-		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-		//alert("sum..."+sumatoria+"  / contar..."+contar);
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
@@ -378,12 +335,8 @@ $("#addctr").on('click', function(){
 		fxSumar(totsumatoria, itemcontrol)
 		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg)
 	}
-
-	//$("#selaplica"+itemcontrol).on('change', function(){
 	function fxselAplica(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-		//itemcontrol = pidSelect;
 		itemcontrol = itemcontrol.substr(9);
 
 		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
@@ -401,8 +354,7 @@ $("#addctr").on('click', function(){
 		infodocumtxt = parseInt(infodocumtxt); 
 		infoaplicatxt =parseInt(infoaplicatxt);
 		infoefectxt = parseInt(infoefectxt);  
-		infoevaltxt = parseInt(infoevaltxt);  
-		//alert(infodocum+'  '+infoaplica);
+		infoevaltxt = parseInt(infoevaltxt); 
 		var contar = 0;
 		var sumatoria = 0;
 		var totpromedio = 0;
@@ -410,23 +362,16 @@ $("#addctr").on('click', function(){
 		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
 		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-		//alert("sum..."+sumatoria+"  / contar..."+contar);
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
-		//fnAplicadoEfectivo(SumaAplicadoEfectivo)
 		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
 	}
 
-	//$("#selefec"+itemcontrol).on('change', function(){
 	function fxselEfec(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-		//itemcontrol = pidSelect;
 		itemcontrol = itemcontrol.substr(7);
 
 		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
@@ -444,8 +389,7 @@ $("#addctr").on('click', function(){
 		infodocumtxt = parseInt(infodocumtxt); 
 		infoaplicatxt =parseInt(infoaplicatxt);
 		infoefectxt = parseInt(infoefectxt);  
-		infoevaltxt = parseInt(infoevaltxt);  
-		//alert(infodocum+'  '+infoaplica);
+		infoevaltxt = parseInt(infoevaltxt); 
 		var contar = 0;
 		var sumatoria = 0;
 		var totpromedio = 0;
@@ -453,23 +397,16 @@ $("#addctr").on('click', function(){
 		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
 		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-		//alert("sum..."+sumatoria+"  / contar..."+contar);
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
-		fxSumar(totsumatoria, itemcontrol)
-		//var SumaAplicadoEfectivo = infoaplicatxt + infoefectxt;
-		//fnAplicadoEfectivo(SumaAplicadoEfectivo)
+		fxSumar(totsumatoria, itemcontrol)	
 		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
 	}
-
-	//$("#seleval"+itemcontrol).on('change', function(){
+	
 	function fxselEval(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		//itemcontrol = itemcontrol.charAt(itemcontrol.length-1)
-		//itemcontrol = pidSelect;
 		itemcontrol = itemcontrol.substr(7);
 
 		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
@@ -488,7 +425,6 @@ $("#addctr").on('click', function(){
 		infoaplicatxt =parseInt(infoaplicatxt);
 		infoefectxt = parseInt(infoefectxt);  
 		infoevaltxt = parseInt(infoevaltxt);  
-		//alert(infodocum+'  '+infoaplica);
 		var contar = 0;
 		var sumatoria = 0;
 		var totpromedio = 0;
@@ -496,8 +432,6 @@ $("#addctr").on('click', function(){
 		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt; }
 		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;   }
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;   }
-		//alert('doc...'+infodocumtxt+'  apli..'+infoaplicatxt+'   efe...'+infoefectxt+'   eva...'+infoevaltxt);
-		//alert("sum..."+sumatoria+"  / contar..."+contar);
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
@@ -507,7 +441,6 @@ $("#addctr").on('click', function(){
 	}
 
 	function fxSumar(parSumar, parIdControl){
-	//	alert(parSumar);
 	let id = "";
 	let nombre = "";
 	let color = "";

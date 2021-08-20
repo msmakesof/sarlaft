@@ -646,7 +646,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/consecuencia/listar_eve.php"); ?>
+										<?php include("../curl/consecuencias/listar_eve.php"); ?>
 										</div>
 									</div>
 									
@@ -1260,8 +1260,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				}
 			})
 
-			
-
 			$("#prob2").on('change', function(){
 				var txt = $(this).find('option:selected').text();
 				$("#lblprob2").html(txt);
@@ -1280,10 +1278,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					var fila = { selopc	};
 					filas.push(fila);
 				})
-				//console.log(filas);				
-				//alert(filas);
 				
-				var mks = [];  // Array Ppal				
+				var mks = [];  // Array Ppal
+				
+				//alert('Nro EventoRiesgo...'+$("#hder").val());
+
+				var nroeventoriesgo=[];
+				tmp = {	'id' : $("#hder").val() }
+				nroeventoriesgo.push(tmp)
+				sof21 = {'IDE' : nroeventoriesgo }
+				mks.push(sof21)
+				
 				var consecut =[];
 				tmp = {	'id' : $("#consecutivo").val() }
 				consecut.push(tmp)
@@ -1385,141 +1390,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 				})
 				sof7 = {'CON' : con }
-				mks.push(sof7)
-				
-				/*
-				var tra = []				
-				let selTra = $('.trata')
-				//let tmpx
-				selTra.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						tra.push(tmp)
-					}
-				})
-				//sof8 = { 'TRA' : tra }
-				//mks.push(sof8)
-				
-				
-				var trastatus = []
-				let selTrastatus = $('.tratastatus')
-				selTrastatus.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'status' : select.val() }
-						trastatus.push(tmp)
-					}
-				})
-				sof8status = { 'TRA' : trastatus }
-				mks.push(sof8status)			
-				*/
-				
-				//
-				var tra = []
-				$("#body").html("");
-				$("#tratainterna tbody tr").each(function(index) {
-					var campo1, campo2, campo3, campo4, campo5, campo6;
-					$(this).find(":input").each(function(index2) {
-						//alert(index2+' valor: '+$(this).val());
-						switch (index2) {							
-							case 0:
-								campo1 = $(this).val();
-								break;
-							case 1:
-								campo2 = $(this).val();
-								break;
-							case 2:
-								campo3 = $(this).val();
-								break;
-							case 3:
-								campo4 = $(this).val();
-								break;
-							case 4:
-								campo5 = $(this).val();
-								break;
-							case 5:
-								campo6 = $(this).val();
-								break;	
-						}
-					});					
-					tmp = { 
-						'id' : campo1,
-						'status' : campo2,
-						'priori' : campo3,
-						'fecini' : campo4,
-						'fecfin' : campo5,
-						'fecseg' : campo6,
-					}
-					tra.push(tmp)
-				});
-				sof8 = { 'TRA' : tra }
-				mks.push(sof8)
-				//				
-				
-				/*
-				var traprioridad = []
-				let selTraprioridad = $('.tratapriori')
-				selTraprioridad.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						traprioridad.push(tmp)
-					}
-				})
-				sof8priori = { 'TRAPRI' : traprioridad }
-				mks.push(sof8priori)
-				
-				var trafinicio = []
-				let selTrafinicio = $('.tratafinicio')
-				selTrafinicio.each(function () {
-					let input = $(this)
-					var fila = { input }
-					console.log(fila)
-					Efilas.push(fila)
-					if (input.val() != ""){
-						tmp = { 'id' : input.val() }
-						trafinicio.push(tmp)
-					}
-				})
-				sof8finicio = { 'TRAFIN' : trafinicio }
-				mks.push(sof8finicio)
-				
-				var traffinal = []
-				let selTraffinal = $('.trataffinal')
-				selTraffinal.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						traffinal.push(tmp)
-					}
-				})
-				sof8ffinal = { 'TRAFFI' : traffinal }
-				mks.push(sof8ffinal)
-				
-				var trafseg = []
-				let selTrafseg = $('.tratafseg')
-				selTrafseg.each(function () {
-					let select = $(this)
-					var fila = { select }
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						trafseg.push(tmp)
-					}
-				})
-				sof8fseg = { 'TRASEG' : trafseg }
-				mks.push(sof8fseg)			
-				*/
-				
+				mks.push(sof7)				
+
 				var deb = []
 				let selDeb = $('.debil')
 				selDeb.each(function () {
@@ -1622,14 +1494,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
             })
 
             $("#ecerrar").on('click', function(){
-                location.reload();
+				window.location.href ="eventosriesgo.php";
             })
 
             $(".close").on('click', function(){
                 location.reload();
             })
         })
-		//var global = { key: "<?php echo $CustomerKey; ?>" };
     </script>
 	
 	<script> var global = { key: "<?php echo $CustomerKey; ?>" };</script>
@@ -1646,7 +1517,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	<script src="js/debilidad.js"></script>
 	<script src="js/oportunidad.js"></script>
 	<script src="js/fortaleza.js"></script>
-	<script src="js/amenaza.js"></script>
-	
+	<script src="js/amenaza.js"></script>	
 </body>
 </html>

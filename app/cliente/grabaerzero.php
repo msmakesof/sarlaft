@@ -25,7 +25,7 @@ $EventoKey=time();
 $UserKey=$_SESSION['UserKey'];
 $DateStamp=date("Y-m-d H:i:s");
 
-$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdInterseccion, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$IdInterseccion.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); ;  SELECT SCOPE_IDENTITY() as LastId;";
+$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdInterseccion, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$IdInterseccion.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); SELECT SCOPE_IDENTITY() as LastId;";
 $query = sqlsrv_query($conn,$sql);
 $next_result = sqlsrv_next_result($query);
 $row = sqlsrv_fetch_array($query); 

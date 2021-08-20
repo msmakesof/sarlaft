@@ -2,10 +2,10 @@ let CKCon = global.key;
 let itemconsecuencia = 0
 $("#addcon").on('click', function(){
 	let slct = '';
-	$.get("../api/consecuencia/lista_eve.php", {ck: CKCon  }, function(result){
+	$.get("../api/consecuencias/lista_eve.php", {ck: CKCon  }, function(result){
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
-			opc +="<option value='"+ item.CSC_IdConsecuencia +"'>"+ item.CSC_Nombre +"</option>";
+			opc +="<option value='"+ item.id +"'>"+ item.ConsecuenciasName +"</option>";
 		});
 		slct = '<select class="form-control consec" id="consec" name="consec">';					
 		slct += opc;
@@ -30,7 +30,7 @@ $( "#add_consecuencia" ).submit(function( event ) {
 	var parametros = $(this).serialize();
 		$.ajax({
 			type: "POST",
-			url: "../ajax/consecuencia/guardar_consecuencia.php",
+			url: "../ajax/consecuencias/guardar_consecuencias.php",
 			data: parametros,
 			 beforeSend: function(objeto){
 				$("#resultados").html("Enviando...");

@@ -17,7 +17,7 @@ $js = json_decode($json, true);
 //echo "<br>";
 //print_r($js);
 //echo "<br>";echo "<br>";
-
+$IdEvento = 0;
 $consecutivo ="";
 $ideventoriesgo ="";
 $idproceso = "";
@@ -67,35 +67,6 @@ foreach($js as $key=>$value){
 				}				
 			}
 			
-			if($key2 == "TRA"){
-				$m="";
-				echo "filas key2..".count($value2).'<br>';
-				foreach($value2 as $key3=>$value3){
-					echo "\n key3....".$key3 . ': ' .'<br>';
-					echo "filas key3..".count($value3).'<br>';
-					//$f=1;
-					foreach($value3 as $key4=>$value4){
-						echo "$key4......$value4<br>";
-						$m .= $value4.' , ' ;
-						//array_push($mtra, $value4);
-						/*
-						if($f<=count($value3))
-						{
-							
-						}
-						else{
-							$insert_TRA.="insert into...($m);";
-							$m="";
-						}
-						$f++;
-						*/
-					}					
-				}
-				echo $m."<br>";
-				//echo "<br>insertra...".$insert_TRA."<br>";
-				//print_r($mtra);
-			}
-			
 			foreach($value2 as $key3=>$value3){
 				//echo "\n key3....".$key3 . ': ' .'<br>';
 				//echo "filas key3..".count($value3).'<br>';
@@ -104,6 +75,10 @@ foreach($js as $key=>$value){
 					//echo "\n key4....".$key4 . ': ' . $value4 .'<br>';
 					
 					// Graba en EVRI_EventoRiesgo
+					if($key2=="IDE"){
+						$IdEvento = $value4;
+					}
+					//echo "Nro Evento....$IdEvento<br>";
 					if($key2=="ICO"){
 						$consecutivo = $value4;
 					}
@@ -156,94 +131,6 @@ foreach($js as $key=>$value){
 						$consecuencia .= "INSERT INTO ECON_Consecuencias (ECON_IdEventoRiesgo, ECON_IdConsecuencia) VALUES ('?', $value4);" ;
 					}
 					
-					if($key2=="TRA"){
-						/*
-						if( $key4 == "id" ){
-							//$tratamiento .= "INSERT INTO ETRA_Tratamientos (ETRA_IdEventoRiesgo, ETRA_IdTratamiento) VALUES ('?', $value4);" ;
-							$tratamientoreg = $value4;
-						}
-						
-						if( $key4 == "status" ){
-							$trastatus = $value4;
-						}
-						
-						if( $key4 == "priori" ){
-							$traprioridad = $value4;
-						}
-						
-						if( $key4 == "fecini" ){
-							$trafinicio = $value4;
-						}
-						
-						if( $key4 == "fecfin" ){
-							$traffinal  = $value4;
-						}
-						
-						if( $key4 == "fecseg" ){
-							$trafseguir  = $value4;
-						}
-						*/
-						//
-						//echo count($value3);
-						//for ($x=0;$x<count($value3); $x++){
-							//echo "nx0...".$value3[0]."<br>";
-							//echo "nx1...".$value3[1]."<br>";
-						//}
-						//echo $nro++;
-						//echo "<br>";
-							/*
-							switch ($key4) {								
-								case "fecini":
-									$trafinicio = $value4;
-									break;
-								case "fecfin":
-									$traffinal = $value4;
-									break;
-								case "fecseg":
-									$trafseguir = $value4;
-									break;
-								case "id":
-									$tratamientoreg = $value4;
-									break;	
-								case "priori":
-									$traprioridad = $value4;
-									break;
-								case "status":
-									$trastatus = $value4;
-									break;
-							}
-						}
-						$tratamiento .= "INSERT INTO ETRA_Tratamientos (ETRA_IdEventoRiesgo, ETRA_IdTratamiento, ETRA_Status, ETRA_Prioridad, ETRA_FechaInicio, ETRA_FechaFinal, ETRA_FechaSeguimiento, ETRA_IdPlan ) VALUES ('?', $tratamientoreg, $trastatus, $traprioridad, $trafinicio, $traffinal, $trafseguir, 0 );" ;
-						
-						echo "ins tratamiento.....".$tratamiento."<br>";*/
-						
-					}
-					
-					
-					if($key2=="TRASTA"){
-						//$trastatus = $value4;
-						//$updtra1 .= "UPDATE ETRA_Tratamientos SET ETRA_Status = $value4 WHERE ETRA_IdEventoRiesgo = '?' AND ETRA_IdTratamiento = $tratamientoreg; ";
-					}
-					//echo "upd status.....".$updtra1."<br>";
-					
-					if($key2=="TRAPRI"){
-						$traprioridad = $value4;
-					}
-					
-					if($key2=="TRAFIN"){
-						$trafinicio = $value4;
-					}
-					
-					if($key2=="TRAFFI"){
-						$traffinal = $value4;
-					}
-					
-					if($key2=="TRASEG"){
-						$trafseguir = $value4;
-						//$tratamiento .= "INSERT INTO ETRA_Tratamientos (ETRA_IdEventoRiesgo, ETRA_IdTratamiento, ETRA_Status, ETRA_Prioridad, ETRA_FechaInicio, ETRA_FechaFinal, ETRA_FechaSeguimiento, ETRA_IdPlan ) VALUES ('?', $tratamientoreg, $trastatus, $traprioridad, $trafinicio, $traffinal, $trafseguir, 0 );" ;						
-					}				
-					//echo "trata.....".$tratamiento;
-					
 					if($key2=="DEB"){
 						$debilidad .= "INSERT INTO EDEB_Debilidades (EDEB_IdEventoRiesgo, EDEB_IdDebilidad) VALUES ('?', $value4);" ;
 					}
@@ -273,23 +160,28 @@ $CustomerKey=$_SESSION['Keyp'];
 $EventoKey=time();
 $UserKey=$_SESSION['UserKey'];
 $DateStamp=date("Y-m-d H:i:s");
-$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$idproceso.",".$idcargo.",".$idresponsable.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); SELECT SCOPE_IDENTITY() as LastId;";
+
+//$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$idproceso.",".$idcargo.",".$idresponsable.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); SELECT SCOPE_IDENTITY() as LastId;";
+
+$sql="UPDATE EVRI_EventoRiesgo SET EVRI_Consecutivo='".$consecutivo."', EVRI_IdEvento=".$ideventoriesgo.", EVRI_IdProceso=".$idproceso.", EVRI_IdCargo=".$idcargo.", EVRI_IdResponsable=".$idresponsable.", EVRI_CustomerKey='".$EventoKey."', EVRI_UserKey='".$EventoKey."', EVRI_EventoKey='".$EventoKey."', EVRI_DateStamp='".$DateStamp."' WHERE EVRI_Id = ".trim($IdEvento);
+//echo "upd.....$sql";
 $query = sqlsrv_query($conn,$sql);
-$next_result = sqlsrv_next_result($query);
-$row = sqlsrv_fetch_array($query); 
-$LastId = $row['LastId'];
+$LastId = trim($IdEvento);
+////$next_result = sqlsrv_next_result($query);
+////$row = sqlsrv_fetch_array($query); 
+////$LastId = $row['LastId'];
 if($query){
 	echo "OK<br>";
 	
-	$sql="INSERT INTO EMRI_MatrizRiesgoInherente (EMRI_IdEventoRiesgo, EMRI_IdProbabilidad, EMRI_IdConsecuencia, EMRI_Posicion ) VALUES($LastId, $mi_probabilidad, $mi_consecuencia, '' )";
-	$query = sqlsrv_query($conn,$sql);
-	if($query){
-		echo "OK MRI<br>";
+	////$sql="INSERT INTO EMRI_MatrizRiesgoInherente (EMRI_IdEventoRiesgo, EMRI_IdProbabilidad, EMRI_IdConsecuencia, EMRI_Posicion ) VALUES($LastId, ////$mi_probabilidad, $mi_consecuencia, '' )";
+	////$query = sqlsrv_query($conn,$sql);
+	////if($query){
+		////echo "OK MRI<br>";
 		
-		$sql="INSERT INTO EMRC_MatrizRiesgoControl (EMRC_IdEventoRiesgo, EMRC_IdProbabilidad, EMRC_IdConsecuencia, EMRC_Posicion ) VALUES($LastId, $mc_probabilidad, $mc_consecuencia, '' )";
-		$query = sqlsrv_query($conn,$sql);
-		if($query){
-			echo "OK MRC<br>";
+		////$sql="INSERT INTO EMRC_MatrizRiesgoControl (EMRC_IdEventoRiesgo, EMRC_IdProbabilidad, EMRC_IdConsecuencia, EMRC_Posicion ) VALUES($LastId, ////$mc_probabilidad, $mc_consecuencia, '' )";
+		////$query = sqlsrv_query($conn,$sql);
+		////if($query){
+			////echo "OK MRC<br>";
 			
 			$tiporiesgo = str_replace('?', $LastId, $tiporiesgo);
 			$sql = $tiporiesgo;
@@ -380,13 +272,12 @@ if($query){
 				else{echo "Fallo FAR<br>";}
 			}
 			else{echo "Fallo TIR<br>";}
-		}	
-		else{echo "Fallo MRC<br>";}
-	}
-	else {echo "Fallo MRI<br>";}
+		/////}	
+		////else{echo "Fallo MRC<br>";}
+	/////}
+	////else {echo "Fallo MRI<br>";}
 }
 else{
 	echo "Fallo";
 }
-
 ?>

@@ -364,7 +364,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Unidad de Riesgo:</h6>                       
-						<a class="collapse-item" href="./er.php" style="color: <?php echo $ndas;?>">Riesgo</a>
+						<!-- <a class="collapse-item" href="./er.php" style="color: <?php echo $ndas;?>">Riesgo</a> -->
+						<a class="collapse-item" href="./eventosriesgo.php" style="color: <?php echo $ndas;?>">Eventos de Riesgo</a>
                     </div>
                 </div>
             </li>
