@@ -1,18 +1,44 @@
 <?php 
 /*************************************************************************
 Created : Mauricio Sánchez Sierra
-Date: 2021-07-13
-Description: 
-			 Genera la información básica para el Evento de Riesgo
-			 Graba el Evento de Riesgo.
-			 Genera el primer cálculo para la Matriz de Riesgo Inherente
-			 Genera el primer cálculo para la Matriz de Riesgo de Control
+Date: 2021-08-05
+Description: Consulta un Evento de Riesgo
 **************************************************************************/
+
+$IdEvento = trim($_POST['id']);
+$ck = trim($_POST['ck']);
+echo "$IdEvento   - $ck  <br>";
 include '../ajax/is_logged.php';
 $UserKey=$_SESSION['UserKey'];
 require_once '../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+
+// Consulta el Evento de Riesgo
+$query_er=sqlsrv_query($conn,"SELECT EVRI_Id, EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_IdInterseccion,EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp FROM EVRI_EventoRiesgo WHERE EVRI_Id=".$IdEvento." AND EVRI_CustomerKey='" .$ck."'");
+$reger=sqlsrv_fetch_array($query_er);
+$Consecutivo = trim($reger['EVRI_Consecutivo']);
+$IdEventoRiesgo = trim($reger['EVRI_IdEvento']);
+$IdProceso = trim($reger['EVRI_IdProceso']);
+$IdCargo = trim($reger['EVRI_IdCargo']);
+$IdResponsable = trim($reger['EVRI_IdResponsable']);
+
+$query_mri=sqlsrv_query($conn,"SELECT MOV_FilaMRI, MOV_ColumnaMRI, PRO_Nombre, CSC_Nombre FROM MOV_MatrizInherente JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRI AND PRO_CustomerKey = MOV_CustomerKeyMRI JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRI AND CSC_CustomerKey = MOV_CustomerKeyMRI WHERE MOV_IdEventoMRI=".$IdEvento." AND MOV_CustomerKeyMRI='" .$ck."' ORDER BY MOV_IdMovimientoMRI DESC ");
+$regmri=sqlsrv_fetch_array($query_mri);
+$FilaMRI = trim($regmri['MOV_FilaMRI']);
+$ColumnaMRI = trim($regmri['MOV_ColumnaMRI']);
+$PRO_Nombre = trim($regmri['PRO_Nombre']);
+$CSC_Nombre = trim($regmri['CSC_Nombre']);
+//echo $IdEventoRiesgo;
+
+$query_mrc=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, PRO_Nombre, CSC_Nombre FROM MOV_MatrizControl JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRC AND PRO_CustomerKey = MOV_CustomerKeyMRC JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRC AND CSC_CustomerKey = MOV_CustomerKeyMRC WHERE MOV_IdEventoMRC=".$IdEvento." AND MOV_CustomerKeyMRC='" .$ck."' ORDER BY MOV_IdMovimientoMRC DESC ");
+$regmrc=sqlsrv_fetch_array($query_mrc);
+$FilaMRC = trim($regmrc['MOV_FilaMRC']);
+$ColumnaMRC = trim($regmrc['MOV_ColumnaMRC']);
+$PRO_NombreC = trim($regmrc['PRO_Nombre']);
+$CSC_NombreC = trim($regmrc['CSC_Nombre']);
+
+///echo "$FilaMRC  -  $ColumnaMRC -  $PRO_NombreC -  $CSC_NombreC<br>";
 
 $query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
 $regtit=sqlsrv_fetch_array($query_titulo);
@@ -45,6 +71,7 @@ $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
 //echo $CustomerKey;
+/*
 $consec2 = generarCodigo(6); // genera un código de 6 caracteres de longitud.
 function generarCodigo($longitud) {
     $key = '';
@@ -53,7 +80,7 @@ function generarCodigo($longitud) {
     for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
     return $key;
 } 
-$consecutivo = $reg['id'].'-'.$consec2;
+$consecutivo = $reg['id'].'-'.$consec2;*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -256,7 +283,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800 maytit">Unidad Evento de Riesgo</h1>
+                    <h1 class="h3 mb-2 text-gray-800 maytit">Unidad Evento de Riesgo - Consulta</h1>
                     <p class="mb-4"></p>
 
                     <!-- DataTales Example -->
@@ -277,17 +304,18 @@ $consecutivo = $reg['id'].'-'.$consec2;
                         <div class="card-body">
                             <div class="xtable-responsive">
 							<form id="formap">
-								<input type="hidden" id="hder">
+								<input type="hidden" id="hder" value="<?php echo $IdEventoRiesgo ; ?>">
 								<div class="form-group row">
 									<div class="col-sm-2">
                                         <label>Consecutivo</label>
-                                        <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $consecutivo; ?>" readonly>
+                                        <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $Consecutivo; ?>" readonly>
                                     </div>
 									<div class="col-md-10">
                                         <label>Evento</label>
                                         <select class="form-control select2" id="eventoriesgo" name="eventoriesgo" required>
-                                            <option value="">Seleccione una opción</option>
-                                            <?php include("../curl/eventosriesgo/listar.php"); ?>
+                                            <option value="">Seleccione una opción</option>											
+                                            <?php $IdEventoRiesgo = $IdEventoRiesgo ;
+											include("../curl/eventosriesgo/listar.php"); ?>
                                         </select>
                                     </div>
 								</div>	
@@ -303,7 +331,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</div>											
 											<select class="form-control select2" id="proceso" name="proceso" required>
 												<option value="">Seleccione una opción</option>
-												<?php include("../curl/procesos/listar.php"); ?>
+												<?php $IdProceso = $IdProceso ;
+												include("../curl/procesos/listar.php"); ?>
 											</select>
 										</div>
 									</div>
@@ -318,7 +347,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</div>
 											<select class="form-control select2" id="cargo" name="cargo" required>
 												<option value="">Seleccione una opción</option>
-												<?php include("../curl/cargos/listar.php"); ?>
+												<?php $IdCargo =$IdCargo;
+												include("../curl/cargos/listar.php"); ?>
 											</select>
 										</div>
 									</div>
@@ -333,7 +363,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</div>
 											<select class="form-control select2" id="responsable" name="responsable" required>
 												<option value="">Seleccione una opción</option>
-												<?php include("../curl/responsables/listar.php"); ?>
+												<?php $IdResponsable =$IdResponsable;
+												include("../curl/responsables/listar.php"); ?>
 											</select>
 										</div>
 									</div>								
@@ -387,7 +418,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
 			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
 			$color = trim($dataprob['body'][$i]["PRO_Color"]);
-			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
+			//if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
+			if( isset($FilaMRI) && $FilaMRI != "" && $escala == $FilaMRI ){
 				$condi = ' selected="selected" ';
 			}
 			$sel_prob.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
@@ -470,7 +502,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
 			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
 			$color = trim($datacsc['body'][$i]["CSC_Color"]);
-			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
+			//if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
+			if( isset($ColumnaMRI) && $ColumnaMRI != "" && $escalacsc == $ColumnaMRI ){
 				$condicsc = ' selected="selected" ';
 			}
 			$sel_csc.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
@@ -550,7 +583,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizz">
-							<?php include('../curl/matriz/matriz.php'); ?>
+							<?php 
+							$FilaMRI = $FilaMRI;
+							$ColumnaMRI = $ColumnaMRI;
+							$er=$IdEvento;
+							//include('../curl/matriz/matrizconsulta.php'); 
+							include('../curl/matriz/matrizquery.php'); ?>
 							</div>	
 							
 							<div id="matrizz1"></div>
@@ -583,7 +621,11 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizzControl">
-							<?php include('../curl/matriz/matrizcontrol.php'); ?>
+							<?php 
+							$FilaMRC = $FilaMRC;
+							$ColumnaMRC = $ColumnaMRC;
+							$er=$IdEvento;
+							include('../curl/matriz/matrizcontrolquery.php'); ?>
 							</div>	
 							
 							<div id="matrizz1Control"></div>
@@ -616,7 +658,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/controles/listar_eve.php"); ?>
+										<?php
+										 	$CustomerKey = $ck;
+											include("../curl/controles/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
@@ -1047,12 +1091,18 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 			
         $(document).ready(function(){
-			$(".loader").fadeOut("slow");
+			$(".loader").fadeOut("slow")
 			$("#zonadata").hide()
             $('.select2').select2()
 
-			$("#matcon").hide();
-			$('#clonmatriz').show();			
+			$("#matcon").hide()
+			$('#clonmatriz').show()
+			$("#zonadata").show()
+			//$("#matrizcon").hide()
+
+			$("#lblprob2").html("<?php echo $PRO_NombreC ;?>");
+			$("#lblconsec2").html("<?php echo $CSC_NombreC; ?>");
+
 			
             $('#exampleModal').on('show.bs.modal', function () {
                 setTimeout(function (){
@@ -1070,7 +1120,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						data: {'csc': csc, 'er': er},
 						success: function(datos){
 							//alert(datos);
-							$("#hder").prop('value', datos);
+							////$("#hder").prop('value', datos);
 						}
 					})
 					$("#zonadata").show()
@@ -1123,7 +1173,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					//alert(paramet);
 					$.ajax({
 						type: "POST",
-						url: "../curl/matriz/matriz.php",
+						//url: "../curl/matriz/matriz.php",
+						url: "../curl/matriz/matrizquery.php",
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1212,7 +1263,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					//alert(paramet);
 					$.ajax({
 						type: "POST",
-						url: "../curl/matriz/matriz.php",
+						////url: "../curl/matriz/matriz.php",
+						url: "../curl/matriz/matrizquery.php",
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1475,41 +1527,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				
 				////console.log(obj);
 				console.log(mks);
+				
+				//var paramet = $('#formap').serialize()
 				var paramet = mks
-				//alert(paramet);
+				alert(paramet);
 				$.ajax({
                     type: "POST",
                     url: "grabaer.php",
 					data: { js : mks },
                     success: function(datos){
                         alert(datos);
-						let m= datos.trim()
-						let msj = m.substr(0,1);
-						let type
-						let txt
-						if(msj == 'S'){
-							type = 'success';
-							txt = 'Evento de Riesgo ha sido guardado con éxito.';
-						}
-						else if(msj == 'N'){
-							type= 'error';
-							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-						}
-						else if(msj == 'D'){
-							type= 'error';
-							txt ='Error Desconocido.';
-						}
-						else{
-							type= 'error';
-							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
-						}
-						swal({
-							position: 'top-end',
-							type: ''+type,
-							title: ''+txt,
-							showConfirmButton: true,
-							timer: 2000
-						});
                     }	
                 })
 			})

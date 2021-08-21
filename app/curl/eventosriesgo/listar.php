@@ -4,7 +4,7 @@
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
-$IdEventoRiesgo = "";
+//$IdEventoRiesgo = "";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	$url = $urlServicios."api/eventoriesgo/lista.php?ck=$CustomerKey";

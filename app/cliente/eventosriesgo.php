@@ -336,6 +336,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                     <thead>
                                         <tr>
 											<th class='text-left'>Acciones</th>
+											<th class='text-center'>Id </th>
 											<th class='text-center'>Consecutivo</th>
                                             <th class='text-center'>Nombre Evento</th>
                                             <th class='text-center'>Proceso </th>
@@ -346,6 +347,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                     <tfoot>
                                         <tr>
                                             <th class='text-left'>Acciones</th>
+											<th class='text-center'>Id </th>
 											<th class='text-center'>Consecutivo</th>
                                             <th class='text-center'>Nombre Evento</th>
                                             <th class='text-center'>Proceso </th>
@@ -378,7 +380,7 @@ $CustomerKey = $_SESSION['Keyp'];
 						?>	
 						<tr>
 							<td class='text-rigth'>
-								<a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $EVRI_Consecutivo?>" data-eventoname="<?php echo $EventosdeRiesgoName?>" data-responsable="<?php echo $ResponsablesName?>" data-id="<?php echo $EVRI_Id; ?>">
+								<a href="javascript:vodi(0);" onclick="mks(<?php echo $EVRI_Id; ?>,'<?php echo $CustomerKey; ?>')" data-name="<?php echo $EVRI_Consecutivo?>" data-eventoname="<?php echo $EventosdeRiesgoName?>" data-responsable="<?php echo $ResponsablesName?>" data-id="<?php echo $EVRI_Id; ?>">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Editar Evento de Riesgo" style="color:orange"></i>
                                 </a>
 								
@@ -386,6 +388,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Evento de Riesgo" style="color:red"></i>
                                 </a>							
 							</td>
+							<td class='text-left'><?php echo $EVRI_Id;?></td>
 							<td class='text-left'><?php echo $EVRI_Consecutivo;?></td>
 							<td class='text-left'><?php echo $EventosdeRiesgoName ;?></td>
 							<td class='text-left'><?php echo $ProcesosName ;?></td>
@@ -516,9 +519,8 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
-        function mks(p1,p2){		
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
-            $.redirect("tareas.php", {id: p1, np : p2 });
+        function mks(p1,p2){			
+            $.redirect("consultaer.php", {id: p1, ck : p2 });
 		}
         
         $(document).ready(function(){
@@ -554,7 +556,6 @@ $CustomerKey = $_SESSION['Keyp'];
                     },
                     success: function(datos){
                         let m= datos.trim();
-                        //$("#resultados").html(datos);
                         $('#deletePlanModal').modal('hide');
                         let msj = m.substr(0,1);
                         let type;
@@ -609,8 +610,6 @@ $CustomerKey = $_SESSION['Keyp'];
             });
 
             $("#pdf").on('click', function(event){
-                //var login = ;
-                //alert(param);			
                 let base64Img	
                 base64Img = "img/edit.png"	
                     

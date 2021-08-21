@@ -52,17 +52,17 @@ foreach($js as $key=>$value){
 		//print_r($value);
 		
 		foreach($value as $key2=>$value2){
-			echo "\n key2....".$key2 . ': ' . '<br>';
+			////echo "\n key2....".$key2 . ': ' . '<br>';
 			//echo "filas key2..".count($value2).'<br>';
 			
 			if($key2 == "CON"){
-				echo "filas key2..".count($value2).'<br>';
+				////echo "filas key2..".count($value2).'<br>';
 				foreach($value2 as $key3=>$value3){
-					echo "\n key3....".$key3 . ': ' .'<br>';
-					echo "filas key3..".count($value3).'<br>';
+					////echo "\n key3....".$key3 . ': ' .'<br>';
+					////echo "filas key3..".count($value3).'<br>';
 					
 					foreach($value3 as $key4=>$value4){
-						echo "$key4......$value4<br>";						
+						////echo "$key4......$value4<br>";						
 					}
 				}				
 			}
@@ -150,7 +150,8 @@ foreach($js as $key=>$value){
 			}
 		}		
 	}else{
-		echo "\n n....".$key . ': ' . $value . '<br>';
+		//echo "\n n....".$key . ': ' . $value . '<br>';
+		$grabado="D";
 	}
 }
 
@@ -162,8 +163,8 @@ $UserKey=$_SESSION['UserKey'];
 $DateStamp=date("Y-m-d H:i:s");
 
 //$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$idproceso.",".$idcargo.",".$idresponsable.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); SELECT SCOPE_IDENTITY() as LastId;";
-
-$sql="UPDATE EVRI_EventoRiesgo SET EVRI_Consecutivo='".$consecutivo."', EVRI_IdEvento=".$ideventoriesgo.", EVRI_IdProceso=".$idproceso.", EVRI_IdCargo=".$idcargo.", EVRI_IdResponsable=".$idresponsable.", EVRI_CustomerKey='".$EventoKey."', EVRI_UserKey='".$EventoKey."', EVRI_EventoKey='".$EventoKey."', EVRI_DateStamp='".$DateStamp."' WHERE EVRI_Id = ".trim($IdEvento);
+$grabado="N";
+$sql="UPDATE EVRI_EventoRiesgo SET EVRI_Consecutivo='".$consecutivo."', EVRI_IdEvento=".$ideventoriesgo.", EVRI_IdProceso=".$idproceso.", EVRI_IdCargo=".$idcargo.", EVRI_IdResponsable=".$idresponsable.", EVRI_CustomerKey='".$CustomerKey."', EVRI_UserKey='".$UserKey."', EVRI_EventoKey='".$EventoKey."', EVRI_DateStamp='".$DateStamp."' WHERE EVRI_Id = ".trim($IdEvento);
 //echo "upd.....$sql";
 $query = sqlsrv_query($conn,$sql);
 $LastId = trim($IdEvento);
@@ -171,7 +172,8 @@ $LastId = trim($IdEvento);
 ////$row = sqlsrv_fetch_array($query); 
 ////$LastId = $row['LastId'];
 if($query){
-	echo "OK<br>";
+	//echo "OK<br>";
+	$grabado="S";
 	
 	////$sql="INSERT INTO EMRI_MatrizRiesgoInherente (EMRI_IdEventoRiesgo, EMRI_IdProbabilidad, EMRI_IdConsecuencia, EMRI_Posicion ) VALUES($LastId, ////$mi_probabilidad, $mi_consecuencia, '' )";
 	////$query = sqlsrv_query($conn,$sql);
@@ -187,97 +189,108 @@ if($query){
 			$sql = $tiporiesgo;
 			$query = sqlsrv_query($conn,$sql);
 			if($query){
-				echo "OK TIR<br>";
+				//echo "OK TIR<br>";
+				$grabado="S";
 				
 				$factorriesgo = str_replace('?', $LastId, $factorriesgo);
 				$sql = $factorriesgo;
 				$query = sqlsrv_query($conn,$sql);
 				if($query){
-					echo "OK FAR<br>";
+					//echo "OK FAR<br>";
+					$grabado="S";
 					
 					$riesgoasociado = str_replace('?', $LastId, $riesgoasociado);
 					$sql = $riesgoasociado;
 					$query = sqlsrv_query($conn,$sql);
 					if($query){
-						echo "OK RIA<br>";
+						//echo "OK RIA<br>";
+						$grabado="S";
 						
 						$causa = str_replace('?', $LastId, $causa);
 						$sql = $causa;
 						$query = sqlsrv_query($conn,$sql);
 						if($query){
-							echo "OK CAU<br>";
+							//echo "OK CAU<br>";
+							$grabado="S";
 							
 							$consecuencia = str_replace('?', $LastId, $consecuencia);
 							$sql = $consecuencia;
 							$query = sqlsrv_query($conn,$sql);
 							if($query){
-								echo "OK CON<br>";
+								//echo "OK CON<br>";
+								$grabado="S";
 								
 								$tratamiento = str_replace('?', $LastId, $tratamiento);
 								$sql = $tratamiento;
 								$query = sqlsrv_query($conn,$sql);
 								if($query){
-									echo "OK TRA<br>";																		
+									//echo "OK TRA<br>";																		
+									$grabado="S";
 									
 									$debilidad = str_replace('?', $LastId, $debilidad);
 									$sql = $debilidad;
 									$query = sqlsrv_query($conn,$sql);
 									if($query){
-										echo "OK DEB<br>";
+										//echo "OK DEB<br>";
+										$grabado="S";
 										
 										$oportunidad = str_replace('?', $LastId, $oportunidad);
 										$sql = $oportunidad;
 										$query = sqlsrv_query($conn,$sql);
 										if($query){
-											echo "OK OPO<br>";
+											//echo "OK OPO<br>";
+											$grabado="S";
 											
 											$fortaleza = str_replace('?', $LastId, $fortaleza);
 											$sql = $fortaleza;
 											$query = sqlsrv_query($conn,$sql);
 											if($query){
-												echo "OK FOR<br>";
+												//echo "OK FOR<br>";
+												$grabado="S";
 												
 												$amenaza = str_replace('?', $LastId, $amenaza);
 												$sql = $amenaza;
 												$query = sqlsrv_query($conn,$sql);
 												if($query){
-													echo "OK AME<br>";
-													
-													
+													//echo "OK AME<br>";
+													$grabado="S";													
 												}
-												else{echo "Fallo AME<br>";}
-												
+												else{$grabado="N"; //echo "Fallo AME<br>";
+												}												
 											}
-											else{echo "Fallo FOR<br>";}
-											
+											else{$grabado="N"; //echo "Fallo FOR<br>";
+											}											
 										}
-										else{echo "Fallo OPO<br>";}
-										
+										else{$grabado="N"; //echo "Fallo OPO<br>";
+										}										
 									}
-									else{echo "Fallo DEB<br>";}
-									
+									else{$grabado="N"; //echo "Fallo DEB<br>";
+									}									
 								}
-								else{echo "Fallo TRA<br>";}
-							
+								else{$grabado="N"; //echo "Fallo TRA<br>";
+								}							
 							}
-							else{echo "Fallo CON<br>";}
-							
+							else{$grabado="N"; //echo "Fallo CON<br>";
+							}							
 						}
-						else{echo "Fallo CAU<br>";}
-						
+						else{$grabado="N"; //echo "Fallo CAU<br>";
+						}						
 					}
-					else{echo "Fallo RIA<br>";}
-					
+					else{$grabado="N"; //echo "Fallo RIA<br>";
+					}					
 				}
-				else{echo "Fallo FAR<br>";}
+				else{$grabado="N"; //echo "Fallo FAR<br>";
+				}
 			}
-			else{echo "Fallo TIR<br>";}
+			else{$grabado="N"; //echo "Fallo TIR<br>";
+			}
 		/////}	
 		////else{echo "Fallo MRC<br>";}
 	/////}
 	////else {echo "Fallo MRI<br>";}
 }
 else{
-	echo "Fallo";
+	$grabado="N"; //"Fallo";
 }
+echo $grabado;
 ?>

@@ -41,14 +41,15 @@ text-align:center;
 	if( isset($_POST["er"]) && $_POST["er"] > 0 ){
 		$er = $_POST["er"];
 	}
-	//else { $er = $er ;}
+	else { 
+		$er = $er ;}
 	
 	if( isset($_POST["pfila"]) && $_POST["pfila"] > 0 ){
 		$posfil = $_POST["pfila"];
 		//$poscol = 1;
 	}
 	else {
-		$posfil = 0;
+		$posfil = $FilaMRI;
 	}
 
 	if( isset($_POST["pcols"]) && $_POST["pcols"] > 0 ){
@@ -56,7 +57,7 @@ text-align:center;
 		//$posfil = 1;
 	}
 	else {
-		$poscol = 0;
+		$poscol = $ColumnaMRI;
 	}
 	
 	if( isset($_POST["ck"]) && $_POST["ck"] != "" ){
@@ -176,7 +177,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						date_default_timezone_set("America/Bogota");
 						$DateStamp=date("Y-m-d H:i:s");						
 						$sqlmov="INSERT INTO MOV_MatrizInherente (MOV_IdEventoMRI, MOV_FilaMRI, MOV_ColumnaMRI, MOV_CustomerKeyMRI, MOV_DateStampMRI, MOV_UserKeyMRI) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."')";
-						$query = sqlsrv_query($conn,$sqlmov);						
+						/////$query = sqlsrv_query($conn,$sqlmov);						
 						
 						$mov_filrc = 0;
 						$mov_colrc = 0;
@@ -189,7 +190,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					
 						if( $TieneControl != "S" ){
 							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
-							$query = sqlsrv_query($conn,$sqlmov);
+							/////$query = sqlsrv_query($conn,$sqlmov);
 							
 							//Grabo el control
 							//$sqlmov="INSERT INTO ECTR_Controles (ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria, ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdControl, ECTR_IdEventoMRC) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";

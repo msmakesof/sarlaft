@@ -9,7 +9,7 @@
     $db = $database->getConnectionCLi();
     $items = new EventoRiesgo($db);
 	
-	$items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
+	$items->EVRI_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
     $stmt = $items->getCkAll();
     $itemCount = $stmt->rowCount();
 

@@ -43,7 +43,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$condi = "";
 				$id = $data['body'][$i]["ResponsablesId"];
 				$nombre = trim($data['body'][$i]["ResponsablesName"]);
-				if( isset($Responsable) && $Responsable != "" && $id == $Responsable ){
+				if( isset($IdResponsable) && $IdResponsable != "" && $id == $IdResponsable ){
 					$condi = ' selected="selected" ';
 				}
 				echo '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';

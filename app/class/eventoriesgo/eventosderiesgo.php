@@ -46,9 +46,9 @@
             JOIN CargosSarlaft ON CargosSarlaft.CargosId = EVRI_IdCargo
             JOIN ResponsablesSarlaft ON ResponsablesSarlaft.ResponsablesId = EVRI_IdResponsable
             WHERE EVRI_CustomerKey = ? ORDER BY EVRI_Id ";
-            echo $sql;
+            //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-			$stmt->bindParam(1, $this->CSC_CustomerKey);
+			$stmt->bindParam(1, $this->EVRI_CustomerKey);
 			$stmt->execute();
 			return $stmt;
         }

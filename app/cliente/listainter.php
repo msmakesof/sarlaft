@@ -383,7 +383,7 @@ $TotalMatriz= $reg['TotalMatriz'];
 							<td class='text-left' ><?php echo $FilasColumnas ;?></td>
 							<td class='text-center'><?php echo $DateStamp;?></td>
                             <td class='text-rigth'>
-                                <a href="javascript:vodi(0);"  onclick="mks(<?php echo $IdInterseccion; ?>,'<?php echo $CustomerKey; ?>')" class="tareas">
+                                <a href="javascript:vodi(0);" onclick="mks(<?php echo $IdInterseccion; ?>,'<?php echo $CustomerKey; ?>')" class="tareas">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Modificar Matriz" style="color:orange"></i>
                                 </a>
                                 <!-- <a href="#" data-target="#editModal" data-toggle="modal" data-filas="<?php echo $Filas?>" data-cols="<?php echo $Columnas?>" data-id="<?php echo $IdInterseccion; ?>">
@@ -718,11 +718,9 @@ $TotalMatriz= $reg['TotalMatriz'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
-        function mks(p1,p2){		
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
+        function mks(p1,p2){
             $.redirect("consultainter.php", {id: p1, ck : p2 });
-		}
-        
+		}       
         
         $(document).ready(function(){
             $('.select2').select2()

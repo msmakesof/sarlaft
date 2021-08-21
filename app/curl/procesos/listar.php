@@ -4,7 +4,7 @@
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
-$IdProceso ="";
+//$IdProceso ="";
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	$url = $urlServicios."api/procesos/lista.php?ck=$CustomerKey";
