@@ -45,7 +45,7 @@ $("#addtra").on('click', function(){
 		tabla+='<td style="width:100%">'+ slct + '<br>'; 
 		
 		var tablainterna=''; 
-		tablainterna+= '<tbody id="tbody">';		
+		/////tablainterna+= '<tbody id="tbody">';		
 			tablainterna+= '<tr id="TRA-'+nro+'">';
 				tablainterna+= '<td colspan="3">';
 					
@@ -89,9 +89,9 @@ $("#addtra").on('click', function(){
 					
 				tablainterna+= '</td>';			
 			tablainterna+= '</tr>';
-		tablainterna+= '</tbody>';
+		/////tablainterna+= '</tbody>';
 
-		$("#tabtra").append(tablainterna);
+		$("#tabtrabody").append(tablainterna);
 		
 		$('.delete').off().click(function(e) {
 			let regdel = $(this).parent('td').parent('tr').attr('id');

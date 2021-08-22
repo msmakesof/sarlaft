@@ -11,9 +11,9 @@ $("#addopo").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemoportunidad = itemoportunidad + 1;
-		$("#tabopo").append('<tbody>');
-		$("#tabopo").append('<tr id="OPO'+itemoportunidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$("#tabopo").append('</tbody>');
+		//$("#tabopo").append('<tbody>');
+		$("#tabopobody").append('<tr id="OPO'+itemoportunidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		//$("#tabopo").append('</tbody>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});

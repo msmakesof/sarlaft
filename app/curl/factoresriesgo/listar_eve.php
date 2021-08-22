@@ -73,4 +73,5 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
+	<tbody id="tabfarbody"></tbody>
 </table>

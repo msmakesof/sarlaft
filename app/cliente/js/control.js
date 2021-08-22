@@ -47,9 +47,11 @@ $("#addctr").on('click', function(){
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.ControlesName +"</option>";
 		});
-		slct = '<div style="width:100%; float:left"><select class="form-control control" id="control" name="control">';					
+		slct = '<div style="width:100%; float:left">';
+		slct += '<select class="form-control control" id="selcontr'+itemcontrol+'" name="selcontr'+itemcontrol+'" onChange="fxselContr(selcontr'+itemcontrol+',this.options[this.selectedIndex].value)">';					
 		slct += opc;
-		slct += '</select></div>';	
+		slct += '</select>';
+		slct += '</div>';	
 
 		// Select Efectividad		
 		$.get("../api/efectividad/lista_eve.php", {ck: CKCtr }, function(efectividad){
@@ -235,74 +237,265 @@ $("#addctr").on('click', function(){
 	})	// select Controles
 	
 })
+	var infcontrol = 0;
 	var infodocumtxt = 0;
 	var infoaplicatxt = 0;
 	var infoefectxt = 0;
 	var infoevaltxt = 0;
 	var totsumatoria = 0;
+	var infprop = 0;
+	var infejec = 0;
+	var infefec = 0;
+	var inffrec = 0;
+
+	function fxselContr(ParId, ParReg){
+		var itemcontrol = ParId.name;
+		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		//Propietario
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+	}
+
 	function fnselProp(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
-		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
-		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
 		//Efectividad
-		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
 		//Frecuencia
-		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
-		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 
 	function fnselEjec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
-		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
-		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
 		//Efectividad
-		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
 		//Frecuencia
-		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
-		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 
 	function fnselEfec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
-		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
-		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
 		//Efectividad
-		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
 		//Frecuencia
-		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
-		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 
 	function fnselFrec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
-		var infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
-		var infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
 		//Efectividad
-		var infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
 		//Frecuencia
-		var inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
-		fnControl(infprop,infejec,infefec,inffrec,ParReg)
+		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+		
+		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+		
+		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+		
+		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+		
+		infodocumtxt = parseInt(infodocumtxt);
+		infoaplicatxt =parseInt(infoaplicatxt);
+		infoefectxt = parseInt(infoefectxt);
+		infoevaltxt = parseInt(infoevaltxt);
+		//alert(infodocum+'  '+infoaplica);
+		var contar = 0;
+		var sumatoria = 0;
+		var totpromedio = 0;
+		if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+		if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+		if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+		totpromedio = sumatoria/contar ;
+		totpromedio = Math.round(totpromedio);
+		$("#promedio"+itemcontrol).val( totpromedio )
+		var totsumatoria = sumatoria;
+		fxSumar(totsumatoria, itemcontrol)
+
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 	
 	function fxselDocum(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(8);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		//Propietario
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 	
 		var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
 		infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
@@ -333,11 +526,21 @@ $("#addctr").on('click', function(){
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 	function fxselAplica(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(9);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		//Propietario
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
 		var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
 		infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
@@ -367,12 +570,22 @@ $("#addctr").on('click', function(){
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 
 	function fxselEfec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		//Propietario
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
 		var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
 		infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
@@ -402,12 +615,22 @@ $("#addctr").on('click', function(){
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)	
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 	
 	function fxselEval(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		//Control
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		//Propietario
+		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+		//Ejecutor
+		infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+		//Efectividad
+		infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+		//Frecuencia
+		inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
 
 		var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
 		infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
@@ -437,7 +660,7 @@ $("#addctr").on('click', function(){
 		totpromedio = Math.round(totpromedio);
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt, ParReg)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
 	}
 
 	function fxSumar(parSumar, parIdControl){

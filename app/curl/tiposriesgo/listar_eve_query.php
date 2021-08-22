@@ -74,5 +74,52 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
-	<tbody id="tabtirbody"></tbody>
-</table>	
+	<tbody id="tabtirbody">
+		<?php 
+		$getConnectionCli2 = new Database();
+		$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+		$query = sqlsrv_query($conn,"SELECT ETIR_Id, ETIR_IdEventoRiesgo, ETIR_IdTipoRiesgo FROM ETIR_TipoRiesgo WHERE ETIR_IdEventoRiesgo=".$IdEvento);
+		{
+			if ( $query === false)
+			{
+				die(print_r(sqlsrv_errors(), true));
+			}						
+			while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+				$id=$row['ETIR_Id'];
+				$IdTipoRiesgo=$row['ETIR_IdTipoRiesgo'];
+		?>
+				<tr id="TIR<?php echo $IdEvento; ?>">
+					<td style="width:10%"></td>
+					<td style="width:80%">
+					<select class="form-control tiporie" id="tr" name="tr">
+						<option value=''>Seleccione</option>
+						<?php 
+						$sqlmov=sqlsrv_query($conn,"SELECT TIR_IdTipoRiesgo, TIR_Nombre FROM TIR_TipoRiesgo WHERE TIR_CustomerKey='".$CustomerKey."'");
+						if ( $sqlmov === false)
+						{
+							die(print_r(sqlsrv_errors(), true));
+						}
+						while( $row = sqlsrv_fetch_array( $sqlmov, SQLSRV_FETCH_ASSOC) ) {
+							$condicontrol = "";
+							$TipoRiesgoId = trim($row['TIR_IdTipoRiesgo']);
+							$Nombre = trim($row['TIR_Nombre']);
+
+							if( isset($IdTipoRiesgo) && $IdTipoRiesgo != "" && $TipoRiesgoId == $IdTipoRiesgo ){
+								$condicontrol = ' selected="selected" ';
+							}
+						?>
+							<option value="<?php echo $IdTipoRiesgo ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<?php
+						}
+						?>
+					</select>
+					</td>
+					<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+					</td>
+				</tr>
+		<?php
+			}
+		}
+		?>
+	</tbody>
+</table>

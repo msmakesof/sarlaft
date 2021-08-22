@@ -11,9 +11,9 @@ $("#addcon").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemconsecuencia = itemconsecuencia + 1;
-		$("#tabcon").append('<tbody>');
-		$("#tabcon").append('<tr id="CON'+itemconsecuencia+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$("#tabcon").append('</tbody>');
+		//$("#tabcon").append('<tbody>');
+		$("#tabconbody").append('<tr id="CON'+itemconsecuencia+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		//$("#tabcon").append('</tbody>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});

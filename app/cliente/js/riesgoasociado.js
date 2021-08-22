@@ -11,7 +11,7 @@ $("#addiria").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemria = itemria + 1
-		$("#tabria").append('<tr id="RIA'+itemria+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabriabody").append('<tr id="RIA'+itemria+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});

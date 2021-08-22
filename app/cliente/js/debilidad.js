@@ -11,9 +11,9 @@ $("#adddeb").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemdebilidad = itemdebilidad + 1;
-		$("#tabdeb").append('<tbody>');
-		$("#tabdeb").append('<tr id="DEB'+itemdebilidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$("#tabdeb").append('</tbody>');
+		////$("#tabdeb").append('<tbody>');
+		$("#tabdebbody").append('<tr id="DEB'+itemdebilidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		////$("#tabdeb").append('</tbody>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});

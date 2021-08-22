@@ -72,28 +72,5 @@ $vcausas = 0;
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
-	<!--
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php //echo $sel_csc; ?></td>
-		<td style="width:10%">&nbsp;</td>
-	</tr> -->
+	<tbody id="tabdebbody"></tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>			
-		</td>
-		<td>Debilidades</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_deb; ?></td>	
-	</tr>
-</table> -->

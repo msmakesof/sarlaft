@@ -11,9 +11,9 @@ $("#addfar").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemfactorriesgo = itemfactorriesgo + 1;
-		$("#tabfar").append('<tbody>');
-		$("#tabfar").append('<tr id="FAR'+itemfactorriesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$("#tabfar").append('</tbody>');
+		//$("#tabfar").append('<tbody>');
+		$("#tabfarbody").append('<tr id="FAR'+itemfactorriesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		//$("#tabfar").append('</tbody>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});

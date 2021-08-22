@@ -75,12 +75,7 @@ $vcausas = 0;
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
-	<!--
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php //echo $sel_csc; ?></td>
-		<td style="width:10%">&nbsp;</td>
-	</tr> -->
+	<tbody id="tabforbody"></tbody>
 </table>
 <!--
 <table class="table table-bordered" style="width:100% !important">

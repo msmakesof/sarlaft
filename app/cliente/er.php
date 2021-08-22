@@ -807,12 +807,18 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		var movercols = 0;		//  Categoria: Correctivo  mueve hacia Izquierda
 		                        //  Categoria: Ambos       mueve hacia Abajo y a la Izquierda 
 		var txtCat = "";
+		var categoria = "";
 		var posicionesmover = 0;
 		itemcontrol = 0;
 		var valDoc = 0;
 		var valApl = 0;
 		var valEfe = 0;
 		var valEva = 0;
+		var valprop = 0;
+		var valejec = 0;
+		var valefect = 0;
+		var valfrec = 0;
+		var valcontrol = 0;
 		// Fin Parametros a enviar para la matriz de control
 		
         function mks(p1,p2){
@@ -822,6 +828,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		function fnCategoria(pValue){
 			//alert('pValue....'+pValue.value);			
 			var cadena = pValue.value;
+			categoria = cadena
 			let posicion = cadena.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = cadena.substr(posicion+1) ;
@@ -867,7 +874,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
 		function fnRealizado(pValue){
@@ -910,10 +917,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
-		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl){
+		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
 			valDoc = parDoc;
 			if ( isNaN(valDoc) ){valDoc = 0;}
 			//alert('valDoc...'+valDoc);
@@ -925,7 +932,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//alert('valEfe....'+valEfe);
 			valEva = parEva;
 			if ( isNaN(valEva) ){valEva = 0;}
-			//alert('valEva....'+valEva);
+			//alert('valEva....'+valEva);			
+			valprop=pinfprop;
+			if ( isNaN(valprop) ){valprop = 0;}
+			valejec=pinfejec;
+			if ( isNaN(valejec) ){valejec = 0;}
+			valefect=pinfefec;
+			if ( isNaN(valefec) ){valefec = 0;}
+			valfrec=pinffrec;
+			if ( isNaN(valfrec) ){valfrec = 0;}
+			valcontrol=pinfcontrol;
+			if ( isNaN(valcontrol) ){valcontrol = 0;}
 			let posicion = parItemCtrl.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
@@ -966,15 +983,25 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}		
 		
-		function fnMatRiesgo(p1,p2,p3,p4,p5){
+		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
 			var moverfils = p2;
 			var movercols = p3;
 			var posicionAmover = p4;
-			itemcontrol = p5;
+			itemcontrol = p5;			
+			var pcategoria= p6;
+			var pvaldoc=p7;
+			var pvalapl=p8;
+			var pvalefe=p9;
+			var pvaleva=p10;
+			var pvalprop=p11;
+			var pvalejec=p12;
+			var pvalefec=p13;
+			var pvalfrec=p14;
+			var pvalcontrol=p15;
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
@@ -1009,41 +1036,18 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							}
 						}
 					})
+					let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&rea="+moverbolita+"&cat="+pcategoria+"&doc="+pvaldoc+"&apl="+pvalapl+"&efe="+pvalefe+"&eva="+pvaleva+"&prop="+pvalprop+"&ejec="+pvalejec+"&efec="+pvalefec+"&frec="+pvalfrec+"&control="+pvalcontrol+"&ruta=../";
+					$.ajax({
+						async: false,
+						type: "POST",
+						url: "../api/eventoriesgo/guardacontrol.php",
+						data: paramet,
+						success: function(datos){
+
+						}
+					})
 				}
 			})			
-		}
-		
-		function fnControl(pinfprop,pinfejec,pinfefec,pinffrec,pParReg){
-			//alert(pinfprop);
-			let valinfprop = pinfprop;
-			if ( isNaN(valinfprop) ){valinfprop = 0;}
-
-			let valinfejec = pinfejec;
-			if ( isNaN(valinfejec) ){valinfejec = 0;}
-
-			let valpinfefec = pinfefec;
-			if ( isNaN(valpinfefec) ){valpinfefec = 0;}
-
-			let valpinffrec = pinffrec;
-			if ( isNaN(valpinffrec) ){valpinffrec = 0;}
-			
-			let posicion = pParReg.indexOf('-');
-			if (posicion !== -1){
-				itemcontrol = pParReg.substr(posicion+1) ;
-			}
-
-			let er = $("#hder").val();			
-
-			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&prop="+valinfprop+"&ejec="+valinfejec+"&efec="+valpinfefec+"&frec="+valpinffrec+"&er="+er+"&nrocontrol="+itemcontrol;
-			$.ajax({
-				async: false,
-				type: "POST",
-				url: "../api/eventoriesgo/guardacontrol.php",
-				data: paramet,
-				success: function(datos){
-
-				}
-			})
 		}
 			
         $(document).ready(function(){
@@ -1474,7 +1478,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				mks.push(sof16)				
 				
 				////console.log(obj);
-				console.log(mks);
+				////console.log(mks);
 				var paramet = mks
 				//alert(paramet);
 				$.ajax({
@@ -1482,7 +1486,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
                     url: "grabaer.php",
 					data: { js : mks },
                     success: function(datos){
-                        alert(datos);
+                        //alert(datos);
 						let m= datos.trim()
 						let msj = m.substr(0,1);
 						let type

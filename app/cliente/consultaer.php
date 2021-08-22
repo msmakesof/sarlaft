@@ -4,7 +4,11 @@ Created : Mauricio Sánchez Sierra
 Date: 2021-08-05
 Description: Consulta un Evento de Riesgo
 **************************************************************************/
-
+if ( !isset($_POST['id']) || $_POST['id'] == "" )
+{
+	header('Location: eventosriesgo.php');
+	exit;
+}
 $IdEvento = trim($_POST['id']);
 $ck = trim($_POST['ck']);
 echo "$IdEvento   - $ck  <br>";
@@ -659,14 +663,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									<div class="form-group row">
 										<div class="col-md-12">
 										<?php
-										 	$CustomerKey = $ck;
-											include("../curl/controles/listar_eve_query.php"); ?>
+										 	$CustomerKey = $ck;	include("../curl/controles/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/tiposriesgo/listar_eve.php"); ?>
+										<?php $CustomerKey = $ck; include("../curl/tiposriesgo/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
@@ -860,7 +863,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Fin Parametros a enviar para la matriz de control
 		
         function mks(p1,p2){
-            $.redirect("tareas.php", {id: p1, np : p2 });
+            //$.redirect("tareas.php", {id: p1, np : p2 });
 		}		
 		
 		function fnCategoria(pValue){

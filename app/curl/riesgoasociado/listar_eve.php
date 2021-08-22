@@ -58,6 +58,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 }		
 ?>
 <table class="table table-bordered" style="width:100% !important" id="tabria">
+	<thead>
 	<tr>
 		<td style="width:10%">
 			<div id="addiria" style="float:left">
@@ -76,7 +77,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		</td>
 		<td style="width:80%"><label>Riesgo Asociado</label></td>
 		<td style="width:10%"></td>
-	</tr>		
+	</tr>
+	</thead>
+	<tbody id="tabriabody"></tbody>
 	<!--
 	<tr>
 		<td style="width:10%">&nbsp;</td>

@@ -11,9 +11,9 @@ $("#addcau").on('click', function(){
 		slct += opc;
 		slct += '</select>';
 		itemcausa = itemcausa + 1;
-		$("#tabcau").append('<tbody>');
-		$("#tabcau").append('<tr id="CAU'+itemcausa+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$("#tabcau").append('</tbody>');
+		//$("#tabcau").append('<tbody>');
+		$("#tabcaubody").append('<tr id="CAU'+itemcausa+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		//$("#tabcau").append('</tbody>');
 		$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
 		});
