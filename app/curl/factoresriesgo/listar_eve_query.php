@@ -6,7 +6,7 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/tiposriesgo/lista_eve.php?ck=$CustomerKey";
+	$url = $urlServicios."api/factoresriesgo/lista_eve.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -20,7 +20,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     $resultado = curl_exec ($ch);
     curl_close($ch);
 	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-	$datatr = json_decode($mestado, true);	
+	$datafr = json_decode($mestado, true);	
 	
 	$json_errors = array(
 		JSON_ERROR_NONE => 'No se ha producido ningún error',
@@ -28,87 +28,86 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 	);
-	
-	foreach($datatr as $key => $row) {}
+	foreach($datafr as $key => $row) {}
 	
 	if( $key == "message")
 	{
-		echo $datatr["message"];
+		echo $datafr["message"];
 	}
 	else
 	{		
 		/// Para pintar Tipo Riesgo   <i class='fas fa-plus-circle' id='itr' style='cursor: pointer'></i>
-		if( $datatr["itemCount"] > 0)
+		if( $datafr["itemCount"] > 0)
 		{			
 			$IdItem = "";
-			$sel_tr="<select class='form-control' id='tr' name='tr' required>";
-			$sel_tr.="<option value=''>Seleccione opción</option>";			
-			for($i=0; $i<count($datatr['body']); $i++)
+			$sel_fr="<select class='form-control' id='fr' name='fr' required>";
+			$sel_fr.="<option value=''>Seleccione opción</option>";			
+			for($i=0; $i<count($datafr['body']); $i++)
 			{				
 				$condi = "";
-				$id = $datatr['body'][$i]["TIR_IdTipoRiesgo"];
-				$nombre = trim($datatr['body'][$i]["TIR_Nombre"]);
+				$id = $datafr['body'][$i]["FAR_IdFactorRiesgo"];
+				$nombre = trim($datafr['body'][$i]["FAR_Nombre"]);
 				if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
 					$condi = ' selected="selected" ';
 				}
-				$sel_tr.= '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
+				$sel_fr.= '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
 			}
-			$sel_tr.= '</select>';				
+			$sel_fr.= '</select>';				
 		}
 	}
 }		
 ?>
-<table class="table table-bordered" style="width:100% !important" id="tabtir">
+<table class="table table-bordered" style="width:100% !important" id="tabfar">
 	<thead>
 	<tr>
 		<td style="width:10%">
-			<div id="addtir" style="float:left">
-				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Tipo Riesgo" style="color:green; cursor:pointer"></i>
+			<div id="addfar" style="float:left">
+				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Factor Riesgo" style="color:green; cursor:pointer"></i>
 			</div>
 
-			<a href="#" id="mcreatir" style="float:right" data-target="#addTipoRiesgoModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Tipo Riesgo" style="color:orange; cursor:pointer"></i>
+			<a href="#" id="mcreafar" style="float:right" data-target="#addFactorRiesgoModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
+				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Factor Riesgo" style="color:orange; cursor:pointer"></i>
 			</a>					
 		</td>
-		<td style="width:80%"><label>Tipo Riesgo</label></td>
+		<td style="width:80%"><label>Factor Riesgo</label></td>
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
-	<tbody id="tabtirbody">
-		<?php 
+	<tbody id="tabfarbody">
+	<?php 
 		$getConnectionCli2 = new Database();
 		$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
-		$query = sqlsrv_query($conn,"SELECT ETIR_Id, ETIR_IdEventoRiesgo, ETIR_IdTipoRiesgo FROM ETIR_TipoRiesgo WHERE ETIR_IdEventoRiesgo=".$IdEvento);
+		$query = sqlsrv_query($conn,"SELECT EFAR_Id, EFAR_IdFactorRiesgo, EFAR_IdEventoRiesgo FROM EFAR_FactorRiesgo WHERE EFAR_IdEventoRiesgo=".$IdEvento);
 		{
 			if ( $query === false)
 			{
 				die(print_r(sqlsrv_errors(), true));
 			}						
 			while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
-				$id=$row['ETIR_Id'];
-				$IdTipoRiesgo=trim($row['ETIR_IdTipoRiesgo']);
+				$id=$row['EFAR_Id'];
+				$IdFactorRiesgo=trim($row['EFAR_IdFactorRiesgo']);
 		?>
-			<tr id="TIR<?php echo $IdEvento; ?>">
+			<tr id="FAR<?php echo $IdEvento; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
 				<select class="form-control tiporie" id="tr" name="tr">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT TIR_IdTipoRiesgo, TIR_Nombre FROM TIR_TipoRiesgo WHERE TIR_CustomerKey='".$CustomerKey."'");
+					$sqlmov=sqlsrv_query($conn,"SELECT FAR_IdFactorRiesgo, FAR_Nombre FROM FAR_FactorRiesgo WHERE FAR_CustomerKey='".$CustomerKey."'");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));
 					}
 					while( $row = sqlsrv_fetch_array( $sqlmov, SQLSRV_FETCH_ASSOC) ) {
 						$condicontrol = "";
-						$TipoRiesgoId = trim($row['TIR_IdTipoRiesgo']);
-						$Nombre = trim($row['TIR_Nombre']);
+						$FactorRiesgoId = trim($row['FAR_IdFactorRiesgo']);
+						$Nombre = trim($row['FAR_Nombre']);
 
-						if( isset($IdTipoRiesgo) && $IdTipoRiesgo != "" && $TipoRiesgoId == $IdTipoRiesgo ){
+						if( isset($IdFactorRiesgo) && $IdFactorRiesgo != "" && $FactorRiesgoId == $IdFactorRiesgo ){
 							$condicontrol = ' selected="selected" ';
 						}
 					?>
-						<option value="<?php echo $IdTipoRiesgo ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<option value="<?php echo $FactorRiesgoId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
 					<?php
 					}
 					?>

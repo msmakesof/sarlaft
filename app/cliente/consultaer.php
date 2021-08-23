@@ -675,25 +675,25 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/factoresriesgo/listar_eve.php"); ?>
+										<?php include("../curl/factoresriesgo/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/riesgoasociado/listar_eve.php"); ?>
+										<?php include("../curl/riesgoasociado/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/causas/listar_eve.php"); ?>
+										<?php include("../curl/causas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/consecuencias/listar_eve.php"); ?>
+										<?php include("../curl/consecuencias/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
@@ -708,25 +708,25 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/debilidades/listar_eve.php"); ?>
+										<?php include("../curl/debilidades/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/oportunidades/listar_eve.php"); ?>
+										<?php include("../curl/oportunidades/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/fortalezas/listar_eve.php"); ?>
+										<?php include("../curl/fortalezas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/amenazas/listar_eve.php"); ?>
+										<?php include("../curl/amenazas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
