@@ -99,7 +99,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				<select class="form-control tiporie" id="tr" name="tr">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT RIA_IdRiesgoAsociado, RIA_Nombre FROM RIA_RiesgoAsociado WHERE RIA_CustomerKey='".$CustomerKey."'");
+					$sqlmov=sqlsrv_query($conn,"SELECT RIA_IdRiesgoAsociado, RIA_Nombre FROM RIA_RiesgoAsociado WHERE RIA_CustomerKey='".$CustomerKey."' ORDER BY RIA_Nombre");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));

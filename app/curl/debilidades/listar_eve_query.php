@@ -92,7 +92,7 @@ $vcausas = 0;
 				<select class="form-control tiporie" id="tr" name="tr">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT id, DebilidadesName FROM DebilidadesSarlaft WHERE CustomerKey='".$CustomerKey."'");
+					$sqlmov=sqlsrv_query($conn,"SELECT id, DebilidadesName FROM DebilidadesSarlaft WHERE CustomerKey='".$CustomerKey."' ORDER BY DebilidadesName");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));

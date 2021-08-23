@@ -94,7 +94,7 @@ $vconsec = 0;
 				<select class="form-control tiporie" id="tr" name="tr">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT id, ConsecuenciasName FROM ConsecuenciasSarlaft WHERE CustomerKey='".$CustomerKey."'");
+					$sqlmov=sqlsrv_query($conn,"SELECT id, ConsecuenciasName FROM ConsecuenciasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY ConsecuenciasName");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));

@@ -702,7 +702,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/tratamientos/listar_eve.php"); ?>
+										<?php include("../curl/tratamientos/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
