@@ -88,10 +88,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$id=$row['ETIR_Id'];
 				$IdTipoRiesgo=trim($row['ETIR_IdTipoRiesgo']);
 		?>
-			<tr id="TIR<?php echo $IdEvento; ?>">
+			<tr id="TIR<?php echo $IdTipoRiesgo; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
+				<select class="form-control tiporie" id="tr<?php echo $IdTipoRiesgo; ?>" name="tr<?php echo $IdTipoRiesgo; ?>" onChange="fxTR(this.options[this.selectedIndex].value, <?php echo $IdTipoRiesgo; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
 					$sqlmov=sqlsrv_query($conn,"SELECT TIR_IdTipoRiesgo, TIR_Nombre FROM TIR_TipoRiesgo WHERE TIR_CustomerKey='".$CustomerKey."' ORDER BY TIR_Nombre");
@@ -108,13 +108,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$condicontrol = ' selected="selected" ';
 						}
 					?>
-						<option value="<?php echo $IdTipoRiesgo ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<option value="<?php echo $TipoRiesgoId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
 					<?php
 					}
 					?>
 				</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deletetrUpd(<?php echo $IdTipoRiesgo; ?>,<?php echo $IdEvento; ?>)" >
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php

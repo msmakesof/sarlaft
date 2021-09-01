@@ -6,7 +6,7 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/consecuencia/lista_eve.php?ck=$CustomerKey";
+	$url = $urlServicios."api/consecuencias/lista_eve.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -37,15 +37,15 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	else
 	{
 		$IdItemcsc="";
-		$sel_csc="<select class='form-control' id='consec' name='consec' required>";
+		$sel_csc="<select class='form-control' id='consec' name='consec' autofocus required>";
 		$sel_csc.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc = "";
-			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-			$ck = trim($datacsc['body'][$i]["CSC_CustomerKey"]);
-			$cuasak = trim($datacsc['body'][$i]["CSC_UserKey"]);
+			$idcsc = $datacsc['body'][$i]["id"];
+			$nombrecsc = trim($datacsc['body'][$i]["ConsecuenciasName"]);
+			$ck = trim($datacsc['body'][$i]["CustomerKey"]);
+			$cuasak = trim($datacsc['body'][$i]["UserKey"]);
 			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
 				$condicsc = ' selected="selected" ';
 			}
@@ -58,23 +58,21 @@ $vconsec = 0;
 ?>
 <table class="table table-bordered" style="width:100% !important" id="tabcon">
 	<thead>
-	<tr>
-		<td style="width:10%">
-			<div id="addcon" style="float:left">
-				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Consecuencia" style="color:green; cursor:pointer"></i>
-			</div>
+		<tr>
+			<td style="width:10%">
+				<div id="addcon" style="float:left">
+					<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Consecuencia" style="color:green; cursor:pointer"></i>
+				</div>
 
-			<a href="#" id="mcreacon" style="float:right" data-target="#addConsecuenciaModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Consecuencia" style="color:orange; cursor:pointer"></i>
-			</a>			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Consecuencia" style="color:red"></i>
-			</a>-->			
-		</td>
-		<td style="width:80%"><label>Consecuencia</label></td>
-		<td style="width:10%"></td>
-	</tr>
+				<a href="#" id="mcreacon" style="float:right" data-target="#addConsecuenciaModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
+					<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Consecuencia" style="color:orange; cursor:pointer"></i>
+				</a>		
+			</td>
+			<td style="width:80%"><label>Consecuencia</label></td>
+			<td style="width:10%"></td>
+		</tr>
 	</thead>
+	<tbody id="tabconbody">
 	<?php 
 		$getConnectionCli2 = new Database();
 		$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
@@ -88,62 +86,41 @@ $vconsec = 0;
 				$id=$row['ECON_Id'];
 				$IdConsecuencia=trim($row['ECON_IdConsecuencia']);
 		?>
-			<tr id="CON<?php echo $IdEvento; ?>">
+			<tr id="CON<?php echo $IdConsecuencia; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
-					<option value=''>Seleccione</option>
-					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT id, ConsecuenciasName FROM ConsecuenciasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY ConsecuenciasName");
-					if ( $sqlmov === false)
-					{
-						die(print_r(sqlsrv_errors(), true));
-					}
-					while( $row = sqlsrv_fetch_array( $sqlmov, SQLSRV_FETCH_ASSOC) ) {
-						$condicontrol = "";
-						$ConsecuenciasId = trim($row['id']);
-						$Nombre = trim($row['ConsecuenciasName']);
-
-						if( isset($IdConsecuencia) && $IdConsecuencia != "" && $IdConsecuencia == $ConsecuenciasId ){
-							$condicontrol = ' selected="selected" ';
+					<select class="form-control consec" id="consec<?php echo $IdConsecuencia; ?>" name="consec<?php echo $IdConsecuencia; ?>" onChange="fxCO(this.options[this.selectedIndex].value, <?php echo $IdConsecuencia; ?>") autofocus>
+						<option value=''>Seleccione</option>
+						<?php 
+						$sqlmov=sqlsrv_query($conn,"SELECT id, ConsecuenciasName FROM ConsecuenciasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY ConsecuenciasName");
+						if ( $sqlmov === false)
+						{
+							die(print_r(sqlsrv_errors(), true));
 						}
-					?>
-						<option value="<?php echo $ConsecuenciasId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
-					<?php
-					}
-					?>
-				</select>
+						while( $row = sqlsrv_fetch_array( $sqlmov, SQLSRV_FETCH_ASSOC) ) {
+							$condicontrol = "";
+							$ConsecuenciasId = trim($row['id']);
+							$Nombre = trim($row['ConsecuenciasName']);
+
+							if( isset($IdConsecuencia) && $IdConsecuencia != "" && $IdConsecuencia == $ConsecuenciasId ){
+								$condicontrol = ' selected="selected" ';
+							}
+						?>
+							<option value="<?php echo $ConsecuenciasId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<?php
+						}
+						?>
+					</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deletecoUpd(<?php echo $IdConsecuencia; ?>,<?php echo $IdEvento; ?>)">
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php
 			}
 		}
 	?>
-	<!--
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php //echo $sel_csc; ?></td>
-		<td style="width:10%">&nbsp;</td>
-	</tr> -->
+	</tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>
-		</td>
-		<td>Consecuencias</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_csc; ?></td>	
-	</tr>
-</table>
--->

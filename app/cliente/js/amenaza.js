@@ -1,16 +1,16 @@
 let CKAme = global.key;
-let itemamenaza = 0
+let itemamenaza = 9000
 $("#addame").on('click', function(){
 	let slct = '';
 	$.get("../api/amenazas/lista_eve.php", {ck: CKAme  }, function(result){
+		itemamenaza ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.AmenazasName +"</option>";
 		});
-		slct = '<select class="form-control ame" id="ame" name="ame">';					
+		slct = '<select class="form-control ame" id="ame'+itemamenaza+'" name="ame'+itemamenaza+'" onChange="fxAM(this.options[this.selectedIndex].value, itemamenaza)" autofocus>';					
 		slct += opc;
-		slct += '</select>';
-		itemamenaza = itemamenaza + 1;
+		slct += '</select>';		
 		////$("#tabame").append('<tbody>');
 		$("#tabamebody").append('<tr id="AME'+itemamenaza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		////$("#tabame").append('</tbody>');
@@ -72,3 +72,35 @@ $( "#add_amenazas" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+function deleteamUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = num
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/amenazas/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Amenaza ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			 $("#AME" + nt).remove();
+		}
+	})
+}

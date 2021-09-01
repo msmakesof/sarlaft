@@ -27,7 +27,7 @@ $("#addtra").on('click', function(){
 			opc +="<option value='"+ item.id +"'>"+ item.TratamientosName +"</option>";
 		});
 		var delet='<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
-		slct = '<div style="width:100%; float:left"><select class="form-control trata" id="tratamiento'+nro+'" name="tratamiento'+nro+'" onChange="fnTrata(tratamiento'+nro+',this.options[this.selectedIndex].value)">';					
+		slct = '<div style="width:100%; float:left"><select class="form-control trata" id="tratamiento'+nro+'" name="tratamiento'+nro+'" onChange="fnTrata(tratamiento'+nro+',this.options[this.selectedIndex].value)" autofocus>';					
 		slct += opc;
 		slct += '</select></div>';		
 		

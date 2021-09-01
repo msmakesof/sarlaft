@@ -1,16 +1,17 @@
 let CK = global.key;
-let itemtiporiesgo = 0
+var itemtiporiesgo = 9000
 $("#addtir").on('click', function(){
 	let slct = '';
 	$.get("../api/tiposriesgo/lista_eve.php", {ck: CK  }, function(result){
+		itemtiporiesgo ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.TIR_IdTipoRiesgo +"'>"+ item.TIR_Nombre +"</option>";
 		});
-		slct = '<select class="form-control tiporie" id="tr" name="tr">';					
+		slct = '<select class="form-control tiporie" id="tr'+itemtiporiesgo+'" name="tr'+itemtiporiesgo+'"  onChange="fxTR(this.options[this.selectedIndex].value, itemtiporiesgo)" autofocus>';					
 		slct += opc;
 		slct += '</select>';
-		itemtiporiesgo = itemtiporiesgo + 1;
+		
 		//$("#tabtir").append('<tbody>');
 		$("#tabtirbody").append('<tr id="TIR'+itemtiporiesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		//$("#tabtir").append('</tbody>');
@@ -72,3 +73,36 @@ $( "#add_tiposriesgo" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+
+function deletetrUpd(numtiporiesgo, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = numtiporiesgo
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/tiposriesgo/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Tipo Riesgo ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			$("#TIR" + nt).remove();
+		}
+	})
+}

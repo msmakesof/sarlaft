@@ -40,7 +40,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		if( $datafr["itemCount"] > 0)
 		{			
 			$IdItem = "";
-			$sel_fr="<select class='form-control' id='fr' name='fr' required>";
+			$sel_fr="<select class='form-control' id='fr' name='fr' required autofocus>";
 			$sel_fr.="<option value=''>Seleccione opción</option>";			
 			for($i=0; $i<count($datafr['body']); $i++)
 			{				

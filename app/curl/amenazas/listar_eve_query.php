@@ -89,10 +89,10 @@ $vcausas = 0;
 				$id=$row['EAME_Id'];
 				$IdAmenaza=trim($row['EAME_IdAmenaza']);
 		?>
-			<tr id="AME<?php echo $IdEvento; ?>">
+			<tr id="AME<?php echo $IdAmenaza; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
+				<select class="form-control ame" id="ame<?php echo $IdAmenaza; ?>" name="ame<?php echo $IdAmenaza; ?>" onChange="fxAM(this.options[this.selectedIndex].value, <?php echo $IdAmenaza; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
 					$sqlmov=sqlsrv_query($conn,"SELECT id, AmenazasName FROM AmenazasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY AmenazasName");
@@ -115,31 +115,15 @@ $vcausas = 0;
 					?>
 				</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deleteamUpd(<?php echo $IdAmenaza; ?>,<?php echo $IdEvento; ?>)">
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php
 			}
 		}
-	?>
-	</tbody>
+	?>	
 	</tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>			
-		</td>
-		<td>Debilidades</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_deb; ?></td>	
-	</tr>
-</table> -->

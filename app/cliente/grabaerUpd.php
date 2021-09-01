@@ -46,6 +46,8 @@ $trafseguir ="";
 $nro=0;
 $mtra=[];
 $insert_TRA="";
+
+//$tiporiesgo .="DELETE FROM ETIR_TipoRiesgo WHERE ETIR_IdEventoRiesgo =$IdEvento; ";
 foreach($js as $key=>$value){
 	if(is_array($value)){
 		//echo "\n m....".$key . ': ' . '<br>';
@@ -112,6 +114,7 @@ foreach($js as $key=>$value){
 					}
 					
 					if($key2=="TIR"){
+						//
 						$tiporiesgo .= "INSERT INTO ETIR_TipoRiesgo (ETIR_IdEventoRiesgo, ETIR_IdTipoRiesgo) VALUES ('?', $value4);" ;
 					}
 					
@@ -174,14 +177,17 @@ $LastId = trim($IdEvento);
 if($query){
 	//echo "OK<br>";
 	$grabado="S";
-	
+
 	$sql="UPDATE ETRA_Tratamientos SET ETRA_Grabado = 'S' WHERE ETRA_IdEventoRiesgo = ".$LastId ;
 	$query = sqlsrv_query($conn,$sql);
 	if($query){
 		$grabado="S";
-		////$sql="INSERT INTO EMRI_MatrizRiesgoInherente (EMRI_IdEventoRiesgo, EMRI_IdProbabilidad, EMRI_IdConsecuencia, EMRI_Posicion ) VALUES($LastId, ////$mi_probabilidad, $mi_consecuencia, '' )";
-		////$query = sqlsrv_query($conn,$sql);
-		////if($query){
+	}
+	else { $grabado="N"; }
+	
+	////$sql="INSERT INTO EMRI_MatrizRiesgoInherente (EMRI_IdEventoRiesgo, EMRI_IdProbabilidad, EMRI_IdConsecuencia, EMRI_Posicion ) VALUES($LastId, ////$mi_probabilidad, $mi_consecuencia, '' )";
+	////$query = sqlsrv_query($conn,$sql);
+	////if($query){
 		////echo "OK MRI<br>";
 		
 		////$sql="INSERT INTO EMRC_MatrizRiesgoControl (EMRC_IdEventoRiesgo, EMRC_IdProbabilidad, EMRC_IdConsecuencia, EMRC_Posicion ) VALUES($LastId, ////$mc_probabilidad, $mc_consecuencia, '' )";
@@ -290,8 +296,8 @@ if($query){
 			}
 		/////}	
 		////else{echo "Fallo MRC<br>";}
-	}
-	else {$grabado="N"; } //echo "Fallo Tratamiento<br>";}
+	/////	}
+	////else { $grabado="N"; } 	//echo "Fallo MRI<br>";}
 }
 else{
 	$grabado="N"; //"Fallo";

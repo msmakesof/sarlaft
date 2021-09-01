@@ -1,16 +1,16 @@
 let CKDeb = global.key;
-let itemdebilidad = 0
+let itemdebilidad = 9000
 $("#adddeb").on('click', function(){
 	let slct = '';
 	$.get("../api/debilidades/lista_eve.php", {ck: CKDeb  }, function(result){
+		itemdebilidad ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.DebilidadesName +"</option>";
 		});
-		slct = '<select class="form-control debil" id="debil" name="debil">';					
+		slct = '<select class="form-control debil" id="debil'+itemdebilidad+'" name="debil'+itemdebilidad+'" onChange="fxDE(this.options[this.selectedIndex].value, itemdebilidad)" autofocus>';					
 		slct += opc;
-		slct += '</select>';
-		itemdebilidad = itemdebilidad + 1;
+		slct += '</select>';		
 		////$("#tabdeb").append('<tbody>');
 		$("#tabdebbody").append('<tr id="DEB'+itemdebilidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		////$("#tabdeb").append('</tbody>');
@@ -72,3 +72,36 @@ $( "#add_debilidades" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+
+function deletedeUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = num
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/debilidades/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Debilidad ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			 $("#DEB" + nt).remove();
+		}
+	})
+}

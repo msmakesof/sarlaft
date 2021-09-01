@@ -94,10 +94,10 @@ $vcausas = 0;
 				$id=$row['ECAU_Id'];
 				$IdCausa=trim($row['ECAU_IdCausa']);
 		?>
-			<tr id="CAU<?php echo $IdEvento; ?>">
+			<tr id="CAU<?php echo $IdCausa; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
+				<select class="form-control causa" id="causa<?php echo $IdCausa; ?>" name="causa<?php echo $IdCausa; ?>" onChange="fxCA(this.options[this.selectedIndex].value, <?php echo $IdCausa; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
 					$sqlmov=sqlsrv_query($conn,"SELECT id, CausasName FROM CausasSarlaft WHERE CustomerKey='".$CustomerKey."' Order By CausasName");
@@ -120,7 +120,10 @@ $vcausas = 0;
 					?>
 				</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deletecaUpd(<?php echo $IdCausa; ?>,<?php echo $IdEvento; ?>)">
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php

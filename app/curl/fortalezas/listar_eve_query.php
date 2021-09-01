@@ -89,10 +89,10 @@ $vcausas = 0;
 				$id=$row['EFOR_Id'];
 				$IdFortaleza=trim($row['EFOR_IdFortaleza']);
 		?>
-			<tr id="FOR<?php echo $IdEvento; ?>">
+			<tr id="FOR<?php echo $IdFortaleza; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
+				<select class="form-control fortal" id="fortal<?php echo $IdFortaleza; ?>" name="fortal<?php echo $IdFortaleza; ?>" onChange="fxFO(this.options[this.selectedIndex].value, <?php echo $IdFortaleza; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
 					$sqlmov=sqlsrv_query($conn,"SELECT id, FortalezasName FROM FortalezasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY FortalezasName");
@@ -115,7 +115,10 @@ $vcausas = 0;
 					?>
 				</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deletefoUpd(<?php echo $IdOportunidad; ?>,<?php echo $IdEvento; ?>)">
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php

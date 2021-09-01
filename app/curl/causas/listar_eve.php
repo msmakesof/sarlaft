@@ -71,10 +71,7 @@ $vcausas = 0;
 
 			<a href="#" id="mcreacau" style="float:right" data-target="#addCausaModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Causa" style="color:orange; cursor:pointer"></i>
-			</a>			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>-->			
+			</a>		
 		</td>
 		<td style="width:80%"><label>Causas</label></td>
 		<td style="width:10%"></td>

@@ -59,7 +59,7 @@ $vtrata = 0;
 	<thead>
 	<tr>
 		<td style="width:10%">
-			<div id="addtra" style="float:left">
+			<div id="addtraupd" style="float:left">
 				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Tratamientos" style="color:green; cursor:pointer"></i>
 			</div>
 
@@ -75,7 +75,7 @@ $vtrata = 0;
 	<?php 
 		$getConnectionCli2 = new Database();
 		$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
-		$query = sqlsrv_query($conn,"SELECT ETRA_Id, ETRA_NumTratamiento, ETRA_IdEventoRiesgo, ETRA_IdTratamiento, ETRA_Status, ETRA_Prioridad, ETRA_FechaInicio, ETRA_FechaFinal, ETRA_FechaSeguimiento, ETRA_IdPlan FROM ETRA_Tratamientos WHERE ETRA_IdEventoRiesgo=".$IdEvento);
+		$query = sqlsrv_query($conn,"SELECT ETRA_Id, ETRA_NumTratamiento, ETRA_IdEventoRiesgo, ETRA_IdTratamiento, ETRA_Status, ETRA_Prioridad, ETRA_FechaInicio, ETRA_FechaFinal, ETRA_FechaSeguimiento, ETRA_IdPlan FROM ETRA_Tratamientos WHERE ETRA_IdEventoRiesgo=".$IdEvento." AND ETRA_Grabado='S' ");
 		{
 			if ( $query === false)
 			{
@@ -89,20 +89,35 @@ $vtrata = 0;
 				$Status=trim($row['ETRA_Status']);
 				$IdPrioridad=trim($row['ETRA_Prioridad']);
 				$FechaInicio=$row['ETRA_FechaInicio'];
-				$FechaInicio=date_format($FechaInicio, 'Y-m-d');
+				if ( is_null($FechaInicio) ){
+					$FechaInicio="";
+				}
+				else{
+					$FechaInicio=date_format($FechaInicio, 'Y-m-d');
+				}
 				$FechaFinal=$row['ETRA_FechaFinal'];
-				$FechaFinal=date_format($FechaFinal, 'Y-m-d');
+				if ( is_null($FechaFinal) ){
+					$FechaFinal="";
+				}
+				else{				
+					$FechaFinal=date_format($FechaFinal, 'Y-m-d');
+				}
 				$FechaSeguimiento=$row['ETRA_FechaSeguimiento'];
-				$FechaSeguimiento=date_format($FechaSeguimiento, 'Y-m-d');
+				if ( is_null($FechaSeguimiento) ){
+					$FechaSeguimiento="";
+				}
+				else{
+					$FechaSeguimiento=date_format($FechaSeguimiento, 'Y-m-d');
+				}
 				$IdPlan=trim($row['ETRA_IdPlan']);
 		?>			
-				<tr id="TRA-<?php echo $IdEvento; ?>">
+				<tr id="TRA<?php echo $NumTratamiento; ?>">
 					<td colspan="3">
 						<table id="tratainterna" style="width:100%">
 							<tr>
 								<td  style="width:100%"><br>
 								<div style="clear:both; width:100%"> 
-								<select class="form-control tiporie" id="tratamiento<?php echo $IdEvento; ?>" name="tratamiento<?php echo $IdEvento; ?>" onChange="fnTrata(tratamiento<?php echo $IdEvento; ?>,this.options[this.selectedIndex].value)">
+								<select class="form-control tratao" id="tratamiento<?php echo $NumTratamiento; ?>" name="tratamiento<?php echo $NumTratamiento; ?>" onChange="fnTrataUpd(tratamiento<?php echo $NumTratamiento; ?>,this.options[this.selectedIndex].value)">
 									<option value=''>Seleccione</option>
 									<?php 
 									$sqlmov=sqlsrv_query($conn,"SELECT id, TratamientosName FROM TratamientosSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY TratamientosName");
@@ -133,7 +148,7 @@ $vtrata = 0;
 								<div style="float:left; width:23%; text-align:center">Plan Acción</div>
 								<div style="clear:both; width:100%"> </div>
 								<div style="float:left; width:13%; text-align:center">
-									<select class="tratastatus" id="tratastatus<?php echo $IdEvento; ?>" name="tratastatus<?php echo $IdEvento; ?>" onChange="fnTrata(tratastatus<?php echo $IdEvento; ?>,this.options[this.selectedIndex].value)">
+									<select class="tratastatus" id="tratastatus<?php echo $NumTratamiento; ?>" name="tratastatus<?php echo $NumTratamiento; ?>" onChange="fnTrataUpd(tratastatus<?php echo $NumTratamiento; ?>,this.options[this.selectedIndex].value)">
 										<option value="" <?php if($Status==""){ echo ' selected="selected" ';} else{ echo "";} ?>>Seleccione</option>
 										<option value="1" <?php if($Status=="1"){ echo ' selected="selected" ';} else{ echo "";} ?>>Registrado</option>
 										<option value="2" <?php if($Status=="2"){ echo ' selected="selected" ';} else{ echo "";} ?>>Diferido</option>
@@ -141,7 +156,7 @@ $vtrata = 0;
 									</select>
 								</div>
 								<div style="float:left; width:13%; text-align:center">
-									<select class="tratapriori" id="tratapriori<?php echo $IdEvento; ?>" name="tratapriori<?php echo $IdEvento; ?>" onChange="fnTrata(tratapriori<?php echo $IdEvento; ?>,this.options[this.selectedIndex].value)">
+									<select class="tratapriori" id="tratapriori<?php echo $NumTratamiento; ?>" name="tratapriori<?php echo $NumTratamiento; ?>" onChange="fnTrataUpd(tratapriori<?php echo $NumTratamiento; ?>,this.options[this.selectedIndex].value)">
 										<option value="" <?php if($IdPrioridad==""){ echo ' selected="selected" ';} else{ echo "";} ?>>Seleccione</option>
 										<option value="1" <?php if($IdPrioridad=="1"){ echo ' selected="selected" ';} else{ echo "";} ?>>Alto</option>
 										<option value="2" <?php if($IdPrioridad=="2"){ echo ' selected="selected" ';} else{ echo "";} ?>>Medio</option>
@@ -149,16 +164,16 @@ $vtrata = 0;
 									</select>
 								</div>
 								<div style="float:left; width:17%; text-align:center">
-									<input type="date" value="<?php echo $FechaInicio; ?>" class="input-sm tratafecini" id="tratafecini<?php echo $IdEvento; ?>" name="tratafecini<?php echo $IdEvento; ?>" onblur="fnTrata(tratafecini<?php echo $IdEvento; ?>,this.value)" size="10" maxlength="10" style="width: 144px; fontSize:12px"/>
+									<input type="date" value="<?php echo $FechaInicio; ?>" class="input-sm tratafecini" id="tratafecini<?php echo $NumTratamiento; ?>" name="tratafecini<?php echo $NumTratamiento; ?>" onblur="fnTrataUpd(tratafecini<?php echo $NumTratamiento; ?>,this.value)" size="10" maxlength="10" style="width: 144px; fontSize:12px"/>
 								</div>
 								<div style="float:left; width:17%; text-align:center">
-									<input type="date" class="input-sm tratafecfin" id="tratafecfin<?php echo $IdEvento; ?>" name="tratafecfin<?php echo $IdEvento; ?>" onblur="fnTrata(tratafecfin<?php echo $IdEvento; ?>,this.value)" size="10" maxlength="10" style="width:144px; fontSize:12px" value="<?php echo $FechaFinal; ?>"/>
+									<input type="date" class="input-sm tratafecfin" id="tratafecfin<?php echo $NumTratamiento; ?>" name="tratafecfin<?php echo $NumTratamiento; ?>" onblur="fnTrataUpd(tratafecfin<?php echo $NumTratamiento; ?>,this.value)" size="10" maxlength="10" style="width:144px; fontSize:12px" value="<?php echo $FechaFinal; ?>"/>
 								</div>
 								<div style="float:left; width:17%; text-align:center">
-									<input type="date" class="input-sm tratafecseg" id="tratafecseg<?php echo $IdEvento; ?>" name id="tratafecseg<?php echo $IdEvento; ?>" onblur="fnTrata(tratafecseg<?php echo $IdEvento; ?>,this.value)" size="10" maxlength="10" style="width:144px; fontSize:12px" value="<?php echo $FechaSeguimiento; ?>"/>
+									<input type="date" class="input-sm tratafecseg" id="tratafecseg<?php echo $NumTratamiento; ?>" name id="tratafecseg<?php echo $NumTratamiento; ?>" onblur="fnTrataUpd(tratafecseg<?php echo $NumTratamiento; ?>,this.value)" size="10" maxlength="10" style="width:144px; fontSize:12px" value="<?php echo $FechaSeguimiento; ?>"/>
 								</div>
 								<div style="float:left; width:23%; text-align:center">
-									<select class="trataplan" id="trataplanes<?php echo $IdEvento; ?>" name="trataplanes<?php echo $IdEvento; ?>" onChange="fnTrata(trataplanes<?php echo $IdEvento; ?>,this.options[this.selectedIndex].value)" style="width:180px">
+									<select class="trataplan" id="trataplanes<?php echo $NumTratamiento; ?>" name="trataplanes<?php echo $NumTratamiento; ?>" onChange="fnTrataUpd(trataplanes<?php echo $NumTratamiento; ?>,this.options[this.selectedIndex].value)" style="width:180px">
 										<option value=''>Seleccione</option>
 										<?php
 										$sqlmov=sqlsrv_query($conn,"SELECT id, PlanesName FROM PlanesSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY PlanesName");
@@ -183,7 +198,9 @@ $vtrata = 0;
 								</div>
 							</tr>
 						</table>
-						<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+						<div class="delete" onClick="deleteUpd(<?php echo $NumTratamiento; ?>,<?php echo $IdEvento; ?>)" style="width:10%; float:right; text-align:center" id="<?php echo $NumTratamiento; ?>" name="<?php echo $NumTratamiento; ?>">
+							<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+						</div>
 					</td>
 				</tr>
 		<?php

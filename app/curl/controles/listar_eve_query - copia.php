@@ -4,6 +4,7 @@
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
+
 /////echo "ck....$CustomerKey";
 //echo "$IdEvento   -  $CustomerKey  <br>";
 ?>
@@ -23,43 +24,42 @@ $urlServicios = $getUrl->getUrl();
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
-	<?php
+<?php
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
 
-$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
-$stmt = sqlsrv_query($conn,$query);
-
-if ( $stmt === false)
+$query = sqlsrv_query($conn,"SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'");
 {
-	die(print_r(sqlsrv_errors(), true));
-}
-while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
-	$id=$row['ECTR_Id'];
-	$IdControl=$row['ECTR_IdControl'];
-	$NumControl=trim($row['ECTR_NumControl']);
-	$IdPropietario=trim($row['ECTR_IdPropietario']);
-	$IdEjecutor=trim($row['ECTR_IdEjecutor']);
-	$IdEfectividad=$row['ECTR_IdEfectividad'];
-	$IdFrecuencia=$row['ECTR_IdFrecuencia'];
-	$IdCategoria=trim($row['ECTR_IdCategoria']);
-	$IdRealizado=trim($row['ECTR_IdRealizado']);
-	$IdDocumentado=$row['ECTR_IdDocumentado'];
-	$IdAplicado=$row['ECTR_IdAplicado'];
-	$IdEfectivo=$row['ECTR_IdEfectivo'];
-	$IdEvaluado=$row['ECTR_IdEvaluado'];
-	$IdEventoMRC=trim($row['ECTR_IdEventoMRC']);
-	$CustomerKey=trim($row['ECTR_CustomerKey']);
-	/*$UserKey=trim($row['ECTR_UserKey']);*/
-?>		
-	<tr id="CTR-<?php echo $NumControl; ?>">
+	if ( $query === false)
+	{
+		die(print_r(sqlsrv_errors(), true));
+	}						
+	while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+		$id=$row['ECTR_Id'];
+		$IdControl=$row['ECTR_IdControl'];
+		$NumControl=trim($row['ECTR_NumControl']);
+		$IdPropietario=trim($row['ECTR_IdPropietario']);
+		$IdEjecutor=trim($row['ECTR_IdEjecutor']);
+		$IdEfectividad=$row['ECTR_IdEfectividad'];
+		$IdFrecuencia=$row['ECTR_IdFrecuencia'];
+		$IdCategoria=trim($row['ECTR_IdCategoria']);
+		$IdRealizado=trim($row['ECTR_IdRealizado']);
+		$IdDocumentado=$row['ECTR_IdDocumentado'];
+		$IdAplicado=$row['ECTR_IdAplicado'];
+		$IdEfectivo=$row['ECTR_IdEfectivo'];
+		$IdEvaluado=$row['ECTR_IdEvaluado'];
+		$IdEventoMRC=trim($row['ECTR_IdEventoMRC']);
+		$CustomerKey=trim($row['ECTR_CustomerKey']);
+		$UserKey=trim($row['ECTR_UserKey']);
+?>
+	<tr id="CTR-<?php echo $IdEventoMRC; ?>">
 		<td colspan="3">			
 			<table id="controlinterna" style="width:100%">
 				<tr>
 					<td  style="width:100%">
 						<div style="width:100%; float:left">
-							<select class="form-control control" id="selcont<?php echo $NumControl; ?>" name="selcont<?php echo $NumControl; ?>" onChange="fnselContr(selcont<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value='' style="color: red">Seleccione Opción</option>
+							<select class="form-control control" id="control<?php echo $IdEventoMRC; ?>" name="control<?php echo $IdEventoMRC; ?>">
+								<option value=''>Seleccione</option>
 								<?php 
 								$condicontrol = "";
 								$sqlmov=sqlsrv_query($conn,"SELECT id, CustomerKey, ControlesKey, ControlesName FROM ControlesSarlaft WHERE CustomerKey='".$CustomerKey."'");
@@ -90,7 +90,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							<div style="float:left; width:15%; text-align:center">Realizado</div>
 							<div style="clear:both; width:100%"> </div>
 							<div style="float:left; width:17%; text-align:center">
-								<select class="ctrpropietario" id="selprop<?php echo $NumControl; ?>" name="selprop<?php echo $NumControl; ?>" onChange="fnselProp(selprop<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="ctrpropietario" id="selprop<?php echo $IdEventoMRC; ?>" name="selprop<?php echo $IdEventoMRC; ?>" onChange="fnselProp(selprop<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php
 								$sqlmov=sqlsrv_query($conn,"SELECT ResponsablesId, ResponsablesName FROM ResponsablesSarlaft WHERE CustomerKey='".$CustomerKey."'");
@@ -113,7 +113,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:17%; text-align:center">
-								<select class="ctrejecutor" id="selejec<?php echo $NumControl; ?>" name="selejec<?php echo $NumControl; ?>" onChange="fnselEjec(selejec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="ctrejecutor" id="selejec<?php echo $IdEventoMRC; ?>" name="selejec<?php echo $IdEventoMRC; ?>" onChange="fnselEjec(selejec<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ResponsablesId, ResponsablesName FROM ResponsablesSarlaft WHERE CustomerKey='".$CustomerKey."'");
@@ -136,7 +136,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:17%; text-align:center">
-								<select class="ctrefectividad" id="selefct<?php echo $NumControl; ?>" name="selefct<?php echo $NumControl; ?>" onChange="fnselEfec(selefct<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="ctrefectividad" id="selefct<?php echo $IdEventoMRC; ?>" name="selefct<?php echo $IdEventoMRC; ?>" onChange="fnselEfec(selefct<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT EFE_IdEfectividad, EFE_Nombre FROM EFE_Efectividad WHERE EFE_CustomerKey='".$CustomerKey."'");
@@ -159,7 +159,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:17%; text-align:center">
-								<select class="ctrfrecuencia" id="selfrec<?php echo $NumControl; ?>" name="selfrec<?php echo $NumControl; ?>" onChange="fnselFrec(selfrec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="ctrfrecuencia" id="selfrec<?php echo $IdEventoMRC; ?>" name="selfrec<?php echo $IdEventoMRC; ?>" onChange="fnselFrec(selfrec<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT FRE_IdFrecuencia, FRE_Nombre FROM FRE_Frecuencia WHERE FRE_CustomerKey='".$CustomerKey."'");
@@ -182,7 +182,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="ctrcategoria" id="ctrcategoria<?php echo $NumControl; ?>" name="ctrcategoria<?php echo $NumControl; ?>" onChange="fnCategoria(this)">
+								<select class="ctrcategoria" id="ctrcategoria<?php echo $IdEventoMRC; ?>" name="ctrcategoria<?php echo $IdEventoMRC; ?>" onChange="fnCategoria(this)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT CAT_IdCategoria, CAT_Nombre FROM CAT_Categoria WHERE CAT_CustomerKey='".$CustomerKey."'");
@@ -200,13 +200,13 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 										$condicontrol = ' selected="selected" ';
 									}
 								?>
-									<option value="<?php echo $CategoriaId ;?>" <?php echo  $condicontrol; ?>><?php echo $CategoriaName; ?></option>
+									<option value="<?php echo $CategoriaId.'-'.$NumControl ;?>" <?php echo  $condicontrol; ?>><?php echo $CategoriaName; ?></option>
 								<?php } ?>
 								</select>
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="ctrrealizado" id="ctrrealizado<?php echo $NumControl; ?>" name="ctrrealizado<?php echo $NumControl; ?>" onChange="fnRealizado(this)">
+								<select class="ctrrealizado" id="ctrrealizado<?php echo $IdEventoMRC; ?>" name="ctrrealizado<?php echo $IdEventoMRC; ?>" onChange="fnRealizado(this)">
 									<option value="">Seleccione</option>
 									<option value="S-<?php echo $NumControl; ?>" <?php if( $IdRealizado == "S"){ echo ' selected="selected" ';} else{ echo ""; }?>>
 										Si</option>
@@ -226,7 +226,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							<div style="clear:both; width:100%"> </div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="seldocum" id="seldocum<?php echo $NumControl; ?>" name="seldocum<?php echo $NumControl; ?>" onChange="fxselDocum(seldocum<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="seldocum" id="seldocum<?php echo $IdEventoMRC; ?>" name="seldocum<?php echo $IdEventoMRC; ?>" onChange="fxselDocum(seldocum<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
@@ -250,7 +250,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="selaplica" id="selaplica<?php echo $NumControl; ?>" name="selaplica<?php echo $NumControl; ?>" onChange="fxselAplica(selaplica<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="selaplica" id="selaplica<?php echo $IdEventoMRC; ?>" name="selaplica<?php echo $IdEventoMRC; ?>" onChange="fxselAplica(selaplica<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
@@ -274,7 +274,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="selefec" id="selefec<?php echo $NumControl; ?>" name="selefec<?php echo $NumControl; ?>" onChange="fxselEfec(selefec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="selefec" id="selefec<?php echo $IdEventoMRC; ?>" name="selefec<?php echo $IdEventoMRC; ?>" onChange="fxselEfec(selefec<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
@@ -298,7 +298,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="seleval" id="seleval<?php echo $NumControl; ?>" name="seleval<?php echo $NumControl; ?>" onChange="fxselEval(seleval<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<select class="seleval" id="seleval<?php echo $IdEventoMRC; ?>" name="seleval<?php echo $IdEventoMRC; ?>" onChange="fxselEval(seleval<?php echo $IdEventoMRC; ?>,this.options[this.selectedIndex].value)">
 								<option value=''>Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
@@ -342,7 +342,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 								echo '</script>';
 								?>	
 
-								<input type="text" id="promedio<?php echo $NumControl; ?>" maxlength="10" style="background-color: #D3D3D3; text-align:center" value="<?php echo $totsumatoria; ?>" readonly/>
+								<input type="text" id="promedio<?php echo $IdEventoMRC; ?>" maxlength="10" style="background-color: #D3D3D3; text-align:center" value="<?php echo $totsumatoria; ?>" readonly/>
 							</div>
 
 							<div style="float:left; width:23%; text-align:center">
@@ -353,7 +353,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 								$NombreCalificacion = trim($regtit['CAL_Nombre']);
 								$Color = trim($regtit['CAL_Color']);
 								?>	
-								<input type="text" id="calificacion<?php echo $NumControl; ?>" maxlength="10" style="width:100%; text-align:center; background-color:<?php echo $Color; ?>" value="<?php echo $NombreCalificacion; ?>" readonly/>
+								<input type="text" id="calificacion<?php echo $IdEventoMRC; ?>" maxlength="10" style="width:100%; text-align:center; background-color:<?php echo $Color; ?>" value="<?php echo $NombreCalificacion; ?>" readonly/>
 							</div>
 						</div>
 					</td>
@@ -362,8 +362,10 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
 		</td>
 	</tr>
+
 <?php
 	}  // Fin While ppal
+}
 ?>
 </table>
 <script>
@@ -378,12 +380,11 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	var infefec = 0;
 	var inffrec = 0;
 
-	function fnselContr(ParId, ParReg){
+	function fxselContr(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		itemcontrol = itemcontrol.substr(7);		
+		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
-		alert(infcontrol);
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -430,7 +431,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -477,7 +478,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -524,7 +525,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -571,7 +572,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -618,7 +619,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(8);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -663,7 +664,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(9);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -708,7 +709,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -753,7 +754,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor

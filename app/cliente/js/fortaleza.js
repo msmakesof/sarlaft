@@ -1,16 +1,16 @@
 let CKFor = global.key;
-let itemfortaleza = 0
+let itemfortaleza = 9000
 $("#addfor").on('click', function(){
 	let slct = '';
 	$.get("../api/fortalezas/lista_eve.php", {ck: CKFor  }, function(result){
+		itemfortaleza ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.FortalezasName +"</option>";
 		});
-		slct = '<select class="form-control fortal" id="fortal" name="fortal">';					
+		slct = '<select class="form-control fortal" id="fortal'+itemfortaleza+'" name="fortal'+itemfortaleza+'" onChange="fxFO(this.options[this.selectedIndex].value, itemfortaleza)" autofocus>';					
 		slct += opc;
-		slct += '</select>';
-		itemfortaleza = itemfortaleza + 1;
+		slct += '</select>';		
 		//$("#tabfor").append('<tbody>');
 		$("#tabforbody").append('<tr id="FOR'+itemfortaleza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		//$("#tabfor").append('</tbody>');
@@ -72,3 +72,35 @@ $( "#add_fortalezas" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+function deletefoUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = num
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/fortalezas/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Fortaleza ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			 $("#FOR" + nt).remove();
+		}
+	})
+}

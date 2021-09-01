@@ -1,16 +1,17 @@
 let CKfr = global.key;
-let itemfactorriesgo = 0
+var itemfactorriesgo = 9000
 $("#addfar").on('click', function(){
 	let slct = '';
 	$.get("../api/factoresriesgo/lista_eve.php", {ck: CKfr  }, function(result){
+		itemfactorriesgo ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.FAR_IdFactorRiesgo +"'>"+ item.FAR_Nombre +"</option>";
 		});
-		slct = '<select class="form-control factorie" id="fr" name="fr">';					
+		slct = '<select class="form-control factorie" id="fr'+itemfactorriesgo+'" name="fr'+itemfactorriesgo+'" onChange="fxFR(this.options[this.selectedIndex].value, itemfactorriesgo)" autofocus>';					
 		slct += opc;
 		slct += '</select>';
-		itemfactorriesgo = itemfactorriesgo + 1;
+		
 		//$("#tabfar").append('<tbody>');
 		$("#tabfarbody").append('<tr id="FAR'+itemfactorriesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		//$("#tabfar").append('</tbody>');
@@ -72,3 +73,36 @@ $( "#add_factorriesgo" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+
+function deletefrUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = num
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/factoresriesgo/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Factor Riesgo ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			 $("#FAR" + nt).remove();
+		}
+	})
+}

@@ -66,14 +66,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			</div>
 			<a href="#" id="zcreacau" style="float:right" data-target="#addRIAModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Causa" style="color:orange; cursor:pointer"></i>
-			</a>
-			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a> -->			
+			</a>			
 		</td>
 		<td style="width:80%"><label>Riesgo Asociado</label></td>
 		<td style="width:10%"></td>
@@ -93,10 +86,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$id=$row['ERIA_Id'];
 				$IdRiesgoAsociado=trim($row['ERIA_IdRiesgoAsociado']);
 		?>
-			<tr id="RIA<?php echo $IdEvento; ?>">
+			<tr id="RIA<?php echo $IdRiesgoAsociado; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control tiporie" id="tr" name="tr">
+				<select class="form-control ria" id="ra<?php echo $IdRiesgoAsociado; ?>" name="ra<?php echo $IdRiesgoAsociado; ?>" onChange="fxRA(this.options[this.selectedIndex].value, <?php echo $IdRiesgoAsociado; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
 					$sqlmov=sqlsrv_query($conn,"SELECT RIA_IdRiesgoAsociado, RIA_Nombre FROM RIA_RiesgoAsociado WHERE RIA_CustomerKey='".$CustomerKey."' ORDER BY RIA_Nombre");
@@ -119,7 +112,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					?>
 				</select>
 				</td>
-				<td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+				<td style="width:10%">
+					<div class="delete" onClick="deleteraUpd(<?php echo $IdRiesgoAsociado; ?>,<?php echo $IdEvento; ?>)">
+						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+					</div>
 				</td>
 			</tr>
 		<?php

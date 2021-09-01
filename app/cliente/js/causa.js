@@ -1,16 +1,16 @@
 let CKCau = global.key;
-let itemcausa = 0
+var itemcausa = 9000
 $("#addcau").on('click', function(){
 	let slct = '';
 	$.get("../api/causas/lista_eve.php", {ck: CKCau }, function(result){
+		itemcausa ++;
 		let opc = "<option value=''>Seleccione opción</option>";
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.id +"'>"+ item.CausasName +"</option>";
 		});
-		slct = '<select class="form-control causa" id="causa" name="causa">';					
+		slct = '<select class="form-control causa" id="causa'+itemcausa+'" name="causa'+itemcausa+'" onChange="fxCA(this.options[this.selectedIndex].value, itemcausa)" autofocus>';					
 		slct += opc;
-		slct += '</select>';
-		itemcausa = itemcausa + 1;
+		slct += '</select>';		
 		//$("#tabcau").append('<tbody>');
 		$("#tabcaubody").append('<tr id="CAU'+itemcausa+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
 		//$("#tabcau").append('</tbody>');
@@ -71,3 +71,36 @@ $( "#add_causa" ).submit(function( event ) {
 		});
 	event.preventDefault()
 });
+
+function deletecaUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+	let nt = num
+	let er = eventoriesgo
+	$.ajax({
+		async: true,
+		type: "POST",
+		url: "../api/causas/deleteUpd.php",
+		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		success: function(datos){
+			msj = $.trim(datos)
+			let type
+			let txt
+			if(msj == 'S'){
+				type = 'success';
+				txt = 'Causa ha sido borrado con éxito.';
+			}
+			else {
+				type= 'warning';
+				txt = 'No se pudo eliminar el Registro.  Intente nuevamente';
+			}	
+			swal({
+				position: 'top-end',
+				type: ''+type,
+				title: ''+txt,
+				showConfirmButton: true,
+				timer: 2000
+			});
+			 $("#CAU" + nt).remove();
+		}
+	})
+}

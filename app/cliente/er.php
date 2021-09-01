@@ -1514,7 +1514,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							showConfirmButton: true,
 							timer: 2000
 						});
-                    }	
+						window.location.href ="eventosriesgo.php";
+                    }
                 })
 			})
   

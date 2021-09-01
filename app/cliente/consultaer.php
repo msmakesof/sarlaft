@@ -308,7 +308,7 @@ $consecutivo = $reg['id'].'-'.$consec2;*/
                         <div class="card-body">
                             <div class="xtable-responsive">
 							<form id="formap">
-								<input type="hidden" id="hder" value="<?php echo $IdEventoRiesgo ; ?>">
+								<input type="hidden" id="hder" value="<?php echo $IdEvento ; ?>">
 								<div class="form-group row">
 									<div class="col-sm-2">
                                         <label>Consecutivo</label>
@@ -414,7 +414,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	else
 	{
 		$sel_prob="<select class='form-control mprob' id='prob1' name='prob1' required style='font-size:12px'>";
-		$sel_prob.="<option value=''>Seleccione opción</option>";
+		//$sel_prob.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi = "";
@@ -433,7 +433,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Este es para la imagen de la matriz de inherente a Control cuando es la primera vez
 		$sel_prob11= "";
 		$sel_prob11="<select class='form-control mprob' id='prob11' name='prob11' required style='font-size:12px'>";
-		$sel_prob11.="<option value=''>Seleccione opción</option>";
+		//$sel_prob11.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi = "";
@@ -449,7 +449,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		$sel_prob11.= "</select>";
 
 		$sel_prob2="<select class='form-control mprob2' id='prob2' name='prob2' required style='font-size:12px'>";
-		$sel_prob2.="<option value=''>Seleccione opción</option>";
+		//$sel_prob2.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi2 = "";
@@ -498,7 +498,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	{
 		$IdItemcsc="";
 		$sel_csc="<select class='form-control mconsec' id='consec1' name='consec1' required style='font-size:12px'>";
-		$sel_csc.="<option value=''>Seleccione opción</option>";
+		//$sel_csc.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc = "";
@@ -517,7 +517,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Para la matriz de control cuando es clonada 
 		$sel_csc11="";
 		$sel_csc11="<select class='form-control mconsec' id='consec11' name='consec11' required style='font-size:12px'>";
-		$sel_csc11.="<option value=''>Seleccione opción</option>";
+		//$sel_csc11.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc = "";
@@ -534,7 +534,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 
 		$IdItemcs2c="";
 		$sel_csc2="<select class='form-control mconsec2' id='consec2' name='consec2' required style='font-size:12px'>";
-		$sel_csc2.="<option value=''>Seleccione opción</option>";
+		//$sel_csc2.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc2 = "";
@@ -732,7 +732,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php //include("../curl/consecuencia/listar_eve.php"); ?>
+										<?php /////include("../curl/consecuencia/listar_eve.php"); ?>
 										</div>
 									</div>								
 									
@@ -854,12 +854,18 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		var movercols = 0;		//  Categoria: Correctivo  mueve hacia Izquierda
 		                        //  Categoria: Ambos       mueve hacia Abajo y a la Izquierda 
 		var txtCat = "";
+		var categoria = "";
 		var posicionesmover = 0;
 		itemcontrol = 0;
 		var valDoc = 0;
 		var valApl = 0;
 		var valEfe = 0;
 		var valEva = 0;
+		var valprop = 0;
+		var valejec = 0;
+		var valefect = 0;
+		var valfrec = 0;
+		var valcontrol = 0;
 		// Fin Parametros a enviar para la matriz de control
 		
         function mks(p1,p2){
@@ -869,6 +875,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		function fnCategoria(pValue){
 			//alert('pValue....'+pValue.value);			
 			var cadena = pValue.value;
+			categoria = cadena
 			let posicion = cadena.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = cadena.substr(posicion+1) ;
@@ -914,7 +921,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
 		function fnRealizado(pValue){
@@ -957,10 +964,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
-		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl){
+		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
 			valDoc = parDoc;
 			if ( isNaN(valDoc) ){valDoc = 0;}
 			//alert('valDoc...'+valDoc);
@@ -973,6 +980,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			valEva = parEva;
 			if ( isNaN(valEva) ){valEva = 0;}
 			//alert('valEva....'+valEva);
+			valprop=pinfprop;
+			if ( isNaN(valprop) ){valprop = 0;}
+			valejec=pinfejec;
+			if ( isNaN(valejec) ){valejec = 0;}
+			valefect=pinfefec;
+			if ( isNaN(valefec) ){valefec = 0;}
+			valfrec=pinffrec;
+			if ( isNaN(valfrec) ){valfrec = 0;}
+			valcontrol=pinfcontrol;
+			if ( isNaN(valcontrol) ){valcontrol = 0;}
 			let posicion = parItemCtrl.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
@@ -1013,15 +1030,25 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				posicionesmover = 0;
 			}
 			
-			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol)
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}		
 		
-		function fnMatRiesgo(p1,p2,p3,p4,p5){
+		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
 			var moverfils = p2;
 			var movercols = p3;
 			var posicionAmover = p4;
 			itemcontrol = p5;
+			var pcategoria= p6;
+			var pvaldoc=p7;
+			var pvalapl=p8;
+			var pvalefe=p9;
+			var pvaleva=p10;
+			var pvalprop=p11;
+			var pvalejec=p12;
+			var pvalefec=p13;
+			var pvalfrec=p14;
+			var pvalcontrol=p15;
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
@@ -1054,6 +1081,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 								$("#prob11").val(obj.body[0]['MOV_FilaMRC']);
 								$("#consec11").val(obj.body[0]['MOV_ColumnaMRC']);
 							}
+						}
+					})
+					let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&rea="+moverbolita+"&cat="+pcategoria+"&doc="+pvaldoc+"&apl="+pvalapl+"&efe="+pvalefe+"&eva="+pvaleva+"&prop="+pvalprop+"&ejec="+pvalejec+"&efec="+pvalefec+"&frec="+pvalfrec+"&control="+pvalcontrol+"&ruta=../";
+					$.ajax({
+						async: false,
+						type: "POST",
+						url: "../api/eventoriesgo/guardacontrol.php",
+						data: paramet,
+						success: function(datos){
+
 						}
 					})
 				}
@@ -1091,6 +1128,190 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 
 				}
 			})
+		}
+
+		var arrTR = new Array();
+		function fxTR(id, idtr){
+			let testimonials = document.querySelectorAll('.tiporie');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrTR.includes(xid) ){
+					arrTR.push(xid);
+				}
+			})
+			//console.log(arrTR)
+			let x = arrTR.includes(id)
+			if ( !x ){
+				arrTR.push(id);
+			}
+			else{
+				mssg('Tipo Riesgo')
+				$("#TIR" + idtr).remove();
+			}
+		}
+
+		var arrFR = new Array();
+		function fxFR(id, idtr){
+			let testimonials = document.querySelectorAll('.factorie');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrFR.includes(xid) ){
+					arrFR.push(xid);
+				}
+			})
+			let x = arrFR.includes(id)
+			if (!x){
+				arrFR.push(id);
+			}
+			else{
+				mssg('Factor Riesgo')
+				$("#FAR" + idtr).remove();
+			}
+		}		
+
+		var arrRA = new Array();
+		function fxRA(id, idtr){
+			let testimonials = document.querySelectorAll('.ria');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrRA.includes(xid) ){
+					arrRA.push(xid);
+				}
+			})
+			let x = arrRA.includes(id)
+			if (!x){
+				arrRA.push(id);
+			}
+			else{
+				mssg('Riesgo Asociado')
+				$("#RIA" + idtr).remove();
+			}
+		}
+
+		var arrCA = new Array();
+		function fxCA(id, idtr){
+			let testimonials = document.querySelectorAll('.causa');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrCA.includes(xid) ){
+					arrCA.push(xid);
+				}
+			})
+			let x = arrCA.includes(id)
+			if (!x){
+				arrCA.push(id);
+			}
+			else{
+				mssg('Causa')
+				$("#CAU" + idtr).remove();
+			}
+		}
+
+		var arrCO = new Array();
+		function fxCO(id, idtr){
+			let testimonials = document.querySelectorAll('.causa');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrCO.includes(xid) ){
+					arrCO.push(xid);
+				}
+			})
+			let x = arrCO.includes(id)
+			if (!x){
+				arrCO.push(id);
+			}
+			else{
+				mssg('Consecuencia')
+				$("#CON" + idtr).remove();
+			}
+		}
+
+		var arrDE = new Array();
+		function fxDE(id, idtr){
+			let testimonials = document.querySelectorAll('.debil');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrDE.includes(xid) ){
+					arrDE.push(xid);
+				}
+			})
+			let x = arrDE.includes(id)
+			if (!x){
+				arrDE.push(id);
+			}
+			else{
+				mssg('Debilidad')
+				$("#DEB" + idtr).remove();
+			}
+		}
+
+		var arrOP = new Array();
+		function fxOP(id, idtr){
+			let testimonials = document.querySelectorAll('.opor');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrOP.includes(xid) ){
+					arrOP.push(xid);
+				}
+			})
+			let x = arrOP.includes(id)
+			if (!x){
+				arrOP.push(id);
+			}
+			else{
+				mssg('Oportunidad')
+				$("#OPO" + idtr).remove();
+			}
+		}
+
+		var arrFO = new Array();
+		function fxFO(id, idtr){
+			let testimonials = document.querySelectorAll('.fortal');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrFO.includes(xid) ){
+					arrFO.push(xid);
+				}
+			})
+			let x = arrFO.includes(id)
+			if (!x){
+				arrFO.push(id);
+			}
+			else{
+				mssg('Fortaleza')
+				$("#FOR" + idtr).remove();
+			}
+		}
+
+		var arrAM = new Array();
+		function fxAM(id, idtr){
+			let testimonials = document.querySelectorAll('.ame');
+			Array.prototype.forEach.call(testimonials, function(elements, index) {
+				let xid = elements.options[elements.selectedIndex].value
+				if( xid != id && !arrAM.includes(xid) ){
+					arrAM.push(xid);
+				}
+			})
+			console.log(arrAM)
+			let x = arrAM.includes(id)
+			if (!x){
+				arrAM.push(id);
+			}
+			else{
+				mssg('Amenaza')
+				$("#AME" + idtr).remove();
+			}
+		}
+
+		function mssg(x){
+			swal({
+				position: 'top-end',
+				type: 'warning',
+				title: 'Atención:  Ya existe '+ x +' con el mismo Nombre',
+				showConfirmButton: true,
+				timer: 3000
+			})
+			return 
 		}
 			
         $(document).ready(function(){
@@ -1323,7 +1544,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$("#consec2").on('change', function(){
 				var txt = $(this).find('option:selected').text();
 				$("#lblconsec2").html(txt);
-			})			
+			})
+
+			/*$.each($('.tiporie'),
+				function(index, value){
+					console.log(index +' : '+ value);
+				}
+			)
+			
+			$('.tiporie').each(function(i,v){
+				console.log(i+' : '+ v)
+			})
+			*/
+
 			
 			$("#pguardar").on('click', function(event){
                 //alert(7);				
@@ -1338,17 +1571,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				
 				//alert('Nro EventoRiesgo...'+$("#hder").val());
 
-				var nroeventoriesgo=[];
+				/*var nroeventoriesgo=[];
 				tmp = {	'id' : $("#hder").val() }
 				nroeventoriesgo.push(tmp)
 				sof21 = {'IDE' : nroeventoriesgo }
-				mks.push(sof21)
+				mks.push(sof21)*/
 				
-				var consecut =[];
+				/*var consecut =[];
 				tmp = {	'id' : $("#consecutivo").val() }
 				consecut.push(tmp)
 				sof20 = {'ICO' : consecut }
-				mks.push(sof20)
+				mks.push(sof20)*/
 				
 				var eri =[];
 				tmp = {	'id' : $("#eventoriesgo").val() }
@@ -1375,13 +1608,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				mks.push(sof4)
 				
 				var Efilas = []; // Este es el array ppal para los select anidados				
-				var tir =[];
+				const tir =[];
 				let selTir = $('.tiporie');
 				selTir.each(function (){
 					let select = $(this);
 					var fila = { select };
 					Efilas.push(fila);
-					if (select.val() != ""){
+					if ( select.val() != "" ){
 						tmp = { 'id' : select.val() }
 						tir.push(tmp)
 					}
@@ -1504,7 +1737,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				sof12 = { 'AME' : ame }
 				mks.push(sof12)				
 				
-				var mriprob =[];
+				/*var mriprob =[];
 				tmp = {	'id' : $("#prob1").val() }
 				mriprob.push(tmp)
 				sof13 = {'MIP' : mriprob }
@@ -1526,7 +1759,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				tmp = {	'id' : $("#consec2").val() }
 				mcocons.push(tmp)
 				sof16 = {'MCC' : mcocons }
-				mks.push(sof16)				
+				mks.push(sof16)	*/			
 				
 				////console.log(obj);
 				console.log(mks);
@@ -1536,10 +1769,37 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				alert(paramet);
 				$.ajax({
                     type: "POST",
-                    url: "grabaer.php",
-					data: { js : mks },
+                    url: "grabaerUpd1.php",
+					data: { js : mks , er : <?php echo $IdEvento; ?>},
                     success: function(datos){
-                        alert(datos);
+                        //alert(datos);
+						let m= datos.trim()
+						let msj = m.substr(0,1);
+						let type
+						let txt
+						if(msj == 'S'){
+							type = 'success';
+							txt = 'Evento de Riesgo ha sido actualizado con éxito.';
+						}
+						else if(msj == 'N'){
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						else if(msj == 'D'){
+							type= 'error';
+							txt ='Error Desconocido.';
+						}
+						else{
+							type= 'error';
+							txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+						}
+						swal({
+							position: 'top-end',
+							type: ''+type,
+							title: ''+txt,
+							showConfirmButton: true,
+							timer: 3000
+						});
                     }	
                 })
 			})
@@ -1568,10 +1828,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	<script src="js/causa.js"></script>
 	<script src="js/consecuencia.js"></script>
 	<script src="js/control.js"></script>
-	<script src="js/tratamiento.js"></script>
+	<script src="js/tratamientoUpd.js"></script>
 	<script src="js/debilidad.js"></script>
 	<script src="js/oportunidad.js"></script>
 	<script src="js/fortaleza.js"></script>
-	<script src="js/amenaza.js"></script>	
+	<script src="js/amenaza.js"></script>
 </body>
 </html>
