@@ -10,13 +10,17 @@ $("#addcon").on('click', function(){
 		});
 		slct = '<select class="form-control consec" id="consec'+itemconsecuencia+'" name="consec'+itemconsecuencia+'" onChange="fxCO(this.options[this.selectedIndex].value, itemconsecuencia)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+		
+		let varDel = '<div class="delete" id="delCO'+itemconsecuencia+'" onClick="delCO('+itemconsecuencia+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		//$("#tabcon").append('<tbody>');
-		$("#tabconbody").append('<tr id="CON'+itemconsecuencia+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabconbody").append('<tr id="CON'+itemconsecuencia+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		//$("#tabcon").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addConsecuenciaModal').on('show.bs.modal', function (event) {
@@ -100,7 +104,25 @@ function deletecoUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
-			 $("#CON" + nt).remove();
+			let itemborrar = nt
+			for(var i in arrCO){
+				if(arrCO[i]==itemborrar){
+					arrCO.splice(i,1);
+					break;
+				}
+			}
+			$("#CON" + nt).remove();
 		}
 	})
+}
+
+function delCO(pir){
+	let itemborrar = $("#consec"+pir).val()	
+	for(var i in arrCO){
+        if(arrCO[i]==itemborrar){
+            arrCO.splice(i,1);
+            break;
+        }
+    }
+	$("#CON"+pir).remove()
 }

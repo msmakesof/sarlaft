@@ -8,16 +8,24 @@ $("#addtir").on('click', function(){
 		$.each(result.body, function(i, item) {
 			opc +="<option value='"+ item.TIR_IdTipoRiesgo +"'>"+ item.TIR_Nombre +"</option>";
 		});
+		
 		slct = '<select class="form-control tiporie" id="tr'+itemtiporiesgo+'" name="tr'+itemtiporiesgo+'"  onChange="fxTR(this.options[this.selectedIndex].value, itemtiporiesgo)" autofocus>';					
 		slct += opc;
 		slct += '</select>';
 		
+		let varDel = '<div class="delete" id="delTR'+itemtiporiesgo+'" onClick="delTR('+itemtiporiesgo+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		//$("#tabtir").append('<tbody>');
-		$("#tabtirbody").append('<tr id="TIR'+itemtiporiesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabtirbody").append('<tr id="TIR'+itemtiporiesgo+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		//$("#tabtir").append('</tbody>');
-		$('.delete').off().click(function(e) {
-			$(this).parent('td').parent('tr').remove();
-		});
+		
+		/*
+		$('.delete').off().click(function(e) {			
+			////alert( $("tr"+itemtiporiesgo).options["tr"+itemtiporiesgo.selectedIndex].value);
+			//console.log(e);
+			//$(this).parent('td').parent('tr').remove();    $("#tr" + nt).val();
+		});*/
+		
 	})
 })
 $('#addTipoRiesgoModal').on('show.bs.modal', function (event) {
@@ -102,7 +110,28 @@ function deletetrUpd(numtiporiesgo, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
+			let itemborrar = nt
+			for(var i in arrTR){
+				if(arrTR[i]==itemborrar){
+					arrTR.splice(i,1);
+					break;
+				}
+			}
 			$("#TIR" + nt).remove();
 		}
 	})
+}
+
+function delTR(pir){
+	//console.log(arrTR)
+	//console.log( $("#tr"+pir).val() )
+	let itemborrar = $("#tr"+pir).val()
+	for(var i in arrTR){
+        if(arrTR[i]==itemborrar){
+            arrTR.splice(i,1);
+            break;
+        }
+    }
+	//console.log(arrTR)
+	$("#TIR"+pir).remove() 
 }

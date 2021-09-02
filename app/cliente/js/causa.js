@@ -10,13 +10,17 @@ $("#addcau").on('click', function(){
 		});
 		slct = '<select class="form-control causa" id="causa'+itemcausa+'" name="causa'+itemcausa+'" onChange="fxCA(this.options[this.selectedIndex].value, itemcausa)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+		
+		let varDel = '<div class="delete" id="delCA'+itemcausa+'" onClick="delCA('+itemcausa+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		//$("#tabcau").append('<tbody>');
-		$("#tabcaubody").append('<tr id="CAU'+itemcausa+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabcaubody").append('<tr id="CAU'+itemcausa+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		//$("#tabcau").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addCausaModal').on('show.bs.modal', function (event) {
@@ -100,7 +104,24 @@ function deletecaUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
+			let itemborrar = nt
+			for(var i in arrCA){
+				if(arrCA[i]==itemborrar){
+					arrCA.splice(i,1);
+					break;
+				}
+			}
 			 $("#CAU" + nt).remove();
 		}
 	})
+}
+function delCA(pir){
+	let itemborrar = $("#causa"+pir).val()	
+	for(var i in arrCA){
+        if(arrCA[i]==itemborrar){
+            arrCA.splice(i,1);
+            break;
+        }
+    }
+	$("#CAU"+pir).remove()
 }

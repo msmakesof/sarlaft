@@ -10,13 +10,17 @@ $("#adddeb").on('click', function(){
 		});
 		slct = '<select class="form-control debil" id="debil'+itemdebilidad+'" name="debil'+itemdebilidad+'" onChange="fxDE(this.options[this.selectedIndex].value, itemdebilidad)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+		
+		let varDel = '<div class="delete" id="delDE'+itemdebilidad+'" onClick="delDE('+itemdebilidad+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		////$("#tabdeb").append('<tbody>');
-		$("#tabdebbody").append('<tr id="DEB'+itemdebilidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabdebbody").append('<tr id="DEB'+itemdebilidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		////$("#tabdeb").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addDebilidadesModal').on('show.bs.modal', function (event) {
@@ -101,7 +105,25 @@ function deletedeUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
-			 $("#DEB" + nt).remove();
+			let itemborrar = nt
+			for(var i in arrDE){
+				if(arrDE[i]==itemborrar){
+					arrDE.splice(i,1);
+					break;
+				}
+			}
+			$("#DEB" + nt).remove();
 		}
 	})
+}
+
+function delDE(pir){
+	let itemborrar = $("#debil"+pir).val()	
+	for(var i in arrDE){
+        if(arrDE[i]==itemborrar){
+            arrDE.splice(i,1);
+            break;
+        }
+    }
+	$("#DEB"+pir).remove()
 }

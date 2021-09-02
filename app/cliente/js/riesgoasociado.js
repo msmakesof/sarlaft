@@ -10,11 +10,14 @@ $("#addiria").on('click', function(){
 		});
 		slct = '<select class="form-control ria" id="ra'+itemria+'" name="ra'+itemria+'" onChange="fxRA(this.options[this.selectedIndex].value, itemria)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
-		$("#tabriabody").append('<tr id="RIA'+itemria+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
-		$('.delete').off().click(function(e) {
+		slct += '</select>';
+		
+		let varDel = '<div class="delete" id="delRA'+itemria+'" onClick="delRA('+itemria+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
+		$("#tabriabody").append('<tr id="RIA'+itemria+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 
@@ -108,7 +111,25 @@ function deleteraUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
+			let itemborrar = nt
+			for(var i in arrRA){
+				if(arrRA[i]==itemborrar){
+					arrRA.splice(i,1);
+					break;
+				}
+			}
 			 $("#RIA" + nt).remove();
 		}
 	})
+}
+
+function delRA(pir){
+	let itemborrar = $("#ra"+pir).val()	
+	for(var i in arrRA){
+        if(arrRA[i]==itemborrar){
+            arrRA.splice(i,1);
+            break;
+        }
+    }
+	$("#RIA"+pir).remove()
 }

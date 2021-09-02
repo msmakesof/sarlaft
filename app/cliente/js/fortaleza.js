@@ -10,13 +10,16 @@ $("#addfor").on('click', function(){
 		});
 		slct = '<select class="form-control fortal" id="fortal'+itemfortaleza+'" name="fortal'+itemfortaleza+'" onChange="fxFO(this.options[this.selectedIndex].value, itemfortaleza)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+
+		let varDel = '<div class="delete" id="delFO'+itemfortaleza+'" onClick="delFO('+itemfortaleza+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		//$("#tabfor").append('<tbody>');
-		$("#tabforbody").append('<tr id="FOR'+itemfortaleza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabforbody").append('<tr id="FOR'+itemfortaleza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		//$("#tabfor").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addFortalezasModal').on('show.bs.modal', function (event) {
@@ -100,7 +103,25 @@ function deletefoUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
-			 $("#FOR" + nt).remove();
+			let itemborrar = nt
+			for(var i in arrFO){
+				if(arrFO[i]==itemborrar){
+					arrFO.splice(i,1);
+					break;
+				}
+			}
+			$("#FOR" + nt).remove();
 		}
 	})
+}
+
+function delFO(pir){
+	let itemborrar = $("#fortal"+pir).val()	
+	for(var i in arrFO){
+        if(arrFO[i]==itemborrar){
+            arrFO.splice(i,1);
+            break;
+        }
+    }
+	$("#FOR"+pir).remove()
 }

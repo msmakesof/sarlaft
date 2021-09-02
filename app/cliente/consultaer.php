@@ -1131,14 +1131,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrTR = new Array();
+		let TR = document.querySelectorAll('.tiporie');
+		Array.prototype.forEach.call(TR, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrTR.push(xid);
+		})
+
 		function fxTR(id, idtr){
-			let testimonials = document.querySelectorAll('.tiporie');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrTR.includes(xid) ){
-					arrTR.push(xid);
-				}
-			})
 			//console.log(arrTR)
 			let x = arrTR.includes(id)
 			if ( !x ){
@@ -1151,14 +1150,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrFR = new Array();
+		let FR = document.querySelectorAll('.factorie');
+		Array.prototype.forEach.call(FR, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrFR.push(xid);
+		})
 		function fxFR(id, idtr){
-			let testimonials = document.querySelectorAll('.factorie');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrFR.includes(xid) ){
-					arrFR.push(xid);
-				}
-			})
 			let x = arrFR.includes(id)
 			if (!x){
 				arrFR.push(id);
@@ -1167,17 +1164,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				mssg('Factor Riesgo')
 				$("#FAR" + idtr).remove();
 			}
-		}		
+		}
 
 		var arrRA = new Array();
+		let RA = document.querySelectorAll('.ria');
+		Array.prototype.forEach.call(RA, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrRA.push(xid);
+		})
+
 		function fxRA(id, idtr){
-			let testimonials = document.querySelectorAll('.ria');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrRA.includes(xid) ){
-					arrRA.push(xid);
-				}
-			})
 			let x = arrRA.includes(id)
 			if (!x){
 				arrRA.push(id);
@@ -1189,14 +1185,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrCA = new Array();
+		let CA = document.querySelectorAll('.causa');
+		Array.prototype.forEach.call(CA, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrCA.push(xid);
+		})
 		function fxCA(id, idtr){
-			let testimonials = document.querySelectorAll('.causa');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrCA.includes(xid) ){
-					arrCA.push(xid);
-				}
-			})
 			let x = arrCA.includes(id)
 			if (!x){
 				arrCA.push(id);
@@ -1208,14 +1202,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrCO = new Array();
+		let CO = document.querySelectorAll('.consec');
+		Array.prototype.forEach.call(CO, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrCO.push(xid);
+		})
 		function fxCO(id, idtr){
-			let testimonials = document.querySelectorAll('.causa');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrCO.includes(xid) ){
-					arrCO.push(xid);
-				}
-			})
 			let x = arrCO.includes(id)
 			if (!x){
 				arrCO.push(id);
@@ -1227,14 +1219,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrDE = new Array();
+		let DE = document.querySelectorAll('.debil');
+		Array.prototype.forEach.call(DE, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrDE.push(xid);
+		})
 		function fxDE(id, idtr){
-			let testimonials = document.querySelectorAll('.debil');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrDE.includes(xid) ){
-					arrDE.push(xid);
-				}
-			})
 			let x = arrDE.includes(id)
 			if (!x){
 				arrDE.push(id);
@@ -1246,14 +1236,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrOP = new Array();
+		let OP = document.querySelectorAll('.opor');
+		Array.prototype.forEach.call(OP, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrOP.push(xid);
+		})
 		function fxOP(id, idtr){
-			let testimonials = document.querySelectorAll('.opor');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrOP.includes(xid) ){
-					arrOP.push(xid);
-				}
-			})
 			let x = arrOP.includes(id)
 			if (!x){
 				arrOP.push(id);
@@ -1265,14 +1253,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrFO = new Array();
+		let FO = document.querySelectorAll('.fortal');
+		Array.prototype.forEach.call(FO, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrFO.push(xid);
+		})
 		function fxFO(id, idtr){
-			let testimonials = document.querySelectorAll('.fortal');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrFO.includes(xid) ){
-					arrFO.push(xid);
-				}
-			})
 			let x = arrFO.includes(id)
 			if (!x){
 				arrFO.push(id);
@@ -1284,14 +1270,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 
 		var arrAM = new Array();
+		let AM = document.querySelectorAll('.ame');
+		Array.prototype.forEach.call(AM, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrAM.push(xid);
+		})
 		function fxAM(id, idtr){
-			let testimonials = document.querySelectorAll('.ame');
-			Array.prototype.forEach.call(testimonials, function(elements, index) {
-				let xid = elements.options[elements.selectedIndex].value
-				if( xid != id && !arrAM.includes(xid) ){
-					arrAM.push(xid);
-				}
-			})
 			console.log(arrAM)
 			let x = arrAM.includes(id)
 			if (!x){

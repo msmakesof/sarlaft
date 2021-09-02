@@ -10,13 +10,17 @@ $("#addopo").on('click', function(){
 		});
 		slct = '<select class="form-control opor" id="opor'+itemoportunidad+'" name="opor'+itemoportunidad+'" onChange="fxOP(this.options[this.selectedIndex].value, itemoportunidad)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+
+		let varDel = '<div class="delete" id="delOP'+itemoportunidad+'" onClick="delOP('+itemoportunidad+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		//$("#tabopo").append('<tbody>');
-		$("#tabopobody").append('<tr id="OPO'+itemoportunidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabopobody").append('<tr id="OPO'+itemoportunidad+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		//$("#tabopo").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addOportunidadesModal').on('show.bs.modal', function (event) {
@@ -101,7 +105,25 @@ function deleteopUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
-			 $("#OPO" + nt).remove();
+			let itemborrar = nt
+			for(var i in arrOP){
+				if(arrOP[i]==itemborrar){
+					arrOP.splice(i,1);
+					break;
+				}
+			}
+			$("#OPO" + nt).remove();
 		}
 	})
+}
+
+function delOP(pir){
+	let itemborrar = $("#opor"+pir).val()	
+	for(var i in arrOP){
+        if(arrOP[i]==itemborrar){
+            arrOP.splice(i,1);
+            break;
+        }
+    }
+	$("#OPO"+pir).remove()
 }

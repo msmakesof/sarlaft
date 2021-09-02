@@ -10,13 +10,17 @@ $("#addame").on('click', function(){
 		});
 		slct = '<select class="form-control ame" id="ame'+itemamenaza+'" name="ame'+itemamenaza+'" onChange="fxAM(this.options[this.selectedIndex].value, itemamenaza)" autofocus>';					
 		slct += opc;
-		slct += '</select>';		
+		slct += '</select>';
+		
+		let varDel = '<div class="delete" id="delAM'+itemamenaza+'" onClick="delAM('+itemamenaza+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
+		
 		////$("#tabame").append('<tbody>');
-		$("#tabamebody").append('<tr id="AME'+itemamenaza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%"><div class="delete"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div></td></tr>');
+		$("#tabamebody").append('<tr id="AME'+itemamenaza+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
 		////$("#tabame").append('</tbody>');
-		$('.delete').off().click(function(e) {
+		
+		/*$('.delete').off().click(function(e) {
 			$(this).parent('td').parent('tr').remove();
-		});
+		});*/
 	})
 })
 $('#addAmenazasModal').on('show.bs.modal', function (event) {
@@ -100,7 +104,25 @@ function deleteamUpd(num, eventoriesgo) {
 				showConfirmButton: true,
 				timer: 2000
 			});
-			 $("#AME" + nt).remove();
+			let itemborrar = nt
+			for(var i in arrAM){
+				if(arrAM[i]==itemborrar){
+					arrAM.splice(i,1);
+					break;
+				}
+			}
+			$("#AME" + nt).remove();
 		}
 	})
+}
+
+function delAM(pir){
+	let itemborrar = $("#ame"+pir).val()	
+	for(var i in arrAM){
+        if(arrAM[i]==itemborrar){
+            arrAM.splice(i,1);
+            break;
+        }
+    }
+	$("#AME"+pir).remove()
 }
