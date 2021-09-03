@@ -88,7 +88,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	.titulo{
 		font-weight: bold;
 		color: white; text-shadow: grey 0.1em 0.1em 0.2em;
-		font-size:3em;
+		font-size:2em;
 	}
 	
 	.maytit{text-shadow: 1px 1px white, -1px -1px #333; font-family: fantasy}
@@ -127,6 +127,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 		background-color:red;
 		color: white;
 		text-align: center;
+		font-size: 12px;
+		width: 20%;
 	}
 	
 	.titulogrid{
@@ -142,7 +144,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	}
 	
 	.combo{
-		width: 250px;
+		width: 90%;
 	}
 	</style>
 </head>
@@ -359,7 +361,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>													
 												</td>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Causas</td>
 															<td>
@@ -398,8 +400,10 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														</tr>
 													</table>
 												</td>
+											</tr>
+											<tr>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Seg. Clientes</td>
 															<td>
@@ -439,7 +443,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>
 												</td>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Debilidades</td>
 															<td>
@@ -481,19 +485,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</tr>
 										</table>
 									</div>
-									
-									<!-- <div class="col-sm-2">
-                                        <label>Consecutivo</label>
-                                        <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $consecutivo; ?>" readonly>
-                                    </div>
-									<div class="col-md-10">
-                                        <label>Evento</label>
-                                        <select class="form-control select2" id="eventoriesgo" name="eventoriesgo" required>
-                                            <option value="">Seleccione una opción</option>
-                                            <?php include("../curl/eventosriesgo/listar.php"); ?>
-                                        </select>
-                                    </div> -->
-								</div>	
+								</div>
 									
 								<div id="zonadata">	
 				
@@ -508,7 +500,7 @@ $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	// Lista de Probabilidad
-	$url = $urlServicios."api/probabilidad/lista_eve.php?ck=$CustomerKey";
+	$url = $urlServicios."api/probabilidad/lista_eve_escala.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -699,18 +691,48 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				<tbody>					
 					<tr>
 						<td></td>
-						<td class="titulogrid">IMPROBABLE</td>
-						<td class="titulogrid">RARO</td>
-						<td class="titulogrid">POSIBLE</td>
-						<td class="titulogrid">PROBABLE</td>
-						<td class="titulogrid">CERTEZA</td>
-						
+						<?php
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
 					</tr>
+					
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
 					<tr>
 						<td class="titulogrid" style="height:20px !important">MODERADO</td>
 						<td colspan="5" rowspan="5"> 
 						<div id="matrizz">
-							<?php include('../curl/matriz/matriz.php'); ?>
+							<?php //include('../curl/matriz/matriz.php'); ?>
 							</div>
 						</td>
 					</tr>
@@ -725,7 +747,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 					<tr class="headt">
 						<td class="titulogrid">INSIGNIFICANTE</td>
-					</tr>					
+					</tr> -->
 				</tbody>
 			</table>
 		</td>
@@ -735,13 +757,42 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				<tbody>					
 					<tr>
 						<td></td>
-						<td class="titulogrid">IMPROBABLE</td>
-						<td class="titulogrid">RARO</td>
-						<td class="titulogrid">POSIBLE</td>
-						<td class="titulogrid">PROBABLE</td>
-						<td class="titulogrid">CERTEZA</td>
-						
+						<?php 
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
 					</tr>
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
 					<tr>
 						<td class="titulogrid">MODERADO</td>
 						<td colspan="5" rowspan="5"> 
@@ -761,7 +812,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 					<tr>
 						<td class="titulogrid">INSIGNIFICANTE</td>
-					</tr>					
+					</tr>	-->				
 				</tbody>
 			</table>
 		</td>
@@ -770,14 +821,42 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			<table class="table table-bordered" style="width:100%">
 				<tbody>					
 					<tr>
-						<td></td>
-						<td class="titulogrid">IMPROBABLE</td>
-						<td class="titulogrid">RARO</td>
-						<td class="titulogrid">POSIBLE</td>
-						<td class="titulogrid">PROBABLE</td>
-						<td class="titulogrid">CERTEZA</td>
-						
+						<td></td><?php 
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
 					</tr>
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
 					<tr>
 						<td class="titulogrid">MODERADO</td>
 						<td colspan="5" rowspan="5"> 
@@ -797,7 +876,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 					<tr>
 						<td class="titulogrid">INSIGNIFICANTE</td>
-					</tr>					
+					</tr>		-->			
 				</tbody>
 			</table>			
 		</td>
@@ -999,7 +1078,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
                 setTimeout(function (){
                     $('#PlanName2').focus()
                 }, 500)
-            })
+            })			
+			
+			$("#sidebarToggle").click(function(e) {
+				e.preventDefault();
+				$("#collapse").toggleClass("toggled");
+			});
 			
 			$("#eventoriesgo").on('change', function(){
 				var er = $(this).val();
