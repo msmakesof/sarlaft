@@ -1049,6 +1049,174 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				}
 			})			
 		}
+		
+				var arrTR = new Array();
+		let TR = document.querySelectorAll('.tiporie');
+		Array.prototype.forEach.call(TR, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrTR.push(xid);
+		})
+
+		function fxTR(id, idtr){
+			//console.log(arrTR)
+			let x = arrTR.includes(id)
+			if ( !x ){
+				arrTR.push(id);
+			}
+			else{
+				mssg('Tipo Riesgo')
+				$("#TIR" + idtr).remove();
+			}
+		}
+
+		var arrFR = new Array();
+		let FR = document.querySelectorAll('.factorie');
+		Array.prototype.forEach.call(FR, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrFR.push(xid);
+		})
+		function fxFR(id, idtr){
+			let x = arrFR.includes(id)
+			if (!x){
+				arrFR.push(id);
+			}
+			else{
+				mssg('Factor Riesgo')
+				$("#FAR" + idtr).remove();
+			}
+		}
+
+		var arrRA = new Array();
+		let RA = document.querySelectorAll('.ria');
+		Array.prototype.forEach.call(RA, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrRA.push(xid);
+		})
+
+		function fxRA(id, idtr){
+			let x = arrRA.includes(id)
+			if (!x){
+				arrRA.push(id);
+			}
+			else{
+				mssg('Riesgo Asociado')
+				$("#RIA" + idtr).remove();
+			}
+		}
+
+		var arrCA = new Array();
+		let CA = document.querySelectorAll('.causa');
+		Array.prototype.forEach.call(CA, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrCA.push(xid);
+		})
+		function fxCA(id, idtr){
+			let x = arrCA.includes(id)
+			if (!x){
+				arrCA.push(id);
+			}
+			else{
+				mssg('Causa')
+				$("#CAU" + idtr).remove();
+			}
+		}
+
+		var arrCO = new Array();
+		let CO = document.querySelectorAll('.consec');
+		Array.prototype.forEach.call(CO, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrCO.push(xid);
+		})
+		function fxCO(id, idtr){
+			let x = arrCO.includes(id)
+			if (!x){
+				arrCO.push(id);
+			}
+			else{
+				mssg('Consecuencia')
+				$("#CON" + idtr).remove();
+			}
+		}
+
+		var arrDE = new Array();
+		let DE = document.querySelectorAll('.debil');
+		Array.prototype.forEach.call(DE, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrDE.push(xid);
+		})
+		function fxDE(id, idtr){
+			let x = arrDE.includes(id)
+			if (!x){
+				arrDE.push(id);
+			}
+			else{
+				mssg('Debilidad')
+				$("#DEB" + idtr).remove();
+			}
+		}
+
+		var arrOP = new Array();
+		let OP = document.querySelectorAll('.opor');
+		Array.prototype.forEach.call(OP, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrOP.push(xid);
+		})
+		function fxOP(id, idtr){
+			let x = arrOP.includes(id)
+			if (!x){
+				arrOP.push(id);
+			}
+			else{
+				mssg('Oportunidad')
+				$("#OPO" + idtr).remove();
+			}
+		}
+
+		var arrFO = new Array();
+		let FO = document.querySelectorAll('.fortal');
+		Array.prototype.forEach.call(FO, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrFO.push(xid);
+		})
+		function fxFO(id, idtr){
+			let x = arrFO.includes(id)
+			if (!x){
+				arrFO.push(id);
+			}
+			else{
+				mssg('Fortaleza')
+				$("#FOR" + idtr).remove();
+			}
+		}
+
+		var arrAM = new Array();
+		let AM = document.querySelectorAll('.ame');
+		Array.prototype.forEach.call(AM, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrAM.push(xid);
+		})
+		function fxAM(id, idtr){
+			console.log(arrAM)
+			let x = arrAM.includes(id)
+			if (!x){
+				arrAM.push(id);
+			}
+			else{
+				mssg('Amenaza')
+				$("#AME" + idtr).remove();
+			}
+		}
+		
+		function mssg(x){
+			swal({
+				position: 'top-end',
+				type: 'warning',
+				title: 'Atención:  Ya existe '+ x +' con el mismo Nombre',
+				showConfirmButton: true,
+				timer: 3000
+			})
+			return 
+		}
 			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
