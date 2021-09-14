@@ -27,7 +27,10 @@ $urlServicios = $getUrl->getUrl();
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
 
-$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
+////$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
+
+$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles JOIN MOV_MatrizControl ON MOV_IdEventoMRC = ECTR_IdEventoMRC AND MOV_NumControl = ECTR_NumControl AND MOV_Estado = 'G' WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
+echo $query;
 $stmt = sqlsrv_query($conn,$query);
 
 if ( $stmt === false)
@@ -50,28 +53,31 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	$IdEvaluado=$row['ECTR_IdEvaluado'];
 	$IdEventoMRC=trim($row['ECTR_IdEventoMRC']);
 	$CustomerKey=trim($row['ECTR_CustomerKey']);
+	
+	$parDelete = "N-".$NumControl;
 	/*$UserKey=trim($row['ECTR_UserKey']);*/
+	echo "idFrecuencia......$IdFrecuencia <br>";
 ?>		
 	<tr id="CTR-<?php echo $NumControl; ?>">
 		<td colspan="3">			
 			<table id="controlinterna" style="width:100%">
 				<tr>
 					<td  style="width:100%">
-						<div style="width:100%; float:left">
-							<select class="form-control control" id="selcont<?php echo $NumControl; ?>" name="selcont<?php echo $NumControl; ?>" onChange="fnselContr(selcont<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value='' style="color: red">Seleccione Opción</option>
-								<?php 
-								$condicontrol = "";
-								$sqlmov=sqlsrv_query($conn,"SELECT id, CustomerKey, ControlesKey, ControlesName FROM ControlesSarlaft WHERE CustomerKey='".$CustomerKey."'");
+						<div style="width:100%; float:left"> <?php //echo $IdControl; ?>
+							<select class="form-control control" id="selcont<?php echo $NumControl; ?>" name="selcont<?php echo $NumControl; ?>" onChange="fnselCont(selcont<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
+								<option value="" style="color: red">Seleccione Opción</option>
+								<?php
+								$sqlmov=sqlsrv_query($conn,"SELECT id, ControlesName FROM ControlesSarlaft WHERE CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
 								{
 									die(print_r(sqlsrv_errors(), true));
 								}
 								while( $row = sqlsrv_fetch_array( $sqlmov, SQLSRV_FETCH_ASSOC) ) {
-									$idControlSarlaft = trim($row['id']);
+									$condicontrol = "";
+									$idControlSarlaft = $row['id'];
 									$ControlName = trim($row['ControlesName']);
 
-									if( isset($IdControl) && $IdControl != "" && $idControlSarlaft == $IdControl ){
+									if( isset($IdControl) && $IdControl != "" && trim($idControlSarlaft) == trim($IdControl) ){
 										$condicontrol = ' selected="selected" ';
 									}
 								?>
@@ -91,7 +97,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 							<div style="clear:both; width:100%"> </div>
 							<div style="float:left; width:17%; text-align:center">
 								<select class="ctrpropietario" id="selprop<?php echo $NumControl; ?>" name="selprop<?php echo $NumControl; ?>" onChange="fnselProp(selprop<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php
 								$sqlmov=sqlsrv_query($conn,"SELECT ResponsablesId, ResponsablesName FROM ResponsablesSarlaft WHERE CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -114,7 +120,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:17%; text-align:center">
 								<select class="ctrejecutor" id="selejec<?php echo $NumControl; ?>" name="selejec<?php echo $NumControl; ?>" onChange="fnselEjec(selejec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ResponsablesId, ResponsablesName FROM ResponsablesSarlaft WHERE CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -137,7 +143,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:17%; text-align:center">
 								<select class="ctrefectividad" id="selefct<?php echo $NumControl; ?>" name="selefct<?php echo $NumControl; ?>" onChange="fnselEfec(selefct<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT EFE_IdEfectividad, EFE_Nombre FROM EFE_Efectividad WHERE EFE_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -160,7 +166,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:17%; text-align:center">
 								<select class="ctrfrecuencia" id="selfrec<?php echo $NumControl; ?>" name="selfrec<?php echo $NumControl; ?>" onChange="fnselFrec(selfrec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT FRE_IdFrecuencia, FRE_Nombre FROM FRE_Frecuencia WHERE FRE_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -183,7 +189,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:15%; text-align:center">
 								<select class="ctrcategoria" id="ctrcategoria<?php echo $NumControl; ?>" name="ctrcategoria<?php echo $NumControl; ?>" onChange="fnCategoria(this)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT CAT_IdCategoria, CAT_Nombre FROM CAT_Categoria WHERE CAT_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -200,13 +206,13 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 										$condicontrol = ' selected="selected" ';
 									}
 								?>
-									<option value="<?php echo $CategoriaId ;?>" <?php echo  $condicontrol; ?>><?php echo $CategoriaName; ?></option>
+									<option value="<?php echo $CategoriaId ;?>" <?php echo $condicontrol; ?>><?php echo $CategoriaName; ?></option>
 								<?php } ?>
 								</select>
 							</div>
 
 							<div style="float:left; width:15%; text-align:center">
-								<select class="ctrrealizado" id="ctrrealizado<?php echo $NumControl; ?>" name="ctrrealizado<?php echo $NumControl; ?>" onChange="fnRealizado(this)">
+								<select class="ctrrealizado" id="ctrrealizado<?php echo $NumControl; ?>" name="ctrrealizado<?php echo $NumControl; ?>" onChange="fnRealizado(this.options[this.selectedIndex].value)">
 									<option value="">Seleccione</option>
 									<option value="S-<?php echo $NumControl; ?>" <?php if( $IdRealizado == "S"){ echo ' selected="selected" ';} else{ echo ""; }?>>
 										Si</option>
@@ -251,7 +257,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:15%; text-align:center">
 								<select class="selaplica" id="selaplica<?php echo $NumControl; ?>" name="selaplica<?php echo $NumControl; ?>" onChange="fxselAplica(selaplica<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -275,7 +281,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:15%; text-align:center">
 								<select class="selefec" id="selefec<?php echo $NumControl; ?>" name="selefec<?php echo $NumControl; ?>" onChange="fxselEfec(selefec<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -299,7 +305,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 
 							<div style="float:left; width:15%; text-align:center">
 								<select class="seleval" id="seleval<?php echo $NumControl; ?>" name="seleval<?php echo $NumControl; ?>" onChange="fxselEval(seleval<?php echo $NumControl; ?>,this.options[this.selectedIndex].value)">
-								<option value=''>Seleccione</option>
+								<option value="">Seleccione</option>
 								<?php 
 								$sqlmov=sqlsrv_query($conn,"SELECT ESC_IdEscalaCalificacion, ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey='".$CustomerKey."'");
 								if ( $sqlmov === false)
@@ -337,10 +343,10 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 								$totsumatoria = $sumatoria;
 								//echo '<script>fxSumar('. $totsumatoria.','.$IdEventoMRC.')</script>';
 
-								echo '<script type="text/javascript">';
-								echo 'fxSumar(<?php echo $totsumatoria; ?>, <?php echo $IdEventoMRC; ?>);';
-								echo '</script>';
-								?>	
+								/*echo '<script type="text/javascript">
+								fxSumar(<?php echo $totsumatoria; ?>, <?php echo $IdEventoMRC; ?>)
+								</script>';*/
+								?>
 
 								<input type="text" id="promedio<?php echo $NumControl; ?>" maxlength="10" style="background-color: #D3D3D3; text-align:center" value="<?php echo $totsumatoria; ?>" readonly/>
 							</div>
@@ -359,7 +365,9 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 					</td>
 				</tr>
 			</table>
-			<div class="delete" style="width:10%; float:right; text-align:center"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>
+			<div class="xdelete" style="width:10%; float:right; text-align:center" onClick="deleteCtrl('<?php echo $parDelete;?>',<?php echo $IdEventoMRC;?>)">
+				<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
+			</div>
 		</td>
 	</tr>
 <?php
@@ -378,12 +386,13 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	var infefec = 0;
 	var inffrec = 0;
 
-	function fnselContr(ParId, ParReg){
+	function fnselCont(ParId, ParReg){
 		var itemcontrol = ParId.name;
-		itemcontrol = itemcontrol.substr(7);		
-		//Control
+		itemcontrol = itemcontrol.substr(7);   //Este es el id de ECTR_Controles ECTR_idControl
+		////alert('itemcontrol desde listar_eve_query...'+itemcontrol);
+		//Control, este es el id del Control Seleccionado de la tabla ControlesSarlaft
 		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
-		alert(infcontrol);
+		////alert('infcontrol...'+infcontrol);
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -419,16 +428,19 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselProp(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		alert('itemcontrol propietario.....'+itemcontrol);
+		alert('propietario...'+itemcontrol);
 		//Control
 		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
@@ -466,16 +478,18 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselEjec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		alert('ejecutor...'+itemcontrol);
 		//Control
 		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
@@ -513,11 +527,12 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselEfec(ParId, ParReg){
@@ -560,11 +575,12 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselFrec(ParId, ParReg){
@@ -607,11 +623,12 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 	
 	function fxselDocum(ParId, ParReg){
@@ -654,11 +671,13 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
+	
 	function fxselAplica(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(9);
@@ -699,9 +718,10 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fxselEfec(ParId, ParReg){
@@ -744,9 +764,10 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)	
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 	
 	function fxselEval(ParId, ParReg){
@@ -789,35 +810,188 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fxSumar(parSumar, parIdControl){
-	alert(parSumar);	
-	let id = "";
-	let nombre = "";
-	let color = "";
-	$.post("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
-		id = data.body[0]["CAL_IdCalificacion"];
-		nombre = data.body[0]["CAL_Nombre"];
-		color = data.body[0]["CAL_Color"];
-		$("#calificacion"+parIdControl).css("background-color", color);
-		$("#calificacion"+parIdControl).attr("value", nombre);
-		console.log(color);
-	})
-}
-/* */
-$('#addControlModal').on('show.bs.modal', function (event) {
-	$('#ControlesName2').val('')
-	setTimeout(function (){
-		$('#ControlesName2').focus()
-	}, 1000)
-})
+		alert(parSumar);	
+		let id = "";
+		let nombre = "";
+		let color = "";
+		if (parSumar > 0){
+			$.post("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
+				id = data.body[0]["CAL_IdCalificacion"];
+				nombre = data.body[0]["CAL_Nombre"];
+				color = data.body[0]["CAL_Color"];
+				$("#calificacion"+parIdControl).css("background-color", color);
+				$("#calificacion"+parIdControl).attr("value", nombre);
+				console.log(color);
+			})
+		}
+	}
+	
+	function deleteCtrl(pValue, eventoriesgo){		
+		
+		
+			//alert('antes pValue...'+pValue);
+			moverbolita = pValue;  ////.value;  // S o N
+			//alert('moverbolita fnRealizado....'+moverbolita);
+			itemcontrol = moverbolita.substr(2);
+			//alert('itemontrol desde fnRealizado....'+itemcontrol);
+			moverbolita = moverbolita.substr(0,1);
+			alert('moverbolita en fnRealizado....'+moverbolita);
+			
+			////alert('Categoria...'+txtCat);
+			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
+			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			/////alert('txt Categoria......'+txtCat);
+			txtCat = txtCat.substr(0,1);
+			/////alert('txt Categoria Letra1......'+txtCat);
+			if( txtCat == "P" ){  
+				//alert('Cat:  mover Abajo');  
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){  
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else if( txtCat == "A" ){ 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
 
-$( "#add_control" ).submit(function( event ) {
-	var parametros = $(this).serialize();
+			//Control
+			valcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+			//Propietario
+			valprop = $("#selprop"+itemcontrol).children("option:selected").val();
+			//Ejecutor
+			valejec = $("#selejec"+itemcontrol).children("option:selected").val();
+			//Efectividad
+			valefect = $("#selefct"+itemcontrol).children("option:selected").val();
+			//Frecuencia
+			valfrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+			var valDoc = 0
+			var valApl = 0
+			var valEfe = 0
+			var valEva = 0
+			
+			valDoc = $("#seldocum"+itemcontrol).children("option:selected").val();
+			if (valDoc == ""){
+				valDoc = 0 ;
+			}
+			else {
+				valDoc = parseInt(valDoc);
+			}
+			infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+			
+			valApl = $("#selaplica"+itemcontrol).children("option:selected").val();
+			if (valApl == ""){
+				valApl = 0 ;
+			}
+			else {
+				valApl = parseInt(valApl);
+			}
+			infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+
+			valEfe = $("#selefec"+itemcontrol).children("option:selected").val();
+			if (valEfe == ""){
+				valEfe = 0 ;
+			}
+			else {
+				valEfe = parseInt(valEfe);
+			}
+			infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+
+			valEva = $("#seleval"+itemcontrol).children("option:selected").val();
+			if (valEva == ""){
+				valEva = 0 ;
+			}
+			else {
+				valEva = parseInt(valEva);
+			}
+			infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+
+			infodocumtxt = parseInt(infodocumtxt);
+			infoaplicatxt =parseInt(infoaplicatxt);
+			infoefectxt = parseInt(infoefectxt);
+			infoevaltxt = parseInt(infoevaltxt);
+			//alert(infodocum+'  '+infoaplica);
+			var contar = 0;
+			var sumatoria = 0;
+			var totpromedio = 0;
+			if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+			if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+			if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+			if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+			totpromedio = sumatoria/contar ;
+			totpromedio = Math.round(totpromedio);
+			if( isNaN(totpromedio) ){ totpromedio = "" }
+			$("#promedio"+itemcontrol).val( totpromedio )
+			var totsumatoria = sumatoria;
+			fxSumar(totsumatoria, itemcontrol)
+			
+			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
+			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
+			let sumaitems = valDoc + valApl + valEfe + valEva;
+			alert('sumaitems desde realizado...'+sumaitems);
+			
+			alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
+			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
+				posicionesmover = 1;
+				if( sumaitems >= <?php echo $Umbral; ?> ){
+					posicionesmover = 2;
+				}
+			}
+			else {
+				posicionesmover = 0;
+			}
+			
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
+			
+			let nt = pValue.substr(2);
+			let er = eventoriesgo
+			alert('delete desde control nt...'+nt);	
+			let pidValue = "N-"+nt
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "../api/matriz/delete_control.php",
+				data:  { 'ck': CKCtr, 'id': nt, 'er': er },
+				success: function(datos){
+					if( $.trim(datos) == "S" ){
+						$("#prob1").trigger('change');
+					}
+				}
+			})
+			itemcontrol = nt
+			//alert('pValue desde control....'+pidValue);
+			$("#CTR-" + nt).remove();
+		}
+	
+	
+/* */
+ $(document).ready(function(){
+	$('#addControlModal').on('show.bs.modal', function (event) {
+		$('#ControlesName2').val('')
+		setTimeout(function (){
+			$('#ControlesName2').focus()
+		}, 1000)
+	})
+
+	$( "#add_control" ).submit(function( event ) {
+		var parametros = $(this).serialize();
 		$.ajax({
 			type: "POST",
 			url: "../ajax/controles/guardar_control.php",
@@ -859,7 +1033,12 @@ $( "#add_control" ).submit(function( event ) {
 					timer: 2000
 				});
 			}
-		});
-	event.preventDefault();
-});	
+		})
+		event.preventDefault();
+	})
+})
+
+/*$('.delete').off().click(function(e) {
+	alert('delete desde consulta');
+})*/
 </script>	

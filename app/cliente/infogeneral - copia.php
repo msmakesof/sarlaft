@@ -582,7 +582,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	}
 
 	// Lista de Consecuencia
-	$url = $urlServicios."api/consecuencia/lista_eve_escala.php?ck=$CustomerKey";
+	$url = $urlServicios."api/consecuencia/lista_eve.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -684,90 +684,272 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	color: black; text-shadow: grey 0.1em 0.1em 0.2em;
 }
 </style>
-
-<!-- <table style="width:100% !important">
+<table style="width:100% !important">
 	<tr>
 		<td>
-			<?php /*
-			for($i=0; $i<count($datacsc['body']); $i++)
-			{
-				$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-				$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-				$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-				echo "<td style='text-align:center; background-color: gray; color: white; font-size:11px'>$escalacsc = $nombrecsc</td>";
-			} */
-			?>
+			<table class="table table-bordered" style="width:100%">
+				<tbody>					
+					<tr>
+						<td></td>
+						<?php
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
+					</tr>
+					
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
+					<tr>
+						<td class="titulogrid" style="height:20px !important">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
+							<?php //include('../curl/matriz/matriz.php'); ?>
+							</div>
+						</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">GRAVE</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr class="headt">
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr> -->
+				</tbody>
+			</table>
 		</td>
+		
+		<td>
+			<table class="table table-bordered" style="width:100%">
+				<tbody>					
+					<tr>
+						<td></td>
+						<?php 
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
+					</tr>
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
+					<tr>
+						<td class="titulogrid">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
+							<?php include('../curl/matriz/matriz.php'); ?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">GRAVE</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr>	-->				
+				</tbody>
+			</table>
+		</td>
+		
+		<td>
+			<table class="table table-bordered" style="width:100%">
+				<tbody>					
+					<tr>
+						<td></td><?php 
+						for($i=0; $i<count($dataprob['body']); $i++)
+						{
+							$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
+							$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
+							echo "<td class='titulogrid'>$nombre</td>";
+						}
+						?>
+					</tr>
+					<?php
+					for($j=0; $j<count($datacsc['body']); $j++)
+					{
+						$idcsc = $datacsc['body'][$j]["CSC_IdConsecuencia"];
+						$nombrecsc = trim($datacsc['body'][$j]["CSC_Nombre"]);
+						if($j == 0){
+					?>
+							<tr>
+								<td class='titulogrid' style='height:20px !important'><?php echo $nombrecsc; ?></td>
+								<td colspan='5' rowspan='5'> 
+									<div id='matrizz'>
+										<?php include('../curl/matriz/matriz.php'); ?>
+										</div>
+								</td>
+							</tr>
+					<?php		
+						}
+						else{
+					?>
+							<tr class='headt'>
+								<td class='titulogrid'><?php echo $nombrecsc; ?></td>
+							</tr>
+					<?php
+						}
+					}
+					?>
+					<!-- Original
+					<tr>
+						<td class="titulogrid">MODERADO</td>
+						<td colspan="5" rowspan="5"> 
+						<div id="matrizz">
+							<?php include('../curl/matriz/matriz.php'); ?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">GRAVE</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MAYOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">MENOR</td>
+					</tr>
+					<tr>
+						<td class="titulogrid">INSIGNIFICANTE</td>
+					</tr>		-->			
+				</tbody>
+			</table>			
+		</td>
+		
+		<!-- <td id="clonmatriz"> Matriz Control Imagen
+			<table class="table table-bordered" style="width:100%">
+				<tbody>
+					<tr>
+						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%">Probabilidad
+						<?php echo $sel_prob11;?>
+						</td>
+						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
+						<td rowspan="2" style="width:60%">
+							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
+							
+							<div id="matrizzControl">
+							<?php 
+							//include('../curl/matriz/matriz.php'); 
+							include('../curl/matriz/matrizcontrol.php');							
+							?>
+							</div>	
+							
+							<div id="matrizz1Control"></div>
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
+						<?php echo $sel_csc11;?>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+		</td> -->
+		
+		<!-- <td id="matcon">
+			<table class="table table-bordered" style="width:100%">
+				<tbody>
+					<tr>
+						<td colspan='4' class="tituloMat3" style="width:100%">MATRIZ RIESGO CONTROL...
+						<?php //echo "pos Ini Filas....$PosicioActualFils.....pos Ini Cols....$PosicioActualCols"; ?>
+						</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%">Probabilidad
+						<?php echo $sel_prob2;?>
+						</td>
+						<td rowspan="2" class="vertical tituloMat2" style="width:5%">PROBABILIDAD</td>
+						<td rowspan="2" style="width:60%">
+							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
+							
+							<div id="matrizzControlR">
+							<?php include('../curl/matriz/matrizcontrol.php'); ?>
+							</div>	
+							
+							<div id="matrizz1ControlR"></div>
+							
+						</td>
+					</tr>
+					<tr>
+						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
+						<?php echo $sel_csc2;?>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+		</td>   -->
+		
 	</tr>
-</table> -->
-		
-<table style="width:100% !important">	
-	<tr>
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
-		
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
-		
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
-	</tr>
-</table>
-<div id="consulta"></div>
+</table> 
 
 <?php	
 }  // Fin Comprobamos si hay soporte para cURL
@@ -885,7 +1067,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     <script>
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
-			$('#sidebarToggle').click();
 			//$("#zonadata").hide()
 			$("#zonadata").show()
             $('.select2').select2()
@@ -897,7 +1078,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
                 setTimeout(function (){
                     $('#PlanName2').focus()
                 }, 500)
-            })
+            })			
+			
+			$("#sidebarToggle").click(function(e) {
+				e.preventDefault();
+				$("#collapse").toggleClass("toggled");
+			});
 			
 			$("#eventoriesgo").on('change', function(){
 				var er = $(this).val();
@@ -923,27 +1109,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$("#matrizz1Control").hide();
 
 			
-			$("#buscar").on('click', function(event){				
-				var parametros = $('#formap').serialize()
-                $.ajax({
-					type: "POST",
-					url: "../ajax/eventosriesgo/consultainfogral.php",
-					data: parametros,
-					beforeSend: function(objeto){
-						swal({
-							position: 'top-end',
-							type: 'info',
-							title: 'Procesando información...Un momento',
-							showConfirmButton: false,
-							timer: 5000,
-							imageUrl: '../img/ajax-loader.gif',
-							imageAlt: 'Custom image',
-						});
-					  },
-					success: function(datos){
-						
-					}
-			    });
+			$("#pguardar").on('click', function(event){
 				
 			})
 			

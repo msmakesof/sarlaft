@@ -60,7 +60,7 @@ $("#addctr").on('click', function(){
 				opc +="<option value='"+ item.id +"'>"+ item.ControlesName +"</option>";
 			});
 			slct = '<div style="width:100%; float:left">';
-			slct += '<select class="form-control control" id="selcontr'+itemcontrol+'" name="selcontr'+itemcontrol+'" onChange="fxselContr(selcontr'+itemcontrol+',this.options[this.selectedIndex].value)"  style="color: black; font-weight: bold" autofocus>';					
+			slct += '<select class="form-control control" id="selcont'+itemcontrol+'" name="selcont'+itemcontrol+'" onChange="fxselCont(selcont'+itemcontrol+',this.options[this.selectedIndex].value)" style="color: black; font-weight: bold" autofocus>';					
 			slct += opc;
 			slct += '</select>';
 			slct += '</div>';	
@@ -76,13 +76,32 @@ $("#addctr").on('click', function(){
 			})
 
 			// Select Frecuencia
-			$.get("../api/frecuencia/lista_eve.php", {ck: CKCtr }, function(frecuencia){
+			/*$.get("../api/frecuencia/lista_eve.php", {ck: CKCtr }, function(frecuencia){
 				selFrecuencia = "";
 				let opcfrecuencia = "<option value=''>Seleccione</option>";
 				$.each(frecuencia.body, function(i, item) {
 					opcfrecuencia +="<option value='"+ item.FRE_IdFrecuencia +"'>"+ item.FRE_Nombre +"</option>";
 				});
 				selFrecuencia += opcfrecuencia;
+			})*/
+			
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "../api/frecuencia/lista_eve.php?ck="+CKCtr,
+				//data:  {'ck': CKCtr },
+				success: function(datos){
+					//alert(datos);
+					selFrecuencia = "";
+					let opcfrecuencia = "<option value=''>Seleccione</option>";
+					//if(datos != "nd"){
+						//x = JSON.parse(datos);
+						$.each(datos.body, function(i, item) {
+							opcfrecuencia +="<option value='"+ item.FRE_IdFrecuencia +"'>"+ item.FRE_Nombre +"</option>";  // +'-'+ itemcontrol 
+						});
+					//}
+					selFrecuencia += opcfrecuencia;
+				}
 			})
 
 			$.ajax({
@@ -173,10 +192,10 @@ $("#addctr").on('click', function(){
 											tablainterna+= '</select></div>';
 
 											tablainterna+= '<div style="float:left; width:17%; text-align:center">';
-											tablainterna+= '<select class="ctrcategoria" id="ctrcategoria'+ itemcontrol +'" name="ctrcategoria" onChange="fnCategoria(this)">'+selCategoria;
+											tablainterna+= '<select class="ctrcategoria" id="ctrcategoria'+ itemcontrol +'" name="ctrcategoria" onChange="fnCategoria(this.options[this.selectedIndex].value)">'+selCategoria;
 											tablainterna+= '</select></div>';
 											tablainterna+= '<div style="float:left; width:15%; text-align:center">';
-											tablainterna+= '<select class="ctrrealizado" id="ctrrealizado'+ itemcontrol +'" name="ctrrealizado" onChange="fnRealizado(this)"><option value="">Seleccione</option><option value="S-'+itemcontrol+'">Si</option><option value="N-'+itemcontrol+'">No</option>';
+											tablainterna+= '<select class="ctrrealizado" id="ctrrealizado'+ itemcontrol +'" name="ctrrealizado" onChange="fnRealizado(this.options[this.selectedIndex].value)"><option value="">Seleccione</option><option value="S-'+itemcontrol+'">Si</option><option value="N-'+itemcontrol+'">No</option>';
 											tablainterna+= '</select></div>';
 											
 											tablainterna+= '<div style="clear:both; width:100%">&nbsp;</div>';
@@ -220,24 +239,84 @@ $("#addctr").on('click', function(){
 					$("#tabctr").append(tablainterna);
 					
 					$('.delete').off().click(function(e) {
+						/////* alert('delete desde la clase');
+						let er =  $("#hder").val();
 						let regdel = $(this).parent('td').parent('tr').attr('id');
-						let posicion = regdel.indexOf('-');
+						/////* alert('regdel...'+regdel);
+						
+						var itemcontrol = regdel;  //ParId.name;
+						itemcontrol = itemcontrol.substr(4);
+						/////* alert('itemcontrol desde controljs en clase delete...'+itemcontrol);						
+						
+						//Control
+						infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+						//Propietario
+						infprop = $("#selprop"+itemcontrol).children("option:selected").val();
+						//Ejecutor
+						infejec = $("#selejec"+itemcontrol).children("option:selected").val();
+						//Efectividad
+						infefec = $("#selefct"+itemcontrol).children("option:selected").val();
+						//Frecuencia
+						inffrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+						var infodocum = $("#seldocum"+itemcontrol).children("option:selected").val();
+						infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+						
+						var infoaplica = $("#selaplica"+itemcontrol).children("option:selected").val();
+						infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+						
+						var infoefec = $("#selefec"+itemcontrol).children("option:selected").val();
+						infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+						
+						var infoeval = $("#seleval"+itemcontrol).children("option:selected").val();
+						infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+						
+						infodocumtxt = parseInt(infodocumtxt);
+						infoaplicatxt =parseInt(infoaplicatxt);
+						infoefectxt = parseInt(infoefectxt);
+						infoevaltxt = parseInt(infoevaltxt);
+						//alert(infodocum+'  '+infoaplica);
+						var contar = 0;
+						var sumatoria = 0;
+						var totpromedio = 0;
+						if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+						if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+						if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+						if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+						totpromedio = sumatoria/contar ;
+						totpromedio = Math.round(totpromedio);
+						if( isNaN(totpromedio) ){ totpromedio = "" }
+						$("#promedio"+itemcontrol).val( totpromedio )
+						var totsumatoria = sumatoria;
+						fxSumar(totsumatoria, itemcontrol)
+						
+						ParReg = "N-"+itemcontrol
+						////$("#ctrrealizado"+itemcontrol).val(ParReg)
+						document.getElementById("ctrrealizado"+itemcontrol).value =ParReg;
+						
+						fnRegla_32_42(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
+						
+						$(this).parent('td').parent('tr').hide();
+						
+						/*let posicion = regdel.indexOf('-');
 						if (posicion !== -1){
 							var registroborrar = regdel.substr(posicion+1) ;
 						}
-
-						$(this).parent('td').parent('tr').remove();
+						itemcontrol*/
+						
+						/*alert('desde la clase itemcontrol...'+itemcontrol);						
 						$.ajax({
 							async: true,
 							type: "POST",
 							url: "../api/matriz/delete_control.php",
-							data:  {'ck': CKCtr, 'id': registroborrar},
+							data:  { 'ck': CKCtr, 'id': itemcontrol, 'er': er },
 							success: function(datos){
 								if( $.trim(datos) == "S" ){
 									$("#prob1").trigger('change');
 								}
 							}
 						})
+						$(this).parent('td').parent('tr').remove();*/
 					});
 					
 					// funciones para promedio y calificacion
@@ -260,11 +339,13 @@ $("#addctr").on('click', function(){
 	var infefec = 0;
 	var inffrec = 0;
 
-	function fxselContr(ParId, ParReg){
+	function fxselCont(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		////alert('itemcontrol desde controljs...'+itemcontrol);
+		////alert('ParReg from controljs....'+ParReg);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -300,18 +381,22 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselProp(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
+		
+		////alert('itemcontrol propietario controljs.....'+itemcontrol);
+		////alert('propietario controljs...'+itemcontrol);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -347,18 +432,19 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselEjec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -394,18 +480,19 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselEfec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -441,18 +528,19 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fnselFrec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -488,18 +576,19 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
 
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 	
 	function fxselDocum(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(8);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -535,16 +624,17 @@ $("#addctr").on('click', function(){
 		if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		var totsumatoria = sumatoria;
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 	function fxselAplica(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(9);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -580,16 +670,17 @@ $("#addctr").on('click', function(){
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fxselEfec(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -625,16 +716,17 @@ $("#addctr").on('click', function(){
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)	
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 	
 	function fxselEval(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
 		//Control
-		infcontrol = $("#selcontr"+itemcontrol).children("option:selected").val();
+		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
 		infprop = $("#selprop"+itemcontrol).children("option:selected").val();
 		//Ejecutor
@@ -670,35 +762,80 @@ $("#addctr").on('click', function(){
 		var totsumatoria = sumatoria;
 		totpromedio = sumatoria/contar ;
 		totpromedio = Math.round(totpromedio);
+		if( isNaN(totpromedio) ){ totpromedio = "" }
 		$("#promedio"+itemcontrol).val( totpromedio )
 		fxSumar(totsumatoria, itemcontrol)
-		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol)
+		fnRegla_3_4(infodocumtxt,infoaplicatxt,infoefectxt,infoevaltxt,ParReg,infprop,infejec,infefec,inffrec,infcontrol,itemcontrol)
 	}
 
 	function fxSumar(parSumar, parIdControl){
-	let id = "";
-	let nombre = "";
-	let color = "";
-	$.get("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
-		id = data.body[0]["CAL_IdCalificacion"];
-		nombre = data.body[0]["CAL_Nombre"];
-		color = data.body[0]["CAL_Color"];
-		$("#calificacion"+parIdControl).css("background-color", color);
-		$("#calificacion"+parIdControl).attr("value", nombre);
-		console.log(color);
-	})
-}
+		let id = "";
+		let nombre = "";
+		let color = "";
+		if (parSumar > 0) {
+			$.get("../api/calificacion/lista_select.php", {ck: CKCtr, vr: parSumar }, function(data){
+				id = data.body[0]["CAL_IdCalificacion"];
+				nombre = data.body[0]["CAL_Nombre"];
+				color = data.body[0]["CAL_Color"];
+				$("#calificacion"+parIdControl).css("background-color", color);
+				$("#calificacion"+parIdControl).attr("value", nombre);
+				//console.log(color);
+			})
+		}
+	}
+	
+	
 /**/
 
-$('#addControlModal').on('show.bs.modal', function (event) {
-	$('#ControlesName2').val('')
-	setTimeout(function (){
-		$('#ControlesName2').focus()
-	}, 1000)
-})
+	function xdeleteCtrl(num, eventoriesgo) {
+		let nt = num
+		let er = eventoriesgo
+		/////* alert('delete desde control nt...'+nt);	
+		let pidValue = "N-"+nt
+		$.ajax({
+			async: false,
+			type: "POST",
+			url: "../api/matriz/delete_control.php",
+			data:  { 'ck': CKCtr, 'id': nt, 'er': er },
+			success: function(datos){
+				if( $.trim(datos) == "S" ){
+					$("#prob1").trigger('change');
+				}
+			}
+		})
+		itemcontrol = nt
+		//alert('pValue desde control....'+pidValue);
+		$("#CTR-" + nt).remove();
+		//fnRealizado(pidValue)
+		$.redirect("consultaer.php", {id: er, ck : CKCtr });
+		
+		//fnRX(pidValue)
+		/*$.ajax({
+			async: false,
+			type: "POST",
+			url: "../curl/matriz/matriznewmrc.php",
+			data:  { 'ck': CKCtr, 'er': er },
+			success: function(datos){
+				//if( $.trim(datos) == "S" ){
+					//$("#prob1").trigger('change');
+				//}
+			}
+		})*/
+		
+	}
+	
+	
+	
+$(document).ready(function(){	
+	$('#addControlModal').on('show.bs.modal', function (event) {
+		$('#ControlesName2').val('')
+		setTimeout(function (){
+			$('#ControlesName2').focus()
+		}, 1000)
+	})
 
-$( "#add_control" ).submit(function( event ) {
-	var parametros = $(this).serialize();
+	$( "#add_control" ).submit(function( event ) {
+		var parametros = $(this).serialize();
 		$.ajax({
 			type: "POST",
 			url: "../ajax/controles/guardar_control.php",
@@ -740,6 +877,7 @@ $( "#add_control" ).submit(function( event ) {
 					timer: 3000
 				});
 			}
-		});
-	event.preventDefault()
-});
+		})
+		event.preventDefault()
+	})
+})

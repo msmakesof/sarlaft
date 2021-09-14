@@ -18,17 +18,17 @@ table.gen{
 }
 
 table.gen td{
-	min-width: 25px;
-	height: 50px;	
+	min-width: 20px;
+	height: 40px;	
 }
 
 table.gen td{
-	width:25px;
+	width:15px;
 	word-wrap: break-word;
 	border-width: 1px;
 	border-color: #000000;
 	border-style: solid;
-	padding: 3px;
+	padding: 2px;
 }
 
 .celda {
@@ -38,33 +38,27 @@ text-align:center;
 </style>
 <?php
 //Prametros para mover la bolita
-
-	// Nro del Evento de Riesgo
 	if( isset($_POST["er"]) && $_POST["er"] > 0 ){
 		$er = $_POST["er"];
 	}
-	else { 
-		$er = $er ;}
+	//else { $er = $er ;}
 	
-	// Posicion en Filas
 	if( isset($_POST["pfila"]) && $_POST["pfila"] > 0 ){
 		$posfil = $_POST["pfila"];
 		//$poscol = 1;
 	}
 	else {
-		$posfil = $FilaMRI;
+		$posfil = 0;
 	}
 
-	// Posicion en Columnas
 	if( isset($_POST["pcols"]) && $_POST["pcols"] > 0 ){
 		$poscol = $_POST["pcols"];
 		//$posfil = 1;
 	}
 	else {
-		$poscol = $ColumnaMRI;
+		$poscol = 0;
 	}
 	
-	// Id del Cliente
 	if( isset($_POST["ck"]) && $_POST["ck"] != "" ){
 		$CustomerKey=$_POST["ck"];
 	}
@@ -72,7 +66,6 @@ text-align:center;
 		$CustomerKey=$CustomerKey;
 	}
 	
-	// Id del usuario
 	if( isset($_POST["uk"]) && $_POST["uk"] != "" ){
 		$UserKey=$_POST["uk"];
 	}
@@ -96,8 +89,46 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {	
-	// Informacion de la matriz de interseccion para pintar cada matriz
-    $url = $urlServicios."api/interseccion/idmatriz.php?ck=".$CustomerKey;
+    // Para traer la primera columna
+	// Lista de Probabilidad
+	$url = $urlServicios."api/probabilidad/lista_eve.php?ck=$CustomerKey";
+	//echo "url...$url<br>";
+	$resultado="";
+	$ch = curl_init();
+    curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    curl_setopt($ch, CURLOPT_POST, 0);
+    $resultado = curl_exec ($ch);
+    curl_close($ch);
+	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
+	$dataprob = json_decode($mestado, true);	
+	
+	$json_errors = array(
+		JSON_ERROR_NONE => 'No se ha producido ningún error',
+		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
+		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
+		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
+	);
+	foreach($dataprob as $key => $row) {}
+	
+	if( $key == "message")
+	{
+		echo $dataprob["message"];
+	}
+	else
+	{
+		for($prob=0; $prob<count($dataprob['body']); $prob++)
+		{
+			$idprob = $dataprob['body'][$prob]["PRO_IdProbabilidad"];
+			$nombreprob = trim($dataprob['body'][$prob]["PRO_Nombre"]);
+		}
+	}
+	
+	$url = $urlServicios."api/interseccion/idmatriz.php?ck=".$CustomerKey;
 	//echo "url idinter...$url<br>";
 	$resultado="";
 	$ch = curl_init();
@@ -137,17 +168,31 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$cantidadPosicionesCols = 0;
 			$nuevaUbicacion="N";
 			
-			// Pinta la Matriz de acuerdo a la info en matriz de interseccion y Armar  //
+			// Pinta la Matriz de acuerdo a la info en matriz de interseccion y Armar
 			for($i=0; $i<1; $i++)
 			{
-				$fil = $dataintermatriz['body'][$i]["INT_Filas"];      // Cantidad de Filas
-				$col = $dataintermatriz['body'][$i]["INT_Columnas"];   // Cantidad de Columnas
+				$fil = $dataintermatriz['body'][$i]["INT_Filas"];
+				$col = $dataintermatriz['body'][$i]["INT_Columnas"];
 			}
 
 			$tabla="<table class='gen' id='matrizcon' style='text-align:center;width:100%'><tbody>";
+			$tabla.="<tr>";
+			$tabla.="<td></td>";
+			for($td=1; $td<=$col; $td++){
+				$tabla.="<td style='text-align:center; color:white; background-color:gray;'>$td</td>";
+			} 
+			$tabla.="</tr>";
 			$m = $fil;
 			for($f=1; $f<=$fil; $f++){
 				$tabla.="<tr>";
+				
+				$getConnectionCli2 = new Database();
+				$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+
+				$query_prob=sqlsrv_query($conn,"SELECT PRO_Nombre FROM PRO_Probabilidad WHERE PRO_CustomerKey=".$CustomerKey." AND PRO_Escala = $m");
+				$regtit=sqlsrv_fetch_array($query_prob);
+				$nombreprob = trim($regtit['PRO_Nombre']);
+				$tabla.="<td style='text-align:center; color:white; background-color:gray; font-size:10px'>$nombreprob</td>";
 				
 				for($c=1; $c<=$col; $c++){
 					$id="p".$m."c".$c;
@@ -162,6 +207,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							break;
 						}
 					}
+					
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
 						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';	
@@ -174,24 +220,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						$getConnectionCli2 = new Database();
 						$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
 						
-						/* Ubicacion original
 						//// Tomo el último valor actual de la posicion de la fila y columna en MRI
 						$sqlmov=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRI, MOV_ColumnaMRI FROM MOV_MatrizInherente WHERE MOV_IdEventoMRI = ".$er." AND MOV_CustomerKeyMRI ='".$CustomerKey."' ORDER BY MOV_IdMovimientoMRI DESC ");
 						$reg = sqlsrv_fetch_array($sqlmov);
 						$MOV_FilaMRI = $reg['MOV_FilaMRI'];
-						$MOV_ColumnaMRI = $reg['MOV_ColumnaMRI']; */
+						$MOV_ColumnaMRI = $reg['MOV_ColumnaMRI'];
 						
 						// Inserto registro en Movimiento Matriz Riesgo Inherente
 						date_default_timezone_set("America/Bogota");
 						$DateStamp=date("Y-m-d H:i:s");						
 						$sqlmov="INSERT INTO MOV_MatrizInherente (MOV_IdEventoMRI, MOV_FilaMRI, MOV_ColumnaMRI, MOV_CustomerKeyMRI, MOV_DateStampMRI, MOV_UserKeyMRI) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."')";
-						/////$query = sqlsrv_query($conn,$sqlmov);
-
-						//// Tomo el último valor actual de la posicion de la fila y columna en MRI
-						$sqlmov=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRI, MOV_ColumnaMRI FROM MOV_MatrizInherente WHERE MOV_IdEventoMRI = ".$er." AND MOV_CustomerKeyMRI ='".$CustomerKey."' ORDER BY MOV_IdMovimientoMRI DESC ");
-						$reg = sqlsrv_fetch_array($sqlmov);
-						$MOV_FilaMRI = $reg['MOV_FilaMRI'];
-						$MOV_ColumnaMRI = $reg['MOV_ColumnaMRI'];						
+						$query = sqlsrv_query($conn,$sqlmov);						
 						
 						$mov_filrc = 0;
 						$mov_colrc = 0;
@@ -204,7 +243,11 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					
 						if( $TieneControl != "S" ){
 							$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
-							/////$query = sqlsrv_query($conn,$sqlmov);
+							$query = sqlsrv_query($conn,$sqlmov);
+							
+							//Grabo el control
+							//$sqlmov="INSERT INTO ECTR_Controles (ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria, ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdControl, ECTR_IdEventoMRC) VALUES (".$er.",".$posfil.",".$poscol.",'".$CustomerKey."','".$DateStamp."','".$UserKey."',0,0)";
+							//$query = sqlsrv_query($conn,$sqlmov);
 						}
 						else{
 							//Calculo para determinar cantidad de posiciones a subir o bajar (filas)
@@ -218,7 +261,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							
 							$MOV_FilaMRC = $reg['MOV_FilaMRC']; // Ubicacion en la Fila
 							$MOV_ColumnaMRC = $reg['MOV_ColumnaMRC']; // Ubicacion en la Columna
-							$MOV_IdMovimientoMRC = $reg['MOV_IdMovimientoMRC']; // Id Movimiento 
+							$MOV_IdMovimientoMRC = $reg['MOV_IdMovimientoMRC']; // Ubicacion en la 
 							
 							$nuevaPosicionFila = $MOV_FilaMRC - $cantidadPosicionesFila;
 							$nuevaPosicionCols = $MOV_ColumnaMRC - $cantidadPosicionesCols;
@@ -242,7 +285,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$nuevaPosicionFila, MOV_ColumnaMRC = $nuevaPosicionCols WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_TieneControlMRC ='S' AND MOV_IdMovimientoMRC = $MOV_IdMovimientoMRC";
 							$query = sqlsrv_query($conn,$sqlmov);
 							////echo "mov upd....".$sqlmov."<br>";
-							
 						}						
 					} 
 					else { 

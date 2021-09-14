@@ -1,9 +1,12 @@
 <?php
 if(isset($_POST['ck']) && $_POST['ck'] != ""){
-    $ck= $_POST['ck'];
+    $ck= trim($_POST['ck']);
 }
 if(isset($_POST['uk']) && $_POST['uk'] != ""){
-    $uk= $_POST['uk'];
+    $uk= trim($_POST['uk']);
+}
+if(isset($_POST['er']) && $_POST['er'] != ""){
+    $er= $_POST['er'];
 }
 if(isset($_POST['prop']) && $_POST['prop'] != ""){
     $prop= $_POST['prop'];
@@ -50,9 +53,7 @@ if(isset($_POST['control']) && $_POST['control'] != ""){
 }
 else{$control="";}
 
-if(isset($_POST['er']) && $_POST['er'] != ""){
-    $er= $_POST['er'];
-}
+
 if(isset($_POST['nrocontrol']) && $_POST['nrocontrol'] != ""){
     $nrocontrol= $_POST['nrocontrol'];
 }
@@ -63,7 +64,7 @@ $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($ck);
 
 $sqlmov="UPDATE ECTR_Controles SET ECTR_IdPropietario=".$prop.", ECTR_IdEjecutor=".$ejec.", ECTR_IdEfectividad=".$efec.", ECTR_IdFrecuencia=".$frec.", ECTR_UserKey ='".$uk."', ECTR_IdCategoria='".$cat."', ECTR_IdRealizado='".$rea."', ECTR_IdDocumentado=".$doc.", ECTR_IdAplicado=".$apl.", ECTR_IdEfectivo=".$efe.", ECTR_IdEvaluado=".$eva.", ECTR_IdControl=".$control." WHERE ECTR_CustomerKey ='".$ck."' AND ECTR_IdEventoMRC =".$er." AND ECTR_NumControl=".$nrocontrol;
-//echo $sqlmov;
+echo $sqlmov;
 $query = sqlsrv_query($conn,$sqlmov);
 if($query){
     echo "S";

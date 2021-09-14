@@ -35,7 +35,7 @@ $PRO_Nombre = trim($regmri['PRO_Nombre']);
 $CSC_Nombre = trim($regmri['CSC_Nombre']);
 //echo $IdEventoRiesgo;
 
-$query_mrc=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, PRO_Nombre, CSC_Nombre FROM MOV_MatrizControl JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRC AND PRO_CustomerKey = MOV_CustomerKeyMRC JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRC AND CSC_CustomerKey = MOV_CustomerKeyMRC WHERE MOV_IdEventoMRC=".$IdEvento." AND MOV_CustomerKeyMRC='" .$ck."' ORDER BY MOV_IdMovimientoMRC DESC ");
+$query_mrc=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, PRO_Nombre, CSC_Nombre FROM MOV_MatrizControl JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRC AND PRO_CustomerKey = MOV_CustomerKeyMRC JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRC AND CSC_CustomerKey = MOV_CustomerKeyMRC WHERE MOV_IdEventoMRC=".$IdEvento." AND MOV_CustomerKeyMRC='" .$ck."' AND MOV_Estado <> 'D' ORDER BY MOV_IdMovimientoMRC DESC ");
 $regmrc=sqlsrv_fetch_array($query_mrc);
 $FilaMRC = trim($regmrc['MOV_FilaMRC']);
 $ColumnaMRC = trim($regmrc['MOV_ColumnaMRC']);
@@ -185,7 +185,8 @@ $consecutivo = $reg['id'].'-'.$consec2;*/
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+				</a>
             </li>
 
             <!-- Divider -->
@@ -254,8 +255,7 @@ $consecutivo = $reg['id'].'-'.$consec2;*/
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">William Díaz</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -587,12 +587,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizz">
-							<?php 
-							$FilaMRI = $FilaMRI;
-							$ColumnaMRI = $ColumnaMRI;
-							$er=$IdEvento;
-							//include('../curl/matriz/matrizconsulta.php'); 
-							include('../curl/matriz/matrizquery.php'); ?>
+								<?php 
+									$FilaMRI = $FilaMRI;
+									$ColumnaMRI = $ColumnaMRI;
+									$er=$IdEvento;
+									//include('../curl/matriz/matrizconsulta.php'); 
+									include('../curl/matriz/matrizquery.php'); 
+								?>
 							</div>	
 							
 							<div id="matrizz1"></div>
@@ -601,7 +602,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 					<tr>
 						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
-						<?php echo $sel_csc;?>
+							<?php echo $sel_csc;?>
 						</td>
 						<!-- <td> <div id="lblconsec"></div> </td> -->
 					</tr>
@@ -626,10 +627,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							
 							<div id="matrizzControl">
 							<?php 
-							$FilaMRC = $FilaMRC;
-							$ColumnaMRC = $ColumnaMRC;
-							$er=$IdEvento;
-							include('../curl/matriz/matrizcontrolquery.php'); ?>
+								$FilaMRC = $FilaMRC;
+								$ColumnaMRC = $ColumnaMRC;
+								$er=$IdEvento;
+								echo "$FilaMRC  - $ColumnaMRC  - $er";
+								include('../curl/matriz/matrizcontrolquery.php'); 
+							?>
 							</div>	
 							
 							<div id="matrizz1Control"></div>
@@ -662,32 +665,31 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php
-										 	$CustomerKey = $ck;	include("../curl/controles/listar_eve_query.php"); ?>
+											<?php $CustomerKey = $ck;	include("../curl/controles/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php $CustomerKey = $ck; include("../curl/tiposriesgo/listar_eve_query.php"); ?>
+											<?php $CustomerKey = $ck; include("../curl/tiposriesgo/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/factoresriesgo/listar_eve_query.php"); ?>
+											<?php include("../curl/factoresriesgo/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/riesgoasociado/listar_eve_query.php"); ?>
+											<?php include("../curl/riesgoasociado/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/causas/listar_eve_query.php"); ?>
+											<?php include("../curl/causas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
@@ -708,31 +710,31 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/debilidades/listar_eve_query.php"); ?>
+											<?php include("../curl/debilidades/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/oportunidades/listar_eve_query.php"); ?>
+											<?php include("../curl/oportunidades/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/fortalezas/listar_eve_query.php"); ?>
+											<?php include("../curl/fortalezas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/amenazas/listar_eve_query.php"); ?>
+											<?php include("../curl/amenazas/listar_eve_query.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php /////include("../curl/consecuencia/listar_eve.php"); ?>
+											<?php /////include("../curl/consecuencia/listar_eve.php"); ?>
 										</div>
 									</div>								
 									
@@ -876,11 +878,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//alert('pValue....'+pValue.value);			
 			var cadena = pValue.value;
 			categoria = cadena
+			////alert('cat...'+categoria);
 			let posicion = cadena.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = cadena.substr(posicion+1) ;
 			}
-			////alert('itemcontrol...'+itemcontrol);
+			////alert('categoria itemcontrol...'+itemcontrol);
 	
 			// Para la Categoria
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
@@ -900,17 +903,97 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
 			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+
+			// Mover bolita
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
+
+			//Control
+			valcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+			//Propietario
+			valprop = $("#selprop"+itemcontrol).children("option:selected").val();
+			//Ejecutor
+			valejec = $("#selejec"+itemcontrol).children("option:selected").val();
+			//Efectividad
+			valefect = $("#selefct"+itemcontrol).children("option:selected").val();
+			//Frecuencia
+			valfrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+			var valDoc = 0
+			var valApl = 0
+			var valEfe = 0
+			var valEva = 0
 			
+			valDoc = $("#seldocum"+itemcontrol).children("option:selected").val();
+			if (valDoc == ""){
+				valDoc = 0 ;
+			}
+			else {
+				valDoc = parseInt(valDoc);
+			}
+			infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+			
+			valApl = $("#selaplica"+itemcontrol).children("option:selected").val();
+			if (valApl == ""){
+				valApl = 0 ;
+			}
+			else {
+				valApl = parseInt(valApl);
+			}
+			infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+
+			valEfe = $("#selefec"+itemcontrol).children("option:selected").val();
+			if (valEfe == ""){
+				valEfe = 0 ;
+			}
+			else {
+				valEfe = parseInt(valEfe);
+			}
+			infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+
+			valEva = $("#seleval"+itemcontrol).children("option:selected").val();
+			if (valEva == ""){
+				valEva = 0 ;
+			}
+			else {
+				valEva = parseInt(valEva);
+			}
+			infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+			
+			infodocumtxt = parseInt(infodocumtxt);
+			infoaplicatxt =parseInt(infoaplicatxt);
+			infoefectxt = parseInt(infoefectxt);
+			infoevaltxt = parseInt(infoevaltxt);
+			//alert(infodocum+'  '+infoaplica);
+			var contar = 0;
+			var sumatoria = 0;
+			var totpromedio = 0;
+			if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+			if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+			if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+			if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+			totpromedio = sumatoria/contar ;
+			totpromedio = Math.round(totpromedio);
+			$("#promedio"+itemcontrol).val( totpromedio )
+			var totsumatoria = sumatoria;
+			fxSumar(totsumatoria, itemcontrol)
+
 			//posicionesmover = 0;			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
+			////alert('sumaitems desde categoria...'+sumaitems);
 			
+			/////* alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
 				posicionesmover = 1;
 				if( sumaitems >= <?php echo $Umbral; ?> ){
@@ -925,15 +1008,21 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 		
 		function fnRealizado(pValue){
-			moverbolita = pValue.value;  // S o N
+			//alert('antes pValue...'+pValue);
+			moverbolita = pValue;  ////.value;  // S o N
+			//alert('moverbolita fnRealizado....'+moverbolita);
 			itemcontrol = moverbolita.substr(2);
-			////alert(itemcontrol);
-			moverbolita = moverbolita.substr(0,1);			
+			//alert('itemontrol desde fnRealizado....'+itemcontrol);
+			moverbolita = moverbolita.substr(0,1);
+			////alert('moverbolita en fnRealizado....'+moverbolita);
 			
 			////alert('Categoria...'+txtCat);
 			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
-			txtCat = txtCat.substr(0,1);			
+			/////alert('txt Categoria......'+txtCat);
+			txtCat = txtCat.substr(0,1);
+			/////alert('txt Categoria Letra1......'+txtCat);
 			if( txtCat == "P" ){  
 				//alert('Cat:  mover Abajo');  
 				movercols = 0;
@@ -944,16 +1033,92 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
 			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+
+			//Control
+			valcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
+			//Propietario
+			valprop = $("#selprop"+itemcontrol).children("option:selected").val();
+			//Ejecutor
+			valejec = $("#selejec"+itemcontrol).children("option:selected").val();
+			//Efectividad
+			valefect = $("#selefct"+itemcontrol).children("option:selected").val();
+			//Frecuencia
+			valfrec = $("#selfrec"+itemcontrol).children("option:selected").val();
+
+			var valDoc = 0
+			var valApl = 0
+			var valEfe = 0
+			var valEva = 0
+			
+			valDoc = $("#seldocum"+itemcontrol).children("option:selected").val();
+			if (valDoc == ""){
+				valDoc = 0 ;
+			}
+			else {
+				valDoc = parseInt(valDoc);
+			}
+			infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
+			
+			valApl = $("#selaplica"+itemcontrol).children("option:selected").val();
+			if (valApl == ""){
+				valApl = 0 ;
+			}
+			else {
+				valApl = parseInt(valApl);
+			}
+			infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
+
+			valEfe = $("#selefec"+itemcontrol).children("option:selected").val();
+			if (valEfe == ""){
+				valEfe = 0 ;
+			}
+			else {
+				valEfe = parseInt(valEfe);
+			}
+			infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
+
+			valEva = $("#seleval"+itemcontrol).children("option:selected").val();
+			if (valEva == ""){
+				valEva = 0 ;
+			}
+			else {
+				valEva = parseInt(valEva);
+			}
+			infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
+
+			infodocumtxt = parseInt(infodocumtxt);
+			infoaplicatxt =parseInt(infoaplicatxt);
+			infoefectxt = parseInt(infoefectxt);
+			infoevaltxt = parseInt(infoevaltxt);
+			//alert(infodocum+'  '+infoaplica);
+			var contar = 0;
+			var sumatoria = 0;
+			var totpromedio = 0;
+			if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
+			if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
+			if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
+			if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
+			totpromedio = sumatoria/contar ;
+			totpromedio = Math.round(totpromedio);
+			$("#promedio"+itemcontrol).val( totpromedio )
+			var totsumatoria = sumatoria;
+			fxSumar(totsumatoria, itemcontrol)
 			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
+			/////* alert('sumaitems desde realizado...'+sumaitems);
 			
+			/////* alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
 				posicionesmover = 1;
 				if( sumaitems >= <?php echo $Umbral; ?> ){
@@ -967,7 +1132,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
-		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
+		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol, pitemcontrol){
 			valDoc = parDoc;
 			if ( isNaN(valDoc) ){valDoc = 0;}
 			//alert('valDoc...'+valDoc);
@@ -980,25 +1145,31 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			valEva = parEva;
 			if ( isNaN(valEva) ){valEva = 0;}
 			//alert('valEva....'+valEva);
+
 			valprop=pinfprop;
-			if ( isNaN(valprop) ){valprop = 0;}
+			if ( isNaN(valprop) ){valprop = 0;} // Propietario
 			valejec=pinfejec;
-			if ( isNaN(valejec) ){valejec = 0;}
+			if ( isNaN(valejec) ){valejec = 0;}  // Ejecutor
 			valefect=pinfefec;
-			if ( isNaN(valefec) ){valefec = 0;}
+			if ( isNaN(valefect) ){valefect = 0;} // Efectividad
+
 			valfrec=pinffrec;
-			if ( isNaN(valfrec) ){valfrec = 0;}
+			if ( isNaN(valfrec) ){valfrec = 0;}  // Frecuencia
+			
 			valcontrol=pinfcontrol;
 			if ( isNaN(valcontrol) ){valcontrol = 0;}
 			let posicion = parItemCtrl.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
 			}
+			itemcontrol = pitemcontrol;
 			////alert('itemcontrol...'+itemcontrol);			
 			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
 			txtCat = txtCat.substr(0,1);
 			//alert('Categoria en 3y4...'+txtCat);
+			
 			if( txtCat == "P" ){
 				//alert('Cat:  mover Abajo');
 				movercols = 0;
@@ -1009,11 +1180,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
 			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+
+			//Realizado
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
 			
 			//let posicionesmover = 0;
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
@@ -1031,7 +1210,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			}
 			
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
-		}		
+		}
 		
 		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
@@ -1049,10 +1228,11 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			var pvalefec=p13;
 			var pvalfrec=p14;
 			var pvalcontrol=p15;
+			////alert('fnMatRiesgo pvalcontrol....'+pvalcontrol);
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
-			////alert('params...'+paramet);
+			/////* alert('params...'+paramet);
 			$.ajax({
 				async: false,
 				type: "POST",
@@ -1074,6 +1254,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						success: function(datos){
 							let obj = JSON.parse(datos);
 							let x = JSON.stringify(datos);
+							console.log('x...'+x);
 							x= x.substr(0,1);
 							if( x != "R" ){
 								$("#lblprob2").html(obj.body[0]['LBLProb']);
@@ -1300,6 +1481,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow")
+			$('#sidebarToggle').click();
 			$("#zonadata").hide()
             $('.select2').select2()
 
@@ -1750,7 +1932,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				
 				//var paramet = $('#formap').serialize()
 				var paramet = mks
-				alert(paramet);
+				//alert(paramet);
 				$.ajax({
                     type: "POST",
                     url: "grabaerUpd1.php",

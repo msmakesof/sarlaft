@@ -826,8 +826,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}		
 		
 		function fnCategoria(pValue){
-			//alert('pValue....'+pValue.value);			
-			var cadena = pValue.value;
+			/////* alert('pValue....'+pValue.value);
+			/////* alert('pValue....'+pValue);
+			var cadena = pValue //.value;
 			categoria = cadena
 			let posicion = cadena.indexOf('-');
 			if (posicion !== -1){
@@ -853,11 +854,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
 			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+			
+			// Mover bolita
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
 			
 			//posicionesmover = 0;			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
@@ -878,13 +887,15 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 		
 		function fnRealizado(pValue){
-			moverbolita = pValue.value;  // S o N
+			////alert('pValue fnRealizado er.php......'+pValue);
+			moverbolita = pValue;  ////.value;  // S o N
 			itemcontrol = moverbolita.substr(2);
 			////alert(itemcontrol);
-			moverbolita = moverbolita.substr(0,1);			
+			moverbolita = moverbolita.substr(0,1);
 			
 			////alert('Categoria...'+txtCat);
 			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
 			txtCat = txtCat.substr(0,1);			
 			if( txtCat == "P" ){  
@@ -897,10 +908,14 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
+			}
+			else{
+				moverfils = 0;
+				movercols = 0;
 			}
 			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
@@ -949,8 +964,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			}
 			////alert('itemcontrol...'+itemcontrol);			
 			// Para la Categoria
-			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
-			txtCat = txtCat.substr(0,1);
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
+			categoriatxt = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = categoriatxt.substr(0,1);
 			//alert('Categoria en 3y4...'+txtCat);
 			if( txtCat == "P" ){
 				//alert('Cat:  mover Abajo');
@@ -962,11 +978,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				movercols = 1;
 				moverfils = 0;
 			}
-			else { 
+			else if( txtCat == "A" ){ 
 				//alert('Cat:  mover Abajo e Izquierda'); 
 				movercols = 1;
 				moverfils = 1;
 			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+			
+			//Realizado
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
 			
 			//let posicionesmover = 0;
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
@@ -982,9 +1006,86 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			else {
 				posicionesmover = 0;
 			}
-			
+			//alert('param fnRegla_3_4 valfrec.....'+valfrec);
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
-		}		
+		}
+		
+		function fnRegla_32_42(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
+			valDoc = parDoc;
+			if ( isNaN(valDoc) ){valDoc = 0;}
+			//alert('valDoc...'+valDoc);
+			valApl = parApl;
+			if ( isNaN(valApl) ){valApl = 0;}
+			//alert('valApl....'+valApl);
+			valEfe = parEfe;
+			if ( isNaN(valEfe) ){valEfe = 0;}
+			//alert('valEfe....'+valEfe);
+			valEva = parEva;
+			if ( isNaN(valEva) ){valEva = 0;}
+			//alert('valEva....'+valEva);			
+			valprop=pinfprop;
+			if ( isNaN(valprop) ){valprop = 0;}
+			valejec=pinfejec;
+			if ( isNaN(valejec) ){valejec = 0;}
+			valefect=pinfefec;
+			if ( isNaN(valefec) ){valefec = 0;}
+			valfrec=pinffrec;
+			if ( isNaN(valfrec) ){valfrec = 0;}
+			valcontrol=pinfcontrol;
+			if ( isNaN(valcontrol) ){valcontrol = 0;}
+			let posicion = parItemCtrl.indexOf('-');
+			if (posicion !== -1){
+				itemcontrol = parItemCtrl.substr(posicion+1) ;
+			}
+			////alert('itemcontrol...'+itemcontrol);			
+			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = categoria.substr(0,1);
+			//alert('Categoria en 3y4...'+txtCat);
+			if( txtCat == "P" ){
+				//alert('Cat:  mover Abajo');
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else if( txtCat == "A" ){ 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+			
+			//Realizado
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
+			
+			//let posicionesmover = 0;
+			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
+			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
+			let sumaitems = valDoc + valApl + valEfe + valEva;
+			
+			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
+				posicionesmover = 1;
+				if( sumaitems >= <?php echo $Umbral; ?> ){
+					posicionesmover = 2;
+				}
+			}
+			else {
+				posicionesmover = 0;
+			}
+			//alert('param fnRegla_3_4 valfrec.....'+valfrec);
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
+			return
+		}
+
+		
 		
 		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
@@ -1001,11 +1102,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			var pvalejec=p12;
 			var pvalefec=p13;
 			var pvalfrec=p14;
+			//alert('param pvalfrec en er......'+pvalfrec);
 			var pvalcontrol=p15;
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
-			////alert('params...'+paramet);
+			/////* alert('params...'+paramet);
 			$.ajax({
 				async: false,
 				type: "POST",
@@ -1037,6 +1139,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						}
 					})
 					let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&rea="+moverbolita+"&cat="+pcategoria+"&doc="+pvaldoc+"&apl="+pvalapl+"&efe="+pvalefe+"&eva="+pvaleva+"&prop="+pvalprop+"&ejec="+pvalejec+"&efec="+pvalefec+"&frec="+pvalfrec+"&control="+pvalcontrol+"&ruta=../";
+					////alert('paramet en er.....'+paramet);
 					$.ajax({
 						async: false,
 						type: "POST",
@@ -1050,7 +1153,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			})			
 		}
 		
-				var arrTR = new Array();
+		var arrTR = new Array();
 		let TR = document.querySelectorAll('.tiporie');
 		Array.prototype.forEach.call(TR, function(elements, index) {
 			let xid = elements.options[elements.selectedIndex].value
@@ -1220,6 +1323,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
+			$('#sidebarToggle').click();
 			$("#zonadata").hide()
             $('.select2').select2()
 

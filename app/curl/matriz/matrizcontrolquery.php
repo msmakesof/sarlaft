@@ -213,7 +213,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//*echo "DELMX....$DELMX<br>";			
 
 			$sqlmov="";
-			$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S'");
+			// Verificar si existe un control del evento de riesgo grabado en MOV_MatrizControl
+			$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S' AND MOV_Estado <> 'D' ");
 
 			$regcta = sqlsrv_fetch_array($sqlmov);
 			$CuentaTotal = $regcta['TotControl'];
@@ -224,12 +225,12 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			
 			if($CuentaTotal == 0){						
 				$sqlmov="INSERT INTO MOV_MatrizControl (MOV_IdEventoMRC, MOV_FilaMRC, MOV_ColumnaMRC, MOV_CustomerKeyMRC, MOV_DateStampMRC, MOV_TieneControlMRC, MOV_UserKeyMRC, MOV_MoverFilas, MOV_MoverCols, MOV_PosicionesAMover, MOV_NumControl, MOV_FilsMovidas, MOV_ColsMovidas) VALUES (".$er.",".$posfilx.",".$poscolx.",'".$CustomerKey."','".$DateStamp."','S','".$UserKey."',".$pmoverfils.",".$pmovercols.",".$pposicionmover.",".$nrocontrol.",".$MOV_FilsMovidas.",".$MOV_ColsMovidas.")";	
-		////echo "sq insert MC.......$sqlmov<br>";
+				////echo "sq insert MC.......$sqlmov<br>";
 				/////$query = sqlsrv_query($conn,$sqlmov);	
 			}
 			else{							
 				$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfilx, MOV_ColumnaMRC=$poscolx, MOV_MoverFilas=$pmoverfils, MOV_MoverCols= $pmovercols, MOV_FilsMovidas = $MOV_FilsMovidas, MOV_ColsMovidas = $MOV_ColsMovidas, MOV_UserKeyMRC='$UserKey', MOV_DateStampMRC='$DateStamp', MOV_PosicionesAMover=$pposicionmover WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
-		////echo "upd.........$sqlmov<br>";
+				////echo "upd.........$sqlmov<br>";
 				$query = sqlsrv_query($conn,$sqlmov);
 			}
 			
@@ -249,7 +250,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//echo "sqllog....$sqllog<br>";
 		
 		// Sumatoria por Filas y Columnas en la Matriz de Riesgo de Control o Residual
-		$sqlmov=sqlsrv_query($conn,"SELECT SUM(MOV_FilsMovidas) AS SumFils, SUM(MOV_ColsMovidas) AS SumCols FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er) ;
+		$sqlmov=sqlsrv_query($conn,"SELECT SUM(MOV_FilsMovidas) AS SumFils, SUM(MOV_ColsMovidas) AS SumCols FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_Estado <> 'D' ") ;
 		$regtot = sqlsrv_fetch_array($sqlmov);
 		$SumFils = $regtot['SumFils'] ;
 		$SumCols = $regtot['SumCols'] ;
@@ -329,7 +330,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
-						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';
+						////* $condimg = '<img src="../../img/circle.png" width="10px" height="10px"/>';
+						$condimg = '<img src="../../img/circle.png" width="16px" height="16px"/>';
 					}
 					else {
 						$condimg = "&nbsp;";

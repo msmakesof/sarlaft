@@ -4,7 +4,8 @@ Created : Mauricio Sánchez Sierra
 Date: 2021-08-01
 Description: Usada para calcular posicionamiento
              de la bolita para la MRC de acuerdo
-			 a lo seleccionado en el MRI
+			 a lo seleccionado en el MRI, ciando
+			 ya existe por lo menos un control
 *************************************************/
 if( isset($_POST["ck"]) && $_POST["ck"] != "" ){
 	$CustomerKey=$_POST["ck"];
@@ -101,6 +102,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 					$condimg = "";
 					if($m == $posfil && $c == $poscol) { 
+						////*$condimg = '<img src="../../img/circle.png" width="30px" height="30px" />';
 						$condimg = '<img src="../../img/circle.png" width="16px" height="16px" />';
 					}
 					else { 
