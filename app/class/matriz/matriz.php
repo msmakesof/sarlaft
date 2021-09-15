@@ -44,11 +44,12 @@
 		
 		// GET ALL
 		public function getLabel(){	
-            $sql = "SELECT MOV_FilaMRC, MOV_ColumnaMRC, P.PRO_Nombre AS LBLProb, C.CSC_Nombre AS LBLConsec
+            $sql = "SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, P.PRO_Nombre AS LBLProb, C.CSC_Nombre AS LBLConsec
 			FROM  ". $this->db_table ."
             JOIN PRO_Probabilidad AS P ON P.PRO_Escala = MOV_FilaMRC
             JOIN CSC_Consecuencia AS C ON C.CSC_Escala = MOV_ColumnaMRC
-			WHERE MOV_CustomerKeyMRC = ? AND MOV_IdEventoMRC = ? AND MOV_IdMovimientoMRC = ? ";
+			WHERE MOV_CustomerKeyMRC = ? AND MOV_IdEventoMRC = ? ORDER BY MOV_IdMovimientoMRC DESC";
+			// AND MOV_IdMovimientoMRC = ? 
 			//echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 				//	OFFSET $offset ROWS FETCH NEXT $per_page ROWS ONLY

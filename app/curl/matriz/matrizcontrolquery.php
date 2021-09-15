@@ -181,8 +181,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		
 		$PosActualFilsMRI =$reg['MOV_FilaMRI'];      // Posicion Actual para Fila
 		$PosActualColsMRI =$reg['MOV_ColumnaMRI'];   // Posicion Actual para Columna 
-		
-		//*echo "1- Valores MRI  fils...$PosActualFilsMRI    Cols....$PosActualColsMRI<br>";
+		/////*echo "1- Valores MRI  fils...$PosActualFilsMRI    Cols....$PosActualColsMRI<br>";
 		
 		$MOV_FilsMovidas = 0;
 		$MOV_ColsMovidas = 0;
@@ -203,7 +202,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$MOV_ColsMovidas = $pmovercols * $pposicionmover;
 		}
 		
-		//*echo "echo 2- Filas movidas MOV_FilsMovidas.....$MOV_FilsMovidas    Cols Movidas:: MOV_ColsMovidas......$MOV_ColsMovidas<br>";
+		/////*echo "echo 2- Filas movidas MOV_FilsMovidas.....$MOV_FilsMovidas    Cols Movidas:: MOV_ColsMovidas......$MOV_ColsMovidas<br>";
 		
 		////  Resto filas y columnas movidas a la posición actual de la MRI
 		$posfilx = $PosActualFilsMRI - $MOV_FilsMovidas;
@@ -215,6 +214,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$sqlmov="";
 			// Verificar si existe un control del evento de riesgo grabado en MOV_MatrizControl
 			$sqlmov=sqlsrv_query($conn,"SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S' AND MOV_Estado <> 'D' ");
+			
+			/////*echo "SELECT COUNT(MOV_IdMovimientoMRC) AS TotControl FROM MOV_MatrizControl WHERE MOV_CustomerKeyMRC='".$CustomerKey."' AND MOV_IdEventoMRC =".$er." AND MOV_NumControl=".$nrocontrol." AND MOV_IdMovimientoMRC =".$DELMX." AND MOV_TieneControlMRC = 'S' AND MOV_Estado <> 'D' <br>";
 
 			$regcta = sqlsrv_fetch_array($sqlmov);
 			$CuentaTotal = $regcta['TotControl'];
@@ -262,13 +263,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$SumCols = 0;
 		}
 		
-		//*echo "2-1  filas Movidas en DB..$SumFils    Cols  Movidas en DB..$SumCols<br>";
+		/////*echo "2-1  filas Movidas en DB..$SumFils    Cols  Movidas en DB..$SumCols<br>";
 		$Sum_FilsMovidas = 0;
 		$Sum_ColsMovidas = 0;
 		$Sum_FilsMovidas = $SumFils ;
 		$Sum_ColsMovidas = $SumCols ;
 		
-		//echo "2-2  Sumat Movidas:: $SumFils + $MOV_FilsMovidas    Sumat Cols  Movidas:: $SumCols + $MOV_ColsMovidas<br>";
+		/////*echo "2-2  Sumat Movidas:: $SumFils + $MOV_FilsMovidas    Sumat Cols  Movidas:: $SumCols + $MOV_ColsMovidas<br>";
 		
 		// Ubicar la bolita en su nueva posicion (Fil, Col) en MRC
 		$posfil = $PosActualFilsMRI - $SumFils ;
@@ -291,7 +292,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			}
 		}
 	
-		//*echo "3- Nueva ubicacion MRc  fils...$posfil    Cols....$poscol<br>";
+		/////*echo "3- Nueva ubicacion MRc  fils...$posfil    Cols....$poscol<br>";
 		//Actualizo la nueva ubicación de la bolita en MRC
 		$sqlmov="UPDATE MOV_MatrizControl SET MOV_FilaMRC =$posfil, MOV_ColumnaMRC=$poscol WHERE MOV_CustomerKeyMRC='$CustomerKey' AND MOV_IdEventoMRC = $er AND MOV_NumControl = $nrocontrol AND MOV_IdMovimientoMRC = $DELMX";
 		$query = sqlsrv_query($conn,$sqlmov);

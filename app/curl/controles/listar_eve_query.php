@@ -29,8 +29,8 @@ $conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
 
 ////$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
 
-$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles JOIN MOV_MatrizControl ON MOV_IdEventoMRC = ECTR_IdEventoMRC AND MOV_NumControl = ECTR_NumControl AND MOV_Estado = 'G' WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."'";
-echo $query;
+$query = "SELECT ECTR_Id, ECTR_IdControl, ECTR_NumControl, ECTR_IdPropietario, ECTR_IdEjecutor, ECTR_IdEfectividad, ECTR_IdFrecuencia, ECTR_IdCategoria,ECTR_IdRealizado, ECTR_IdDocumentado, ECTR_IdAplicado, ECTR_IdEfectivo, ECTR_IdEvaluado, ECTR_IdEventoMRC, ECTR_CustomerKey, ECTR_UserKey FROM ECTR_Controles JOIN MOV_MatrizControl ON MOV_IdEventoMRC = ECTR_IdEventoMRC AND MOV_NumControl = ECTR_NumControl AND MOV_Estado = 'G' WHERE ECTR_IdEventoMRC=".$IdEvento." AND ECTR_CustomerKey='".$CustomerKey."' AND (ECTR_IdCategoria <> 'CORRECTIVO' AND ECTR_IdCategoria <> 'PREVENTIVO' AND ECTR_IdCategoria <> 'AMBOS') ";
+//echo $query;
 $stmt = sqlsrv_query($conn,$query);
 
 if ( $stmt === false)
@@ -56,7 +56,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	
 	$parDelete = "N-".$NumControl;
 	/*$UserKey=trim($row['ECTR_UserKey']);*/
-	echo "idFrecuencia......$IdFrecuencia <br>";
+	////*echo "idFrecuencia......$IdFrecuencia <br>";
 ?>		
 	<tr id="CTR-<?php echo $NumControl; ?>">
 		<td colspan="3">			
@@ -439,8 +439,8 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	function fnselProp(ParId, ParReg){
 		var itemcontrol = ParId.name;
 		itemcontrol = itemcontrol.substr(7);
-		alert('itemcontrol propietario.....'+itemcontrol);
-		alert('propietario...'+itemcontrol);
+		////*alert('itemcontrol propietario.....'+itemcontrol);
+		////*alert('propietario...'+itemcontrol);
 		//Control
 		infcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
 		//Propietario
@@ -817,7 +817,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 	}
 
 	function fxSumar(parSumar, parIdControl){
-		alert(parSumar);	
+		////*alert(parSumar);	
 		let id = "";
 		let nombre = "";
 		let color = "";
@@ -947,7 +947,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			let sumaitems = valDoc + valApl + valEfe + valEva;
 			alert('sumaitems desde realizado...'+sumaitems);
 			
-			alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
+			////*alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
 				posicionesmover = 1;
 				if( sumaitems >= <?php echo $Umbral; ?> ){

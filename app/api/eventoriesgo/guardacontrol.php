@@ -64,7 +64,7 @@ $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($ck);
 
 $sqlmov="UPDATE ECTR_Controles SET ECTR_IdPropietario=".$prop.", ECTR_IdEjecutor=".$ejec.", ECTR_IdEfectividad=".$efec.", ECTR_IdFrecuencia=".$frec.", ECTR_UserKey ='".$uk."', ECTR_IdCategoria='".$cat."', ECTR_IdRealizado='".$rea."', ECTR_IdDocumentado=".$doc.", ECTR_IdAplicado=".$apl.", ECTR_IdEfectivo=".$efe.", ECTR_IdEvaluado=".$eva.", ECTR_IdControl=".$control." WHERE ECTR_CustomerKey ='".$ck."' AND ECTR_IdEventoMRC =".$er." AND ECTR_NumControl=".$nrocontrol;
-echo $sqlmov;
+////*echo $sqlmov;
 $query = sqlsrv_query($conn,$sqlmov);
 if($query){
     echo "S";

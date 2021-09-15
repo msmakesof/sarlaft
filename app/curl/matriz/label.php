@@ -51,8 +51,8 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-    $url = $urlServicios."api/matriz/label.php?ck=".$CustomerKey."&er=".$er."&nreg=".$nrocontrol;   // Esto es para pintar las matriz
-	//echo "url label...$url<br>";
+    $url = $urlServicios."api/matriz/label.php?ck=".$CustomerKey."&er=".$er;  ////."&nreg=".$nrocontrol;   // Esto es para pintar las matriz
+	////echo "url label...$url<br>";
 	$resultado="";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);

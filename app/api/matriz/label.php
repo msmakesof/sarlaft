@@ -14,7 +14,7 @@
 	
     $items->MOV_CustomerKeyMRC = isset($_GET['ck']) ? $_GET['ck'] : die();
     $items->MOV_IdEventoMRC = isset($_GET['er']) ? $_GET['er'] : die();
-	$items->MOV_IdMovimientoMRC = isset($_GET['nreg']) ? $_GET['nreg'] : die();
+	////$items->MOV_IdMovimientoMRC = isset($_GET['nreg']) ? $_GET['nreg'] : die();
 	
 	$stmt = $items->getLabel();
     $itemCount = $stmt->rowCount();

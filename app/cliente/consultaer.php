@@ -630,8 +630,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 								$FilaMRC = $FilaMRC;
 								$ColumnaMRC = $ColumnaMRC;
 								$er=$IdEvento;
-								echo "$FilaMRC  - $ColumnaMRC  - $er";
-								include('../curl/matriz/matrizcontrolquery.php'); 
+								////*echo "$FilaMRC  - $ColumnaMRC  - $er";
+								include('../curl/matriz/matrizcontrolquery.php');
+								/////*include('../curl/matriz/matrizcontrol.php');
 							?>
 							</div>	
 							
@@ -1563,8 +1564,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					//alert(paramet);
 					$.ajax({
 						type: "POST",
-						//url: "../curl/matriz/matriz.php",
-						url: "../curl/matriz/matrizquery.php",
+						url: "../curl/matriz/matriz.php",
+						////url: "../curl/matriz/matrizquery.php",   // con esta no funciona correctamente
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1573,7 +1574,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$("#matrizz1").show();
 							$("#matrizz1Control").show();
 							$("#matrizz1").html(datos);
-							//alert('afecta...'+afecta);
+							////*alert('afecta...'+afecta);
 							if(afecta != "S"){
 								$("#matrizz1Control").html(datos);							
 							}
@@ -1586,8 +1587,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
 										
-										/* aki debo actualizar etiquetas para los labels de la MRC*/
-										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
+										/* aki actualizo etiquetas para los labels de la MRC*/  //"&nrocontrol="+itemcontrol+
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&ruta=../";
+										////*alert('parms...'+parms);
 										$.ajax({
 											async: false,
 											type: "POST",
@@ -1596,7 +1598,9 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 											success: function(datos){
 												let obj = JSON.parse(datos);
 												let x = JSON.stringify(datos);
+												//alert('x0...'+x);
 												x= x.substr(0,1);
+												//alert('x1...'+x);
 												if( x != "R" ){
 													$("#lblprob2").html(obj.body[0]['LBLProb']);
 													$("#lblconsec2").html(obj.body[0]['LBLConsec']);
@@ -1653,8 +1657,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					//alert(paramet);
 					$.ajax({
 						type: "POST",
-						////url: "../curl/matriz/matriz.php",
-						url: "../curl/matriz/matrizquery.php",
+						url: "../curl/matriz/matriz.php",
+						////url: "../curl/matriz/matrizquery.php",
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1675,8 +1679,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
 										
-										/* aki debo actualizar etiquetas para los labels de la MRC*/
-										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
+										/* aki debo actualizar etiquetas para los labels de la MRC*/   // "&nrocontrol="+itemcontrol+
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&ruta=../";
 										$.ajax({
 											async: false,
 											type: "POST",
