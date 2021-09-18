@@ -67,7 +67,7 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(CLI_IdInfoBasica) AS CLI_ActividadEconomica
                     FROM ". $this->db_table ."
-                    WHERE CLI_ActividadEconomica = ? AND CLI_Mision = ? AND CLI_Vision = ? AND CLI_IdInfoBasica <> ? ";
+                    WHERE CLI_ActividadEconomica = ? AND CLI_Mision = ? AND CLI_Vision = ? AND CLI_IdInfoBasica <> ? AND CLI_CustomerKey = ?";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
@@ -75,6 +75,7 @@
             $stmt->bindParam(2, $this->CLI_Mision, PDO::PARAM_STR);
             $stmt->bindParam(3, $this->CLI_Vision, PDO::PARAM_STR);
 			$stmt->bindParam(4, $this->CLI_IdInfoBasica, PDO::PARAM_INT);
+			$stmt->bindParam(5, $this->CLI_CustomerKey, PDO::PARAM_STR);
 
             $stmt->execute();
 

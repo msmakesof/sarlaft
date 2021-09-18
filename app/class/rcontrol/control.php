@@ -30,6 +30,17 @@
 			return $stmt;
         }
 		
+		// GET ALL
+        public function getCkAll(){
+            $sql = "SELECT CON_IdControl, CON_CustomerKey, CON_Nombre, CON_UserKey, CON_TipoRiesgoKey, DateStamp 
+            FROM ". $this->db_table ." WHERE CON_CustomerKey = ? ORDER BY CON_Nombre ";
+            //echo $sql;
+			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+			$stmt->bindParam(1, $this->CON_CustomerKey);
+			$stmt->execute();
+			return $stmt;
+        }
+		
 		// READ single ID
         public function getIdFR(){
             $sql = "SELECT TOP 1 ACC_IdAccion, ACC_Nombre, ACC_IdEstado FROM ". $this->db_table ." WHERE ACC_IdAccion = ? ";			
@@ -52,12 +63,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(CON_IdControl) AS CON_Nombre
                       FROM ". $this->db_table ."
-                    WHERE CON_Nombre = ? AND CON_IdControl <> ? ";
+                    WHERE CON_Nombre = ? AND CON_CustomerKey = ? AND CON_IdControl <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->CON_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->CON_IdControl, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->CON_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->CON_IdControl, PDO::PARAM_INT);
 
             $stmt->execute();
 

@@ -1,6 +1,6 @@
 <?php
 	include '../is_logged.php';
-//Archivo verifica que el usario que intenta acceder a la URL esta logueado
+	//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 	if (empty($_POST['MetodologiaName2'])){
 		$errors[] = "Ingresa el nombre de la Metodologia.";
 	} 
@@ -10,21 +10,27 @@
 		require_once '../../config/dbx.php';
 		$getUrl = new Database();
 		$urlServicios = $getUrl->getUrl();
+		
+		function saltoLinea($str) {
+			//return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
+			return $str;
+		}
 
 		// escaping, additionally removing everything that could be (html/javascript-) code
-		$nombre = trim($_POST["MetodologiaName2"]);
-		$nombre = str_replace(' ','%20',strtoupper($nombre));
-		$factorriesgo = trim($_POST["factorriesgo"]);
-		$factorriesgo = str_replace(' ','%20',strtoupper($factorriesgo));
-		$descripcion = trim($_POST["descripcion"]);
-		$descripcion = str_replace(' ','%20',strtoupper($descripcion));
-		$observaciones = trim($_POST["observaciones"]);
-		$observaciones = str_replace(' ','%20',strtoupper($observaciones));
+		$nombre = saltoLinea($_POST["MetodologiaName2"]);
+		////$nombre = str_replace(' ','%20',strtoupper($nombre));
+		$factorriesgo = saltoLinea($_POST["factorriesgo"]);
+		////$factorriesgo = str_replace(' ','%20',strtoupper($factorriesgo));
+		$descripcion = saltoLinea($_POST["descripcion"]);
+		////$descripcion = str_replace(' ','%20',strtoupper($descripcion));
+		$observaciones = saltoLinea($_POST["observaciones"]);
+		////$observaciones = str_replace(' ','%20',strtoupper($observaciones));
+		$CustomerKey= trim($_SESSION['Keyp']);
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/metodologia/revisarnombre.php?nombre=$nombre&id=0";
+		$url = $urlServicios."api/metodologia/revisarnombre.php?nombre=$nombre&ck=$CustomerKey&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -49,19 +55,18 @@
 		if($contar == ''){ $contar = 0;}
 		
 		if( $contar > 0)
-		{			
-			//$messages[] = 'E';
+		{
 			$msjx = "E";
 		}
 		else
 		{		
 			// Si todo va bien se hace el Insert
-			date_default_timezone_set("America/Bogota");
-			$CustomerKey=$_SESSION['Keyp'];
+			date_default_timezone_set("America/Bogota");			
 			$MetodologiaKey=time();
 			$UserKey=$_SESSION['UserKey'];
 			$DateStamp=date("Y-m-d H:i:s");
 			
+			/*
 			//&DS=$DateStamp
 			$params = "Nombre=$nombre&FactorRiesgo=$factorriesgo&Descripcion=$descripcion&Observaciones=$observaciones&CK=$CustomerKey&MK=$MetodologiaKey&UK=$UserKey";
 			$url = $urlServicios."api/metodologia/crear.php?$params";
@@ -89,33 +94,26 @@
 				JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 				JSON_ERROR_SYNTAX => 'Error de Sintaxis',
 			);
+			*/
+			
+			$getConnectionCli2 = new Database();
+			$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+			
+			$sqlQuery = "INSERT INTO MET_Metodologia (MET_Nombre, MET_FactorRiesgo, MET_Descripcion, MET_Observaciones, MET_CustomerKey, MET_MetodologiaKey, MET_USerKey, MET_DateStamp ) VALUES ('".htmlspecialchars(strip_tags($nombre))."','".htmlspecialchars(strip_tags($factorriesgo))."','".htmlspecialchars(strip_tags($descripcion))."','".htmlspecialchars(strip_tags($observaciones))."','".htmlspecialchars(strip_tags($CustomerKey))."','".htmlspecialchars(strip_tags($MetodologiaKey))."','".htmlspecialchars(strip_tags($UserKey))."','".htmlspecialchars(strip_tags($DateStamp))."')";
+			//echo "$sqlQuery";
+			$query = sqlsrv_query($conn,$sqlQuery);
 			
 			// if product has been added successfully
 			if ($query) {
-				//$messages[] = "O";
 				$msjx = "O";
 			} else {
-				//$errors[] = 'R';
 				$msjx = "F";
 			}
 		}		
 	} 
 	else 
 	{
-		//$errors[] = "D";
 		$msjx = "D";
 	}
-	/*
-	
-	if (isset($errors)){
-		foreach ($errors as $error) {
-			$msjx = $error; 
-		}
-	}
-	if (isset($messages)){	
-		foreach ($messages as $message) {
-			$msjx =$message; 
-		}
-	}*/
 	echo $msjx;
 ?>

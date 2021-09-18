@@ -17,14 +17,14 @@ include '../is_logged.php';
 		$escala = trim($_POST["Escala"]);
 		$color = $_POST["Color"];
 		$color = str_replace('#','',strtoupper($color));
-		$CustomerKey = $_SESSION['Keyp'];
+		$CustomerKey = trim($_SESSION['Keyp']);
 		$UserKey = $_SESSION['UserKey'];
 		
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/probabilidad/revisarnombre.php?nombre=$nombre&id=0";
+		$url = $urlServicios."api/probabilidad/revisarnombre.php?nombre=$nombre&ck=$CustomerKey&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);

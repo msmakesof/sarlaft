@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Efectividad($db);
 
 $item->EFE_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->EFE_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->EFE_IdEfectividad = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

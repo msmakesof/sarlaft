@@ -842,7 +842,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			itemcontrol = moverbolita.substr(2);
 			//alert('itemontrol desde fnRealizado....'+itemcontrol);
 			moverbolita = moverbolita.substr(0,1);
-			alert('moverbolita en fnRealizado....'+moverbolita);
+			////*alert('moverbolita en fnRealizado....'+moverbolita);
 			
 			////alert('Categoria...'+txtCat);
 			// Para la Categoria
@@ -945,7 +945,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
-			alert('sumaitems desde realizado...'+sumaitems);
+			////*alert('sumaitems desde realizado...'+sumaitems);
 			
 			////*alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
@@ -962,7 +962,7 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			
 			let nt = pValue.substr(2);
 			let er = eventoriesgo
-			alert('delete desde control nt...'+nt);	
+			////*alert('delete desde control nt...'+nt);	
 			let pidValue = "N-"+nt
 			$.ajax({
 				async: false,
@@ -977,7 +977,8 @@ while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC) ) {
 			})
 			itemcontrol = nt
 			//alert('pValue desde control....'+pidValue);
-			$("#CTR-" + nt).remove();
+			//$("#CTR-" + nt).remove();
+			$("#CTR-" + nt).hide();
 		}
 	
 	

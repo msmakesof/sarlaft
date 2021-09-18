@@ -11,6 +11,7 @@
 							<label>Nombre Consecuencia</label>
 							<textarea class="form-control" id="edit_name" name="edit_name" rows="3" required></textarea>
 							<input type="hidden" name="edit_id" id="edit_id" >
+							<input type="hidden" name="edit_ck" id="edit_ck" >
 						</div>
 					</div>
 					<div class="modal-footer">

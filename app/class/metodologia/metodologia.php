@@ -35,7 +35,7 @@
 		// GET ALL por CK
         public function getCkAll(){
             $sql = "SELECT MET_IdMetodologia, MET_FactorRiesgo, MET_Nombre, MET_Descripcion, MET_Observaciones, MET_CustomerKey, MET_MetodologiaKey, MET_USerKey FROM ". $this->db_table ." 
-            ORDER BY MET_Nombre ";            
+            WHERE MET_CustomerKey = ? ORDER BY MET_Nombre ";            
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 			$stmt->bindParam(1, $this->MET_CustomerKey);
 			$stmt->execute();
@@ -64,12 +64,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(MET_IdMetodologia) AS MET_Nombre
                     FROM ". $this->db_table ."
-                    WHERE MET_Nombre = ? AND MET_IdMetodologia <> ? ";
+                    WHERE MET_Nombre = ? AND MET_CustomerKey = ? AND MET_IdMetodologia <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->MET_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->MET_IdMetodologia, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->MET_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->MET_IdMetodologia, PDO::PARAM_INT);
 
             $stmt->execute();
 

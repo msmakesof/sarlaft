@@ -23,13 +23,13 @@ $reg=sqlsrv_fetch_array($query_empresa);
 
                 <?php include 'components/efectividad/content.php';?>
             </div>
-                <?php include 'components/footer.php';?>
+            <?php include 'components/footer.php';?>
         </div>
 
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
-                <?php include 'components/settings.php';?>
+    <?php include 'components/settings.php';?>
 </body>
 </html>

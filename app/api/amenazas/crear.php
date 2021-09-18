@@ -6,19 +6,26 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/rol/rol.php';
+include_once '../../class/amenazas/amenazas.php';
 
 $database = new Database();
-$db = $database->getConnection();
-$item = new RolUsers($db);
+$db = $database->getConnectionCli();
+$item = new Amenazas($db);
 
-$RolNombre = trim($_GET['RolNombre']);
-$Estado = trim($_GET['Estado']);
+$Nombre = trim($_GET['Nombre']);
+date_default_timezone_set("America/Bogota");
+$CustomerKey = trim($_GET['CK']);  //$_SESSION['Keyp'];
+$AmenazasKey = time();
+$UserKey = trim($_GET['UK']);  //$_SESSION['UserKey'];
+$DateStamp = date("Y-m-d H:i:s");
 
-$item->RolNombre = $RolNombre;
-$item->IdEstado = $Estado;
+$item->AmenazasName = $Nombre;
+$item->CustomerKey = $CustomerKey;
+$item->AmenazasKey = $AmenazasKey;
+$item->UserKey = $UserKey;
+$item->DateStamp = $DateStamp;
 
-if($item->createRol())
+if($item->create())
 {
 	echo 'S'; 
 } 

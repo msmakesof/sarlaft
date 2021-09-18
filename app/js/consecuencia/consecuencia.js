@@ -243,6 +243,8 @@
 			$('#edit_escala').val(escala)
 			var color = button.data('color') 
 			$('#edit_color').val(color)
+			var ck = button.data('ck')
+			$('#edit_ck').val(ck)
 			var id = button.data('id')
 			$('#edit_id').val(id)
 		})

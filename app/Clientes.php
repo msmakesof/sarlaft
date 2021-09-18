@@ -1,6 +1,5 @@
-<?php include 'ajax/is_logged.php';?>
-<?php require_once 'components/sql_server_login.php';?>
-<?php
+<?php include 'ajax/is_logged.php';
+require_once 'components/sql_server_login.php';
 
 // mks 20210516  verificar cUrl
 include 'curl/cliente/consulta.php';

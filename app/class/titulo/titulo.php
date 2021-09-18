@@ -76,28 +76,17 @@
 		
 		// CREATE
 		public function create(){
-			$sqlQuery = "INSERT INTO ". $this->db_table ." (CSC_CustomerKey, CSC_UserKey, CSC_Nombre, CSC_Escala, CSC_Color, CSC_TipoRiesgoKey, DateStamp) VALUES ( :ck, :uk, :nombre, :escala, :color, :trk, :ds )";
+			$sqlQuery = "INSERT INTO ". $this->db_table ." (TIT_Nombre, TIT_CustomerKey) VALUES ( :nombre, :ck )";
 			//echo $sqlQuery ;
 			$stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		
 			// sanitize
-			$this->CSC_CustomerKey = htmlspecialchars(strip_tags($this->CSC_CustomerKey));
-			$this->CSC_UserKey = htmlspecialchars(strip_tags($this->CSC_UserKey));            
-			$this->CSC_Nombre = htmlspecialchars(strip_tags($this->CSC_Nombre));
-            $this->CSC_Escala = htmlspecialchars(strip_tags($this->CSC_Escala));
-          //$this->CSC_Color = htmlspecialchars(strip_tags($this->CSC_Color));
-            $this->CSC_Color = '#'.$this->CSC_Color;
-            $this->CSC_TipoRiesgoKey = htmlspecialchars(strip_tags($this->CSC_TipoRiesgoKey));
-            $this->DateStamp = htmlspecialchars(strip_tags($this->DateStamp));
+			$this->TIT_Nombre = htmlspecialchars(strip_tags($this->TIT_Nombre));
+			$this->TIT_CustomerKey = htmlspecialchars(strip_tags($this->TIT_CustomerKey));
 		
 			// bind data
-			$stmt->bindParam(":ck", $this->CSC_CustomerKey, PDO::PARAM_STR);
-			$stmt->bindParam(":uk", $this->CSC_UserKey, PDO::PARAM_STR);            
-			$stmt->bindParam(":nombre", $this->CSC_Nombre, PDO::PARAM_STR);
-            $stmt->bindParam(":escala", $this->CSC_Escala, PDO::PARAM_STR);
-            $stmt->bindParam(":color", $this->CSC_Color, PDO::PARAM_STR);
-            $stmt->bindParam(":trk", $this->CSC_TipoRiesgoKey, PDO::PARAM_STR);
-            $stmt->bindParam(":ds", $this->DateStamp, PDO::PARAM_STR);
+			$stmt->bindParam(":nombre", $this->TIT_Nombre, PDO::PARAM_STR);
+			$stmt->bindParam(":ck", $this->TIT_CustomerKey, PDO::PARAM_STR);
 		
 			if($stmt->execute()){
 				return true;

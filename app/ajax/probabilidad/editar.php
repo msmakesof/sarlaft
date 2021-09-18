@@ -4,7 +4,6 @@ if (empty($_POST['edit_id'])){
 } 
 elseif (!empty($_POST['edit_id']))
 {
-	////require_once ("../components/sql_server_login.php");		
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
@@ -15,13 +14,14 @@ elseif (!empty($_POST['edit_id']))
 	$escala = trim($_POST["edit_escala"]);
 	$color = trim($_POST["edit_color"]);
 	$color = str_replace('#','',strtoupper($color));
+	$ck = trim($_POST["edit_ck"]);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/probabilidad/revisarnombre.php?nombre=$nombre&id=$id";
+	$url = $urlServicios."api/probabilidad/revisarnombre.php?nombre=$nombre&ck=$ck&id=$id";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);

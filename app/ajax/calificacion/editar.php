@@ -4,7 +4,6 @@ if (empty($_POST['edit_id'])){
 } 
 elseif (!empty($_POST['edit_id']))
 {
-	////require_once ("../components/sql_server_login.php");		
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
@@ -16,13 +15,15 @@ elseif (!empty($_POST['edit_id']))
 	$rangofin = trim($_POST["edit_rangofin"]);
 	$color = trim($_POST["edit_color"]);
 	$color = str_replace('#','',strtoupper($color));
+	$ck = trim($_POST["edit_ck"]);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/calificacion/revisarnombre.php?nombre=$nombre&id=$id";
+	$url = $urlServicios."api/calificacion/revisarnombre.php?nombre=$nombre&ck=$ck&id=$id";
+	////echo "revisar nombre.........$url";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);

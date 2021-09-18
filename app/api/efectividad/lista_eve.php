@@ -25,6 +25,7 @@
                 "EFE_IdEfectividad" => $EFE_IdEfectividad,
                 "EFE_Nombre" => $EFE_Nombre,
 				"EFE_CustomerKey" => $EFE_CustomerKey,
+				"EFE_TipoRiesgoKey" => $EFE_TipoRiesgoKey,
                 "EFE_UserKey" => $EFE_UserKey,
             );
             array_push($estadoArr["body"], $e);

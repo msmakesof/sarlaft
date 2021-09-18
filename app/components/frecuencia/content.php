@@ -16,7 +16,7 @@
                         <div>
                             <a href="#addFrecuenciaModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
-                                <span>Agregar nueva Frecuencia</span>
+                                <span>Agregar Frecuencia</span>
                             </a>
                         </div>
                     </div>

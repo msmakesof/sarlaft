@@ -63,12 +63,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(EFE_IdEfectividad) AS EFE_Nombre
                       FROM ". $this->db_table ."
-                    WHERE EFE_Nombre = ? AND EFE_IdEfectividad <> ? ";
+                    WHERE EFE_Nombre = ? AND EFE_CustomerKey = ? AND EFE_IdEfectividad <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->EFE_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->EFE_IdEfectividad, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->EFE_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->EFE_IdEfectividad, PDO::PARAM_INT);
 
             $stmt->execute();
 

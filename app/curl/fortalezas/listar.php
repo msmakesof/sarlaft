@@ -6,8 +6,8 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	$url = $urlServicios."api/perfil/lista.php";
-	////echo "url...$url<br>";
+	$url = $urlServicios."api/categoria/lista.php";
+	//echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);

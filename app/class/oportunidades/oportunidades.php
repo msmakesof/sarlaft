@@ -61,36 +61,44 @@
 
         // Busca Nombre para controlar Duplicados
         public function getBuscaNombre(){
-            $sql = "SELECT count(ACC_IdAccion) AS ACC_Nombre
-                      FROM ". $this->db_table ."
-                    WHERE ACC_Nombre = ? AND ACC_IdAccion <> ? ";
+            $sql = "SELECT count(id) AS OportunidadesName
+                    FROM ". $this->db_table ."
+                    WHERE OportunidadesName = ? AND CustomerKey = ? AND id <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->ACC_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->OportunidadesName, PDO::PARAM_STR);
+			$stmt->bindParam(2, $this->CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->id, PDO::PARAM_INT);
 
             $stmt->execute();
 
             $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            $this->ACC_Nombre = $dataRow['ACC_Nombre'];
+            $this->OportunidadesName = $dataRow['OportunidadesName'];
         }
 		
 		// CREATE
-		public function createAccion(){
-			$sqlQuery = "INSERT INTO ". $this->db_table ." (ACC_Nombre, ACC_IdEstado ) VALUES ( :nombreaccion , :idestado )";
+		public function create
+		(){
+			$sqlQuery = "INSERT INTO ". $this->db_table ." ( CustomerKey, OportunidadesKey, OportunidadesName, UserKey, DateStamp ) VALUES ( :ck, :ok, :nombre, :uk, :ds )";
 			//echo $sqlQuery ;
 			
 			$stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 		
 			// sanitize
-			$this->ACC_Nombre = htmlspecialchars(strip_tags($this->ACC_Nombre));
-			$this->ACC_IdEstado = htmlspecialchars(strip_tags($this->ACC_IdEstado));
+			$this->CustomerKey = htmlspecialchars(strip_tags($this->CustomerKey));
+			$this->OportunidadesKey = htmlspecialchars(strip_tags($this->OportunidadesKey));
+			$this->OportunidadesName = htmlspecialchars(strip_tags($this->OportunidadesName));
+			$this->UserKey = htmlspecialchars(strip_tags($this->UserKey));
+			$this->DateStamp = htmlspecialchars(strip_tags($this->DateStamp));
 		
 			// bind data
-			$stmt->bindParam(":nombreaccion", $this->ACC_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(":idestado", $this->ACC_IdEstado, PDO::PARAM_INT);
+			$stmt->bindParam(":ck", $this->CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(":ok", $this->OportunidadesKey, PDO::PARAM_STR);
+			$stmt->bindParam(":nombre", $this->OportunidadesName, PDO::PARAM_STR);
+			$stmt->bindParam(":uk", $this->UserKey, PDO::PARAM_STR);
+			$stmt->bindParam(":ds", $this->DateStamp, PDO::PARAM_STR);
 		
 			if($stmt->execute()){
 				return true;
@@ -99,24 +107,21 @@
 		}
 
 		// UPDATE
-        public function updateAccion(){
+        public function update(){
             $sqlQuery = "UPDATE ". $this->db_table ."
                     SET
-                    ACC_Nombre = :accionnombre,
-                    ACC_IdEstado = :idestado
-                    WHERE ACC_IdAccion = :id ";
+                    OportunidadesName = :nombre
+                    WHERE id = :id ";
 			//echo   $sqlQuery;
         
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         
-            $this->ACC_Nombre=htmlspecialchars(strip_tags($this->ACC_Nombre));
-			$this->ACC_IdEstado=htmlspecialchars(strip_tags($this->ACC_IdEstado));
-            $this->ACC_IdAccion=htmlspecialchars(strip_tags($this->ACC_IdAccion));
+            $this->OportunidadesName=htmlspecialchars(strip_tags($this->OportunidadesName));
+            $this->id=htmlspecialchars(strip_tags($this->id));
         
             // bind data
-            $stmt->bindParam(":accionnombre", $this->ACC_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(":idestado", $this->ACC_IdEstado, PDO::PARAM_INT);
-            $stmt->bindParam(":id", $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $this->OportunidadesName, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
         
             if($stmt->execute()){
                return true;
@@ -125,14 +130,14 @@
         }        
 
         // DELETE
-        function deleteAccion(){
-            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE ACC_IdAccion = ? ";
+        function delete(){
+            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE id = ? ";
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         
-            $this->ACC_IdAccion = htmlspecialchars(strip_tags($this->ACC_IdAccion));
+            $this->id = htmlspecialchars(strip_tags($this->id));
 
             // bind data
-            $stmt->bindParam(1, $this->ACC_IdAccion, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->id, PDO::PARAM_INT);
         
             if($stmt->execute()){
                 return true;

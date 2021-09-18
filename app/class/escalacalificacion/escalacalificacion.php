@@ -63,12 +63,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(ESC_IdEscalaCalificacion) AS ESC_Valor
                       FROM ". $this->db_table ."
-                    WHERE ESC_Valor = ? AND ESC_IdEscalaCalificacion <> ? ";
+                    WHERE ESC_Valor = ? AND ESC_CustomerKey = ? AND ESC_IdEscalaCalificacion <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->ESC_Valor, PDO::PARAM_INT);
-			$stmt->bindParam(2, $this->ESC_IdEscalaCalificacion, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->ESC_CustomerKey, PDO::PARAM_INT);
+			$stmt->bindParam(3, $this->ESC_IdEscalaCalificacion, PDO::PARAM_INT);
 
             $stmt->execute();
 

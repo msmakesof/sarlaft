@@ -13,12 +13,13 @@ include '../is_logged.php';
 		// escaping, additionally removing everything that could be (html/javascript-) code
 		$nombre = trim($_POST["Name2"]);
 		$nombre = str_replace(' ','%20',strtoupper($nombre));
+		$CustomerKey = trim($_SESSION['Keyp']);
 		
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/factoresriesgo/revisarnombre.php?nombre=$nombre&id=0";
+		$url = $urlServicios."api/factoresriesgo/revisarnombre.php?nombre=$nombre&ck=$CustomerKey&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);

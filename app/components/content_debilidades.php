@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <div>
-                            <a href="#addDebilidadesModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo Debilidad</span></a>
+                            <a href="#addDebilidadesModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Debilidad</span></a>
                         </div>
                     </div>
                 </div>
@@ -26,13 +26,12 @@
             <div id="resultados"></div><!-- Carga de datos ajax aqui -->
             <div class='outer_div'></div><!-- Carga de datos ajax aqui -->
             
-            
         </div>
     </div>
     <!-- Edit Modal HTML -->
-    <?php include("modal/modal_add_debilidades.php");?>
+    <?php include("modal/debilidades/modal_add.php");?>
     <!-- Edit Modal HTML -->
-    <?php include("modal/modal_edit_debilidades.php");?>
+    <?php include("modal/debilidades/modal_edit.php");?>
     <!-- Delete Modal HTML -->
-    <?php include("modal/modal_delete_debilidades.php");?>
-    <script src="js/debilidades.js"></script>
+    <?php include("modal/debilidades/modal_delete.php");?>
+    <script src="js/debilidades/debilidades.js"></script>

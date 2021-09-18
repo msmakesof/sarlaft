@@ -1,24 +1,25 @@
 <?php
+include '../is_logged.php';
 //Archivo verifica que el usario que intenta acceder a la URL esta logueado
-	if (empty($_POST['UserName2'])){
-		$errors[] = "Ingresa el nombre del Estado.";
+	if (empty($_POST['Name2'])){
+		$errors[] = "Ingresa el nombre de la Amenaza.";
 	} 
-	elseif (!empty($_POST['UserName2']))
-	{		
-		//require_once ("../../components/sql_server_login.php");
+	elseif (!empty($_POST['Name2']))
+	{
 		require_once '../../config/dbx.php';
 		$getUrl = new Database();
 		$urlServicios = $getUrl->getUrl();
 
 		// escaping, additionally removing everything that could be (html/javascript-) code
-		$estadonombre = trim($_POST["UserName2"]);
-		$estadonombre = str_replace(' ','%20',strtoupper($estadonombre));	
-
+		$nombre = trim($_POST["Name2"]);
+		$nombre = str_replace(' ','%20',strtoupper($nombre));
+		$CustomerKey = trim($_SESSION['Keyp']);
+		
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/estado/revisarnombre.php?nombre=$estadonombre&id=0";
+		$url = $urlServicios."api/amenazas/revisarnombre.php?nombre=$nombre&ck=$CustomerKey&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -47,11 +48,12 @@
 			$messages[] = 'E';
 		}
 		else
-		{		
+		{
 			// Si todo va bien se hace el Insert
-			$params = "NombreEstado=$estadonombre";
-			$url = $urlServicios."api/estado/crear.php?$params";			
-
+			$UserKey = $_SESSION['UserKey'];
+			$params = "Nombre=$nombre&CK=$CustomerKey&UK=$UserKey";
+			$url = $urlServicios."api/amenazas/crear.php?$params";			
+			//echo $url;
 			$query = "";
 			$resultado = "";
 			$ch = curl_init();
@@ -77,7 +79,7 @@
 			
 			// if product has been added successfully
 			if ($query) {
-				$messages[] = "O";
+				$messages[] = "S";
 			} else {
 				$errors[] = 'R';
 			}

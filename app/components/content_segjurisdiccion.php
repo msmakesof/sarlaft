@@ -4,7 +4,7 @@
             <?php include("components/color.php");?>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Administrar <b>Segmento Jusrisdicción</b></h2>
+                        <h2>Administrar <b>Segmento Jurisdicción</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <div>
-                            <a href="#addSegJurisdiccionModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo Segmento</span></a>
+                            <a href="#addSegJurisdiccionModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo Jurisdicción</span></a>
                         </div>
                     </div>
                 </div>

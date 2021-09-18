@@ -5,7 +5,7 @@ $getUrl = new Database();
 //$getConnection = new Database();
 $urlServicios = $getUrl->getUrl();
 $conex = $getUrl->getConnection();
-//$urlServicios = "http://localhost:8090/app/";
+
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	$url = $urlServicios."api/cliente/read.php";

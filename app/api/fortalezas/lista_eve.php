@@ -6,11 +6,10 @@
     include_once '../../class/fortalezas/fortalezas.php';
 
     $database = new Database();
-    $db = $database->getConnectionCli();
-
+    $db = $database->getConnectionCLi();
     $items = new Fortalezas($db);
+	
 	$items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
-
     $stmt = $items->getCkAll();
     $itemCount = $stmt->rowCount();
 
@@ -26,14 +25,12 @@
                 "id" => $id,
                 "FortalezasName" => $FortalezasName,
 				"CustomerKey" => $CustomerKey,
-                "UserKey" => $UserKey
+                "UserKey" => $UserKey,
             );
-
             array_push($estadoArr["body"], $e);
         }
         echo json_encode($estadoArr);
     }
-
     else{
         http_response_code(404);
         echo json_encode(

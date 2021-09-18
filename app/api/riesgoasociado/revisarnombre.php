@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new RiesgoAsociado($db);
 
 $item->RIA_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->RIA_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->RIA_IdRiesgoAsociado = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

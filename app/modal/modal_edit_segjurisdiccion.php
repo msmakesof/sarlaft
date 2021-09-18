@@ -3,12 +3,12 @@
 			<div class="modal-content">
 				<form name="edit_segjurisdiccion" id="edit_segjurisdiccion">
 					<div class="modal-header">						
-						<h4 class="modal-title">Editar Segmento</h4>
+						<h4 class="modal-title">Editar Jurisdicción</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
-							<label>Nombre Segmento</label>
+							<label>Nombre Jurisdicción</label>
 							<textarea class="form-control" id="edit_name" name="edit_name" rows="3" required></textarea>
 							<input type="hidden" name="edit_id" id="edit_id" >
 						</div>

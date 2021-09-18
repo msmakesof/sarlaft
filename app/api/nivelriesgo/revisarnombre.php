@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Nivelriesgo($db);
 
 $item->NIR_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->NIR_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->NIR_IdNivelRiesgo = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

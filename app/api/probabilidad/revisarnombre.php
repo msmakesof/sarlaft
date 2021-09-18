@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Probabilidad($db);
 
 $item->PRO_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->PRO_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->PRO_IdProbabilidad = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

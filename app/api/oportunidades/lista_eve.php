@@ -7,10 +7,9 @@
 
     $database = new Database();
     $db = $database->getConnectionCLi();
-
     $items = new Oportunidades($db);
-    $items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
-
+	
+	$items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
     $stmt = $items->getCkAll();
     $itemCount = $stmt->rowCount();
 
@@ -27,7 +26,6 @@
                 "OportunidadesName" => $OportunidadesName,
 				"CustomerKey" => $CustomerKey,
                 "UserKey" => $UserKey,
-                "OportunidadesKey" => $OportunidadesKey
             );
             array_push($estadoArr["body"], $e);
         }

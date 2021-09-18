@@ -1,7 +1,6 @@
 <?php
 include('../is_logged.php');
 /* Connect To Database*/
-//require_once ("../components/sql_server.php");	
 require_once '../../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -9,9 +8,7 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 $action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 if($action == 'ajax')
 {
-	$query = sqlsrv_query($conn,"SELECT FAR_IdFactorRiesgo, FAR_CustomerKey, FAR_FactorRiesgoKey, FAR_Nombre, FAR_UserKey FROM FAR_FactorRiesgo WHERE FAR_CustomerKey='".$_SESSION['Keyp']."'");	
-	{		
-		include('../../components/table.php');
+	include('../../components/table.php');
 ?>
 				<tr>
 					<th class='text-center'>#</th>
@@ -24,7 +21,10 @@ if($action == 'ajax')
 			</thead>
 			<tbody>	
 					<?php
-					include '../../curl/calificacion/listar.php';
+					//include '../../curl/calificacion/listar.php';
+					$CustomerKey = trim($_SESSION['Keyp']);
+					//echo $CustomerKey;
+					include '../../curl/calificacion/listar_eveall.php';
 					foreach($data as $key => $row) {}				
 					if( $key == "message")
 					{
@@ -44,7 +44,7 @@ if($action == 'ajax')
 								$rangofin=$data['body'][$i]['CAL_RangoFinal'];
 								$Name= trim($data['body'][$i]['CAL_Nombre']);
 								$color= trim($data['body'][$i]['CAL_Color']);
-								$CustomerKey=$data['body'][$i]['CAL_CustomerKey'];
+								$CustomerKey=trim($data['body'][$i]['CAL_CustomerKey']);
 								$TipoRiesgoKey=$data['body'][$i]['CAL_CalificacionKey'];
 								$UserKey=$data['body'][$i]['CAL_UserKey'];
 					?>	
@@ -58,7 +58,7 @@ if($action == 'ajax')
 									<div style="color:white; font-size:1px"><?php echo $color ;?></div>
 								</td>
 								<td class='text-left'>
-									<a href="#" data-target="#editCalificacionModal" class="edit" data-toggle="modal" data-name="<?php echo $Name; ?>" data-rangoini="<?php echo $rangoini; ?>" data-rangofin="<?php echo $rangofin; ?>" data-color="<?php echo $color; ?>" data-id="<?php echo $id; ?>">
+									<a href="#" data-target="#editCalificacionModal" class="edit" data-toggle="modal" data-name="<?php echo $Name; ?>" data-rangoini="<?php echo $rangoini; ?>" data-rangofin="<?php echo $rangofin; ?>" data-color="<?php echo $color; ?>" data-ck="<?php echo $CustomerKey; ?>" data-id="<?php echo $id; ?>">
 										<i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i>
 									</a>
 									<a href="#deleteCalificacionModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>">
@@ -66,14 +66,13 @@ if($action == 'ajax')
 									</a>
 								</td>
 							</tr>
-					<?php } 
+					<?php 	} 
 						}	
 					}
 					?>
 			</tbody>			
 		</table>
 	</div>
-<?php	
-	}	
+<?php
 }
 ?>

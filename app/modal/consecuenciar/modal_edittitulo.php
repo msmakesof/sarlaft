@@ -11,7 +11,7 @@
 		<div class="modal-content">
 			<form name="fedit_titulo" id="fedit_titulo">
 				<div class="modal-header">						
-					<h4 class="modal-title let">Editar Texto <?php echo $NombreTitulo; ?>.</h4>
+					<h4 class="modal-title let">Editar Texto: <?php echo $NombreTitulo; ?>.</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">					
@@ -19,6 +19,8 @@
 						<label>Nombre </label>
 						<input type="text" name="edit_nametitulo" id="edit_nametitulo" class="form-control" maxlength="50" value="<?php echo $NombreTitulo ; ?>" required/>
 						<input type="hidden" name="edit_idtitulo" id="edit_idtitulo" value="<?php echo $IdTitulo ; ?>"/>
+						<a href="#" data-target="#editModiftituloModal" class="edit" data-toggle="modal" data-nametitulo="<?php echo $NombreTitulo; ?>" data-idtitulo="<?php echo $IdTitulo ; ?>">
+						</a> 
 					</div>																			
 				</div>
 				<div class="modal-footer">

@@ -1,16 +1,16 @@
-<?php include '../ajax/is_logged.php';?>
-<?php require_once '../components/sql_server.php';
-$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+<?php 
+include '../ajax/is_logged.php';
+require_once '../config/dbx.php';
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+
+$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
-//echo "color". $reg['CustomerColor'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,26 +24,18 @@ $CustomerKey = $_SESSION['Keyp'];
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
-
     <!-- Select2 -->
 	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
-
 </head>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -291,9 +283,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -394,9 +384,6 @@ $CustomerKey = $_SESSION['Keyp'];
 								$NombreResponsableSeg=trim($data['body'][$i]['NombreResponsableSeg']);
 								$NombreResponsableApr=trim($data['body'][$i]['NombreResponsableApr']);
 								$CustomerKey=trim($data['body'][$i]['CustomerKey']);
-                                // Tareas por Plan y Customer
-                                //include '../curl/plan/listartareas.php';
-                                //$nrotareaes = 
 						?>	
 						<tr>
 							<td class='text-rigth'>
@@ -545,7 +532,6 @@ $CustomerKey = $_SESSION['Keyp'];
                         </div>
                     </div>
                 </div>
-
 
             </div>
             <!-- End of Main Content -->
@@ -706,37 +692,24 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-    <!-- <script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>  -->
-
     <!-- Select2 -->
 	<script src="../plugins/select2/js/select2.full.min.js"></script>
-
     <!-- Redirect -->
 	<script src="../plugins/redirect/jquery.redirect.js"></script>
-
     <!-- expor pdf -->
     <script src="../plugins/pdf/jspdf.min.js"></script>
     <script src="../plugins/pdf/jspdf-autotable.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
-    <script src="https://rawgit.com/someatoms/jsPDF-AutoTable/master/dist/jspdf.plugin.autotable.js"></script> -->
-
     <!-- Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
-
     <!-- Buttons -->    
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
@@ -747,11 +720,9 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
-        function mks(p1,p2){		
-			//$.post("tareas.php",{ id: p1, np: p2 }).done(function( data ) { $( "body" ).html(data);})
+        function mks(p1,p2){
             $.redirect("tareas.php", {id: p1, np : p2 });
-		}
-        
+		}        
         
         $(document).ready(function(){
             $('.select2').select2()
@@ -923,7 +894,7 @@ $CustomerKey = $_SESSION['Keyp'];
 							type: ''+type,
 							title: ''+txt,
 							showConfirmButton: true,
-							timer: 5000
+							timer: 4000
 						});
 						setTimeout(function() {
 							location.reload();
@@ -987,7 +958,7 @@ $CustomerKey = $_SESSION['Keyp'];
 							type: ''+type,
 							title: ''+txt,
 							showConfirmButton: true,
-							timer: 5000
+							timer: 4000
 						});
 						setTimeout(function() {
 							location.reload();
@@ -1044,11 +1015,11 @@ $CustomerKey = $_SESSION['Keyp'];
                             type: ''+ type,
                             title: ''+ txt,
                             showConfirmButton: true,
-                            timer: 5000
+                            timer: 4000
                         });
                         setTimeout(function() {
                             location.reload();
-                        }, 13000);
+                        }, 3000);
                     }
                 });
                 event.preventDefault();
@@ -1066,7 +1037,6 @@ $CustomerKey = $_SESSION['Keyp'];
                 location.reload();
             })
 
-
             $("#hpdf").on('click', function(event){
                 const { jsPDF } = window.jspdf 
                 const doc = new jsPDF('p', 'pt');
@@ -1077,8 +1047,6 @@ $CustomerKey = $_SESSION['Keyp'];
             });
 
             $("#pdf").on('click', function(event){
-                //var login = ;
-                //alert(param);			
                 let base64Img	
                 base64Img = "img/edit.png"	
                     
@@ -1155,16 +1123,12 @@ $CustomerKey = $_SESSION['Keyp'];
                 // Total page number plugin only available in jspdf v1.0+
                 if (typeof doc.putTotalPages === 'function') {
                     doc.putTotalPages(totalPagesExp);
-                }
-                
+                }                
                 doc.save('planes.pdf')
             })
-
         })
-
     </script>
-
-<script>
+	<script>
             var idioma= {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -1216,8 +1180,5 @@ $CustomerKey = $_SESSION['Keyp'];
             "language": idioma
         });
     </script>
-   
-
 </body>
-
 </html>

@@ -75,12 +75,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(PRO_IdProbabilidad) AS PRO_Nombre
                       FROM ". $this->db_table ."
-                    WHERE PRO_Nombre = ? AND PRO_IdProbabilidad <> ? ";
+                    WHERE PRO_Nombre = ? AND PRO_CustomerKey = ? AND PRO_IdProbabilidad <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->PRO_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->PRO_IdProbabilidad, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->PRO_Nombre, PDO::PARAM_STR); 
+			$stmt->bindParam(2, $this->PRO_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->PRO_IdProbabilidad, PDO::PARAM_INT);
 
             $stmt->execute();
 

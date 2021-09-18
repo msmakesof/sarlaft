@@ -14,13 +14,14 @@ elseif (!empty($_POST['edit_id']))
 	$nombre = str_replace(' ','%20',strtoupper($nombre));
 	$color = trim($_POST["edit_color"]);
 	$color = str_replace('#','',strtoupper($color));
+	$ck = trim($_POST["edit_ck"]);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/nivelriesgo/revisarnombre.php?nombre=$nombre&id=$id";
+	$url = $urlServicios."api/nivelriesgo/revisarnombre.php?nombre=$nombre&ck=$ck&id=$id";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);

@@ -1,12 +1,12 @@
-<?php include '../ajax/is_logged.php';?>
-<?php require_once '../components/sql_server.php';
-$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+<?php 
+include '../ajax/is_logged.php';
+require_once '../config/dbx.php';
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
-//echo "color". $reg['CustomerColor'];
 if (isset($_POST['id']) && $_POST['id'] != "" ){
-    //$pid = $_POST['pid'];
     $IdPlan = $_POST['id'];
     //echo "<br>IdPlan...".$IdPlan;
 }
@@ -17,9 +17,7 @@ else{
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,23 +31,17 @@ else{
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
-
     <!-- Select2 -->
 	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
     <!-- expor pdf -->
     <script src="../plugins/pdf/jspdf.min.js"></script>
     <script src="../plugins/pdf/jspdf-autotable.js"></script>
-
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
 </head>
@@ -426,7 +418,7 @@ else{
                                     <div class="form-group row">
                                         <div class="col-md-12">
                                             <label>Nombre Tarea</label>
-                                            <textarea class="form-control" id="Name2" name="Name2" rows="4" placeholder="Digite descripción de la Tarea" required></textarea>
+                                            <textarea class="form-control" id="Name2" name="Name2" rows="7" placeholder="Digite descripción de la Tarea" required></textarea>
                                             <input type="hidden" name="CustomerKey" id="CustomerKey" value="<?php echo trim($_SESSION['Keyp']); ?>">
                                             <input type="hidden" name="IdPlan" id="IdPlan" value="<?php echo trim($IdPlan); ?>">
                                         </div>
@@ -504,7 +496,7 @@ else{
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <label>Nombre Tarea</label>
-                                <textarea class="form-control" id="eName2" name="eName2" rows="4" placeholder="Digite descripción de la Tarea" required></textarea>
+                                <textarea class="form-control" id="eName2" name="eName2" rows="7" placeholder="Digite descripción de la Tarea" required></textarea>
                                 <input type="hidden" name="eid" id="eid">
                                 <input type="hidden" name="eCustomerKey" id="eCustomerKey">
                                 <input type="hidden" name="eIdPlan" id="eIdPlan">
@@ -548,28 +540,19 @@ else{
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-    <!-- <script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>  -->
-
     <!-- Select2 -->
 	<script src="../plugins/select2/js/select2.full.min.js"></script>
-
     <!-- Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
-
     <!-- Buttons -->    
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
@@ -611,7 +594,6 @@ else{
             $('.select2').select2()
 
             var table = $('#dataTable').DataTable();
-            //alert(1);
 
             $('#exampleModal').on('show.bs.modal', function () {
                 setTimeout(function (){
@@ -638,10 +620,8 @@ else{
             $("#save").on('click', function(event){
                 //alert(45);
             });
-            //alert(2);
-
+			
             $("#guardar").on('click', function(event){
-				//alert(55);
 				let nombre = $("#Name2").val()
                 if( nombre == "" ){
 					swal({
@@ -776,10 +756,6 @@ else{
                         setTimeout(function() {
 							location.reload();
 						}, 3000);
-
-                        /*if(msj=="U"){
-                            upd();
-                        }*/
 					}
 			    });
                 event.preventDefault()
@@ -861,10 +837,7 @@ else{
                 $('#editModal').modal('hide')
             })
 
-
             $("#xpdf").on('click', function(event){
-                //var login = ;
-                //alert(param);			
                 let base64Img	
                 base64Img = "img/edit.png"	
                     
@@ -930,11 +903,9 @@ else{
                 // Total page number plugin only available in jspdf v1.0+
                 if (typeof doc.putTotalPages === 'function') {
                     doc.putTotalPages(totalPagesExp);
-                }
-                
+                }                
                 doc.save('tareas.pdf')
             })
-
         })
     </script>
     <script>                
@@ -987,10 +958,7 @@ else{
             "autoWidth": true,
             "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
             "language": idioma
-        });       
-    
-    </script>    
-
+        });    
+    </script>
 </body>
-
 </html>

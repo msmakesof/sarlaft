@@ -1,4 +1,3 @@
-
 <?php
 //include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
@@ -7,10 +6,8 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	//$per_page = 
-	//$offset =
-	//$params= "per_page=$per_page&offset=$offset";
-	$url = $urlServicios."api/metodologia/lista.php";   //?$params";
+
+	$url = $urlServicios."api/metodologia/lista_eve.php?ck=$CustomerKey";
 	//echo "url...$url<br>";
 	
 	$resultado="";

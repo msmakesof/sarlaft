@@ -3,13 +3,13 @@
 			<div class="modal-content">
 				<form name="add_segjurisdiccion" id="add_segjurisdiccion">
 					<div class="modal-header">						
-						<h4 class="modal-title">Agregar Segmento</h4>
+						<h4 class="modal-title">Agregar Jurisdicción</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 
 						<div class="form-group">
-							<label>Nombre Segmento</label>
+							<label>Nombre Jurisdicción</label>
 							<textarea class="form-control" id="SegJurisdiccionName2" name="SegJurisdiccionName2" rows="3" required></textarea>
 						</div>
 	

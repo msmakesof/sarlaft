@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Calificacion($db);
 
 $item->CAL_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->CAL_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->CAL_IdCalificacion = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

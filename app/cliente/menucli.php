@@ -5,12 +5,12 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <!-- <a class="nav-link collapsed" href="../UGR.php" data-toggle="collapse" data-target="#collapseTwo" -->
+            <!-- <li class="nav-item"> -->
+                <!-- <a class="nav-link collapsed" href="../UGR.php" data-toggle="collapse" data-target="#collapseTwo"
                 <a class="nav-link collapsed" href="../UGR.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>UGR</span>
-                </a>
+                </a> -->
                 <!-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
@@ -18,7 +18,7 @@
                         <a class="collapse-item" href="cards.html">Cards</a>
                     </div>
                 </div>  -->
-            </li>
+            <!-- </li> -->
 
             <!-- Nav Item - Utilities Collapse Menu
             <li class="nav-item">
@@ -350,7 +350,7 @@
                         <!-- <a class="collapse-item" href="interseccion.php" style="color: <?php echo $ndas;?>">Intersección</a>-->
 						<a class="collapse-item" href="./listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
 						<a class="collapse-item" href="./tables.php" style="color: <?php echo $ndas;?>">Planes</a>
-                        <a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
+                        <!-- <a class="collapse-item" href="./metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>-->
                     </div>
                 </div>
             </li>

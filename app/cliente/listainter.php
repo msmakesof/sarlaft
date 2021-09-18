@@ -1,16 +1,13 @@
-<?php include '../ajax/is_logged.php';
-//require_once '../components/sql_server.php';
+<?php 
+include '../ajax/is_logged.php';
 require_once ("../config/dbx.php");
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 
 $query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
 $CustomerName = $reg['CustomerName'];
-
-//echo "color". $reg['CustomerColor'];
 
 /* Buscar si existe registro creado en interseccion de Matriz y su tabla hija. */
 $query_TotalMatriz=sqlsrv_query($conn,"SELECT Count(INT_IdInterseccion) AS TotalMatriz FROM INT_Interseccion JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion WHERE INT_CustomerKey=".$_SESSION['Keyp']."");
@@ -19,9 +16,7 @@ $TotalMatriz= $reg['TotalMatriz'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,26 +30,18 @@ $TotalMatriz= $reg['TotalMatriz'];
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
-
     <!-- Select2 -->
 	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
-
 </head>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -302,9 +289,7 @@ $TotalMatriz= $reg['TotalMatriz'];
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -386,17 +371,9 @@ $TotalMatriz= $reg['TotalMatriz'];
                                 <a href="javascript:vodi(0);" onclick="mks(<?php echo $IdInterseccion; ?>,'<?php echo $CustomerKey; ?>')" class="tareas">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Modificar Matriz" style="color:orange"></i>
                                 </a>
-                                <!-- <a href="#" data-target="#editModal" data-toggle="modal" data-filas="<?php echo $Filas?>" data-cols="<?php echo $Columnas?>" data-id="<?php echo $IdInterseccion; ?>">
-                                    <i class="fas fa-pen" data-toggle="tooltip" title="Editar Plan" style="color:orange"></i>
-                                </a> -->
-								
 								<a href="#" data-target="#deleteInterseccionModal" class="delete" data-toggle="modal" data-id="<?php echo $IdInterseccion;?>">
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Plan" style="color:red"></i>
                                 </a>
-                                
-                                <!-- <a href="javascript:vodi(0);"  onclick="mks(<?php echo $IdInterseccion; ?>,'<?php echo $CustomerKey; ?>')" class="tareas">
-                                    <i class="fas fa-list-alt" data-toggle="tooltip" title="Modificar Matriz" style="color:green"></i>
-                                </a> -->
 							</td>
 						</tr>
 					<?php }	
@@ -516,8 +493,6 @@ $TotalMatriz= $reg['TotalMatriz'];
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <!-- End of Main Content -->
 
@@ -677,37 +652,24 @@ $TotalMatriz= $reg['TotalMatriz'];
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-    <!-- <script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>  -->
-
     <!-- Select2 -->
 	<script src="../plugins/select2/js/select2.full.min.js"></script>
-
     <!-- Redirect -->
 	<script src="../plugins/redirect/jquery.redirect.js"></script>
-
     <!-- expor pdf -->
     <script src="../plugins/pdf/jspdf.min.js"></script>
     <script src="../plugins/pdf/jspdf-autotable.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
-    <script src="https://rawgit.com/someatoms/jsPDF-AutoTable/master/dist/jspdf.plugin.autotable.js"></script> -->
-
     <!-- Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
-
     <!-- Buttons -->    
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
@@ -1045,8 +1007,6 @@ $TotalMatriz= $reg['TotalMatriz'];
             });
 
             $("#pdf").on('click', function(event){
-                //var login = ;
-                //alert(param);			
                 let base64Img	
                 base64Img = "img/edit.png"	
                     
@@ -1123,16 +1083,12 @@ $TotalMatriz= $reg['TotalMatriz'];
                 // Total page number plugin only available in jspdf v1.0+
                 if (typeof doc.putTotalPages === 'function') {
                     doc.putTotalPages(totalPagesExp);
-                }
-                
+                }                
                 doc.save('planes.pdf')
             })
-
         })
-
     </script>
-
-<script>
+	<script>
             var idioma= {
             "sProcessing":     "Procesando...",
             "sLengthMenu":     "Mostrar _MENU_ registros",
@@ -1184,8 +1140,5 @@ $TotalMatriz= $reg['TotalMatriz'];
             "language": idioma
         });
     </script>
-   
-
 </body>
-
 </html>

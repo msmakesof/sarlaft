@@ -63,12 +63,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(TIR_IdTipoRiesgo) AS TIR_Nombre
                       FROM ". $this->db_table ."
-                    WHERE TIR_Nombre = ? AND TIR_IdTipoRiesgo <> ? ";
+                    WHERE TIR_Nombre = ? AND TIR_CustomerKey = ? AND TIR_IdTipoRiesgo <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->TIR_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->TIR_IdTipoRiesgo, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->TIR_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->TIR_IdTipoRiesgo, PDO::PARAM_INT);
 
             $stmt->execute();
 

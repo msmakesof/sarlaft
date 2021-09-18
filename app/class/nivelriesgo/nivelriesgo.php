@@ -63,13 +63,14 @@
         // Busca Nombre para controlar Duplicados
         public function getBuscaNombre(){
             $sql = "SELECT count(NIR_IdNivelRiesgo) AS NIR_Nombre
-                      FROM ". $this->db_table ."
-                    WHERE NIR_Nombre = ? AND NIR_IdNivelRiesgo <> ? ";
+                    FROM ". $this->db_table ."
+                    WHERE NIR_Nombre = ? AND NIR_CustomerKey = ? AND NIR_IdNivelRiesgo <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->NIR_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->NIR_IdNivelRiesgo, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->NIR_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->NIR_IdNivelRiesgo, PDO::PARAM_INT);
 
             $stmt->execute();
 

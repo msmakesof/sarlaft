@@ -6,19 +6,19 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/rol/rol.php';
+    include_once '../../class/fortalezas/fortalezas.php';
     
     $database = new Database();
-    $db = $database->getConnection();
+    $db = $database->getConnectionCli();
     
-    $item = new RolUsers($db);
+    $item = new Fortalezas($db);
 	
 	$data = $_GET['id'];
-	$item->IdRol = $data; 
+	$item->id = $data; 
     
-    if($item->deleteRol()){
-        echo "S";  //json_encode("Borra Cliente.");
+    if($item->delete()){
+        echo "S";  //json_encode("Borra Fortalezas.");
     } else{
-        echo "N";  // json_encode("Cliente no puede ser Borrado");
+        echo "N";  // json_encode("Fortalezas no puede ser Borrado");
     }
 ?>

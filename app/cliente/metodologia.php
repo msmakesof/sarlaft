@@ -1,8 +1,10 @@
-<?php include '../ajax/is_logged.php';?>
-<?php require_once '../components/sql_server.php';
+<?php include '../ajax/is_logged.php';
+
+require_once '../config/dbx.php';
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL();
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
 //echo "color". $reg['CustomerColor'];
 ?>
@@ -348,6 +350,7 @@ $CustomerKey = $_SESSION['Keyp'];
                                     </tfoot>
                                     <tbody>
                                     <?php
+									$CustomerKey = $CustomerKey ;
 						include '../curl/metodologia/listar.php';
 						foreach($data as $key => $row) {}
 						if( $key == "message"){	// No existen registros
@@ -693,7 +696,7 @@ $CustomerKey = $_SESSION['Keyp'];
 							type: ''+type,
 							title: ''+txt,
 							showConfirmButton: true,
-							timer: 5000
+							timer: 4000
 						});
 						setTimeout(function() {
 							location.reload();
@@ -716,7 +719,7 @@ $CustomerKey = $_SESSION['Keyp'];
 							type: 'info',
 							title: 'Verificando información...Un momento',
 							showConfirmButton: false,
-							timer: 5000,
+							timer: 4000,
 							imageUrl: '../img/ajax-loader.gif',
 							imageAlt: 'Custom image',
 						});

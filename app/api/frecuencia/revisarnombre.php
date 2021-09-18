@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Frecuencia($db);
 
 $item->FRE_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->FRE_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->FRE_IdFrecuencia = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

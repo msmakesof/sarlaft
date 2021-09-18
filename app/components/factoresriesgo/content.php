@@ -16,7 +16,7 @@
                         <div>
                             <a href="#addDebilidadesModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
-                                <span>Agregar nuevo Factor</span>
+                                <span>Agregar Factor</span>
                             </a>
                         </div>
                     </div>
@@ -28,7 +28,6 @@
             <div id="loader"></div><!-- Carga de datos ajax aqui -->
             <div id="resultados"></div><!-- Carga de datos ajax aqui -->
             <div class='outer_div'></div><!-- Carga de datos ajax aqui -->
-            
             
         </div>
     </div>

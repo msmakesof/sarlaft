@@ -64,12 +64,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(FRE_IdFrecuencia) AS FRE_Nombre
                       FROM ". $this->db_table ."
-                    WHERE FRE_Nombre = ? AND FRE_IdFrecuencia <> ? ";
+                    WHERE FRE_Nombre = ? AND FRE_CustomerKey = ? AND FRE_IdFrecuencia <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->FRE_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->FRE_IdFrecuencia, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->FRE_Nombre, PDO::PARAM_STR); 
+			$stmt->bindParam(2, $this->FRE_CustomerKey, PDO::PARAM_STR); 
+			$stmt->bindParam(3, $this->FRE_IdFrecuencia, PDO::PARAM_INT);
 
             $stmt->execute();
 

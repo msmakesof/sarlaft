@@ -30,6 +30,6 @@ $reg=sqlsrv_fetch_array($query_empresa);
 
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
-                <?php include 'components/settings.php';?>
+    <?php include 'components/settings.php';?>
 </body>
 </html>

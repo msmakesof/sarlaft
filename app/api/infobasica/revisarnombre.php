@@ -16,6 +16,7 @@ $item->CLI_ActividadEconomica = isset($_GET['nombre']) ? $_GET['nombre'] : die()
 $item->CLI_Mision = isset($_GET['Mision']) ? $_GET['Mision'] : die();
 $item->CLI_Vision = isset($_GET['Vision']) ? $_GET['Vision'] : die();
 $item->CLI_IdInfoBasica = isset($_GET['id']) ? $_GET['id'] : die();
+$item->CI_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 
 $item->getBuscaNombre();
 

@@ -16,7 +16,7 @@
                         <div>
                             <a href="#addEscalacalificacionModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
-                                <span>Agregar nueva Calificación</span>
+                                <span>Agregar Escala Calificación</span>
                             </a>
                         </div>
                     </div>

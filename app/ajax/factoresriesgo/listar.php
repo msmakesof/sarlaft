@@ -1,7 +1,6 @@
 <?php
 include('../is_logged.php');
 /* Connect To Database*/
-//require_once ("../components/sql_server.php");	
 require_once '../../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -9,8 +8,8 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 $action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 if($action == 'ajax')
 {
-	$query = sqlsrv_query($conn,"SELECT FAR_IdFactorRiesgo, FAR_CustomerKey, FAR_FactorRiesgoKey, FAR_Nombre, FAR_UserKey FROM FAR_FactorRiesgo WHERE FAR_CustomerKey='".$_SESSION['Keyp']."'");	
-	{		
+	//$query = sqlsrv_query($conn,"SELECT FAR_IdFactorRiesgo, FAR_CustomerKey, FAR_FactorRiesgoKey, FAR_Nombre, FAR_UserKey FROM FAR_FactorRiesgo WHERE //FAR_CustomerKey='".$_SESSION['Keyp']."'");	
+	//{		
 		include('../../components/table.php');
 ?>
 				<tr>
@@ -21,17 +20,8 @@ if($action == 'ajax')
 			</thead>
 			<tbody>	
 					<?php
-					/* $finales=0;
-					$i=1;
-					while($row = sqlsrv_fetch_array($query)){
-						$id=$row['FAR_IdFactorRiesgo'];
-						$CustomerKey=$row['FAR_CustomerKey'];
-						$FactorRiesgoKey=$row['FAR_FactorRiesgoKey'];
-						$FactorRiesgoName=$row['FAR_Nombre'];
-						$UserKey=$row['FAR_UserKey'];
-						$finales++;   */
-
-					include '../../curl/factoresriesgo/listar.php';
+					$CustomerKey = trim($_SESSION['Keyp']);
+					include '../../curl/factoresriesgo/listar_eveall.php';
 					foreach($data as $key => $row) {}				
 					if( $key == "message")
 					{
@@ -47,7 +37,7 @@ if($action == 'ajax')
 							for($i=0; $i<count($data['body']); $i++)
 							{
 								$id=$data['body'][$i]['FAR_IdFactorRiesgo'];
-								$CustomerKey=$data['body'][$i]['FAR_CustomerKey'];
+								$CustomerKey=trim($data['body'][$i]['FAR_CustomerKey']);
 								$FactorRiesgoKey=$data['body'][$i]['FAR_FactorRiesgoKey'];
 								$FactorRiesgoName= trim($data['body'][$i]['FAR_Nombre']);
 								$UserKey=$data['body'][$i]['FAR_UserKey'];
@@ -56,7 +46,7 @@ if($action == 'ajax')
 								<td class='text-center'><?php echo $j++;?></td>
 								<td class='text-left'><?php echo $FactorRiesgoName;?></td>
 								<td class='text-left'>
-									<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-name="<?php echo $FactorRiesgoName; ?>" data-id="<?php echo $id; ?>">
+									<a href="#" data-target="#editUserModal" class="edit" data-toggle="modal" data-name="<?php echo $FactorRiesgoName; ?>"  data-ck="<?php echo $CustomerKey; ?>" data-id="<?php echo $id; ?>">
 										<i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i>
 									</a>
 									<a href="#deleteUserModal" class="delete" data-toggle="modal" data-id="<?php echo $id;?>">
@@ -72,6 +62,6 @@ if($action == 'ajax')
 		</table>
 	</div>
 <?php	
-	}	
+	//}	
 }
 ?>

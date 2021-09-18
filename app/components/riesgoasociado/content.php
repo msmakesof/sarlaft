@@ -16,7 +16,7 @@
                         <div>
                             <a href="#addDebilidadesModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
-                                <span>Agregar nuevo Riesgo</span>
+                                <span>Agregar Riesgo Asociado</span>
                             </a>
                         </div>
                     </div>

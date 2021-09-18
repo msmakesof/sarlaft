@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Metodologia($db);
 
 $item->MET_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->MET_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->MET_IdMetodologia = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

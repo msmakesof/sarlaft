@@ -3,21 +3,23 @@ if (empty($_POST['edit_id'])){
 	$errors[] = "ID está vacío.";
 } 
 elseif (!empty($_POST['edit_id']))
-{	
+{
+	////require_once ("../components/sql_server_login.php");		
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
 	
 	// escaping, additionally removing everything that could be (html/javascript-) code
-	$estadonombre = trim($_POST["edit_name"]);
-	$estadonombre = str_replace(' ','%20',strtoupper($estadonombre));	
+	$nombre = trim($_POST["edit_name"]);
+	$nombre = str_replace(' ','%20',strtoupper($nombre));
+	$ck = trim($_POST["edit_ck"]);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/estado/revisarnombre.php?nombre=$estadonombre&id=$id";
+	$url = $urlServicios."api/oportunidades/revisarnombre.php?nombre=$nombre&ck=$ck&id=$id";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -50,8 +52,8 @@ elseif (!empty($_POST['edit_id']))
 	{		
 		$query="";		
 		// Si todo va bien se hace el Update
-		$params = "NombreEstado=$estadonombre&Id=$id";
-		$url = $urlServicios."api/estado/update.php?$params";
+		$params = "Nombre=$nombre&Id=$id";
+		$url = $urlServicios."api/oportunidades/update.php?$params";
 		//echo "url...$url";
 		
 		$resultado="";

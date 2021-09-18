@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Consecuencia($db);
 
 $item->CSC_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->CSC_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->CSC_IdConsecuencia = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

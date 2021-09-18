@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Control($db);
 
 $item->CON_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->CON_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->CON_IdControl = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

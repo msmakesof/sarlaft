@@ -6,24 +6,24 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/rol/rol.php';
+include_once '../../class/debilidades/debilidades.php';
 
 $database = new Database();
-$db = $database->getConnection();
-$item = new RolUsers($db);
+$db = $database->getConnectionCli();
+$item = new Debilidades($db);
 
 $data = $_GET['Id'];
-$item->IdRol = $data; 
+$item->id = $data; 
 
-$RolNombre = trim($_GET['RolNombre']);
-$Estado = trim($_GET['Estado']);
+$DebilidadesName = trim($_GET['Nombre']);
+$ck = trim($_GET['ck']);
 
-$item->RolNombre = $RolNombre;
-$item->IdEstado = $Estado;
+$item->DebilidadesName = $DebilidadesName;
+$item->CustomerKey = $ck;
 
-if($item->updateRol())
+if($item->update())
 {
-	echo 'S'; 
+	echo 'U'; 
 } 
 else
 {

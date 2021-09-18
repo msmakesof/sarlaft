@@ -1,30 +1,36 @@
 <?php
 include '../is_logged.php';
-if (empty($_POST['edit_id'])){
-	$errors[] = "ID está vacío.";
-} 
-elseif (!empty($_POST['edit_id']))
-{	
+//$json= $_POST['datos'];
+//echo $json."<br>";
+//if (empty($_POST['ActividadEconomicaName2'])){
+//	$errors[] = "ID está vacío.";
+//} 
+//elseif (!(empty($_POST['ActividadEconomicaName2']))
+//{	
+	function saltoLinea($str) {
+		//return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
+		return $str;
+	}
+	
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
 	
 	// escaping, additionally removing everything that could be (html/javascript-) code
-	$nombre = trim($_POST["eActividadEconomica"]);
-	//$nombre = str_replace(' ','%20',strtoupper($nombre));
-	$ObjetoSocial = $_POST["eObjetoSocial"];
-	$DescripcionGeneral = $_POST["eDescripcionGeneral"];
-	$ObjetivosEstrategicos = $_POST["eObjetivosEstrategicos"];
-	$Mision = $_POST["eMision"];
-	$Vision = $_POST["eVision"];
-	
+	$nombre = saltoLinea($_POST["ActividadEconomicaName2"]);
+	$ObjetoSocial = saltoLinea($_POST["ObjetoSocial"]);
+	$DescripcionGeneral = saltoLinea($_POST["DescripcionGeneral"]);
+	$ObjetivosEstrategicos = saltoLinea($_POST["ObjetivosEstrategicos"]);
+	$Mision = saltoLinea($_POST["Mision"]);
+	$Vision = saltoLinea($_POST["Vision"]);
+	$ck= trim($_SESSION['Keyp']);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/infobasica/revisarnombre.php?nombre=$nombre&Mision=$Mision&Vision=$Vision&id=$id";
+	$url = $urlServicios."api/infobasica/revisarnombre.php?nombre=$nombre&Mision=$Mision&Vision=$Vision&ck=$ck&id=$id";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -97,12 +103,13 @@ elseif (!empty($_POST['edit_id']))
 			$errors[] = "R"; //Error falla en la conexión.";
 		}
 	}
-} 
+//} 
+/*
 else 
 {
 	$errors[] = "D"; //desconocido.";
 }
-			
+*/			
 if (isset($errors)){
 	foreach ($errors as $error) {
 		$msjx = $error; 

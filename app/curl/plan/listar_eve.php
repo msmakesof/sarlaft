@@ -23,39 +23,4 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	$data = json_decode($mestado, true);
 	return $data;
 }
-	/*
-	$json_errors = array(
-		JSON_ERROR_NONE => 'No se ha producido ningún error',
-		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-	);
-	foreach($datacsc as $key => $row) {}
-	
-	if( $key == "message")
-	{
-		echo $datacsc["message"];
-	}
-	else
-	{
-		$IdItemcsc="";
-		$sel_csc="<select class='form-control' id='consec' name='consec' required>";
-		$sel_csc.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($datacsc['body']); $i++)
-		{				
-			$condicsc = "";
-			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-			$ck = trim($datacsc['body'][$i]["CSC_CustomerKey"]);
-			$cuasak = trim($datacsc['body'][$i]["CSC_UserKey"]);
-			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
-				$condicsc = ' selected="selected" ';
-			}
-			$sel_csc.= '<option value="'. $idcsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
-		}
-		$sel_csc.= "</select>";
-	}
-}
-	$vconsec = 0;
-	*/
 ?>

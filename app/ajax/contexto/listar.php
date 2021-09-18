@@ -2,22 +2,20 @@
 include('../is_logged.php');
 $CustomerKey = $_SESSION['Keyp'];
 /* Connect To Database*/
-//require_once ("../components/sql_server.php");	
+
 require_once '../../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 
 $action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 if($action == 'ajax')
-{
-	$query = sqlsrv_query($conn,"SELECT FAR_IdFactorRiesgo, FAR_CustomerKey, FAR_FactorRiesgoKey, FAR_Nombre, FAR_UserKey FROM FAR_FactorRiesgo WHERE FAR_CustomerKey='".$_SESSION['Keyp']."'");	
-	{		
+{	
 		include('../../components/table.php');
 ?>
 				<tr>
-					<th class='text-center'>Interno</th>
-					<th class='text-center'>Externo</th>
-					<th class='text-center'>Acciones</th>						
+					<th class='text-center' style="width:45%">Interno</th>
+					<th class='text-center' style="width:45%">Externo</th>
+					<th class='text-center' style="width:10%">Acciones</th>						
 				</tr>
 			</thead>
 			<tbody>	
@@ -44,8 +42,8 @@ if($action == 'ajax')
 								$USerKey = $data['body'][$i]['CTX_USerKey'];
 					?>	
 							<tr>
-								<td style="text-align:justify !important; word-wrap: break-word;"><?php echo substr($Interno,0,50)?></td>
-								<td style="text-align:justify !important; word-wrap: break-word;"><?php echo substr($Externo,0,50);?></td>
+								<td style="text-align:justify !important; word-wrap: break-word;"><?php echo substr($Interno,0,450)?></td>
+								<td style="text-align:justify !important; word-wrap: break-word;"><?php echo substr($Externo,0,450);?></td>
 								<td class='text-left'>
 									<a href="#" data-target="#editContextoModal" class="edit" data-toggle="modal" data-interno="<?php echo $Interno; ?>" data-externo="<?php echo $Externo; ?>" data-id="<?php echo $id; ?>">
 										<i class="material-icons" data-toggle="tooltip" title="Editar" >&#xE254;</i>
@@ -63,6 +61,5 @@ if($action == 'ajax')
 		</table>
 	</div>
 <?php	
-	}	
 }
 ?>

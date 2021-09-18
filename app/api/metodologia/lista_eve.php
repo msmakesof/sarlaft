@@ -3,13 +3,13 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/causas/causas.php';
+    include_once '../../class/metodologia/metodologia.php';
 
     $database = new Database();
     $db = $database->getConnectionCli();
 
-    $items = new Causas($db);
-	$items->TIR_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
+    $items = new Metodologia($db);
+	$items->MET_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
     $stmt = $items->getCkAll();
     $itemCount = $stmt->rowCount();
 
@@ -22,10 +22,14 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "id" => $id,
-                "CustomerKey" => $CustomerKey,
-				"CausasKey" => $CausasKey,
-                "CausasName" => $CausasName
+                "MET_IdMetodologia" => $MET_IdMetodologia,
+				"MET_FactorRiesgo" => $MET_FactorRiesgo,
+				"MET_Nombre" => $MET_Nombre,
+				"MET_Descripcion" => $MET_Descripcion,
+				"MET_Observaciones" => $MET_Observaciones,
+                "MET_CustomerKey" => $MET_CustomerKey,
+				"MET_MetodologiaKey" => $MET_MetodologiaKey,
+                "MET_USerKey" => $MET_USerKey
             );
             array_push($estadoArr["body"], $e);
         }

@@ -16,7 +16,7 @@
                         <div>
                             <a href="#addDebilidadesModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
-                                <span>Agregar nueva Categoría</span>
+                                <span>Agregar Categoría</span>
                             </a>
                         </div>
                     </div>

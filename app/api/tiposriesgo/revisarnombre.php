@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new TiposRiesgo($db);
 
 $item->TIR_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->TIR_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->TIR_IdTipoRiesgo = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

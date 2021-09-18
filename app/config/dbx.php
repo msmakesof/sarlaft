@@ -34,7 +34,7 @@
         public function getConnection(){
             $this->conn = null;
             try {				
-				$this->conn = new PDO("sqlsrv:Server=". $this->hostpc.";Database=". $this->db_name, $this->username, $this->password);			  
+				$this->conn = new PDO("sqlsrv:Server=".$this->hostpc.";Database=".$this->db_name, $this->username, $this->password);			  
 				$this->conn->exec("set names utf8");
 			}
 			catch(PDOException $exception){
@@ -78,6 +78,22 @@
 			}
 			return $this->conn;
 		}
-		//		
+		
+		//Conexion basica a SecureLogin
+		public function getConnectionSL(){
+			$this->conn = null;
+			//$this->a = $par1;
+			$this->connectionInfo = array( "Database"=>$this->db_name, "UID"=>$this->username, "PWD"=>$this->password, 
+                           "CharacterSet" => "UTF-8");      // Esta es la conexion standar
+			$this->conn = sqlsrv_connect( $this->hostpc, $this->connectionInfo);
+
+			if( $this->conn ) {
+				 //echo "Conexión establecida.<br />";				 
+			}else{
+				 echo "Conexión no se pudo establecer.<br />";
+				 die( print_r( sqlsrv_errors(), true));
+			}
+			return $this->conn;
+		}
     }
 ?>

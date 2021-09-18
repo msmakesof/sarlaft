@@ -120,6 +120,8 @@
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var name = button.data('name') 
 			$('#edit_name').val(name)
+			var ck = button.data('ck')
+			$('#edit_ck').val(ck)
 			var id = button.data('id') 
 			$('#edit_id').val(id)
 		})

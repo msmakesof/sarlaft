@@ -63,12 +63,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(RIA_IdRiesgoAsociado) AS RIA_Nombre
                       FROM ". $this->db_table ."
-                    WHERE RIA_Nombre = ? AND RIA_IdRiesgoAsociado <> ? ";
+                    WHERE RIA_Nombre = ? AND RIA_CustomerKey = ? AND RIA_IdRiesgoAsociado <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->RIA_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->RIA_IdRiesgoAsociado, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->RIA_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->RIA_IdRiesgoAsociado, PDO::PARAM_INT);
 
             $stmt->execute();
 

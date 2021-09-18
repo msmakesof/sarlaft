@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new Categoria($db);
 
 $item->CAT_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->CAT_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->CAT_IdCategoria = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

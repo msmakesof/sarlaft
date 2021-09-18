@@ -64,12 +64,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(FAR_IdFactorRiesgo) AS FAR_Nombre
                       FROM ". $this->db_table ."
-                    WHERE FAR_Nombre = ? AND FAR_IdFactorRiesgo <> ? ";
+                    WHERE FAR_Nombre = ? AND FAR_CustomerKey = ? AND FAR_IdFactorRiesgo <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
-            $stmt->bindParam(1, $this->FAR_Nombre, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->FAR_IdFactorRiesgo, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->FAR_Nombre, PDO::PARAM_STR); 
+			$stmt->bindParam(2, $this->FAR_CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->FAR_IdFactorRiesgo, PDO::PARAM_INT);
 
             $stmt->execute();
 

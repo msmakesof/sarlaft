@@ -1,17 +1,17 @@
 <?php
+include '../is_logged.php';
 if (empty($_POST['eid'])){
 	$errors[] = "ID está vacío.";
 } 
 elseif (!empty($_POST['eid']))
 {
-	////require_once ("../components/sql_server_login.php");		
 	require_once '../../config/dbx.php';
 	$getUrl = new Database();
 	$urlServicios = $getUrl->getUrl();
 	
 	// escaping, additionally removing everything that could be (html/javascript-) code
 	$nombre = trim($_POST["eName2"]);
-	$nombre = str_replace(' ','%20',strtoupper($nombre));
+	////$nombre = str_replace(' ','%20',strtoupper($nombre));
 	$ck = trim($_POST["eCustomerKey"]);
 	$idplan = intval($_POST["eIdPlan"]);
 	$id=intval($_POST['eid']);
@@ -53,11 +53,11 @@ elseif (!empty($_POST['eid']))
 	{		
 		$query="";		
 		// Si todo va bien se hace el Update
-		$params = "Nombre=$nombre&Id=$id&CK=$ck&IdPlan=$idplan";
-		$url = $urlServicios."api/tareas/update.php?$params";
+		////$params = "Nombre=$nombre&Id=$id&CK=$ck&IdPlan=$idplan";
+		////$url = $urlServicios."api/tareas/update.php?$params";
 		//echo "url...$url";
 		
-		$resultado="";
+		/* $resultado="";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -77,7 +77,13 @@ elseif (!empty($_POST['eid']))
 			JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
 			JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
 			JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-		);
+		);   */
+		$getConnectionCli2 = new Database();
+		$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+			
+		$sqlQuery = "UPDATE TareasPlan SET TPP_NombreTarea = '".htmlspecialchars(strip_tags($nombre))."'
+                    WHERE TPP_IdTareaxPlan = $id AND TPP_IdPlan = $idplan AND TPP_CustomerKey = $ck ";
+		$query = sqlsrv_query($conn,$sqlQuery);			
 		
 		// if rol has been updated successfully
 		if ($query) {

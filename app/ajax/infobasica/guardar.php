@@ -10,9 +10,8 @@ include '../is_logged.php';
 		function saltoLinea($str) {
 			//return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
 			return $str;
-		} 
-
-		//require_once ("../../components/sql_server_login.php");
+		}
+		
 		require_once '../../config/dbx.php';
 		$getUrl = new Database();
 		$urlServicios = $getUrl->getUrl();
@@ -55,12 +54,13 @@ include '../is_logged.php';
 		//$Vision = str_replace(' ','%20',strtoupper($Vision));
 		//$Vision = str_replace('\r\n','</br>',strtoupper($Vision));
 		//$Vision = nl2br($Vision);
+		$CustomerKey = $_SESSION['Keyp'];
 
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/infobasica/revisarnombre.php?nombre=$nombre&Mision=$Mision&Vision=$Vision&id=0";
+		$url = $urlServicios."api/infobasica/revisarnombre.php?nombre=$nombre&Mision=$Mision&Vision=$Vision&ck=$CustomerKey&id=0";
 		//echo $url;
 		
 		$ch = curl_init();
@@ -91,13 +91,12 @@ include '../is_logged.php';
 		}
 		else
 		{		
-			// Si todo va bien se hace el Insert
-			$CustomerKey = $_SESSION['Keyp'];
+			// Si todo va bien se hace el Insert			
 			$UserKey = $_SESSION['UserKey'];
 			date_default_timezone_set("America/Bogota");
 			$InfoBasicaKey = time();
 			$DateStamp = date("Y-m-d H:i:s");
-			$params = "Nombre=$nombre&ObjetoSocial=$ObjetoSocial&DescripcionGeneral=$DescripcionGeneral&ObjetivosEstrategicos=$ObjetivosEstrategicos&Mision=$Mision&Vision=$Vision&CK=$CustomerKey&WK=$UserKey&IK=$InfoBasicaKey&DS=$DateStamp";
+			//$params = "Nombre=$nombre&ObjetoSocial=$ObjetoSocial&DescripcionGeneral=$DescripcionGeneral&ObjetivosEstrategicos=$ObjetivosEstrategicos&Mision=$Mision&Vision=$Vision&CK=$CustomerKey&WK=$UserKey&IK=$InfoBasicaKey&DS=$DateStamp";
 			/*
 			$url = $urlServicios."api/infobasica/crear.php?$params";
 			//echo $url;

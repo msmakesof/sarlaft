@@ -1,4 +1,12 @@
-
+<?php 
+$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey='".$_SESSION['Keyp']."'");
+$regtit=sqlsrv_fetch_array($query_titulo);
+$IdTitulo = trim($regtit['TIT_IdTitulo']);
+$NombreTitulo = trim($regtit['TIT_Nombre']);
+if( empty($NombreTitulo) ){
+	$NombreTitulo = "Consecuencia";
+}
+?>
 <style>
 .let label {
     text-transform: lowercase !important;

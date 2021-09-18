@@ -3,9 +3,6 @@
 		});
 		
 		function load(page){
-			//var query=$("#q").val();
-			//var per_page=10;
-			//var parametros = {"action":"ajax","page":page,'query':query,'per_page':per_page};
 			var parametros = {"action":"ajax"};
 			$("#loader").fadeIn('slow');
 			$.ajax({
@@ -123,6 +120,8 @@
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var name = button.data('name') 
 			$('#edit_name').val(name)
+			var ck = button.data('ck')
+			$('#edit_ck').val(ck)
 			var id = button.data('id') 
 			$('#edit_id').val(id)
 		})				

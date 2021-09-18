@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new EscalaCalificacion($db);
 
 $item->ESC_Valor = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->ESC_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->ESC_IdEscalaCalificacion = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

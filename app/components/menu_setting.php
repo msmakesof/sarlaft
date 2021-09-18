@@ -33,11 +33,11 @@ $row['CustomerColor'];?>" > -->
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="./UGR.php">
                     <i class="far fa-calendar-check"></i>
                     <span>UGR...</span></a>
-            </li>                         
+            </li> -->                         
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -342,7 +342,7 @@ $row['CustomerColor'];?>" > -->
                         <h6 class="collapse-header">Generación del Plan:</h6>
                         <a class="collapse-item" href="cliente/listainter.php" style="color: <?php echo $ndas;?>">Intersección</a>
 						<a class="collapse-item" href="cliente/tables.php" style="color: <?php echo $ndas;?>">Planes</a>
-                        <a class="collapse-item" href="cliente/metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a>
+                        <!-- <a class="collapse-item" href="cliente/metodologia.php" style="color: <?php echo $ndas;?>">Metodología</a> -->
                     </div>
                 </div>
             </li>

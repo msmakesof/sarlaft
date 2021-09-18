@@ -1,5 +1,4 @@
 <?php 
-//echo "session....".$_SESSION['Keyp'];
 require_once ("config/dbx.php");
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -8,10 +7,15 @@ $totregs = 0;
 $query=sqlsrv_query($conn, "SELECT count(CLI_IdInfoBasica) AS TOTAL FROM CLI_InfoBasica WHERE CLI_CustomerKey='".$_SESSION['Keyp']."'");
 $reg=sqlsrv_fetch_array($query); 
 $totregs = $reg['TOTAL'];
-echo "totregs....".$totregs;
 
-if( $totregs > 0){
-
+$id = 0;
+$ActividadEconomica = "";
+$ObjetoSocial = "";
+$DescripcionGeneral = "";
+$Mision = "";
+$Vision = "";
+$ObjetivosEstrategicos = "";
+if( $totregs > 0){	
     include 'curl/infobasica/listar1.php';
     foreach($data as $key => $row) {}				
     if( $key == "message")
@@ -28,22 +32,18 @@ if( $totregs > 0){
             for($i=0; $i<count($data['body']); $i++)
             {
                 $id = $data['body'][$i]['CLI_IdInfoBasica'];
-                $ActividadEconomica = trim($data['body'][$i]['CLI_ActividadEconomica']);
-                $ObjetoSocial = trim($data['body'][$i]['CLI_ObjetoSocial']);
-                $DescripcionGeneral = trim($data['body'][$i]['CLI_DescripcionGeneral']);
-                $Mision = trim($data['body'][$i]['CLI_Mision']);
-                $Vision = trim($data['body'][$i]['CLI_Vision']);
-                $ObjetivosEstrategicos = trim($data['body'][$i]['CLI_ObjetivosEstrategicos']);
+                $ActividadEconomica = $data['body'][$i]['CLI_ActividadEconomica'];
+                $ObjetoSocial = $data['body'][$i]['CLI_ObjetoSocial'];
+                $DescripcionGeneral = $data['body'][$i]['CLI_DescripcionGeneral'];
+                $Mision = $data['body'][$i]['CLI_Mision'];
+                $Vision = $data['body'][$i]['CLI_Vision'];
+                $ObjetivosEstrategicos = $data['body'][$i]['CLI_ObjetivosEstrategicos'];
                 $CustomerKey = $data['body'][$i]['CLI_CustomerKey'];
                 $USerKey = $data['body'][$i]['CLI_USerKey'];
             }
-            echo substr($ActividadEconomica,0,50);
         }
     }
-
-
 }
-
 ?>
 <!-- summernote -->
 <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
@@ -86,42 +86,53 @@ if( $totregs > 0){
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Actividad Económica</label>
-                                    <textarea class="form-control textarea" id="ActividadEconomicaName2" name="ActividadEconomicaName2" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="ActividadEconomicaName2" name="ActividadEconomicaName2" rows="3" required><?php echo $ActividadEconomica; ?></textarea>
+									<input type="hidden" name="edit_id" id="edit_id" value="<?php echo $id; ?>">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Objeto Social</label>
-                                    <textarea class="textarea"  id="ObjetoSocial" name="ObjetoSocial" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="ObjetoSocial" name="ObjetoSocial" rows="3" required>
+									<?php echo $ObjetoSocial; ?>
+									</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Descripción General</label>
-                                    <textarea class="form-control" id="DescripcionGeneral" name="DescripcionGeneral" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="DescripcionGeneral" name="DescripcionGeneral" rows="3" required>
+									<?php echo $DescripcionGeneral; ?>
+									</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Misión</label>
-                                    <textarea class="form-control" id="Mision" name="Mision" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="Mision" name="Mision" rows="3" required>
+									<?php echo $Mision; ?>
+									</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Visión</label>
-                                    <textarea class="form-control" id="Vision" name="Vision" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="Vision" name="Vision" rows="3" required>
+									<?php echo $Vision; ?>
+									</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Objetivos Estratégicos</label>
-                                    <textarea class="form-control" id="ObjetivosEstrategicos" name="ObjetivosEstrategicos" rows="3" required></textarea>
+                                    <textarea class="form-control textarea" id="ObjetivosEstrategicos" name="ObjetivosEstrategicos" rows="3" required>
+									<?php echo $ObjetivosEstrategicos; ?>
+									</textarea>
                                 </div>
                             </div>
                         </form>
@@ -154,16 +165,14 @@ if( $totregs > 0){
     <!-- <script src="js/infobasica/infobasica.js"></script> -->
     <script>
     $('.textarea').summernote()	
-    $("#grabar").on('click',function( event ){
-        alert(77);
-        let ActividadEconomicaName2 =  $("#ActividadEconomicaName2").val();
-        let ObjetoSocial = $("#ObjetoSocial").val()
-        let DescripcionGeneral = $("#DescripcionGeneral").val();
-        let Mision =$("#Mision").val();
-        let Vision =$("#Vision").val();
-        let type;
-        let txt;
-
+	var ActividadEconomicaName2 =  $("#ActividadEconomicaName2").val();
+	var ObjetoSocial = $("#ObjetoSocial").val()
+	var DescripcionGeneral = $("#DescripcionGeneral").val();
+	var Mision =$("#Mision").val();
+	var Vision =$("#Vision").val();
+	var type;
+	var txt;
+    $("#grabar").on('click',function( event ){        
         /* if( ActividadEconomicaName2 == "" || ObjetoSocial == "" || DescripcionGeneral == "" || Mision == "" || Vision == "" ){
             type = "warning";
             if( ActividadEconomicaName2 == "" ){ txt = "Actividad Económica"; }
@@ -179,7 +188,6 @@ if( $totregs > 0){
                 timer: 5000
             });
         } */
-
        
         var parametros = $("#add_infobasica").serializeArray();
         $.ajax({
@@ -229,5 +237,54 @@ if( $totregs > 0){
         })
         event.preventDefault();
     })
-
+	
+	$("#actualizar").on('click',function( event ){
+        var parametros = $("#add_infobasica").serializeArray();
+        $.ajax({
+            type: "POST",
+            url: "ajax/infobasica/editar.php",
+            data: parametros,
+            beforeSend: function(objeto){
+                $("#resultados").html("Enviando...");
+            },
+            success: function(datos){
+                let m= datos.trim();
+                $("#resultados").html(datos);
+                let msj = m.substr(0,1);
+                let type;
+                let txt;
+                if(msj == 'U'){
+                    type = 'success';
+                    txt = 'Información Básica ha sido actualizada con éxito.';
+                }
+                else if(msj == 'E'){
+                    type= 'warning';
+                    txt = 'Ya existe un Registro grabado con el mismo Nombre.';
+                }
+                else if(msj == 'F'){
+                    type= 'error';
+                    txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+                }
+                else if(msj == 'D'){
+                    type= 'error';
+                    txt ='Error Desconocido.';
+                }
+                else{
+                    type= 'error';
+                    txt = 'Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.';
+                }
+                swal({
+                    position: 'top-end',
+                    type: ''+type,
+                    title: ''+txt,
+                    showConfirmButton: true,
+                    timer: 5000
+                });
+                setTimeout(function (){
+                    location.reload();
+                }, 3000)
+            }
+        })
+        event.preventDefault();
+    })
     </script>

@@ -1,6 +1,10 @@
-<?php include 'ajax/is_logged.php';?>
-<?php require_once 'components/sql_server.php';?>
-<?php
+<?php 
+include 'ajax/is_logged.php';
+//require_once 'components/sql_server.php';
+require_once 'config/dbx.php';
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
+
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 ?>
@@ -30,6 +34,6 @@ $reg=sqlsrv_fetch_array($query_empresa);
 
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
-                <?php include 'components/settings.php';?>
+    <?php include 'components/settings.php';?>
 </body>
 </html>

@@ -12,13 +12,14 @@ elseif (!empty($_POST['edit_id']))
 	// escaping, additionally removing everything that could be (html/javascript-) code
 	$nombre = trim($_POST["edit_name"]);
 	$nombre = str_replace(' ','%20',strtoupper($nombre));
+	$ck = trim($_POST["edit_ck"]);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
 	$resultado = "";
 	$msjx = "";
 	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/efectividad/revisarnombre.php?nombre=$nombre&id=$id";
+	$url = $urlServicios."api/efectividad/revisarnombre.php?nombre=$nombre&ck=$ck&id=$id";
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_VERBOSE, true);

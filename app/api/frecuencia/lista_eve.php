@@ -25,6 +25,7 @@
                 "FRE_IdFrecuencia" => $FRE_IdFrecuencia,
                 "FRE_Nombre" => $FRE_Nombre,
 				"FRE_CustomerKey" => $FRE_CustomerKey,
+				"FRE_FrecuenciaKey" => $FRE_FrecuenciaKey,
                 "FRE_UserKey" => $FRE_UserKey,
             );
             array_push($estadoArr["body"], $e);

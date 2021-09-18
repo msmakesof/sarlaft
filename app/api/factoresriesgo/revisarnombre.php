@@ -13,6 +13,7 @@ $db = $database->getConnectionCli();
 $item = new FactoresRiesgo($db);
 
 $item->FAR_Nombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->FAR_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->FAR_IdFactorRiesgo = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();
