@@ -58,7 +58,7 @@ elseif (!empty($_POST['eid']))
 	{		
 		$query="";
 		$getConnectionCli2 = new Database();
-		$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+		$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
 		
 		$sqlQuery = "UPDATE MET_Metodologia
                     SET MET_Nombre = '". htmlspecialchars(strip_tags($nombre)) ."',

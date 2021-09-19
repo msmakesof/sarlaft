@@ -1,6 +1,9 @@
 <?php
-//include 'ajax/is_logged.php';
-// mks 20210516  verificar cUrl
+include 'ajax/is_logged.php';
+$CustomerKey = $_SESSION['Keyp'];
+echo "ck.....$CustomerKey ";
+$IdResponsable = $_POST['IdResponsable'];
+
 require_once '../config/dbx.php';
 $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
@@ -30,6 +33,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	);
 	foreach($data as $key => $row) {}
 	
+	echo '<select class="form-control select2" id="responsable" name="responsable" required>';
+	echo '<option value="">Seleccione una opción</option>';
 	if( $key == "message")
 	{
 		echo '<option value="">'. $data["message"] .'</option>';
@@ -40,15 +45,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		{			
 			for($i=0; $i<count($data['body']); $i++)
 			{				
-				$condi = "";				
+				$condi = "";
 				$id = $data['body'][$i]["ResponsablesId"];
 				$nombre = trim($data['body'][$i]["ResponsablesName"]);
-				if( isset($IdResponsable) && $IdResponsable != "" && $id == $IdResponsable ){
+				if( isset($Responsable) && $Responsable != "" && $id == $Responsable ){
 					$condi = ' selected="selected" ';
 				}
 				echo '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
 			}
 		}		
 	}
+	echo '</select>';
 }
 ?>

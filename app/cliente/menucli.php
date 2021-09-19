@@ -312,11 +312,14 @@
                     <i class="fas fa-cubes"></i>
                     <span>Parametrización</span>
                 </a>
-				<?php
-				$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
+				<?php				
+				require_once '../config/dbx.php';
+				$getConnectionCli2 = new Database();
+				$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+				$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey='$CustomerKey'");
 				$regtit=sqlsrv_fetch_array($query_titulo);
 				//$IdTitulo = trim($regtit['TIT_IdTitulo']);
-				$NombreTitulo = trim($regtit['TIT_Nombre']);
+				$NombreTitulo = trim($regtit['TIT_Nombre']);				
 				?>
 				<div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">

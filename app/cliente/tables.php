@@ -1,12 +1,12 @@
 <?php 
 include '../ajax/is_logged.php';
 require_once '../config/dbx.php';
-$getConnectionCli2 = new Database();
-$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+$getConnectionSL = new Database();
+$conn= $getConnectionSL->getConnectionSL();
 
 $query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-$CustomerKey = $_SESSION['Keyp'];
+$CustomerKey = trim($_SESSION['Keyp']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -739,11 +739,11 @@ $CustomerKey = $_SESSION['Keyp'];
 			    $('#eName2').val(name)
                 responsable = button.data('responsable')
                 $('#eresponsable').val(responsable)
-                let parametros = "idresponsable="+responsable+"&ck=<?php echo $CustomerKey; ?>";
+                let parametros = "IdResponsable="+responsable+"&ck=<?php echo $CustomerKey; ?>";
                 $.ajax({
                     async: false,
                     type: "POST",
-                    url: "../ajax/planes/editarestado.php",
+                    url: "../ajax/responsables/responsable_plan.php",
                     data: parametros,
                     success: function(datos){
                         let slct = '<select class="form-control" name="eresponsable" id="eresponsable" style="width: 100%;" required>';

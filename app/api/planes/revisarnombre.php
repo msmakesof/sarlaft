@@ -13,6 +13,7 @@ $db = $database->getConnection();
 $item = new RolUsers($db);
 
 $item->PlanesName = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 $item->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();

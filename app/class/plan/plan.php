@@ -121,12 +121,13 @@
         public function getBuscaNombre(){
             $sql = "SELECT count(id) AS PlanesName
                       FROM ". $this->db_table ."
-                    WHERE PlanesName = ? AND id <> ? ";
+                    WHERE PlanesName = ? AND CustomerKey = ? AND id <> ? ";
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 
             $stmt->bindParam(1, $this->PlanesName, PDO::PARAM_STR);
-			$stmt->bindParam(2, $this->id, PDO::PARAM_INT);
+			$stmt->bindParam(2, $this->CustomerKey, PDO::PARAM_STR);
+			$stmt->bindParam(3, $this->id, PDO::PARAM_INT);
 
             $stmt->execute();
 
