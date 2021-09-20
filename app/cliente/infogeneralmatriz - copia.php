@@ -1,6 +1,7 @@
 <?php include '../ajax/is_logged.php';?>
 <?php 
 $UserKey=$_SESSION['UserKey'];
+//require_once '../components/sql_server.php';
 require_once '../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -87,7 +88,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	.titulo{
 		font-weight: bold;
 		color: white; text-shadow: grey 0.1em 0.1em 0.2em;
-		font-size:2em;
+		font-size:3em;
 	}
 	
 	.maytit{text-shadow: 1px 1px white, -1px -1px #333; font-family: fantasy}
@@ -126,8 +127,6 @@ $consecutivo = $reg['id'].'-'.$consec2;
 		background-color:red;
 		color: white;
 		text-align: center;
-		font-size: 12px;
-		width: 20%;
 	}
 	
 	.titulogrid{
@@ -143,7 +142,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	}
 	
 	.combo{
-		width: 90%;
+		width: 250px;
 	}
 	</style>
 </head>
@@ -327,7 +326,6 @@ $consecutivo = $reg['id'].'-'.$consec2;
 															<td>
 																<select class="combo" id="caso">
 																	<option value=""></option>
-																	<?php include("../curl/eventosriesgo/listarId.php"); ?>
 																</select>
 															</td>
 														</tr>
@@ -361,7 +359,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>													
 												</td>
 												<td>
-													<table style="width:100%;">
+												<table style="width:100%;">
 														<tr>
 															<td class="filtros">Causas</td>
 															<td>
@@ -400,10 +398,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														</tr>
 													</table>
 												</td>
-											</tr>
-											<tr>
 												<td>
-													<table style="width:100%;">
+												<table style="width:100%;">
 														<tr>
 															<td class="filtros">Seg. Clientes</td>
 															<td>
@@ -443,7 +439,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>
 												</td>
 												<td>
-													<table style="width:100%;">
+												<table style="width:100%;">
 														<tr>
 															<td class="filtros">Debilidades</td>
 															<td>
@@ -485,7 +481,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 											</tr>
 										</table>
 									</div>
-								</div>
+								</div>	
 									
 								<div id="zonadata">	
 				
@@ -499,171 +495,7 @@ $getUrl = new Database();
 $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
-	// Lista de Probabilidad
-	$url = $urlServicios."api/probabilidad/lista_eve_escala.php?ck=$CustomerKey";
-	//echo "url...$url<br>";
-	$resultado="";
-	$ch = curl_init();
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    curl_setopt($ch, CURLOPT_POST, 0);
-    $resultado = curl_exec ($ch);
-    curl_close($ch);
-	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-	$dataprob = json_decode($mestado, true);	
 	
-	$json_errors = array(
-		JSON_ERROR_NONE => 'No se ha producido ningún error',
-		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-	);
-	foreach($dataprob as $key => $row) {}
-	
-	if( $key == "message")
-	{
-		echo $dataprob["message"];
-	}
-	else
-	{
-		$sel_prob="<select class='form-control mprob' id='prob1' name='prob1' required style='font-size:12px'>";
-		$sel_prob.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($dataprob['body']); $i++)
-		{				
-			$condi = "";
-			$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
-			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
-			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
-			$color = trim($dataprob['body'][$i]["PRO_Color"]);
-			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
-				$condi = ' selected="selected" ';
-			}
-			$sel_prob.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
-		}
-		$sel_prob.= "</select>";
-		
-		// Este es para la imagen de la matriz de inherente a Control cuando es la primera vez
-		$sel_prob11= "";
-		$sel_prob11="<select class='form-control mprob' id='prob11' name='prob11' required style='font-size:12px'>";
-		$sel_prob11.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($dataprob['body']); $i++)
-		{				
-			$condi = "";
-			$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
-			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
-			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
-			$color = trim($dataprob['body'][$i]["PRO_Color"]);
-			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
-				$condi = ' selected="selected" ';
-			}
-			$sel_prob11.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
-		}
-		$sel_prob11.= "</select>";
-
-		$sel_prob2="<select class='form-control mprob2' id='prob2' name='prob2' required style='font-size:12px'>";
-		$sel_prob2.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($dataprob['body']); $i++)
-		{				
-			$condi2 = "";
-			$id = $dataprob['body'][$i]["PRO_IdProbabilidad"];
-			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
-			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
-			$color = trim($dataprob['body'][$i]["PRO_Color"]);
-			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
-				$condi2 = ' selected="selected" ';
-			}
-			$sel_prob2.= '<option value="'. $id .'"'. $condi .'>'. $nombre .'</option>';
-		}
-		$sel_prob2.= "</select>";
-	}
-
-	// Lista de Consecuencia
-	$url = $urlServicios."api/consecuencia/lista_eve_escala.php?ck=$CustomerKey";
-	//echo "url...$url<br>";
-	$resultado="";
-	$ch = curl_init();
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-    curl_setopt($ch, CURLOPT_POST, 0);
-    $resultado = curl_exec ($ch);
-    curl_close($ch);
-	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-	$datacsc = json_decode($mestado, true);	
-	
-	$json_errors = array(
-		JSON_ERROR_NONE => 'No se ha producido ningún error',
-		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-	);
-	foreach($datacsc as $key => $row) {}
-	
-	if( $key == "message")
-	{
-		echo $datacsc["message"];
-	}
-	else
-	{
-		$IdItemcsc="";
-		$sel_csc="<select class='form-control mconsec' id='consec1' name='consec1' required style='font-size:12px'>";
-		$sel_csc.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($datacsc['body']); $i++)
-		{				
-			$condicsc = "";
-			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-			$color = trim($datacsc['body'][$i]["CSC_Color"]);
-			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
-				$condicsc = ' selected="selected" ';
-			}
-			$sel_csc.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
-		}
-		$sel_csc.= "</select>";
-		
-		// Para la matriz de control cuando es imagen 
-		$sel_csc11="";
-		$sel_csc11="<select class='form-control mconsec' id='consec11' name='consec11' required style='font-size:12px'>";
-		$sel_csc11.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($datacsc['body']); $i++)
-		{				
-			$condicsc = "";
-			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-			$color = trim($datacsc['body'][$i]["CSC_Color"]);
-			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
-				$condicsc = ' selected="selected" ';
-			}
-			$sel_csc11.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
-		}
-		$sel_csc11.= "</select>";
-
-		$IdItemcs2c="";
-		$sel_csc2="<select class='form-control mconsec2' id='consec2' name='consec2' required style='font-size:12px'>";
-		$sel_csc2.="<option value=''>Seleccione opción</option>";
-		for($i=0; $i<count($datacsc['body']); $i++)
-		{				
-			$condicsc2 = "";
-			$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-			$color = trim($datacsc['body'][$i]["CSC_Color"]);
-			if( isset($IdItemcsc2) && $IdItemcsc2 != "" && $idcsc == $IdItemcsc2 ){
-				$condicsc2 = ' selected="selected" ';
-			}
-			$sel_csc2.= '<option value="'. $idcsc .'"'. $condicsc2 .'>'. $nombrecsc .'</option>';
-		}
-		$sel_csc2.= "</select>";
-	}
 	
 ?>
 <style>
@@ -685,89 +517,61 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 }
 </style>
 
-<!-- <table style="width:100% !important">
+<table style="width:100%;">
 	<tr>
-		<td>
-			<?php /*
-			for($i=0; $i<count($datacsc['body']); $i++)
-			{
-				$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-				$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-				$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-				echo "<td style='text-align:center; background-color: gray; color: white; font-size:11px'>$escalacsc = $nombrecsc</td>";
-			} */
-			?>
-		</td>
-	</tr>
-</table> -->
-		
-<table style="width:100% !important">	
-	<tr>
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
-		
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
-		
-		<td>
-			<table style="width:100% !important">
-				<tr>
-					<td>
-						<?php 
-						for($i=0; $i<count($datacsc['body']); $i++)
-						{
-							$idcsc = $datacsc['body'][$i]["CSC_IdConsecuencia"];
-							$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
-							$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
-							echo "<td style='text-align:center; background-color: gray; color: white; font-size:10px'>$escalacsc = $nombrecsc</td>";
-						}
-						?>
-					</td>
-				</tr>
-			</table>
-			<div id='matrizz'>
-				<?php include('../curl/matriz/matriz_infogral.php'); ?>
-			</div>
-		</td>
+		<td style="text-align:center; border: black 1px solid; width:20%"><img src="../img/edit.png" style="width:180px;"></td>
+		<td style="background-color:red; text-align:center; border: red 1px solid; width:80%">
+			<span class="titulo">MATRIZ SARLAFT</span>
+		</td>		
 	</tr>
 </table>
-<div id="consulta"></div>
+<table style="width:100%;">
+	<tbody>
+		<tr style="background-color:red;  text-align:center; color:white">
+			<td colspan="4">IDENTIFICACIÓN</td>
+			<td colspan="8">MEDICIÓN</td>
+			<td colspan="2">CONTROL</td>
+		</tr>
+		<tr style="background-color:red;  text-align:center; color:white">
+			<td colspan="4">Riesgo</td>
+			<td colspan="4">Riesgo Inherente</td>
+			<td colspan="4">Riesgo Controlado</td>
+			<td colspan="2">Mitigación</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
 
 <?php	
 }  // Fin Comprobamos si hay soporte para cURL
@@ -885,7 +689,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     <script>
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
-			$('#sidebarToggle').click();
 			//$("#zonadata").hide()
 			$("#zonadata").show()
             $('.select2').select2()
@@ -923,27 +726,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$("#matrizz1Control").hide();
 
 			
-			$("#buscar").on('click', function(event){				
-				var parametros = $('#formap').serialize()
-                $.ajax({
-					type: "POST",
-					url: "../ajax/eventosriesgo/consultainfogral.php",
-					data: parametros,
-					beforeSend: function(objeto){
-						swal({
-							position: 'top-end',
-							type: 'info',
-							title: 'Procesando información...Un momento',
-							showConfirmButton: false,
-							timer: 5000,
-							imageUrl: '../img/ajax-loader.gif',
-							imageAlt: 'Custom image',
-						});
-					  },
-					success: function(datos){
-						
-					}
-			    });
+			$("#pguardar").on('click', function(event){
 				
 			})
 			

@@ -3,14 +3,21 @@ include '../ajax/is_logged.php';
 require_once ("../config/dbx.php");
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+$CustomerKey = $_SESSION['Keyp'];
 
-$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+//* No se usan APIS porque es información Directa */
+$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey='".$_SESSION['Keyp']."'");
 $reg=sqlsrv_fetch_array($query_empresa);
 $CustomerKey = $_SESSION['Keyp'];
 $CustomerName = $reg['CustomerName'];
 
+/* Buscar si exsite creado un Nivel de Riesgo, en caso negativo no debe mostrar el botón Crear Matriz*/
+$query_nr=sqlsrv_query($conn,"SELECT count(NIR_IdNivelRiesgo) AS TotRegs FROM NIR_NivelRiesgo WHERE NIR_CustomerKey='".$_SESSION['Keyp']."'");
+$reg_nr=sqlsrv_fetch_array($query_nr);
+$TotalRegs= $reg_nr['TotRegs'];
+
 /* Buscar si existe registro creado en interseccion de Matriz y su tabla hija. */
-$query_TotalMatriz=sqlsrv_query($conn,"SELECT Count(INT_IdInterseccion) AS TotalMatriz FROM INT_Interseccion JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion WHERE INT_CustomerKey=".$_SESSION['Keyp']."");
+$query_TotalMatriz=sqlsrv_query($conn,"SELECT Count(INT_IdInterseccion) AS TotalMatriz FROM INT_Interseccion JOIN INA_InterseccionArmar ON INA_IdInterseccion = INT_IdInterseccion WHERE INT_CustomerKey='".$_SESSION['Keyp']."'");
 $reg=sqlsrv_fetch_array($query_TotalMatriz);
 $TotalMatriz= $reg['TotalMatriz'];
 ?>
@@ -40,6 +47,41 @@ $TotalMatriz= $reg['TotalMatriz'];
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+	<style>
+	.txtblind {
+		font-size:1em;
+		color: black;
+	}
+	.parpadea {  
+	  animation-name: parpadeo;
+	  animation-duration: 1s;
+	  animation-timing-function: linear;
+	  animation-iteration-count: infinite;
+
+	  -webkit-animation-name:parpadeo;
+	  -webkit-animation-duration: 1s;
+	  -webkit-animation-timing-function: linear;
+	  -webkit-animation-iteration-count: infinite;
+	}
+
+	@-moz-keyframes parpadeo{  
+	  0% { opacity: 1.0; }
+	  50% { opacity: 0.0; }
+	  100% { opacity: 1.0; }
+	}
+
+	@-webkit-keyframes parpadeo {  
+	  0% { opacity: 1.0; }
+	  50% { opacity: 0.0; }
+	   100% { opacity: 1.0; }
+	}
+
+	@keyframes parpadeo {  
+	  0% { opacity: 1.0; }
+	   50% { opacity: 0.0; }
+	  100% { opacity: 1.0; }
+	}
+	</style>
 </head>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -309,10 +351,14 @@ $TotalMatriz= $reg['TotalMatriz'];
                             <div style="float:right">
                                 <?php if( $TotalMatriz >= 0 ) { ?>
                                     <div style="float:left; margin-right:10px">
+										<?php if($TotalRegs == 0) {?>
+										<span class="badge badge-warning badge-counter txtblind parpadea">Debe Ingresar Nivel de Riesgo en Parametrización</span>
+										<?php } else {?>
                                         <a href="interseccion.php" class="btn btn-primary" >                                    
                                             <i class="fas fa-plus-circle"></i>
                                             Crear Matriz
                                         </a>
+										<?php }?>
                                     </div>
                                 <?php } ?>
                                 <!-- <div style="float:right">

@@ -1,7 +1,6 @@
 <?php include '../ajax/is_logged.php';?>
 <?php 
 $UserKey=$_SESSION['UserKey'];
-//require_once '../components/sql_server.php';
 require_once '../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -88,7 +87,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	.titulo{
 		font-weight: bold;
 		color: white; text-shadow: grey 0.1em 0.1em 0.2em;
-		font-size:3em;
+		font-size:2em;
 	}
 	
 	.maytit{text-shadow: 1px 1px white, -1px -1px #333; font-family: fantasy}
@@ -127,6 +126,8 @@ $consecutivo = $reg['id'].'-'.$consec2;
 		background-color:red;
 		color: white;
 		text-align: center;
+		font-size: 12px;
+		width: 20%;
 	}
 	
 	.titulogrid{
@@ -142,7 +143,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 	}
 	
 	.combo{
-		width: 250px;
+		width: 90%;
 	}
 	</style>
 </head>
@@ -326,6 +327,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 															<td>
 																<select class="combo" id="caso">
 																	<option value=""></option>
+																	<?php include("../curl/eventosriesgo/listarId.php"); ?>
 																</select>
 															</td>
 														</tr>
@@ -359,7 +361,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>													
 												</td>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Causas</td>
 															<td>
@@ -398,8 +400,10 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														</tr>
 													</table>
 												</td>
+											</tr>
+											<tr>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Seg. Clientes</td>
 															<td>
@@ -439,7 +443,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 													</table>
 												</td>
 												<td>
-												<table style="width:100%;">
+													<table style="width:100%;">
 														<tr>
 															<td class="filtros">Debilidades</td>
 															<td>
@@ -689,6 +693,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
     <script>
         $(document).ready(function(){
 			$(".loader").fadeOut("slow");
+			$('#sidebarToggle').click();
 			//$("#zonadata").hide()
 			$("#zonadata").show()
             $('.select2').select2()
