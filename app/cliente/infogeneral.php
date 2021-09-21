@@ -325,7 +325,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Nro. Caso</td>
 															<td>
-																<select class="combo" id="caso">
+																<select class="combo" id="caso" name="caso">
 																	<option value=""></option>
 																	<?php include("../curl/eventosriesgo/listarId.php"); ?>
 																</select>
@@ -334,7 +334,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Evento</td>
 															<td>
-																<select class="combo" id="evento">
+																<select class="combo" id="evento" name="evento">
 																	<option value=""></option>
 																	<?php include("../curl/eventosriesgo/listar.php"); ?>
 																</select>
@@ -343,7 +343,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Proceso</td>
 															<td>
-																<select class="combo" id="proceso">
+																<select class="combo" id="proceso" name="proceso">
 																	<option value=""></option>
 																	<?php include("../curl/procesos/listar_infogral.php"); ?>
 																</select>
@@ -352,7 +352,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Responsable</td>
 															<td>
-																<select class="combo" id="responsable">
+																<select class="combo" id="responsable" name="responsable">
 																	<option value=""></option>
 																	<?php include("../curl/responsables/listar.php"); ?>
 																</select>
@@ -365,7 +365,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Causas</td>
 															<td>
-																<select class="combo" id="causas">
+																<select class="combo" id="causas" name="causas">
 																	<option value=""></option>
 																	<?php include("../curl/causas/listar_infogral.php"); ?>
 																</select>
@@ -374,7 +374,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Consecuencias</td>
 															<td>
-																<select class="combo" id="consecuencias">
+																<select class="combo" id="consecuencias" name="consecuencias">
 																	<option value=""></option>
 																	<?php include("../curl/consecuencias/listar_infogral.php"); ?>
 																</select>
@@ -383,7 +383,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Control</td>
 															<td>
-																<select class="combo" id="control">
+																<select class="combo" id="control" name="control">
 																	<option value=""></option>
 																	<?php include("../curl/control/listar_infogral.php"); ?>
 																</select>
@@ -392,7 +392,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Tratamiento</td>
 															<td>
-																<select class="combo" id="tratamiento">
+																<select class="combo" id="tratamiento" name="tratamiento">
 																	<option value=""></option>
 																	<?php include("../curl/tratamientos/listar_infogral.php"); ?>
 																</select>
@@ -407,7 +407,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Seg. Clientes</td>
 															<td>
-																<select class="combo" id="segclientes">
+																<select class="combo" id="segclientes" name="segclientes">
 																	<option value=""></option>
 																	<?php include("../curl/segclientes/listar_infogral.php"); ?>
 																</select>
@@ -416,7 +416,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Seg. Productos</td>
 															<td>
-																<select class="combo" id="segproductos">
+																<select class="combo" id="segproductos" name="segproductos">
 																	<option value=""></option>
 																	<?php include("../curl/segproductos/listar_infogral.php"); ?>
 																</select>
@@ -425,7 +425,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Seg. Canales</td>
 															<td>
-																<select class="combo" id="segcanales">
+																<select class="combo" id="segcanales" name="segcanales">
 																	<option value=""></option>
 																	<?php include("../curl/segcanales/listar_infogral.php"); ?>
 																</select>
@@ -434,7 +434,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Seg. Jurisdicciones</td>
 															<td>
-																<select class="combo" id="segjurisdiccion">
+																<select class="combo" id="segjurisdiccion" name="segjurisdiccion">
 																	<option value=""></option>
 																	<?php include("../curl/segjurisdiccion/listar_infogral.php"); ?>
 																</select>
@@ -447,7 +447,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Debilidades</td>
 															<td>
-																<select class="combo" id="debilidades">
+																<select class="combo" id="debilidades" name="debilidades">
 																	<option value=""></option>
 																	<?php include("../curl/debilidades/listar_infogral.php"); ?>
 																</select>
@@ -456,7 +456,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Oportunidades</td>
 															<td>
-																<select class="combo" id="oportunidades">
+																<select class="combo" id="oportunidades" name="oportunidades">
 																	<option value=""></option>
 																	<?php include("../curl/oportunidades/listar_infogral.php"); ?>	
 																</select>
@@ -465,7 +465,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Fortalezas</td>
 															<td>
-																<select class="combo" id="fortalezas">
+																<select class="combo" id="fortalezas" name="fortalezas">
 																	<option value=""></option>
 																	<?php include("../curl/fortalezas/listar_infogral.php"); ?>
 																</select>
@@ -474,7 +474,7 @@ $consecutivo = $reg['id'].'-'.$consec2;
 														<tr>
 															<td class="filtros">Amenazas</td>
 															<td>
-																<select class="combo" id="amenazas">
+																<select class="combo" id="amenazas" name="amenazas">
 																	<option value=""></option>
 																	<?php include("../curl/amenazas/listar_infogral.php"); ?>
 																</select>

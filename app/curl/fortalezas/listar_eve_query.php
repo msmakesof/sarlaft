@@ -61,15 +61,12 @@ $vcausas = 0;
 	<tr>
 		<td style="width:10%">
 			<div id="addfor" style="float:left">
-				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Fortalezas" style="color:green; cursor:pointer"></i>
+				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Fortaleza" style="color:green; cursor:pointer"></i>
 			</div>
 
 			<a href="#" id="mcreafor" style="float:right" data-target="#addFortalezasModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Fortalezas" style="color:orange; cursor:pointer"></i>
-			</a>			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Fortalezas" style="color:red"></i>
-			</a>-->			
+				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Fortaleza" style="color:orange; cursor:pointer"></i>
+			</a>
 		</td>
 		<td style="width:80%"><label>Fortalezas</label></td>
 		<td style="width:10%"></td>
@@ -89,13 +86,13 @@ $vcausas = 0;
 				$id=$row['EFOR_Id'];
 				$IdFortaleza=trim($row['EFOR_IdFortaleza']);
 		?>
-			<tr id="FOR<?php echo $IdFortaleza; ?>">
+			<tr id="OPO<?php echo $IdFortaleza; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
 				<select class="form-control fortal" id="fortal<?php echo $IdFortaleza; ?>" name="fortal<?php echo $IdFortaleza; ?>" onChange="fxFO(this.options[this.selectedIndex].value, <?php echo $IdFortaleza; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT id, FortalezasName FROM FortalezasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY FortalezasName");
+					$sqlmov=sqlsrv_query($conn,"SELECT id, FortalezasName FROM FortalezasSarlaft WHERE CustomerKey='".$CustomerKey."' ORDER BY FortalezasName");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));
@@ -109,14 +106,14 @@ $vcausas = 0;
 							$condicontrol = ' selected="selected" ';
 						}
 					?>
-						<option value="<?php echo $FortalezasId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<option value="<?php echo $FortalezasId ;?>" <?php echo $condicontrol; ?>><?php echo $Nombre; ?></option>
 					<?php
 					}
 					?>
 				</select>
 				</td>
 				<td style="width:10%">
-					<div class="delete" onClick="deletefoUpd(<?php echo $IdOportunidad; ?>,<?php echo $IdEvento; ?>)">
+					<div class="delete" onClick="deletefoUpd(<?php echo $IdFortaleza; ?>,<?php echo $IdEvento; ?>)">
 						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
 					</div>
 				</td>
@@ -127,21 +124,3 @@ $vcausas = 0;
 	?>
 	</tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>			
-		</td>
-		<td>Debilidades</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_deb; ?></td>	
-	</tr>
-</table> -->

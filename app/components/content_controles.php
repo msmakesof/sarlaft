@@ -4,7 +4,7 @@
             <?php include("components/color.php");?>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Administrar <b>controles</b></h2>
+                        <h2>Administrar <b>Controles</b></h2>
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <div>
-                            <a href="#addControlModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo control</span></a>
+                            <a href="#addControlModal" class="btn btn-primary" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar Control</span></a>
                         </div>
                     </div>
                 </div>

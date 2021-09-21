@@ -64,7 +64,7 @@ $vcausas = 0;
 				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Debilidad" style="color:green; cursor:pointer"></i>
 			</div>
 
-			<a href="#" id="mcreacau" style="float:right" data-target="#addDebilidadesModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
+			<a href="#" id="mcreadeb" style="float:right" data-target="#addDebilidadesModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Debilidad" style="color:orange; cursor:pointer"></i>
 			</a>
 		</td>

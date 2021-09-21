@@ -15,7 +15,6 @@
     $itemCount = $stmt->rowCount();
 
     if($itemCount > 0){
-        
         $estadoArr = array();
         $estadoArr["body"] = array();
         $estadoArr["itemCount"] = $itemCount;
@@ -28,12 +27,10 @@
 				"CustomerKey" => $CustomerKey,
                 "UserKey" => $UserKey
             );
-
             array_push($estadoArr["body"], $e);
         }
         echo json_encode($estadoArr);
     }
-
     else{
         http_response_code(404);
         echo json_encode(

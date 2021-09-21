@@ -37,7 +37,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	else
 	{
 		$IdItemcsc="";
-		$sel_deb="<select class='form-control' id='ame' name='ame' required>";
+		$sel_deb="<select class='form-control' id='debil' name='debil' required>";
 		$sel_deb.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datadeb['body']); $i++)
 		{				
@@ -66,10 +66,7 @@ $vcausas = 0;
 
 			<a href="#" id="mcreaame" style="float:right" data-target="#addAmenazasModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Amenazas" style="color:orange; cursor:pointer"></i>
-			</a>			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Amenazas" style="color:red"></i>
-			</a>-->			
+			</a>
 		</td>
 		<td style="width:80%"><label>Amenazas</label></td>
 		<td style="width:10%"></td>
@@ -77,21 +74,3 @@ $vcausas = 0;
 	</thead>
 	<tbody id="tabamebody"></tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>			
-		</td>
-		<td>Debilidades</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_deb; ?></td>	
-	</tr>
-</table> -->

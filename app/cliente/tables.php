@@ -2,11 +2,15 @@
 include '../ajax/is_logged.php';
 require_once '../config/dbx.php';
 $getConnectionSL = new Database();
-$conn= $getConnectionSL->getConnectionSL();
-
-$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
-$reg=sqlsrv_fetch_array($query_empresa);
+$con= $getConnectionSL->getConnectionSL();
 $CustomerKey = trim($_SESSION['Keyp']);
+//echo $CustomerKey;
+
+$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+$reg=sqlsrv_fetch_array($query_empresa);
+
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -383,7 +387,7 @@ $CustomerKey = trim($_SESSION['Keyp']);
 								$CargosName=trim($data['body'][$i]['CargosName']);
 								$NombreResponsableSeg=trim($data['body'][$i]['NombreResponsableSeg']);
 								$NombreResponsableApr=trim($data['body'][$i]['NombreResponsableApr']);
-								$CustomerKey=trim($data['body'][$i]['CustomerKey']);
+								$CustomerKeyPlan=trim($data['body'][$i]['CustomerKey']);
 						?>	
 						<tr>
 							<td class='text-rigth'>

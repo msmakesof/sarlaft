@@ -61,15 +61,12 @@ $vcausas = 0;
 	<tr>
 		<td style="width:10%">
 			<div id="addame" style="float:left">
-				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Amenazas" style="color:green; cursor:pointer"></i>
+				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Amenaza" style="color:green; cursor:pointer"></i>
 			</div>
 
 			<a href="#" id="mcreaame" style="float:right" data-target="#addAmenazasModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Amenazas" style="color:orange; cursor:pointer"></i>
-			</a>			
-			<!-- <a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Amenazas" style="color:red"></i>
-			</a>-->			
+			</a>
 		</td>
 		<td style="width:80%"><label>Amenazas</label></td>
 		<td style="width:10%"></td>
@@ -92,10 +89,10 @@ $vcausas = 0;
 			<tr id="AME<?php echo $IdAmenaza; ?>">
 				<td style="width:10%"></td>
 				<td style="width:80%">
-				<select class="form-control ame" id="ame<?php echo $IdAmenaza; ?>" name="ame<?php echo $IdAmenaza; ?>" onChange="fxAM(this.options[this.selectedIndex].value, <?php echo $IdAmenaza; ?>)">
+				<select class="form-control ame" id="ame<?php echo $IdAmenaza; ?>" name="ame<?php echo $IdAmenaza; ?>" onChange="fxFO(this.options[this.selectedIndex].value, <?php echo $IdAmenaza; ?>)">
 					<option value=''>Seleccione</option>
 					<?php 
-					$sqlmov=sqlsrv_query($conn,"SELECT id, AmenazasName FROM AmenazasSarlaft WHERE CustomerKey='".$CustomerKey."' Order BY AmenazasName");
+					$sqlmov=sqlsrv_query($conn,"SELECT id, AmenazasName FROM AmenazasSarlaft WHERE CustomerKey='".$CustomerKey."' ORDER BY AmenazasName");
 					if ( $sqlmov === false)
 					{
 						die(print_r(sqlsrv_errors(), true));
@@ -109,7 +106,7 @@ $vcausas = 0;
 							$condicontrol = ' selected="selected" ';
 						}
 					?>
-						<option value="<?php echo $AmenazasId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<option value="<?php echo $AmenazasId ;?>" <?php echo $condicontrol; ?>><?php echo $Nombre; ?></option>
 					<?php
 					}
 					?>
@@ -124,6 +121,6 @@ $vcausas = 0;
 		<?php
 			}
 		}
-	?>	
+	?>
 	</tbody>
 </table>

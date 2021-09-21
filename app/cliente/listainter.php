@@ -1,15 +1,22 @@
 <?php 
 include '../ajax/is_logged.php';
 require_once ("../config/dbx.php");
+//$getConnectionCli2 = new Database();
+//$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+//$CustomerKey = $_SESSION['Keyp'];
+$CustomerKey = $_SESSION['Keyp'];
+
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
+
+//* No se usan APIS porque es información Directa */
+$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey='".$_SESSION['Keyp']."'");
+$reg=sqlsrv_fetch_array($query_empresa);
+$CustomerName = $reg['CustomerName'];
+
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 $CustomerKey = $_SESSION['Keyp'];
-
-//* No se usan APIS porque es información Directa */
-$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey='".$_SESSION['Keyp']."'");
-$reg=sqlsrv_fetch_array($query_empresa);
-$CustomerKey = $_SESSION['Keyp'];
-$CustomerName = $reg['CustomerName'];
 
 /* Buscar si exsite creado un Nivel de Riesgo, en caso negativo no debe mostrar el botón Crear Matriz*/
 $query_nr=sqlsrv_query($conn,"SELECT count(NIR_IdNivelRiesgo) AS TotRegs FROM NIR_NivelRiesgo WHERE NIR_CustomerKey='".$_SESSION['Keyp']."'");

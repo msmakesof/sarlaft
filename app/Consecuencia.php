@@ -3,6 +3,7 @@ include 'ajax/is_logged.php';
 require_once 'config/dbx.php';
 $getConnectionSL = new Database();
 $con = $getConnectionSL->getConnectionSL();
+
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 ?>

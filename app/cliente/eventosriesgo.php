@@ -1,14 +1,15 @@
-<?php include '../ajax/is_logged.php';?>
-<?php 
+<?php include '../ajax/is_logged.php';
 //require_once '../components/sql_server.php';
+$CustomerKey = $_SESSION['Keyp'];
 require_once '../config/dbx.php';
-$getConnectionCli2 = new Database();
-$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
 
-$query_empresa=sqlsrv_query($conn,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
-$CustomerKey = $_SESSION['Keyp'];
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 //echo "color". $reg['CustomerColor'];
 ?>
 <!DOCTYPE html>
@@ -361,7 +362,7 @@ $CustomerKey = $_SESSION['Keyp'];
 						foreach($data as $key => $row) {}
 						if( $key == "message"){	// No existen registros
 							echo '<tr>
-									<td colspan="6">'. $data["message"] .'</td>
+									<td colspan="7">'. $data["message"] .'</td>
 								</tr>';
 						}
 						else

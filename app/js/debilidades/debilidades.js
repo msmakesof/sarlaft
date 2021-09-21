@@ -38,9 +38,7 @@
 			return body;
 		}	
 	
-		$("#xpdf").on('click', function(event){			
-			//var login = ;
-			//alert(param);			
+		$("#xpdf").on('click', function(event){
 			let base64Img	
 			base64Img = "img/edit.png"	
 				
@@ -115,7 +113,7 @@
 		
 		$( "#addDebilidadesModal" ).on('show.bs.modal', function () {			
 			setTimeout(function (){
-				$('#Name2').focus();
+				$('#DebilidadName2').focus();
 			}, 1000)
 		});
 		

@@ -22,9 +22,33 @@ $debilidades = trim($_POST["debilidades"]);
 $oportunidades = trim($_POST["oportunidades"]);
 $fortalezas = trim($_POST["fortalezas"]);
 $amenazas = trim($_POST["amenazas"]);
-$CustomerKey = $_SESSION['Keyp'];
-//$UserKey = $_SESSION['UserKey'];
+$CustomerKey = trim($_SESSION['Keyp']);
 
+
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+
+// Evento de Riesgo
+$everie="";
+$condi_where_caso = "";
+/* Si caso esta vacio, seleccionamos todos */
+if ( $caso != "" ){
+	$condi_where_caso = " AND EVRI_Id = ".$caso ;
+}
+
+$query_ev=sqlsrv_query($conn,"SELECT EVRI_Id FROM EVRI_EventoRiesgo WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso ");
+
+if( $query_ev === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row = sqlsrv_fetch_array( $query_ev, SQLSRV_FETCH_ASSOC ) ){
+	$EVRI_Id = $row["EVRI_Id"];
+	echo $EVRI_Id;
+}
+
+
+
+/*
 $query = "";
 $resultado = "";
 // Si todo va bien se hace el Insert
@@ -61,4 +85,5 @@ if ($query) {
 	$errors[] = 'R';
 }
 echo $msjx;
+*/
 ?>

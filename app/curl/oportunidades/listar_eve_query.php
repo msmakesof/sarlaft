@@ -7,7 +7,7 @@ $urlServicios = $getUrl->getUrl();
 if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 {
 	$url = $urlServicios."api/oportunidades/lista_eve.php?ck=$CustomerKey";
-	//echo "url...$url<br>";
+	////echo "url...$url<br>";
 	$resultado="";
 	$ch = curl_init();
     curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -61,12 +61,12 @@ $vcausas = 0;
 	<tr>
 		<td style="width:10%">
 			<div id="addopo" style="float:left">
-				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Oportunidades" style="color:green; cursor:pointer"></i>
+				<i class="fas fa-plus-circle fa-1x" data-toggle="tooltip" title="Adicionar Oportunidad" style="color:green; cursor:pointer"></i>
 			</div>
 
 			<a href="#" id="mcreaopo" style="float:right" data-target="#addOportunidadesModal" data-toggle="modal" data-ck="<?php echo $CustomerKey;?>">
-				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Oportunidades" style="color:orange; cursor:pointer"></i>
-			</a>		
+				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Oportunidad" style="color:orange; cursor:pointer"></i>
+			</a>
 		</td>
 		<td style="width:80%"><label>Oportunidades</label></td>
 		<td style="width:10%"></td>
@@ -91,7 +91,7 @@ $vcausas = 0;
 				<td style="width:80%">
 				<select class="form-control opor" id="opor<?php echo $IdOportunidad; ?>" name="opor<?php echo $IdOportunidad; ?>" onChange="fxOP(this.options[this.selectedIndex].value, <?php echo $IdOportunidad; ?>)">
 					<option value=''>Seleccione</option>
-					<?php 
+					<?php
 					$sqlmov=sqlsrv_query($conn,"SELECT id, OportunidadesName FROM OportunidadesSarlaft WHERE CustomerKey='".$CustomerKey."' ORDER BY OportunidadesName");
 					if ( $sqlmov === false)
 					{
@@ -106,7 +106,7 @@ $vcausas = 0;
 							$condicontrol = ' selected="selected" ';
 						}
 					?>
-						<option value="<?php echo $OportunidadesId ;?>" <?php echo  $condicontrol; ?>><?php echo $Nombre; ?></option>
+						<option value="<?php echo $OportunidadesId ;?>" <?php echo $condicontrol; ?>><?php echo $Nombre; ?></option>
 					<?php
 					}
 					?>
@@ -124,21 +124,3 @@ $vcausas = 0;
 	?>
 	</tbody>
 </table>
-<!--
-<table class="table table-bordered" style="width:100% !important">
-	<tr>
-		<td style="width:10%">
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-plus-circle" data-toggle="tooltip" title="Adicionar Causa" style="color:green"></i>
-			</a>
-			<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
-				<i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Causa" style="color:red"></i>
-			</a>			
-		</td>
-		<td>Debilidades</td>
-	</tr>		
-	<tr>
-		<td style="width:10%">&nbsp;</td>
-		<td><?php echo $sel_deb; ?></td>	
-	</tr>
-</table> -->

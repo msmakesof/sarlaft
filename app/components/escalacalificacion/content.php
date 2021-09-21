@@ -4,7 +4,7 @@
             <?php include("components/color.php");?>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Administrar <b>Escala de Calificación</b></h2>                        
+                        <h2>Administrar <b>Escala de Calificación Control</b></h2>                        
                     </div>
                     <div class="col-sm-6">
                         <div>

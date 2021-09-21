@@ -7,6 +7,9 @@ $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerCol
 $reg=sqlsrv_fetch_array($query_empresa);
 $CustomerKey = $_SESSION['Keyp'];
 //echo "color". $reg['CustomerColor'];
+
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
