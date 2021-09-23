@@ -1,16 +1,24 @@
 <?php include '../ajax/is_logged.php';?>
 <?php 
 $UserKey=$_SESSION['UserKey'];
-require_once '../config/dbx.php';
-$getConnectionCli2 = new Database();
-$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
+$CustomerKey = trim($_SESSION['Keyp']);
 
-$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
+require_once '../config/dbx.php';
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL($CustomerKey );
+
+$query_empresa=sqlsrv_query($con,"SELECT id, CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$CustomerKey."");
+$reg=sqlsrv_fetch_array($query_empresa);
+
+$getConnectionCli2 = new Database();
+$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+
+$query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$CustomerKey."");
 $regtit=sqlsrv_fetch_array($query_titulo);
 $IdTitulo = trim($regtit['TIT_IdTitulo']);
 $NombreTitulo = trim($regtit['TIT_Nombre']);
 
-$query_escalacalificacion=sqlsrv_query($conn,"SELECT TOP 1 ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey=".$_SESSION['Keyp']."");
+$query_escalacalificacion=sqlsrv_query($conn,"SELECT TOP 1 ESC_Valor FROM ESC_EscalaCalificacion WHERE ESC_CustomerKey=".$CustomerKey."");
 $regescala=sqlsrv_fetch_array($query_escalacalificacion);
 $EscalaValor = trim($regescala['ESC_Valor']);
 
@@ -33,20 +41,7 @@ else {
 $PosicioActualFils = 0;
 $PosicioActualCols = 0;
 
-$query_empresa=sqlsrv_query($conn,"SELECT id, CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
-$reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
-$CustomerKey = $_SESSION['Keyp'];
-//echo $CustomerKey;
-$consec2 = generarCodigo(6); // genera un código de 6 caracteres de longitud.
-function generarCodigo($longitud) {
-    $key = '';
-    $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
-    $max = strlen($pattern)-1;
-    for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
-    return $key;
-} 
-$consecutivo = $reg['id'].'-'.$consec2;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

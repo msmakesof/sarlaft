@@ -406,11 +406,11 @@ if( $TREvri == 0){ $everie="red"; }
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Herramientas:</h6>  
-                        <a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">DashBoard</a>
+                        <a class="collapse-item" href="./dashboard.php" style="color: <?php echo $ndas;?>">DashBoard</a>
 						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Matriz Riesgos</a>
 						<a class="collapse-item" href="./infogeneralmatriz.php" style="color: <?php echo $ndas;?>">Matriz Sarlaft</a>
 						<a class="collapse-item" href="./infogeneral.php" style="color: <?php echo $ndas;?>">Informe General</a>
-						<a class="collapse-item" href="#" style="color: <?php echo $ndas;?>">Reporte Eventos</a>
+						<a class="collapse-item" href="./reporteeventos.php" style="color: <?php echo $ndas;?>">Reporte Eventos</a>
                     </div>
                 </div>
             </li>

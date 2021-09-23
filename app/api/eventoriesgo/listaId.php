@@ -3,14 +3,13 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/eventoriesgo/eventoriesgo.php';
+    include_once '../../class/eventoriesgo/eventosderiesgo.php';
 
     $database = new Database();
-    $db = $database->getConnectionCli();
-
+    $db = $database->getConnectionCLi();
     $items = new EventoRiesgo($db);
-	$items->CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();
 	
+	$items->EVRI_CustomerKey = isset($_GET['ck']) ? $_GET['ck'] : die();	
     $stmt = $items->getAll();
     $itemCount = $stmt->rowCount();
 
@@ -23,14 +22,14 @@
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
             $e = array(
-                "id" => $id,
-                "CustomerKey" => $CustomerKey,
-				"EventosdeRiesgoName" => $EventosdeRiesgoName,
+                "EVRI_Id" => $EVRI_Id,
+                "EVRI_CustomerKey" => $EVRI_CustomerKey,
+				"EVRI_Consecutivo" => $EVRI_Consecutivo,
             );
             array_push($estadoArr["body"], $e);
         }
-        echo json_encode($estadoArr);    }
-
+        echo json_encode($estadoArr);    
+	}
     else{
         http_response_code(404);
         echo json_encode(

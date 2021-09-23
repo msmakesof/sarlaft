@@ -1,6 +1,5 @@
-<?php include 'ajax/is_logged.php';?>
-<?php //require_once 'components/sql_server.php';?>
-<?php
+<?php include 'ajax/is_logged.php';
+//require_once 'components/sql_server.php';
 require_once 'config/dbx.php';
 $getConnectionSL = new Database();
 $con = $getConnectionSL->getConnectionSL();

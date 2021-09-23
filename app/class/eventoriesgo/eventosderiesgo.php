@@ -31,7 +31,7 @@
             WHERE EVRI_CustomerKey = ? ORDER BY EVRI_Id ";  
 			//echo $sql;			
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-			$stmt->bindParam(1, $this->CustomerKey);
+			$stmt->bindParam(1, $this->EVRI_CustomerKey);
 			
 			$stmt->execute();
 			return $stmt;
@@ -41,10 +41,10 @@
         public function getCkAll(){
             $sql = "SELECT EVRI_Id, EVRI_Consecutivo, EVRI_IdInterseccion, EVRI_CustomerKey, EventosdeRiesgoName,  ProcesosName, CargosName, ResponsablesName
             FROM ". $this->db_table ." 
-            JOIN EventosdeRiesgoSarlaft ON EventosdeRiesgoSarlaft.id = EVRI_IdEvento
-            JOIN ProcesosSarlaft ON ProcesosSarlaft.id = EVRI_IdProceso
-            JOIN CargosSarlaft ON CargosSarlaft.CargosId = EVRI_IdCargo
-            JOIN ResponsablesSarlaft ON ResponsablesSarlaft.ResponsablesId = EVRI_IdResponsable
+            LEFT JOIN EventosdeRiesgoSarlaft ON EventosdeRiesgoSarlaft.id = EVRI_IdEvento
+            LEFT JOIN ProcesosSarlaft ON ProcesosSarlaft.id = EVRI_IdProceso
+            LEFT JOIN CargosSarlaft ON CargosSarlaft.CargosId = EVRI_IdCargo
+            LEFT JOIN ResponsablesSarlaft ON ResponsablesSarlaft.ResponsablesId = EVRI_IdResponsable
             WHERE EVRI_CustomerKey = ? ORDER BY EVRI_Id ";
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));

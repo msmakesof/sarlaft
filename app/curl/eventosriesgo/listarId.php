@@ -42,8 +42,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			for($i=0; $i<count($data['body']); $i++)
 			{				
 				$condi = "";
-				$id = $data['body'][$i]["id"];
-				$nombre = trim($data['body'][$i]["EventosdeRiesgoName"]);
+				$id = $data['body'][$i]["EVRI_Id"];
+				$consecutivo = trim($data['body'][$i]["EVRI_Consecutivo"]);
 				if( isset($IdEventoRiesgo) && $IdEventoRiesgo != "" && $id == $IdEventoRiesgo ){
 					$condi = ' selected="selected" ';
 				}
