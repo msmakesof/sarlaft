@@ -1,12 +1,35 @@
 <?php include '../ajax/is_logged.php';
+$UserKey=$_SESSION['UserKey'];
+$CustomerKey = trim($_SESSION['Keyp']);
 
 require_once '../config/dbx.php';
 $getConnectionSL = new Database();
 $con = $getConnectionSL->getConnectionSL();
-$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
+$query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$CustomerKey."");
 $reg=sqlsrv_fetch_array($query_empresa);
-$CustomerKey = $_SESSION['Keyp'];
-//echo "color". $reg['CustomerColor'];
+
+include '../acceso.php';
+$consultar=0;
+$crear =0;
+$modificar=0;
+$eliminar=0;
+$exportar=0;
+
+if( $qry === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row = sqlsrv_fetch_array( $qry, SQLSRV_FETCH_ASSOC ) ){
+	$OPC_Nombre = trim($row['OPC_Nombre']);
+	
+	if( $OPC_Nombre == "METODOLOGIA" ){
+		$ACC_Nombre = trim($row['ACC_Nombre']);
+		if($ACC_Nombre == "CONSULTAR"){ $consultar=1 ;}
+		if($ACC_Nombre == "CREAR"){ $crear=1 ;}
+		if($ACC_Nombre == "MODIFICAR"){ $modificar=1 ;}
+		if($ACC_Nombre == "ELIMINAR"){ $eliminar=1 ;}
+		if($ACC_Nombre == "EXPORTAR"){ $exportar=1 ;}
+	}
+}
 
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -317,10 +340,12 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
                             </div>
                             <div style="float:right">
                                 <div style="float:left; margin-right:10px">
-                                    <a id="btn-AddDate" href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">                                    
-                                        <i class="fas fa-plus-circle"></i>
-                                        <span>Crear Metodología</span>
-                                    </a>
+                                    <?php if( $crear == 1 ) { ?>
+                                        <a id="btn-AddDate" href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fas fa-plus-circle"></i>
+                                            <span>Crear Metodología</span>
+                                        </a>
+                                    <?php } ?>                                    
                                 </div>
                                 <!--<div style="float:right">
                                     <a href="#" id="pdf" class="btn btn-success">
@@ -381,12 +406,16 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 							<td class='text-center'><?php echo $MetodDescripcion;?></td>							
 							<td class='text-left'><?php echo $MetodObservaciones ;?></td>
 							<td class='text-rigth'>
+                            <?php if( $modificar == 1 ) { ?>
 								<a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $MetodName?>" data-factorriesgo="<?php echo $MetodFactorRiesgo?>" data-descripcion="<?php echo $MetodDescripcion?>" data-observaciones="<?php echo $MetodObservaciones?>" data-id="<?php echo $MetodId; ?>">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Editar Metodologia" style="color:orange"></i>
-                                </a>								
+                                </a>
+                            <?php } 
+                            if( $eliminar == 1 ) { ?>
 								<a href="#" data-target="#deleteMetodologiaModal" class="delete" data-toggle="modal" data-id="<?php echo $MetodId;?>">
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Metodologia" style="color:red"></i>
-                                </a>                                
+                                </a> 
+                            <?php } ?>                                  
 							</td>
 						</tr>
 					<?php }	

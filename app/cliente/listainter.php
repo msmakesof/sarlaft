@@ -1,10 +1,9 @@
 <?php 
 include '../ajax/is_logged.php';
+$UserKey=$_SESSION['UserKey'];
+$CustomerKey = trim($_SESSION['Keyp']);
+
 require_once ("../config/dbx.php");
-//$getConnectionCli2 = new Database();
-//$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
-//$CustomerKey = $_SESSION['Keyp'];
-$CustomerKey = $_SESSION['Keyp'];
 
 $getConnectionSL = new Database();
 $con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
@@ -13,6 +12,29 @@ $con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey='".$_SESSION['Keyp']."'");
 $reg=sqlsrv_fetch_array($query_empresa);
 $CustomerName = $reg['CustomerName'];
+
+include '../acceso.php';
+$consultar=0;
+$crear =0;
+$modificar=0;
+$eliminar=0;
+$exportar=0;
+
+if( $qry === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row = sqlsrv_fetch_array( $qry, SQLSRV_FETCH_ASSOC ) ){
+	$OPC_Nombre = trim($row['OPC_Nombre']);
+	
+	if( $OPC_Nombre == "INTERSECCION" ){
+		$ACC_Nombre = trim($row['ACC_Nombre']);
+		if($ACC_Nombre == "CONSULTAR"){ $consultar=1 ;}
+		if($ACC_Nombre == "CREAR"){ $crear=1 ;}
+		if($ACC_Nombre == "MODIFICAR"){ $modificar=1 ;}
+		if($ACC_Nombre == "ELIMINAR"){ $eliminar=1 ;}
+		if($ACC_Nombre == "EXPORTAR"){ $exportar=1 ;}
+	}
+}
 
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -356,6 +378,7 @@ $TotalMatriz= $reg['TotalMatriz'];
                                 <h6 class="m-0 font-weight-bold text-primary"><?php echo strtoupper($CustomerName); ?></h6>
                             </div>
                             <div style="float:right">
+                            <?php if( $crear == 1 ) { ?>
                                 <?php if( $TotalMatriz >= 0 ) { ?>
                                     <div style="float:left; margin-right:10px">
 										<?php if($TotalRegs == 0) {?>
@@ -365,9 +388,11 @@ $TotalMatriz= $reg['TotalMatriz'];
                                             <i class="fas fa-plus-circle"></i>
                                             Crear Matriz
                                         </a>
-										<?php }?>
+										<?php } ?>
                                     </div>
-                                <?php } ?>
+                            <?php  } 
+                            }
+                            ?>
                                 <!-- <div style="float:right">
                                     <a href="" id="xpdf" class="btn btn-success">
                                         <i class="fa fa-file-pdf-o"></i>
@@ -421,12 +446,16 @@ $TotalMatriz= $reg['TotalMatriz'];
 							<td class='text-left' ><?php echo $FilasColumnas ;?></td>
 							<td class='text-center'><?php echo $DateStamp;?></td>
                             <td class='text-rigth'>
+                                <?php if( $modificar == 1 ) { ?>
                                 <a href="javascript:vodi(0);" onclick="mks(<?php echo $IdInterseccion; ?>,'<?php echo $CustomerKey; ?>')" class="tareas">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Modificar Matriz" style="color:orange"></i>
                                 </a>
+                                <?php } 
+								if( $eliminar == 1 ) { ?>
 								<a href="#" data-target="#deleteInterseccionModal" class="delete" data-toggle="modal" data-id="<?php echo $IdInterseccion;?>">
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Plan" style="color:red"></i>
                                 </a>
+                                <?php } ?>
 							</td>
 						</tr>
 					<?php }	

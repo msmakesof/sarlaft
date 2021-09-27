@@ -1,7 +1,6 @@
-<?php include 'ajax/is_logged.php';?>
-<?php //require_once 'components/sql_server_login.php';?>
-<?php
-echo $_POST['id'];
+<?php include 'ajax/is_logged.php';
+
+//echo $_POST['id'];
 // mks 20210516  verificar cUrl
 include 'curl/usuario/queryUserKey.php';
 //echo "info...$info<br>";
@@ -14,8 +13,7 @@ $UserColor =  trim($data['UserColor']);
 ////$reg=sqlsrv_fetch_array($query_empresa);
 $reg['id'] = $id;
 $reg['UserColor'] = $UserColor;
-?>
-<?php
+
     if (empty($_GET['Keyp'])) { $Keyp="";} else { $Keyp = strtolower($_GET["Keyp"]);}
     if($Keyp!=NULL){
         $_SESSION["Keyp"] = $Keyp;

@@ -68,10 +68,12 @@ if( $totregs > 0){
                     </div>
                     <div class="col-md-12">
                         <div>
+                        <?php if( $exportar == 1 ) { ?>
                             <a href="" id="xpdf" class="btn btn-success">
                                 <i class="fa fa-file-pdf-o"></i>
                                 <span>Exportar</span>
                             </a>
+                        <?php } ?>
                         </div>
                         <br>
                         <div class="form-group row"></div>
@@ -139,11 +141,19 @@ if( $totregs > 0){
 
                     </div>
                     <div class="form-group row">
-                        <?php if( $totregs == 0)  { ?>
+                        <?php if( $totregs == 0)  { 
+                            if( $crear == 1 ) {
+                        ?>
                         <input type="submit" class="btn btn-primary" value="Guardar datos" id="grabar">
-                        <?php } else { ?>
+                        <?php }
+                            } 
+                            else { 
+                                if( $modificar == 1 ) {
+                        ?>
                         <input type="submit" class="btn btn-success" value="Actualizar datos" id="actualizar">
-                        <?php } ?>
+                        <?php } 
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -172,22 +182,7 @@ if( $totregs > 0){
 	var Vision =$("#Vision").val();
 	var type;
 	var txt;
-    $("#grabar").on('click',function( event ){        
-        /* if( ActividadEconomicaName2 == "" || ObjetoSocial == "" || DescripcionGeneral == "" || Mision == "" || Vision == "" ){
-            type = "warning";
-            if( ActividadEconomicaName2 == "" ){ txt = "Actividad Económica"; }
-            if( ObjetoSocial == "" ){ txt = "Objeto Social"; }
-            if( DescripcionGeneral == "" ){ txt = "Descripcion General"; }
-            if( Mision == "" ){ txt = "Misión"; }
-            if( Vision == "" ){ txt = "Visión"; }
-            swal({
-                position: 'top-end',
-                type: ''+type,
-                title: ''+txt,
-                showConfirmButton: true,
-                timer: 5000
-            });
-        } */
+    $("#grabar").on('click',function( event ){
        
         var parametros = $("#add_infobasica").serializeArray();
         $.ajax({

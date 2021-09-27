@@ -29,16 +29,20 @@ if( empty($NombreTitulo) ){
                     </div>
                     <div class="col-sm-6">
                         <div>
+                        <?php if( $exportar == 1 ) { ?>
                             <a href="" id="xpdf" class="btn btn-success">
                                 <i class="fa fa-file-pdf-o"></i>
                                 <span>Exportar</span>
                             </a>
+                        <?php } ?>
                         </div>
                         <div>
+                        <?php if( $crear == 1 ) { ?>
                             <a href="#addConsecuenciaModal" class="btn btn-primary" data-toggle="modal">
                                 <i class="material-icons">&#xE147;</i>
                                 <span>Agregar <?php echo $NombreTitulo; ?></span>
                             </a>
+                        <?php } ?>
                         </div>
                     </div>
                 </div>

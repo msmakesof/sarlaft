@@ -80,12 +80,16 @@ else{
                       <div style="float:left; width:45%; margin-left:20px"><input type="checkbox" id="selectall"> Marcar Todos</div>
                     </th>
                   </tr>
-                  <tr>
-                    <th style="text-align:center">Consultar</th>
-                    <th style="text-align:center">Crear</th>
-                    <th style="text-align:center">Eliminar</th>
-                    <th style="text-align:center">Modificar</th>
-                  </tr>
+                  <tr>';
+                  $query_acc=sqlsrv_query($conn,"SELECT ACC_IdAccion, ACC_Nombre FROM Action WHERE ACC_IdEstado = 1 ORDER BY ACC_Nombre");
+                  if( $query_acc === false) {
+                    die( print_r( sqlsrv_errors(), true) );
+                  }
+                  while($row = sqlsrv_fetch_array( $query_acc, SQLSRV_FETCH_ASSOC ) ){
+                    $ACC_Nombre = trim($row['ACC_Nombre']);
+                    echo  '<th style="text-align:center">'.$ACC_Nombre.'</th>';
+                  }
+                echo '</tr>
                 </thead>
               ';
             

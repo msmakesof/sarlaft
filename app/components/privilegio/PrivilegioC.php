@@ -95,15 +95,20 @@ else{
               <table id="example1" class="table table-bordered table-striped table-sm" style="width:100%; padding:0px 10%">
                 <thead>
                   <tr style="text-align:center">
-                    <th colspan="2" style="text-align:center; width:60%">Nombre Menu</th>
-                    <th style="text-align:center; width:10%">Consultar</th>
-                    <th style="text-align:center; width:10%">Crear</th>
-                    <th style="text-align:center; width:10%">Eliminar</th>
-                    <th style="text-align:center; width:10%">Modificar</th>
-                  </tr>
+				   <th colspan="2" style="text-align:center; width:40%">Nombre Menu</th>';
+					$getConnectionSL = new Database();
+					$con = $getConnectionSL->getConnectionSL();
+					$query_acc=sqlsrv_query($con,"SELECT ACC_IdAccion, ACC_Nombre FROM Action WHERE ACC_IdEstado = 1 ORDER BY ACC_Nombre");
+					if( $query_acc === false) {
+						die( print_r( sqlsrv_errors(), true) );
+					}
+					while($row = sqlsrv_fetch_array( $query_acc, SQLSRV_FETCH_ASSOC ) ){
+						$ACC_Nombre = trim($row['ACC_Nombre']);
+						echo  '<th style="text-align:center; width:10%">'.$ACC_Nombre.'</th>';
+					}
+					echo  '</tr>
                 </thead>
-                <tbody>
-              ';
+                <tbody>';
             
               if( $data["itemCount"] > 0)
               {
@@ -148,7 +153,6 @@ else{
                       echo '<td style="text-align:center">
                         <input type="checkbox" class="form-check-input" value="'.$id.'A'.$idAccion.'" name="chk[]" '.$checked.'>
                       </td>';
-
                     }
                   }
                   echo "</tr>";
@@ -156,8 +160,7 @@ else{
               }
             echo '<tbody></table>';
           }
-          ?>  
-              
+          ?>
             <div>
               <button type="button" id="grabar" class="btn btn-primary">Grabar</button>
               <button type="button" id="salir" class="btn btn-danger">Salir</button>
@@ -233,16 +236,13 @@ $( document ).ready(function() {
 
 function xver(par1) {
 	var total = par1
-	alert("Tot..."+total);
-    //if (selected.length > 0) {
+	//alert("Tot..."+total);
 	if ( total > 0) {		
 		$.post("ajax/privilegio/guarda.php", {'id': <?php echo $_POST['id']; ?>, 'iduser': <?php echo  $iduser; ?>, 'ids': JSON.stringify($('[name="chk[]"]').serializeArray())}, function(result){						
 			let tipo = ""
 			let titulo = ""
 			let rta  = result			
 			alert(rta.length);
-				//$(".loader").fadeOut("slow");
-			
 				if( rta.substr(1, 1) == "S")
 				{
 					tipo = "success"
@@ -260,7 +260,6 @@ function xver(par1) {
 					showConfirmButton: true,
 					//timer: 5000
 				})
-			
 		});
     }
     else{

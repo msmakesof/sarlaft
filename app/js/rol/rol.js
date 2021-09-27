@@ -58,9 +58,7 @@
 			return body;
 		}	
 	
-		$("#xpdf").on('click', function(event){			
-			//var login = ;
-			//alert(param);			
+		$("#xpdf").on('click', function(event){
 			let base64Img	
 			base64Img = "img/edit.png"	
 				

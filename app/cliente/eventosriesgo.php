@@ -1,16 +1,38 @@
 <?php include '../ajax/is_logged.php';
-//require_once '../components/sql_server.php';
-$CustomerKey = $_SESSION['Keyp'];
+$UserKey=$_SESSION['UserKey'];
+$CustomerKey = trim($_SESSION['Keyp']);
+
 require_once '../config/dbx.php';
 $getConnectionSL = new Database();
 $con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
 
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
-//echo "sesion...".$_SESSION['Keyp']."<br>";
+include '../acceso.php';
+$consultar=0;
+$crear =0;
+$modificar=0;
+$eliminar=0;
+$exportar=0;
+
+if( $qry === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row = sqlsrv_fetch_array( $qry, SQLSRV_FETCH_ASSOC ) ){
+	$OPC_Nombre = trim($row['OPC_Nombre']);
+	
+	if( $OPC_Nombre == "EVENTO RIESGO" ){
+		$ACC_Nombre = trim($row['ACC_Nombre']);
+		if($ACC_Nombre == "CONSULTAR"){ $consultar=1 ;}
+		if($ACC_Nombre == "CREAR"){ $crear=1 ;}
+		if($ACC_Nombre == "MODIFICAR"){ $modificar=1 ;}
+		if($ACC_Nombre == "ELIMINAR"){ $eliminar=1 ;}
+		if($ACC_Nombre == "EXPORTAR"){ $exportar=1 ;}
+	}
+}
+
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
-//echo "color". $reg['CustomerColor'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -318,10 +340,12 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
                             </div>
                             <div style="float:right">
                                 <div style="float:left; margin-right:10px">
+                                    <?php if( $crear == 1 ) { ?>
                                     <a id="btn-AddDate" href="er.php" class="btn btn-primary">
                                         <i class="fas fa-plus-circle"></i>
                                         <span>Crear Evento de Riesgo</span>
                                     </a>
+                                    <?php } ?>
                                 </div>
                                 <!-- <div style="float:right">
                                     <a href="" id="xpdf" class="btn btn-success">
@@ -381,13 +405,16 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 						?>	
 						<tr>
 							<td class='text-rigth'>
+                                <?php if( $modificar == 1 ) { ?>
 								<a href="javascript:vodi(0);" onclick="mks(<?php echo $EVRI_Id; ?>,'<?php echo $CustomerKey; ?>')" data-name="<?php echo $EVRI_Consecutivo?>" data-eventoname="<?php echo $EventosdeRiesgoName?>" data-responsable="<?php echo $ResponsablesName?>" data-id="<?php echo $EVRI_Id; ?>">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Editar Evento de Riesgo" style="color:orange"></i>
                                 </a>
-								
+								<?php } 
+								if( $eliminar == 1 ) { ?>
 								<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $EVRI_Id;?>">
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Evento de Riesgo" style="color:red"></i>
-                                </a>							
+                                </a>
+                                <?php } ?>							
 							</td>
 							<td class='text-left'><?php echo $EVRI_Id;?></td>
 							<td class='text-left'><?php echo $EVRI_Consecutivo;?></td>

@@ -79,8 +79,8 @@ if($db != NULL){
     include 'curl/usuario/queryUpdColor.php';
     // if product has been added successfully
     if ($query) {
-                echo'<SCRIPT LANGUAGE="javascript">
-location.href = "./Users.php";
+        echo'<SCRIPT LANGUAGE="javascript">
+		location.href = "./Users.php";
 </SCRIPT>';
     } 
 }

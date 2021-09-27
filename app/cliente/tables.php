@@ -1,13 +1,37 @@
 <?php 
 include '../ajax/is_logged.php';
+$UserKey=$_SESSION['UserKey'];
+$CustomerKey = trim($_SESSION['Keyp']);
+
 require_once '../config/dbx.php';
 $getConnectionSL = new Database();
 $con= $getConnectionSL->getConnectionSL();
-$CustomerKey = trim($_SESSION['Keyp']);
-//echo $CustomerKey;
 
 $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
+
+include '../acceso.php';
+$consultar=0;
+$crear =0;
+$modificar=0;
+$eliminar=0;
+$exportar=0;
+
+if( $qry === false) {
+    die( print_r( sqlsrv_errors(), true) );
+}
+while($row = sqlsrv_fetch_array( $qry, SQLSRV_FETCH_ASSOC ) ){
+	$OPC_Nombre = trim($row['OPC_Nombre']);
+	
+	if( $OPC_Nombre == "PLANES" ){
+		$ACC_Nombre = trim($row['ACC_Nombre']);
+		if($ACC_Nombre == "CONSULTAR"){ $consultar=1 ;}
+		if($ACC_Nombre == "CREAR"){ $crear=1 ;}
+		if($ACC_Nombre == "MODIFICAR"){ $modificar=1 ;}
+		if($ACC_Nombre == "ELIMINAR"){ $eliminar=1 ;}
+		if($ACC_Nombre == "EXPORTAR"){ $exportar=1 ;}
+	}
+}
 
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
@@ -306,10 +330,12 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
                             </div>
                             <div style="float:right">
                                 <div style="float:left; margin-right:10px">
+                                    <?php if( $crear == 1 ) { ?>
                                     <a id="btn-AddDate" href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">                                    
                                         <i class="fas fa-plus-circle"></i>
                                         <span>Crear Plan</span>
                                     </a>
+                                    <?php } ?>
                                 </div>
                                 <!-- <div style="float:right">
                                     <a href="" id="xpdf" class="btn btn-success">
@@ -391,6 +417,7 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 						?>	
 						<tr>
 							<td class='text-rigth'>
+                                <?php if( $modificar == 1 ) { ?>
 								<a href="#" data-target="#editModal" data-toggle="modal" data-name="<?php echo $PlanesName?>" data-responsable="<?php echo $PlanesResponsable?>" 
                                 data-tarea="<?php echo $PlanesTarea?>" data-plazo="<?php echo $PlanesPlazo?>" data-aprueba="<?php echo $PlanesAprueba?>" 
                                 data-nivelp="<?php echo $PlanesNivelPrioridad?>" data-resps="<?php echo $PlanesRespSeguimiento?>" data-respa="<?php echo $PlanesRespAprobacion?>" 
@@ -398,11 +425,12 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
                                 data-avance="<?php echo $PlanesAvance?>" data-id="<?php echo $PlanesId; ?>">
                                     <i class="fas fa-pen" data-toggle="tooltip" title="Editar Plan" style="color:orange"></i>
                                 </a>
-								
+								<?php } 
+								if( $eliminar == 1 ) { ?>
 								<a href="#" data-target="#deletePlanModal" class="delete" data-toggle="modal" data-id="<?php echo $PlanesId;?>">
                                     <i class="fas fa-trash" data-toggle="tooltip" title="Eliminar Plan" style="color:red"></i>
                                 </a>
-                                
+                                <?php } ?>
                                 <a href="javascript:vodi(0);"  onclick="mks(<?php echo $PlanesId; ?>,'<?php echo $PlanesName; ?>')" class="tareas">
                                     <i class="fas fa-list-alt" data-toggle="tooltip" title="Gestión Tareas" style="color:green"></i>
                                 </a>							

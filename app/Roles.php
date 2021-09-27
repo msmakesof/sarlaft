@@ -1,9 +1,6 @@
-<?php include 'ajax/is_logged.php';?>
-<?php //require_once 'components/sql_server_login.php';?>
-<?php
+<?php include 'ajax/is_logged.php';
 // mks 20210516  verificar cUrl
 include 'curl/usuario/queryUserKey.php';
-//echo "info...$info<br>";
 
 $id= trim($data['id']);
 $UserKey = trim($data['UserKey']);
@@ -57,15 +54,10 @@ $reg['UserColor'] = $UserColor;
 if (empty($_GET['st'])) { $st="0";} else { $st = strtolower($_GET["st"]);}
 if (empty($_GET['id'])) { $id="";} else { $id = strtolower($_GET["id"]);}
 if($st != NULL){
-    //echo "get id...".$_POST['id']."<br>";
-    //echo "st...$st<br>";
     if( isset($_GET['id']) && $_GET['id'] != "" ){   // 20210524 mks
         $st = $st;
         $id = $_GET['id'];
         include 'curl/usuario/queryUpdStatus.php';
-        //$sql = "UPDATE UsersAuth SET UserStatus =".$st." WHERE id=".$_GET['id']."";
-        //$query = sqlsrv_query($con,$sql);
-
         // if product has been added successfully
         if ($query) {
             echo'<SCRIPT LANGUAGE="javascript">
@@ -80,8 +72,6 @@ if (empty($_GET['db'])) { $db=""; } else { $db = strtolower($_GET["db"]); }
 if (empty($_GET['clr'])) { $clr=""; } else { $clr = strtolower($_GET["clr"]); }
 if($db != NULL){
     include 'curl/usuario/queryUpdColor.php';
-    //$sql = "UPDATE UsersAuth SET UserColor ='#".$clr."' WHERE UserKey=".$_SESSION['UserKey']."";
-    //$query = sqlsrv_query($con,$sql);
     // if product has been added successfully
     if ($query) {
         echo'<SCRIPT LANGUAGE="javascript">

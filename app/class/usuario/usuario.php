@@ -68,7 +68,7 @@
         // Buscar Usuario por Email y Clave
         public function getBuscar(){
             $sql = "SELECT id, UserKey, CustomerKey, UserEmail, UserName, UserTipo, Password, UserStatus FROM ". $this->db_table ." 
-            WHERE UserEmail = ? AND  Password = ? ";
+            WHERE UserEmail = ? AND  Password = ? AND UserStatus = 1 ";
             //echo $sql; 
 
             $stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
