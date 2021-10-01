@@ -36,6 +36,10 @@ $riesgoasociado="";
 $causa="";
 $consecuencia="";
 $tratamiento="";
+$segclientes="";
+$segproductos="";
+$segcanales="";
+$segjurisdiccion="";
 $debilidad="";
 $oportunidad="";
 $fortaleza="";
@@ -139,6 +143,75 @@ $query = sqlsrv_query($conn,"SELECT ECON_Id, ECON_IdConsecuencia FROM ECON_Conse
     }
 }
 
+// Para Segmento Cliente
+$arraySC = array(); 
+//$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+$query = sqlsrv_query($conn,"SELECT ESCL_Id, ESCL_IdSegmentoCliente FROM ESCL_SegmentoClientes WHERE ESCL_IdEventoRiesgo=".$IdEvento);
+{
+    if ( $query === false)
+    {
+        $grabado="D";
+        die(print_r(sqlsrv_errors(), true));
+    }						
+    while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+        $id=$row['ESCL_Id'];
+        $IdSegmentoCliente=trim($row['ESCL_IdSegmentoCliente']);
+        array_push($arraySC, $IdSegmentoCliente );
+    }
+}
+
+// Para Segmento Producto
+$arraySP = array(); 
+//$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+$query = sqlsrv_query($conn,"SELECT ESPR_Id, ESPR_IdSegmentoProducto FROM ESPR_SegmentoProductos WHERE ESPR_IdEventoRiesgo=".$IdEvento);
+{
+    if ( $query === false)
+    {
+        $grabado="D";
+        die(print_r(sqlsrv_errors(), true));
+    }						
+    while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+        $id=$row['ESPR_Id'];
+        $IdSegmentoProducto=trim($row['ESPR_IdSegmentoProducto']);
+        array_push($arraySP, $IdSegmentoProducto );
+    }
+}
+
+// Para Segmento Canal
+$arraySN = array(); 
+//$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+$query = sqlsrv_query($conn,"SELECT ESCA_Id, ESCA_IdSegmentoCanal FROM ESCA_SegmentoCanales WHERE ESCA_IdEventoRiesgo=".$IdEvento);
+{
+    if ( $query === false)
+    {
+        $grabado="D";
+        die(print_r(sqlsrv_errors(), true));
+    }						
+    while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+        $id=$row['ESCA_Id'];
+        $IdSegmentoCanal=trim($row['ESCA_IdSegmentoCanal']);
+        array_push($arraySN, $IdSegmentoCanal );
+    }
+}
+
+// Para Segmento Jurisdiccion
+$arraySJ = array(); 
+//$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
+$query = sqlsrv_query($conn,"SELECT ESJU_Id, ESJU_IdSegmentoJurisdiccion FROM ESJU_SegmentoJurisdiccion WHERE ESJU_IdEventoRiesgo=".$IdEvento);
+{
+    if ( $query === false)
+    {
+        $grabado="D";
+        die(print_r(sqlsrv_errors(), true));
+    }						
+    while( $row = sqlsrv_fetch_array( $query, SQLSRV_FETCH_ASSOC) ) {
+        $id=$row['ESJU_Id'];
+        $IdSegmentoJurisdiccion=trim($row['ESJU_IdSegmentoJurisdiccion']);
+        array_push($arraySJ, $IdSegmentoJurisdiccion );
+    }
+}
+
+
 // Para Debilidades
 $arrayDE = array(); 
 //$conn = $getConnectionCli2->getConnectionCli2($CustomerKey);
@@ -214,7 +287,11 @@ if( $grabado != "D" ){
     $queryProg .="DELETE FROM ETIR_TipoRiesgo WHERE ETIR_IdEventoRiesgo =$IdEvento; \n";
     $queryProg .="DELETE FROM ERIA_RiesgoAsociado WHERE ERIA_IdEventoRiesgo =$IdEvento; \n";
     $queryProg .="DELETE FROM ECAU_Causas WHERE ECAU_IdEventoRiesgo =$IdEvento; \n";
-    $queryProg .="DELETE FROM ECON_Consecuencias WHERE ECON_IdEventoRiesgo =$IdEvento; \n";
+    $queryProg .="DELETE FROM ECON_Consecuencias WHERE ECON_IdEventoRiesgo =$IdEvento; \n";	
+	$queryProg .="DELETE FROM ESCL_SegmentoClientes WHERE ESCL_IdEventoRiesgo =$IdEvento; \n";
+	$queryProg .="DELETE FROM ESPR_SegmentoProductos WHERE ESPR_IdEventoRiesgo =$IdEvento; \n";
+	$queryProg .="DELETE FROM ESCA_SegmentoCanales WHERE ESCA_IdEventoRiesgo =$IdEvento; \n";
+	$queryProg .="DELETE FROM ESJU_SegmentoJurisdiccion WHERE ESJU_IdEventoRiesgo =$IdEvento; \n";	
     $queryProg .="DELETE FROM EDEB_Debilidades WHERE EDEB_IdEventoRiesgo =$IdEvento; \n";
     $queryProg .="DELETE FROM EOPO_Oportunidades WHERE EOPO_IdEventoRiesgo =$IdEvento; \n";
     $queryProg .="DELETE FROM EFOR_Fortalezas WHERE EFOR_IdEventoRiesgo =$IdEvento; \n";
@@ -347,7 +424,61 @@ if( $grabado != "D" ){
                     }
                 } // fin del if CON
 
-                if( $mkey1 == "DEB"){
+                if( $mkey1 == "SCL"){
+                    ////echo "mvalue....$mvalue<br>";
+                    foreach ($mvalue1 as $mkey2=>$mvalue2) {
+                        //echo "mkey2....$mkey2<br>";
+
+                        foreach ($mvalue2 as $mkey3=>$mvalue3) {
+                            ///echo "mkey3....$mkey3<br>";
+                            ///echo "mvalue3....$mvalue3<br>";
+                            $queryProg .= "INSERT INTO ESCL_SegmentoClientes (ESCL_IdEventoRiesgo, ESCL_IdSegmentoCliente) VALUES ($IdEvento, $mvalue3); \n" ;
+                        }
+                    }
+                } // fin del if SCL
+				
+				
+				if( $mkey1 == "SPR"){
+                    ////echo "mvalue....$mvalue<br>";
+                    foreach ($mvalue1 as $mkey2=>$mvalue2) {
+                        //echo "mkey2....$mkey2<br>";
+
+                        foreach ($mvalue2 as $mkey3=>$mvalue3) {
+                            ///echo "mkey3....$mkey3<br>";
+                            ///echo "mvalue3....$mvalue3<br>";
+                            $queryProg .= "INSERT INTO ESPR_SegmentoProductos (ESPR_IdEventoRiesgo, ESPR_IdSegmentoProducto) VALUES ($IdEvento, $mvalue3); \n" ;
+                        }
+                    }
+                } // fin del if SPR
+				
+				if( $mkey1 == "SCA"){
+                    ////echo "mvalue....$mvalue<br>";
+                    foreach ($mvalue1 as $mkey2=>$mvalue2) {
+                        //echo "mkey2....$mkey2<br>";
+
+                        foreach ($mvalue2 as $mkey3=>$mvalue3) {
+                            ///echo "mkey3....$mkey3<br>";
+                            ///echo "mvalue3....$mvalue3<br>";
+                            $queryProg .= "INSERT INTO ESCA_SegmentoCanales (ESCA_IdEventoRiesgo, ESCA_IdSegmentoCanal) VALUES ($IdEvento, $mvalue3); \n" ;
+                        }
+                    }
+                } // fin del if SCA
+				
+				if( $mkey1 == "SJU"){
+                    ////echo "mvalue....$mvalue<br>";
+                    foreach ($mvalue1 as $mkey2=>$mvalue2) {
+                        //echo "mkey2....$mkey2<br>";
+
+                        foreach ($mvalue2 as $mkey3=>$mvalue3) {
+                            ///echo "mkey3....$mkey3<br>";
+                            ///echo "mvalue3....$mvalue3<br>";
+                            $queryProg .= "INSERT INTO ESJU_SegmentoJurisdiccion (ESJU_IdEventoRiesgo, ESJU_IdSegmentoJurisdiccion) VALUES ($IdEvento, $mvalue3); \n" ;
+                        }
+                    }
+                } // fin del if SJU
+				
+				
+				if( $mkey1 == "DEB"){
                     ////echo "mvalue....$mvalue<br>";
                     foreach ($mvalue1 as $mkey2=>$mvalue2) {
                         //echo "mkey2....$mkey2<br>";
@@ -359,6 +490,7 @@ if( $grabado != "D" ){
                         }
                     }
                 } // fin del if DEB
+				
 
                 if( $mkey1 == "OPO"){
                     ////echo "mvalue....$mvalue<br>";

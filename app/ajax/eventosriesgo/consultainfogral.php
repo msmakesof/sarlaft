@@ -31,8 +31,12 @@ $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 // Evento de Riesgo
 $everie="";
 /* Si caso está vacio, seleccionamos todos */
-$condi_where_caso = " AND EVRI_Id > 0 ";
-if ( $caso != "" ){
+$condi_where_caso = "";  //" AND EVRI_Id > 0 ";
+// caso Todos
+if ( $caso == "0" ){  
+	$condi_where_caso = " AND EVRI_Id > 0" ;
+}
+if ( $caso > 0 ){
 	$condi_where_caso = " AND EVRI_Id = ".$caso ;
 }
 
@@ -68,10 +72,11 @@ if ( $caso != "" ){
 	$condi_join_causas .= " AND ECAU_IdEventoRiesgo = ".$caso ;
 }
 
-$query_ev=sqlsrv_query($conn,"SELECT EVRI_Id, EVRI_IdEvento, MOV_FilaMRI, MOV_ColumnaMRI, EventosdeRiesgoName, ProcesosName, CargosName, ResponsablesName FROM EVRI_EventoRiesgo JOIN MOV_MatrizInherente ON MOV_IdEventoMRI = EVRI_Id AND MOV_CustomerKeyMRI = EVRI_CustomerKey JOIN EventosdeRiesgoSarlaft AS E ON E.id = EVRI_IdEvento JOIN ProcesosSarlaft AS P ON P.id = EVRI_IdProceso JOIN CargosSarlaft AS C ON C.CargosId = EVRI_IdCargo JOIN ResponsablesSarlaft AS R ON R.ResponsablesId = EVRI_IdResponsable WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso ");
+//$query_ev=sqlsrv_query($conn,"SELECT EVRI_Id, EVRI_IdEvento, MOV_FilaMRI, MOV_ColumnaMRI, EventosdeRiesgoName, ProcesosName, CargosName, ResponsablesName FROM EVRI_EventoRiesgo JOIN MOV_MatrizInherente ON MOV_IdEventoMRI = EVRI_Id AND MOV_CustomerKeyMRI = EVRI_CustomerKey JOIN EventosdeRiesgoSarlaft AS E ON E.id = EVRI_IdEvento JOIN ProcesosSarlaft AS P ON P.id = EVRI_IdProceso JOIN CargosSarlaft AS C ON C.CargosId = EVRI_IdCargo JOIN ResponsablesSarlaft AS R ON R.ResponsablesId = EVRI_IdResponsable WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso ORDER BY EVRI_Id ");
 
-//echo "SELECT EVRI_Id, EVRI_IdEvento, MOV_FilaMRI, MOV_ColumnaMRI, EventosdeRiesgoName, ProcesosName, CargosName, ResponsablesName FROM EVRI_EventoRiesgo JOIN MOV_MatrizInherente ON MOV_IdEventoMRI = EVRI_Id AND MOV_CustomerKeyMRI = EVRI_CustomerKey JOIN EventosdeRiesgoSarlaft AS E ON E.id = EVRI_IdEvento JOIN ProcesosSarlaft AS P ON P.id = EVRI_IdProceso JOIN CargosSarlaft AS C ON C.CargosId = EVRI_IdCargo JOIN ResponsablesSarlaft AS R ON R.ResponsablesId = EVRI_IdResponsable WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso ";
+//echo "SELECT EVRI_Id, EVRI_IdEvento, MOV_FilaMRI, MOV_ColumnaMRI, EventosdeRiesgoName, ProcesosName, CargosName, ResponsablesName FROM EVRI_EventoRiesgo JOIN MOV_MatrizInherente ON MOV_IdEventoMRI = EVRI_Id AND MOV_CustomerKeyMRI = EVRI_CustomerKey JOIN EventosdeRiesgoSarlaft AS E ON E.id = EVRI_IdEvento JOIN ProcesosSarlaft AS P ON P.id = EVRI_IdProceso JOIN CargosSarlaft AS C ON C.CargosId = EVRI_IdCargo JOIN ResponsablesSarlaft AS R ON R.ResponsablesId = EVRI_IdResponsable WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso  ORDER BY EVRI_Id ";
 
+$query_ev=sqlsrv_query($conn,"SELECT EVRI_Id,EVRI_CustomerKey WHERE EVRI_CustomerKey='$CustomerKey' $condi_where_caso ORDER BY EVRI_Id ");
 
 if( $query_ev === false) {
     die( print_r( sqlsrv_errors(), true) );
@@ -79,36 +84,57 @@ if( $query_ev === false) {
 $respuesta="";
 while($row = sqlsrv_fetch_array( $query_ev, SQLSRV_FETCH_ASSOC ) ){
 	$EVRI_Id = $row["EVRI_Id"];
-	$FilaMRI = $row["MOV_FilaMRI"];
+	$EVRI_CustomerKey = $row["EVRI_CustomerKey"];
+	/*$FilaMRI = $row["MOV_FilaMRI"];
 	$ColumnaMRI = $row["MOV_ColumnaMRI"];
 	$EventosdeRiesgoName = trim($row["EventosdeRiesgoName"]);
 	$ProcesosName = trim($row["ProcesosName"]);
 	$CargosName = trim($row["CargosName"]);
-	$ResponsablesName = trim($row["ResponsablesName"]);
+	$ResponsablesName = trim($row["ResponsablesName"]);*/
 
 	$respuesta="<table style='width:100%'>
 	<tr style='background-color:gray; color:black;'>
-		<td> Caso $EVRI_Id</td>
-	</tr>
+		<td style='font-weight:bold'> Caso $EVRI_Id</td>
+	</tr>";
+
+	$EventosdeRiesgoName="";
+	$_condiEventoRiesgo = "";
+	if ( $evento != ""){
+		$_condiEventoRiesgo = " AND E.id = $evento ";
+	}
+	$query_eventoriesgo=sqlsrv_query($conn,"SELECT E.EventosdeRiesgoName FROM EventosdeRiesgoSarlaft E WHERE E.CustomerKey = '$EVRI_CustomerKey'  $_condiEventoRiesgo ");
+	if( $query_eventoriesgo === false) {
+		die( print_r( sqlsrv_errors(), true) );
+	}
+	while($rowEventoriesgo = sqlsrv_fetch_array( $query_eventoriesgo, SQLSRV_FETCH_ASSOC ) ){
+		$EventosdeRiesgoName = trim($rowEventoriesgo["EventosdeRiesgoName"]);
+		$respuesta.="<tr><td>$EventosdeRiesgoName</td></tr>";
+	}	
+	$respuesta.="
 	<tr>
-		<td>Evento de Riesgo: $EventosdeRiesgoName</td>
-	</tr>
+		<td style='font-weight:bold'>Evento de Riesgo: $EventosdeRiesgoName</td>
+	</tr>";	
+	$respuesta.="
 	<tr>
-		<td>Proceso: $ProcesosName</td>
-	</tr>
-	</tr>
+		<td style='font-weight:bold'>Proceso: $ProcesosName</td>
+	</tr>";	
+	$respuesta.="
 	<tr>
-		<td>Cargo: $CargosName</td>
-	</tr>
+		<td style='font-weight:bold'>Cargo: $CargosName</td>
+	</tr>";	
+	$respuesta.="
 	<tr>
-		<td>Responsable: $ResponsablesName</td>
-	</tr>
+		<td style='font-weight:bold'>Responsable: $ResponsablesName</td>
+	</tr>";	
+	$respuesta.="	
 	<tr>
-		<td>Riesgo Inherente: </td>
-	</tr>
+		<td style='font-weight:bold'>Riesgo Inherente: </td>
+	</tr>";	
+	$respuesta.="
 	<tr>
-		<td>Riesgo Residual: </td>
-	</tr>
+		<td style='font-weight:bold'>Riesgo Residual: </td>
+	</tr>";	
+	$respuesta.="
 	<tr>
 		<td style='font-weight:bold'>Causas:</td>
 	</tr>";

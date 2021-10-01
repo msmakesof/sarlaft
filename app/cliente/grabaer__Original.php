@@ -20,9 +20,9 @@ $js = json_decode($json, true);
 $IdEvento = 0;
 $consecutivo ="";
 $ideventoriesgo ="";
-$idproceso = "";
-$idcargo ="";
-$idresponsable ="";
+$idproceso = 0;
+$idcargo =0;
+$idresponsable =0;
 $mi_probabilidad = "";
 $mi_consecuencia = "";
 $mc_probabilidad = "";
@@ -33,10 +33,6 @@ $riesgoasociado="";
 $causa="";
 $consecuencia="";
 $tratamiento="";
-$segclientes="";
-$segproductos="";
-$segcanales="";
-$segjurisdiccion="";
 $debilidad="";
 $oportunidad="";
 $fortaleza="";
@@ -91,7 +87,7 @@ foreach($js as $key=>$value){
 					}
 					if($key2=="PRO"){
 						$idproceso = $value4;
-						if($idproceso == "" ){
+						if($idproceso == ""){
 							$idproceso = 0;
 						}
 					}
@@ -103,7 +99,7 @@ foreach($js as $key=>$value){
 					}
 					if($key2=="RES"){
 						$idresponsable = $value4;
-						if( $idresponsable == "" ){
+						if($idresponsable == ""){
 							$idresponsable = 0;
 						}
 					}
@@ -144,24 +140,6 @@ foreach($js as $key=>$value){
 						$consecuencia .= "INSERT INTO ECON_Consecuencias (ECON_IdEventoRiesgo, ECON_IdConsecuencia) VALUES ('?', $value4);" ;
 					}
 					
-					
-					if($key2=="SCL"){
-						$segclientes .= "INSERT INTO ESCL_SegmentoClientes (ESCL_IdEventoRiesgo, ESCL_IdSegmentoCliente) VALUES ('?', $value4);" ;
-					}
-					
-					if($key2=="SPR"){
-						$segproductos .= "INSERT INTO ESPR_SegmentoProductos (ESPR_IdEventoRiesgo, ESPR_IdSegmentoProducto) VALUES ('?', $value4);" ;
-					}
-					
-					if($key2=="SCA"){
-						$segcanales .= "INSERT INTO ESCA_SegmentoCanales (ESCA_IdEventoRiesgo, ESCA_IdSegmentoCanal) VALUES ('?', $value4);" ;
-					}
-					
-					if($key2=="SJU"){
-						$segjurisdiccion .= "INSERT INTO ESJU_SegmentoJurisdiccion (ESJU_IdEventoRiesgo, ESJU_IdSegmentoJurisdiccion) VALUES ('?', $value4);" ;
-					}				
-					
-					
 					if($key2=="DEB"){
 						$debilidad .= "INSERT INTO EDEB_Debilidades (EDEB_IdEventoRiesgo, EDEB_IdDebilidad) VALUES ('?', $value4);" ;
 					}
@@ -193,12 +171,16 @@ $EventoKey=time();
 $UserKey=$_SESSION['UserKey'];
 $DateStamp=date("Y-m-d H:i:s");
 
+//$sql="INSERT INTO EVRI_EventoRiesgo (EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp) VALUES ('".$consecutivo."',".$ideventoriesgo.",".$idproceso.",".$idcargo.",".$idresponsable.",'".$CustomerKey."','".$UserKey."','".$EventoKey."','".$DateStamp."'); SELECT SCOPE_IDENTITY() as LastId;";
 $grabado="N";
 $sql="UPDATE EVRI_EventoRiesgo SET EVRI_Consecutivo='".$consecutivo."', EVRI_IdEvento=".$ideventoriesgo.", EVRI_IdProceso=".$idproceso.", EVRI_IdCargo=".$idcargo.", EVRI_IdResponsable=".$idresponsable.", EVRI_CustomerKey='".$CustomerKey."', EVRI_UserKey='".$UserKey."', EVRI_EventoKey='".$EventoKey."', EVRI_DateStamp='".$DateStamp."' WHERE EVRI_Id = ".trim($IdEvento);
-//echo "upd.....$sql";
+echo "upd.....$sql";
 
 $query = sqlsrv_query($conn,$sql);
 $LastId = trim($IdEvento);
+////$next_result = sqlsrv_next_result($query);
+////$row = sqlsrv_fetch_array($query); 
+////$LastId = $row['LastId'];
 if($query){
 	//echo "OK<br>";
 	$grabado="S";
@@ -259,85 +241,45 @@ if($query){
 									//echo "OK TRA<br>";																		
 									$grabado="S";
 									
-									$segclientes = str_replace('?', $LastId, $segclientes);
-									$sql = $segclientes;
+									$debilidad = str_replace('?', $LastId, $debilidad);
+									$sql = $debilidad;
 									$query = sqlsrv_query($conn,$sql);
 									if($query){
-										//echo "OK SCL<br>";
-										$grabado="S"; 
+										//echo "OK DEB<br>";
+										$grabado="S";
 										
-										$segproductos = str_replace('?', $LastId, $segproductos);
-										$sql = $segproductos;
+										$oportunidad = str_replace('?', $LastId, $oportunidad);
+										$sql = $oportunidad;
 										$query = sqlsrv_query($conn,$sql);
 										if($query){
-											//echo "OK SPR<br>";
-											$grabado="S"; 
+											//echo "OK OPO<br>";
+											$grabado="S";
 											
-											$segcanales = str_replace('?', $LastId, $segcanales);
-											$sql = $segcanales;
+											$fortaleza = str_replace('?', $LastId, $fortaleza);
+											$sql = $fortaleza;
 											$query = sqlsrv_query($conn,$sql);
 											if($query){
-												//echo "OK SCA<br>";
+												//echo "OK FOR<br>";
 												$grabado="S";
 												
-												$segjurisdiccion = str_replace('?', $LastId, $segjurisdiccion);
-												$sql = $segjurisdiccion;
+												$amenaza = str_replace('?', $LastId, $amenaza);
+												$sql = $amenaza;
 												$query = sqlsrv_query($conn,$sql);
 												if($query){
-													//echo "OK SJU<br>";
-													$grabado="S";
-								
-													$debilidad = str_replace('?', $LastId, $debilidad);
-													$sql = $debilidad;
-													$query = sqlsrv_query($conn,$sql);
-													if($query){
-														//echo "OK DEB<br>";
-														$grabado="S";
-														
-														$oportunidad = str_replace('?', $LastId, $oportunidad);
-														$sql = $oportunidad;
-														$query = sqlsrv_query($conn,$sql);
-														if($query){
-															//echo "OK OPO<br>";
-															$grabado="S";
-															
-															$fortaleza = str_replace('?', $LastId, $fortaleza);
-															$sql = $fortaleza;
-															$query = sqlsrv_query($conn,$sql);
-															if($query){
-																//echo "OK FOR<br>";
-																$grabado="S";
-																
-																$amenaza = str_replace('?', $LastId, $amenaza);
-																$sql = $amenaza;
-																$query = sqlsrv_query($conn,$sql);
-																if($query){
-																	//echo "OK AME<br>";
-																	$grabado="S";													
-																}
-																else{$grabado="N"; //echo "Fallo AME<br>";
-																}												
-															}
-															else{$grabado="N"; //echo "Fallo FOR<br>";
-															}											
-														}
-														else{$grabado="N"; //echo "Fallo OPO<br>";
-														}										
-													}
-													else{$grabado="N"; //echo "Fallo DEB<br>";
-													}
+													//echo "OK AME<br>";
+													$grabado="S";													
 												}
-												else{$grabado="N"; //echo "Fallo SJU<br>";
-												}
+												else{$grabado="N"; //echo "Fallo AME<br>";
+												}												
 											}
-											else{$grabado="N"; //echo "Fallo SCA<br>";
-											}
+											else{$grabado="N"; //echo "Fallo FOR<br>";
+											}											
 										}
-										else{$grabado="N"; //echo "Fallo SPR<br>";
-										}
+										else{$grabado="N"; //echo "Fallo OPO<br>";
+										}										
 									}
-									else{$grabado="N"; //echo "Fallo SCL<br>";
-									}
+									else{$grabado="N"; //echo "Fallo DEB<br>";
+									}									
 								}
 								else{$grabado="N"; //echo "Fallo TRA<br>";
 								}							

@@ -652,10 +652,33 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<!-- Ubicacion ORIGINAL de Controles -->
 									
-									
 									<div class="form-group row">
 										<div class="col-md-12">
 										<?php include("../curl/tratamientos/listar_eve.php"); ?>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-md-12">
+										<?php include("../curl/segclientes/listar_eve.php"); ?>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-md-12">
+										<?php include("../curl/segproductos/listar_eve.php"); ?>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-md-12">
+										<?php include("../curl/segcanales/listar_eve.php"); ?>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<div class="col-md-12">
+										<?php include("../curl/segjurisdiccion/listar_eve.php"); ?>
 										</div>
 									</div>
 									
@@ -1083,9 +1106,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//alert('param fnRegla_3_4 valfrec.....'+valfrec);
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 			return
-		}
-
-		
+		}		
 		
 		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
@@ -1238,6 +1259,74 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			else{
 				mssg('Consecuencia')
 				$("#CON" + idtr).remove();
+			}
+		}
+		
+		var arrSC = new Array();
+		let SC = document.querySelectorAll('.segclientes');
+		Array.prototype.forEach.call(SC, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrSC.push(xid);
+		})
+		function fxSC(id, idtr){
+			let x = arrSC.includes(id)
+			if (!x){
+				arrSC.push(id);
+			}
+			else{
+				mssg('Segmento Clientes')
+				$("#SCL" + idtr).remove();
+			}
+		}
+		
+		var arrSP = new Array();
+		let SP = document.querySelectorAll('.segproductos');
+		Array.prototype.forEach.call(SP, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrSP.push(xid);
+		})
+		function fxSP(id, idtr){
+			let x = arrSP.includes(id)
+			if (!x){
+				arrSP.push(id);
+			}
+			else{
+				mssg('Segmento Productos')
+				$("#SPR" + idtr).remove();
+			}
+		}
+		
+		var arrCN = new Array();
+		let CN = document.querySelectorAll('.segcanales');
+		Array.prototype.forEach.call(CN, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrCN.push(xid);
+		})
+		function fxCN(id, idtr){
+			let x = arrCN.includes(id)
+			if (!x){
+				arrCN.push(id);
+			}
+			else{
+				mssg('Segmento Canales')
+				$("#SCA" + idtr).remove();
+			}
+		}
+		
+		var arrSJ = new Array();
+		let SJ = document.querySelectorAll('.segjurisdiccion');
+		Array.prototype.forEach.call(SJ, function(elements, index) {
+			let xid = elements.options[elements.selectedIndex].value
+			arrSJ.push(xid);
+		})
+		function fxSJ(id, idtr){
+			let x = arrSJ.includes(id)
+			if (!x){
+				arrSJ.push(id);
+			}
+			else{
+				mssg('Segmento Jurisdiccion')
+				$("#SJU" + idtr).remove();
 			}
 		}
 
@@ -1666,7 +1755,67 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					}
 				})
 				sof7 = {'CON' : con }
-				mks.push(sof7)				
+				mks.push(sof7)	
+
+				var sgc = []
+				let selSgc = $('.segclientes')
+				selSgc.each(function () {
+					let select = $(this)
+					var fila = { select }
+					//console.log(fila)
+					Efilas.push(fila)
+					if (select.val() != ""){
+						tmp = { 'id' : select.val() }
+						sgc.push(tmp)
+					}
+				})
+				sof21 = { 'SCL' : sgc }
+				mks.push(sof21)
+
+				var sgp = []
+				let selSgp = $('.segproductos')
+				selSgp.each(function () {
+					let select = $(this)
+					var fila = { select }
+					//console.log(fila)
+					Efilas.push(fila)
+					if (select.val() != ""){
+						tmp = { 'id' : select.val() }
+						sgp.push(tmp)
+					}
+				})
+				sof22 = { 'SPR' : sgp }
+				mks.push(sof22)
+
+				var sgn = []
+				let selSgn = $('.segcanales')
+				selSgn.each(function () {
+					let select = $(this)
+					var fila = { select }
+					//console.log(fila)
+					Efilas.push(fila)
+					if (select.val() != ""){
+						tmp = { 'id' : select.val() }
+						sgn.push(tmp)
+					}
+				})
+				sof23 = { 'SCA' : sgn }
+				mks.push(sof23)
+				
+				var sgj = []
+				let selSgj = $('.segjurisdiccion')
+				selSgj.each(function () {
+					let select = $(this)
+					var fila = { select }
+					//console.log(fila)
+					Efilas.push(fila)
+					if (select.val() != ""){
+						tmp = { 'id' : select.val() }
+						sgj.push(tmp)
+					}
+				})
+				sof24 = { 'SJU' : sgj }
+				mks.push(sof24) 
 
 				var deb = []
 				let selDeb = $('.debil')
@@ -1816,6 +1965,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	<script src="js/consecuencia.js"></script>
 	<script src="js/control.js"></script>
 	<script src="js/tratamiento.js"></script>
+	<script src="js/segclientes.js"></script>
+	<script src="js/segproducto.js"></script>
+	<script src="js/segcanales.js"></script>
+	<script src="js/segjurisdiccion.js"></script>
 	<script src="js/debilidad.js"></script>
 	<script src="js/oportunidad.js"></script>
 	<script src="js/fortaleza.js"></script>

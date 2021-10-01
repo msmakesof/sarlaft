@@ -13,7 +13,7 @@ include ('is_logged.php');
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {
-        $messages[] = "El Causa ha sido actualizado con éxito.";
+        $messages[] = "Causa ha sido actualizada con éxito.";
     } else {
         $errors[] = "Lo sentimos, la actualización falló. Por favor, regrese y vuelva a intentarlo.";
     }

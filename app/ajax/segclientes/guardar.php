@@ -1,9 +1,9 @@
 <?php
 //Archivo verifica que el usario que intenta acceder a la URL esta logueado
-	if (empty($_POST['UserName2'])){
-		$errors[] = "Ingresa el nombre del Estado.";
+	if (empty($_POST['SegClientesName2'])){
+		$errors[] = "Ingresa el nombre del Segmento.";
 	} 
-	elseif (!empty($_POST['UserName2']))
+	elseif (!empty($_POST['SegClientesName2']))
 	{		
 		//require_once ("../../components/sql_server_login.php");
 		require_once '../../config/dbx.php';
@@ -11,14 +11,14 @@
 		$urlServicios = $getUrl->getUrl();
 
 		// escaping, additionally removing everything that could be (html/javascript-) code
-		$estadonombre = trim($_POST["UserName2"]);
-		$estadonombre = str_replace(' ','%20',strtoupper($estadonombre));	
+		$nombre = trim($_POST["SegClientesName2"]);
+		$nombre = str_replace(' ','%20',strtoupper($nombre));	
 
 		$query = "";
 		$resultado = "";
 		$msjx = "";
 		// Se verifica si el nombre existe para evitar duplicados.
-		$url = $urlServicios."api/estado/revisarnombre.php?nombre=$estadonombre&id=0";
+		$url = $urlServicios."api/segclientes/revisarnombre.php?nombre=$nombre&id=0";
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -49,8 +49,8 @@
 		else
 		{		
 			// Si todo va bien se hace el Insert
-			$params = "NombreEstado=$estadonombre";
-			$url = $urlServicios."api/estado/crear.php?$params";			
+			$params = "Nombre=$nombre";
+			$url = $urlServicios."api/segclientes/crear.php?$params";			
 
 			$query = "";
 			$resultado = "";

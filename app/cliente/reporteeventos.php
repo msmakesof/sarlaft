@@ -297,6 +297,7 @@ $NombreTitulo = trim($regtit['TIT_Nombre']);
 															<td>
 																<select class="combo" id="caso" name="caso">
 																	<option value=""></option>
+																	<option value="0">Todos</option>
 																	<?php include("../curl/eventosriesgo/listarId.php"); ?>
 																</select>
 															</td>
@@ -575,6 +576,7 @@ $NombreTitulo = trim($regtit['TIT_Nombre']);
 			
 			$("#buscar").on('click', function(event){				
 				var parametros = $('#formap').serialize()
+				alert(parametros);
                 $.ajax({
 					dataType: "html",
 					type: "POST",

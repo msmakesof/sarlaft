@@ -15,7 +15,7 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
     $query = sqlsrv_query($conn,$sql);
     // if product has been added successfully
     if ($query) {
-        $messages[] = "El Causa ha sido guardado con éxito.";
+        $messages[] = "Causa ha sido guardada con éxito.";
     } else {
         $errors[] = "Lo sentimos, el registro falló. Por favor, regrese y vuelva a intentarlo.";
     }

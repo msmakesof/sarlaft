@@ -1,48 +1,18 @@
 <?php 
 /*************************************************************************
 Created : Mauricio Sánchez Sierra
-Date: 2021-08-05
-Description: Consulta un Evento de Riesgo
+Date: 2021-07-13
+Description: 
+			 Genera la información básica para el Evento de Riesgo
+			 Graba el Evento de Riesgo.
+			 Genera el primer cálculo para la Matriz de Riesgo Inherente
+			 Genera el primer cálculo para la Matriz de Riesgo de Control
 **************************************************************************/
-if ( !isset($_POST['id']) || $_POST['id'] == "" )
-{
-	header('Location: eventosriesgo.php');
-	exit;
-}
-$IdEvento = trim($_POST['id']);
-$ck = trim($_POST['ck']);
-echo "$IdEvento   - $ck  <br>";
 include '../ajax/is_logged.php';
 $UserKey=$_SESSION['UserKey'];
 require_once '../config/dbx.php';
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
-
-// Consulta el Evento de Riesgo
-$query_er=sqlsrv_query($conn,"SELECT EVRI_Id, EVRI_Consecutivo, EVRI_IdEvento, EVRI_IdProceso, EVRI_IdCargo, EVRI_IdResponsable, EVRI_IdInterseccion,EVRI_CustomerKey, EVRI_UserKey, EVRI_EventoKey, EVRI_DateStamp FROM EVRI_EventoRiesgo WHERE EVRI_Id=".$IdEvento." AND EVRI_CustomerKey='" .$ck."'");
-$reger=sqlsrv_fetch_array($query_er);
-$Consecutivo = trim($reger['EVRI_Consecutivo']);
-$IdEventoRiesgo = trim($reger['EVRI_IdEvento']);
-$IdProceso = trim($reger['EVRI_IdProceso']);
-$IdCargo = trim($reger['EVRI_IdCargo']);
-$IdResponsable = trim($reger['EVRI_IdResponsable']);
-
-$query_mri=sqlsrv_query($conn,"SELECT MOV_FilaMRI, MOV_ColumnaMRI, PRO_Nombre, CSC_Nombre FROM MOV_MatrizInherente JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRI AND PRO_CustomerKey = MOV_CustomerKeyMRI JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRI AND CSC_CustomerKey = MOV_CustomerKeyMRI WHERE MOV_IdEventoMRI=".$IdEvento." AND MOV_CustomerKeyMRI='" .$ck."' ORDER BY MOV_IdMovimientoMRI DESC ");
-$regmri=sqlsrv_fetch_array($query_mri);
-$FilaMRI = trim($regmri['MOV_FilaMRI']);
-$ColumnaMRI = trim($regmri['MOV_ColumnaMRI']);
-$PRO_Nombre = trim($regmri['PRO_Nombre']);
-$CSC_Nombre = trim($regmri['CSC_Nombre']);
-//echo $IdEventoRiesgo;
-
-$query_mrc=sqlsrv_query($conn,"SELECT TOP 1 MOV_FilaMRC, MOV_ColumnaMRC, PRO_Nombre, CSC_Nombre FROM MOV_MatrizControl JOIN PRO_Probabilidad ON PRO_Escala = MOV_FilaMRC AND PRO_CustomerKey = MOV_CustomerKeyMRC JOIN CSC_Consecuencia ON CSC_Escala = MOV_ColumnaMRC AND CSC_CustomerKey = MOV_CustomerKeyMRC WHERE MOV_IdEventoMRC=".$IdEvento." AND MOV_CustomerKeyMRC='" .$ck."' AND MOV_Estado <> 'D' ORDER BY MOV_IdMovimientoMRC DESC ");
-$regmrc=sqlsrv_fetch_array($query_mrc);
-$FilaMRC = trim($regmrc['MOV_FilaMRC']);
-$ColumnaMRC = trim($regmrc['MOV_ColumnaMRC']);
-$PRO_NombreC = trim($regmrc['PRO_Nombre']);
-$CSC_NombreC = trim($regmrc['CSC_Nombre']);
-
-///echo "$FilaMRC  -  $ColumnaMRC -  $PRO_NombreC -  $CSC_NombreC<br>";
 
 $query_titulo=sqlsrv_query($conn,"SELECT TIT_IdTitulo, TIT_Nombre FROM TIT_Titulo WHERE TIT_CustomerKey=".$_SESSION['Keyp']."");
 $regtit=sqlsrv_fetch_array($query_titulo);
@@ -72,7 +42,18 @@ $PosicioActualCols = 0;
 
 $query_empresa=sqlsrv_query($conn,"SELECT id, CustomerName, CustomerLogo, CustomerColor FROM CustomerSarlaft WHERE CustomerKey=".$_SESSION['Keyp']."");
 $reg=sqlsrv_fetch_array($query_empresa);
+//echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
+//echo $CustomerKey;
+$consec2 = generarCodigo(6); // genera un código de 6 caracteres de longitud.
+function generarCodigo($longitud) {
+    $key = '';
+    $pattern = '1234567890abcdefghijklmnopqrstuvwxyz';
+    $max = strlen($pattern)-1;
+    for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+    return $key;
+} 
+$consecutivo = $reg['id'].'-'.$consec2;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -173,8 +154,7 @@ $CustomerKey = $_SESSION['Keyp'];
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-				</a>
+                    <span>Dashboard</span></a>
             </li>
 
             <!-- Divider -->
@@ -243,7 +223,8 @@ $CustomerKey = $_SESSION['Keyp'];
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">William Díaz</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -275,7 +256,7 @@ $CustomerKey = $_SESSION['Keyp'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800 maytit">Unidad Evento de Riesgo - Consulta</h1>
+                    <h1 class="h3 mb-2 text-gray-800 maytit">Unidad Evento de Riesgo</h1>
                     <p class="mb-4"></p>
 
                     <!-- DataTales Example -->
@@ -296,18 +277,17 @@ $CustomerKey = $_SESSION['Keyp'];
                         <div class="card-body">
                             <div class="xtable-responsive">
 							<form id="formap">
-								<input type="hidden" id="hder" value="<?php echo $IdEvento ; ?>">
+								<input type="hidden" id="hder">
 								<div class="form-group row">
 									<div class="col-sm-2">
                                         <label>Consecutivo</label>
-                                        <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $Consecutivo; ?>" readonly>
+                                        <input type="input" name="consecutivo" id="consecutivo" class="form-control input-sm" maxlenght="8" value="<?php echo $consecutivo; ?>" readonly>
                                     </div>
 									<div class="col-md-10">
                                         <label>Evento</label>
                                         <select class="form-control select2" id="eventoriesgo" name="eventoriesgo" required>
-                                            <option value="">Seleccione una opción</option>											
-                                            <?php $IdEventoRiesgo = $IdEventoRiesgo ;
-											include("../curl/eventosriesgo/listar.php"); ?>
+                                            <option value="">Seleccione una opción</option>
+                                            <?php include("../curl/eventosriesgo/listar.php"); ?>
                                         </select>
                                     </div>
 								</div>	
@@ -323,8 +303,7 @@ $CustomerKey = $_SESSION['Keyp'];
 											</div>											
 											<select class="form-control select2" id="proceso" name="proceso" required>
 												<option value="">Seleccione una opción</option>
-												<?php $IdProceso = $IdProceso ;
-												include("../curl/procesos/listar.php"); ?>
+												<?php include("../curl/procesos/listar.php"); ?>
 											</select>
 										</div>
 									</div>
@@ -339,8 +318,7 @@ $CustomerKey = $_SESSION['Keyp'];
 											</div>
 											<select class="form-control select2" id="cargo" name="cargo" required>
 												<option value="">Seleccione una opción</option>
-												<?php $IdCargo =$IdCargo;
-												include("../curl/cargos/listar.php"); ?>
+												<?php include("../curl/cargos/listar.php"); ?>
 											</select>
 										</div>
 									</div>
@@ -355,8 +333,7 @@ $CustomerKey = $_SESSION['Keyp'];
 											</div>
 											<select class="form-control select2" id="responsable" name="responsable" required>
 												<option value="">Seleccione una opción</option>
-												<?php $IdResponsable =$IdResponsable;
-												include("../curl/responsables/listar.php"); ?>
+												<?php include("../curl/responsables/listar.php"); ?>
 											</select>
 										</div>
 									</div>								
@@ -402,7 +379,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	else
 	{
 		$sel_prob="<select class='form-control mprob' id='prob1' name='prob1' required style='font-size:12px'>";
-		//$sel_prob.="<option value=''>Seleccione opción</option>";
+		$sel_prob.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi = "";
@@ -410,8 +387,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$nombre = trim($dataprob['body'][$i]["PRO_Nombre"]);
 			$escala = trim($dataprob['body'][$i]["PRO_Escala"]);
 			$color = trim($dataprob['body'][$i]["PRO_Color"]);
-			//if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
-			if( isset($FilaMRI) && $FilaMRI != "" && $escala == $FilaMRI ){
+			if( isset($IdItem) && $IdItem != "" && $id == $IdItem ){
 				$condi = ' selected="selected" ';
 			}
 			$sel_prob.= '<option value="'. $escala .'"'. $condi .'>'. $nombre .'</option>';
@@ -421,7 +397,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Este es para la imagen de la matriz de inherente a Control cuando es la primera vez
 		$sel_prob11= "";
 		$sel_prob11="<select class='form-control mprob' id='prob11' name='prob11' required style='font-size:12px'>";
-		//$sel_prob11.="<option value=''>Seleccione opción</option>";
+		$sel_prob11.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi = "";
@@ -437,7 +413,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		$sel_prob11.= "</select>";
 
 		$sel_prob2="<select class='form-control mprob2' id='prob2' name='prob2' required style='font-size:12px'>";
-		//$sel_prob2.="<option value=''>Seleccione opción</option>";
+		$sel_prob2.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($dataprob['body']); $i++)
 		{				
 			$condi2 = "";
@@ -486,7 +462,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	{
 		$IdItemcsc="";
 		$sel_csc="<select class='form-control mconsec' id='consec1' name='consec1' required style='font-size:12px'>";
-		//$sel_csc.="<option value=''>Seleccione opción</option>";
+		$sel_csc.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc = "";
@@ -494,8 +470,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$nombrecsc = trim($datacsc['body'][$i]["CSC_Nombre"]);
 			$escalacsc = trim($datacsc['body'][$i]["CSC_Escala"]);
 			$color = trim($datacsc['body'][$i]["CSC_Color"]);
-			//if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
-			if( isset($ColumnaMRI) && $ColumnaMRI != "" && $escalacsc == $ColumnaMRI ){
+			if( isset($IdItemcsc) && $IdItemcsc != "" && $idcsc == $IdItemcsc ){
 				$condicsc = ' selected="selected" ';
 			}
 			$sel_csc.= '<option value="'. $escalacsc .'"'. $condicsc .'>'. $nombrecsc .'</option>';
@@ -505,7 +480,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Para la matriz de control cuando es clonada 
 		$sel_csc11="";
 		$sel_csc11="<select class='form-control mconsec' id='consec11' name='consec11' required style='font-size:12px'>";
-		//$sel_csc11.="<option value=''>Seleccione opción</option>";
+		$sel_csc11.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc = "";
@@ -522,7 +497,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 
 		$IdItemcs2c="";
 		$sel_csc2="<select class='form-control mconsec2' id='consec2' name='consec2' required style='font-size:12px'>";
-		//$sel_csc2.="<option value=''>Seleccione opción</option>";
+		$sel_csc2.="<option value=''>Seleccione opción</option>";
 		for($i=0; $i<count($datacsc['body']); $i++)
 		{				
 			$condicsc2 = "";
@@ -575,13 +550,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizz">
-								<?php 
-									$FilaMRI = $FilaMRI;
-									$ColumnaMRI = $ColumnaMRI;
-									$er=$IdEvento;
-									//include('../curl/matriz/matrizconsulta.php'); 
-									include('../curl/matriz/matrizquery.php'); 
-								?>
+							<?php include('../curl/matriz/matriz.php'); ?>
 							</div>	
 							
 							<div id="matrizz1"></div>
@@ -590,7 +559,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					</tr>
 					<tr>
 						<td class="subtitMat" style="width:35%"><?php echo $NombreTitulo ; ?>
-							<?php echo $sel_csc;?>
+						<?php echo $sel_csc;?>
 						</td>
 						<!-- <td> <div id="lblconsec"></div> </td> -->
 					</tr>
@@ -614,14 +583,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							<div class="tituloMat2" style="text-align:center"><?php echo strtoupper($NombreTitulo) ; ?></div>
 							
 							<div id="matrizzControl">
-							<?php 
-								$FilaMRC = $FilaMRC;
-								$ColumnaMRC = $ColumnaMRC;
-								$er=$IdEvento;
-								////*echo "$FilaMRC  - $ColumnaMRC  - $er";
-								include('../curl/matriz/matrizcontrolquery.php');
-								/////*include('../curl/matriz/matrizcontrol.php');
-							?>
+							<?php include('../curl/matriz/matrizcontrol.php'); ?>
 							</div>	
 							
 							<div id="matrizz1Control"></div>
@@ -654,37 +616,37 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php $CustomerKey = $ck;	include("../curl/controles/listar_eve_query.php"); ?>
+										<?php include("../curl/controles/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php $CustomerKey = $ck; include("../curl/tiposriesgo/listar_eve_query.php"); ?>
+										<?php include("../curl/tiposriesgo/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php include("../curl/factoresriesgo/listar_eve_query.php"); ?>
+										<?php include("../curl/factoresriesgo/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php include("../curl/riesgoasociado/listar_eve_query.php"); ?>
+										<?php include("../curl/riesgoasociado/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php include("../curl/causas/listar_eve_query.php"); ?>
+										<?php include("../curl/causas/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/consecuencias/listar_eve_query.php"); ?>
+										<?php include("../curl/consecuencias/listar_eve.php"); ?>
 										</div>
 									</div>
 									
@@ -693,61 +655,37 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/tratamientos/listar_eve_query.php"); ?>
+										<?php include("../curl/tratamientos/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/segclientes/listar_eve_query.php"); ?>
-										</div>
-									</div>
-									 
-									<div class="form-group row">
-										<div class="col-md-12">
-										<?php include("../curl/segproductos/listar_eve_query.php"); ?>
+										<?php include("../curl/debilidades/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/segcanales/listar_eve_query.php"); ?>
+										<?php include("../curl/oportunidades/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-										<?php include("../curl/segjurisdiccion/listar_eve_query.php"); ?>
+										<?php include("../curl/fortalezas/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php include("../curl/debilidades/listar_eve_query.php"); ?>
+										<?php include("../curl/amenazas/listar_eve.php"); ?>
 										</div>
 									</div>
 									
 									<div class="form-group row">
 										<div class="col-md-12">
-											<?php include("../curl/oportunidades/listar_eve_query.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-											<?php include("../curl/fortalezas/listar_eve_query.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-											<?php include("../curl/amenazas/listar_eve_query.php"); ?>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<div class="col-md-12">
-											<?php /////include("../curl/consecuencia/listar_eve.php"); ?>
+										<?php //include("../curl/consecuencia/listar_eve.php"); ?>
 										</div>
 									</div>								
 									
@@ -884,19 +822,19 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		// Fin Parametros a enviar para la matriz de control
 		
         function mks(p1,p2){
-            //$.redirect("tareas.php", {id: p1, np : p2 });
+            $.redirect("tareas.php", {id: p1, np : p2 });
 		}		
 		
 		function fnCategoria(pValue){
-			//alert('pValue....'+pValue.value);			
-			var cadena = pValue.value;
+			/////* alert('pValue....'+pValue.value);
+			/////* alert('pValue....'+pValue);
+			var cadena = pValue //.value;
 			categoria = cadena
-			////alert('cat...'+categoria);
 			let posicion = cadena.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = cadena.substr(posicion+1) ;
 			}
-			////alert('categoria itemcontrol...'+itemcontrol);
+			////alert('itemcontrol...'+itemcontrol);
 	
 			// Para la Categoria
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
@@ -925,88 +863,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				moverfils = 0;
 				movercols = 0;
 			}
-
+			
 			// Mover bolita
 			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
 			moverbolita = moverbolita.substr(0,1);
-
-			//Control
-			valcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
-			//Propietario
-			valprop = $("#selprop"+itemcontrol).children("option:selected").val();
-			//Ejecutor
-			valejec = $("#selejec"+itemcontrol).children("option:selected").val();
-			//Efectividad
-			valefect = $("#selefct"+itemcontrol).children("option:selected").val();
-			//Frecuencia
-			valfrec = $("#selfrec"+itemcontrol).children("option:selected").val();
-
-			var valDoc = 0
-			var valApl = 0
-			var valEfe = 0
-			var valEva = 0
 			
-			valDoc = $("#seldocum"+itemcontrol).children("option:selected").val();
-			if (valDoc == ""){
-				valDoc = 0 ;
-			}
-			else {
-				valDoc = parseInt(valDoc);
-			}
-			infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-			
-			valApl = $("#selaplica"+itemcontrol).children("option:selected").val();
-			if (valApl == ""){
-				valApl = 0 ;
-			}
-			else {
-				valApl = parseInt(valApl);
-			}
-			infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-
-			valEfe = $("#selefec"+itemcontrol).children("option:selected").val();
-			if (valEfe == ""){
-				valEfe = 0 ;
-			}
-			else {
-				valEfe = parseInt(valEfe);
-			}
-			infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-
-			valEva = $("#seleval"+itemcontrol).children("option:selected").val();
-			if (valEva == ""){
-				valEva = 0 ;
-			}
-			else {
-				valEva = parseInt(valEva);
-			}
-			infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-			
-			infodocumtxt = parseInt(infodocumtxt);
-			infoaplicatxt =parseInt(infoaplicatxt);
-			infoefectxt = parseInt(infoefectxt);
-			infoevaltxt = parseInt(infoevaltxt);
-			//alert(infodocum+'  '+infoaplica);
-			var contar = 0;
-			var sumatoria = 0;
-			var totpromedio = 0;
-			if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
-			if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
-			if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
-			if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
-			totpromedio = sumatoria/contar ;
-			totpromedio = Math.round(totpromedio);
-			$("#promedio"+itemcontrol).val( totpromedio )
-			var totsumatoria = sumatoria;
-			fxSumar(totsumatoria, itemcontrol)
-
 			//posicionesmover = 0;			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
-			////alert('sumaitems desde categoria...'+sumaitems);
 			
-			/////* alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
 				posicionesmover = 1;
 				if( sumaitems >= <?php echo $Umbral; ?> ){
@@ -1021,21 +887,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 		
 		function fnRealizado(pValue){
-			//alert('antes pValue...'+pValue);
+			////alert('pValue fnRealizado er.php......'+pValue);
 			moverbolita = pValue;  ////.value;  // S o N
-			//alert('moverbolita fnRealizado....'+moverbolita);
 			itemcontrol = moverbolita.substr(2);
-			//alert('itemontrol desde fnRealizado....'+itemcontrol);
+			////alert(itemcontrol);
 			moverbolita = moverbolita.substr(0,1);
-			////alert('moverbolita en fnRealizado....'+moverbolita);
 			
 			////alert('Categoria...'+txtCat);
 			// Para la Categoria
 			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
 			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
-			/////alert('txt Categoria......'+txtCat);
-			txtCat = txtCat.substr(0,1);
-			/////alert('txt Categoria Letra1......'+txtCat);
+			txtCat = txtCat.substr(0,1);			
 			if( txtCat == "P" ){  
 				//alert('Cat:  mover Abajo');  
 				movercols = 0;
@@ -1055,83 +917,11 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				moverfils = 0;
 				movercols = 0;
 			}
-
-			//Control
-			valcontrol = $("#selcont"+itemcontrol).children("option:selected").val();
-			//Propietario
-			valprop = $("#selprop"+itemcontrol).children("option:selected").val();
-			//Ejecutor
-			valejec = $("#selejec"+itemcontrol).children("option:selected").val();
-			//Efectividad
-			valefect = $("#selefct"+itemcontrol).children("option:selected").val();
-			//Frecuencia
-			valfrec = $("#selfrec"+itemcontrol).children("option:selected").val();
-
-			var valDoc = 0
-			var valApl = 0
-			var valEfe = 0
-			var valEva = 0
-			
-			valDoc = $("#seldocum"+itemcontrol).children("option:selected").val();
-			if (valDoc == ""){
-				valDoc = 0 ;
-			}
-			else {
-				valDoc = parseInt(valDoc);
-			}
-			infodocumtxt = $("#seldocum"+itemcontrol).children("option:selected").text();
-			
-			valApl = $("#selaplica"+itemcontrol).children("option:selected").val();
-			if (valApl == ""){
-				valApl = 0 ;
-			}
-			else {
-				valApl = parseInt(valApl);
-			}
-			infoaplicatxt = $("#selaplica"+itemcontrol).children("option:selected").text();
-
-			valEfe = $("#selefec"+itemcontrol).children("option:selected").val();
-			if (valEfe == ""){
-				valEfe = 0 ;
-			}
-			else {
-				valEfe = parseInt(valEfe);
-			}
-			infoefectxt = $("#selefec"+itemcontrol).children("option:selected").text();
-
-			valEva = $("#seleval"+itemcontrol).children("option:selected").val();
-			if (valEva == ""){
-				valEva = 0 ;
-			}
-			else {
-				valEva = parseInt(valEva);
-			}
-			infoevaltxt = $("#seleval"+itemcontrol).children("option:selected").text();
-
-			infodocumtxt = parseInt(infodocumtxt);
-			infoaplicatxt =parseInt(infoaplicatxt);
-			infoefectxt = parseInt(infoefectxt);
-			infoevaltxt = parseInt(infoevaltxt);
-			//alert(infodocum+'  '+infoaplica);
-			var contar = 0;
-			var sumatoria = 0;
-			var totpromedio = 0;
-			if(infodocumtxt > 0){ contar++;  sumatoria += infodocumtxt; }
-			if(infoaplicatxt > 0){ contar++; sumatoria += infoaplicatxt;}
-			if(infoefectxt > 0){ contar++;   sumatoria += infoefectxt;}
-			if(infoevaltxt > 0){ contar++;   sumatoria += infoevaltxt;}
-			totpromedio = sumatoria/contar ;
-			totpromedio = Math.round(totpromedio);
-			$("#promedio"+itemcontrol).val( totpromedio )
-			var totsumatoria = sumatoria;
-			fxSumar(totsumatoria, itemcontrol)
 			
 			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
 			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
 			let sumaitems = valDoc + valApl + valEfe + valEva;
-			/////* alert('sumaitems desde realizado...'+sumaitems);
 			
-			/////* alert('valDoc...'+valDoc+'   valApl...'+valApl+'   valorAplicado...'+valorAplicado+'   valEfe....'+valEfe+'   ValorEfectivo...'+ValorEfectivo);
 			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
 				posicionesmover = 1;
 				if( sumaitems >= <?php echo $Umbral; ?> ){
@@ -1145,7 +935,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
 		
-		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol, pitemcontrol){
+		function fnRegla_3_4(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
 			valDoc = parDoc;
 			if ( isNaN(valDoc) ){valDoc = 0;}
 			//alert('valDoc...'+valDoc);
@@ -1157,32 +947,27 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			//alert('valEfe....'+valEfe);
 			valEva = parEva;
 			if ( isNaN(valEva) ){valEva = 0;}
-			//alert('valEva....'+valEva);
-
+			//alert('valEva....'+valEva);			
 			valprop=pinfprop;
-			if ( isNaN(valprop) ){valprop = 0;} // Propietario
+			if ( isNaN(valprop) ){valprop = 0;}
 			valejec=pinfejec;
-			if ( isNaN(valejec) ){valejec = 0;}  // Ejecutor
+			if ( isNaN(valejec) ){valejec = 0;}
 			valefect=pinfefec;
-			if ( isNaN(valefect) ){valefect = 0;} // Efectividad
-
+			if ( isNaN(valefec) ){valefec = 0;}
 			valfrec=pinffrec;
-			if ( isNaN(valfrec) ){valfrec = 0;}  // Frecuencia
-			
+			if ( isNaN(valfrec) ){valfrec = 0;}
 			valcontrol=pinfcontrol;
 			if ( isNaN(valcontrol) ){valcontrol = 0;}
 			let posicion = parItemCtrl.indexOf('-');
 			if (posicion !== -1){
 				itemcontrol = parItemCtrl.substr(posicion+1) ;
 			}
-			itemcontrol = pitemcontrol;
 			////alert('itemcontrol...'+itemcontrol);			
 			// Para la Categoria
 			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").val();
-			txtCat = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
-			txtCat = txtCat.substr(0,1);
+			categoriatxt = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = categoriatxt.substr(0,1);
 			//alert('Categoria en 3y4...'+txtCat);
-			
 			if( txtCat == "P" ){
 				//alert('Cat:  mover Abajo');
 				movercols = 0;
@@ -1202,7 +987,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				moverfils = 0;
 				movercols = 0;
 			}
-
+			
 			//Realizado
 			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
 			moverbolita = moverbolita.substr(0,1);
@@ -1221,16 +1006,93 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			else {
 				posicionesmover = 0;
 			}
-			
+			//alert('param fnRegla_3_4 valfrec.....'+valfrec);
 			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
 		}
+		
+		function fnRegla_32_42(parDoc, parApl, parEfe, parEva, parItemCtrl, pinfprop, pinfejec, pinfefec, pinffrec, pinfcontrol){
+			valDoc = parDoc;
+			if ( isNaN(valDoc) ){valDoc = 0;}
+			//alert('valDoc...'+valDoc);
+			valApl = parApl;
+			if ( isNaN(valApl) ){valApl = 0;}
+			//alert('valApl....'+valApl);
+			valEfe = parEfe;
+			if ( isNaN(valEfe) ){valEfe = 0;}
+			//alert('valEfe....'+valEfe);
+			valEva = parEva;
+			if ( isNaN(valEva) ){valEva = 0;}
+			//alert('valEva....'+valEva);			
+			valprop=pinfprop;
+			if ( isNaN(valprop) ){valprop = 0;}
+			valejec=pinfejec;
+			if ( isNaN(valejec) ){valejec = 0;}
+			valefect=pinfefec;
+			if ( isNaN(valefec) ){valefec = 0;}
+			valfrec=pinffrec;
+			if ( isNaN(valfrec) ){valfrec = 0;}
+			valcontrol=pinfcontrol;
+			if ( isNaN(valcontrol) ){valcontrol = 0;}
+			let posicion = parItemCtrl.indexOf('-');
+			if (posicion !== -1){
+				itemcontrol = parItemCtrl.substr(posicion+1) ;
+			}
+			////alert('itemcontrol...'+itemcontrol);			
+			// Para la Categoria
+			categoria = $("#ctrcategoria"+itemcontrol).children("option:selected").text();
+			txtCat = categoria.substr(0,1);
+			//alert('Categoria en 3y4...'+txtCat);
+			if( txtCat == "P" ){
+				//alert('Cat:  mover Abajo');
+				movercols = 0;
+				moverfils = 1;
+			}
+			else if( txtCat == "C" ){
+				//alert('Cat:  mover Izquierda');
+				movercols = 1;
+				moverfils = 0;
+			}
+			else if( txtCat == "A" ){ 
+				//alert('Cat:  mover Abajo e Izquierda'); 
+				movercols = 1;
+				moverfils = 1;
+			}
+			else{
+				moverfils = 0;
+				movercols = 0;
+			}
+			
+			//Realizado
+			moverbolita = $("#ctrrealizado"+itemcontrol).children("option:selected").val();
+			moverbolita = moverbolita.substr(0,1);
+			
+			//let posicionesmover = 0;
+			let valorAplicado = <?php echo $ValorAplicado; ?>; //10
+			let ValorEfectivo = <?php echo $ValorEfectivo; ?>; //10
+			let sumaitems = valDoc + valApl + valEfe + valEva;
+			
+			if( valApl >= valorAplicado && valEfe >= ValorEfectivo ){				
+				posicionesmover = 1;
+				if( sumaitems >= <?php echo $Umbral; ?> ){
+					posicionesmover = 2;
+				}
+			}
+			else {
+				posicionesmover = 0;
+			}
+			//alert('param fnRegla_3_4 valfrec.....'+valfrec);
+			fnMatRiesgo(moverbolita,moverfils,movercols,posicionesmover,itemcontrol,categoria,valDoc,valApl,valEfe,valEva,valprop,valejec,valefect,valfrec,valcontrol)
+			return
+		}
+
+		
 		
 		function fnMatRiesgo(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15){
 			var moverbolita = p1;
 			var moverfils = p2;
 			var movercols = p3;
 			var posicionAmover = p4;
-			itemcontrol = p5;
+			itemcontrol = p5;			
 			var pcategoria= p6;
 			var pvaldoc=p7;
 			var pvalapl=p8;
@@ -1240,8 +1102,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			var pvalejec=p12;
 			var pvalefec=p13;
 			var pvalfrec=p14;
+			//alert('param pvalfrec en er......'+pvalfrec);
 			var pvalcontrol=p15;
-			////alert('fnMatRiesgo pvalcontrol....'+pvalcontrol);
 			var er = $("#hder").val();
 			
 			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&moverbol="+moverbolita+"&pmoverAbajo="+moverfils+"&pmoverIzquierda="+movercols+"&pposicionAmover="+posicionAmover+"&nrocontrol="+itemcontrol+"&ruta=../";
@@ -1267,7 +1129,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						success: function(datos){
 							let obj = JSON.parse(datos);
 							let x = JSON.stringify(datos);
-							console.log('x...'+x);
 							x= x.substr(0,1);
 							if( x != "R" ){
 								$("#lblprob2").html(obj.body[0]['LBLProb']);
@@ -1278,6 +1139,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						}
 					})
 					let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&rea="+moverbolita+"&cat="+pcategoria+"&doc="+pvaldoc+"&apl="+pvalapl+"&efe="+pvalefe+"&eva="+pvaleva+"&prop="+pvalprop+"&ejec="+pvalejec+"&efec="+pvalefec+"&frec="+pvalfrec+"&control="+pvalcontrol+"&ruta=../";
+					////alert('paramet en er.....'+paramet);
 					$.ajax({
 						async: false,
 						type: "POST",
@@ -1291,39 +1153,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			})			
 		}
 		
-		function fnControl(pinfprop,pinfejec,pinfefec,pinffrec,pParReg){
-			//alert(pinfprop);
-			let valinfprop = pinfprop;
-			if ( isNaN(valinfprop) ){valinfprop = 0;}
-
-			let valinfejec = pinfejec;
-			if ( isNaN(valinfejec) ){valinfejec = 0;}
-
-			let valpinfefec = pinfefec;
-			if ( isNaN(valpinfefec) ){valpinfefec = 0;}
-
-			let valpinffrec = pinffrec;
-			if ( isNaN(valpinffrec) ){valpinffrec = 0;}
-			
-			let posicion = pParReg.indexOf('-');
-			if (posicion !== -1){
-				itemcontrol = pParReg.substr(posicion+1) ;
-			}
-
-			let er = $("#hder").val();			
-
-			let paramet = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&prop="+valinfprop+"&ejec="+valinfejec+"&efec="+valpinfefec+"&frec="+valpinffrec+"&er="+er+"&nrocontrol="+itemcontrol;
-			$.ajax({
-				async: false,
-				type: "POST",
-				url: "../api/eventoriesgo/guardacontrol.php",
-				data: paramet,
-				success: function(datos){
-
-				}
-			})
-		}
-
 		var arrTR = new Array();
 		let TR = document.querySelectorAll('.tiporie');
 		Array.prototype.forEach.call(TR, function(elements, index) {
@@ -1411,75 +1240,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$("#CON" + idtr).remove();
 			}
 		}
-		
-		var arrSC = new Array();
-		let SC = document.querySelectorAll('.segclientes');
-		Array.prototype.forEach.call(SC, function(elements, index) {
-			let xid = elements.options[elements.selectedIndex].value
-			arrSC.push(xid);
-		})
-		function fxSC(id, idtr){
-			let x = arrSC.includes(id)
-			if (!x){
-				arrSC.push(id);
-			}
-			else{
-				mssg('Segmento Clientes')
-				$("#SCL" + idtr).remove();
-			}
-		}
-		
-		var arrSP = new Array();
-		let SP = document.querySelectorAll('.segproductos');
-		Array.prototype.forEach.call(SP, function(elements, index) {
-			let xid = elements.options[elements.selectedIndex].value
-			arrSP.push(xid);
-		})
-		function fxSP(id, idtr){
-			let x = arrSP.includes(id)
-			if (!x){
-				arrSP.push(id);
-			}
-			else{
-				mssg('Segmento Productos')
-				$("#SPR" + idtr).remove();
-			}
-		}
-		
-		var arrCN = new Array();
-		let CN = document.querySelectorAll('.segcanales');
-		Array.prototype.forEach.call(CN, function(elements, index) {
-			let xid = elements.options[elements.selectedIndex].value
-			arrCN.push(xid);
-		})
-		function fxCN(id, idtr){
-			let x = arrCN.includes(id)
-			if (!x){
-				arrCN.push(id);
-			}
-			else{
-				mssg('Segmento Canales')
-				$("#SCA" + idtr).remove();
-			}
-		}
-		
-		var arrSJ = new Array();
-		let SJ = document.querySelectorAll('.segjurisdiccion');
-		Array.prototype.forEach.call(SJ, function(elements, index) {
-			let xid = elements.options[elements.selectedIndex].value
-			arrSJ.push(xid);
-		})
-		function fxSJ(id, idtr){
-			let x = arrSJ.includes(id)
-			if (!x){
-				arrSJ.push(id);
-			}
-			else{
-				mssg('Segmento Jurisdiccion')
-				$("#SJU" + idtr).remove();
-			}
-		}
-		
 
 		var arrDE = new Array();
 		let DE = document.querySelectorAll('.debil');
@@ -1549,7 +1309,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$("#AME" + idtr).remove();
 			}
 		}
-
+		
 		function mssg(x){
 			swal({
 				position: 'top-end',
@@ -1562,19 +1322,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 		}
 			
         $(document).ready(function(){
-			$(".loader").fadeOut("slow")
+			$(".loader").fadeOut("slow");
 			$('#sidebarToggle').click();
 			$("#zonadata").hide()
             $('.select2').select2()
 
-			$("#matcon").hide()
-			$('#clonmatriz').show()
-			$("#zonadata").show()
-			//$("#matrizcon").hide()
-
-			$("#lblprob2").html("<?php echo $PRO_NombreC ;?>");
-			$("#lblconsec2").html("<?php echo $CSC_NombreC; ?>");
-
+			$("#matcon").hide();
+			$('#clonmatriz').show();			
 			
             $('#exampleModal').on('show.bs.modal', function () {
                 setTimeout(function (){
@@ -1592,7 +1346,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						data: {'csc': csc, 'er': er},
 						success: function(datos){
 							//alert(datos);
-							////$("#hder").prop('value', datos);
+							$("#hder").prop('value', datos);
 						}
 					})
 					$("#zonadata").show()
@@ -1646,7 +1400,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$.ajax({
 						type: "POST",
 						url: "../curl/matriz/matriz.php",
-						////url: "../curl/matriz/matrizquery.php",   // con esta no funciona correctamente
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1655,7 +1408,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							$("#matrizz1").show();
 							$("#matrizz1Control").show();
 							$("#matrizz1").html(datos);
-							////*alert('afecta...'+afecta);
+							//alert('afecta...'+afecta);
 							if(afecta != "S"){
 								$("#matrizz1Control").html(datos);							
 							}
@@ -1668,9 +1421,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
 										
-										/* aki actualizo etiquetas para los labels de la MRC*/  //"&nrocontrol="+itemcontrol+
-										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&ruta=../";
-										////*alert('parms...'+parms);
+										/* aki debo actualizar etiquetas para los labels de la MRC*/
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
 										$.ajax({
 											async: false,
 											type: "POST",
@@ -1679,9 +1431,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 											success: function(datos){
 												let obj = JSON.parse(datos);
 												let x = JSON.stringify(datos);
-												//alert('x0...'+x);
 												x= x.substr(0,1);
-												//alert('x1...'+x);
 												if( x != "R" ){
 													$("#lblprob2").html(obj.body[0]['LBLProb']);
 													$("#lblconsec2").html(obj.body[0]['LBLConsec']);
@@ -1739,7 +1489,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 					$.ajax({
 						type: "POST",
 						url: "../curl/matriz/matriz.php",
-						////url: "../curl/matriz/matrizquery.php",
 						data: paramet,
 						success: function(datos){
 							//alert(datos);
@@ -1760,8 +1509,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 									success: function(xdatos){
 										$("#matrizz1Control").html(xdatos);
 										
-										/* aki debo actualizar etiquetas para los labels de la MRC*/   // "&nrocontrol="+itemcontrol+
-										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&ruta=../";
+										/* aki debo actualizar etiquetas para los labels de la MRC*/
+										let parms = "ck="+<?php echo $_SESSION['Keyp']; ?>+"&uk="+<?php echo $UserKey; ?>+"&er="+er+"&nrocontrol="+itemcontrol+"&ruta=../";
 										$.ajax({
 											async: false,
 											type: "POST",
@@ -1795,19 +1544,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 			$("#consec2").on('change', function(){
 				var txt = $(this).find('option:selected').text();
 				$("#lblconsec2").html(txt);
-			})
-
-			/*$.each($('.tiporie'),
-				function(index, value){
-					console.log(index +' : '+ value);
-				}
-			)
-			
-			$('.tiporie').each(function(i,v){
-				console.log(i+' : '+ v)
-			})
-			*/
-
+			})			
 			
 			$("#pguardar").on('click', function(event){
                 //alert(7);				
@@ -1822,17 +1559,17 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				
 				//alert('Nro EventoRiesgo...'+$("#hder").val());
 
-				/*var nroeventoriesgo=[];
+				var nroeventoriesgo=[];
 				tmp = {	'id' : $("#hder").val() }
 				nroeventoriesgo.push(tmp)
 				sof21 = {'IDE' : nroeventoriesgo }
-				mks.push(sof21)*/
+				mks.push(sof21)
 				
-				/*var consecut =[];
+				var consecut =[];
 				tmp = {	'id' : $("#consecutivo").val() }
 				consecut.push(tmp)
 				sof20 = {'ICO' : consecut }
-				mks.push(sof20)*/
+				mks.push(sof20)
 				
 				var eri =[];
 				tmp = {	'id' : $("#eventoriesgo").val() }
@@ -1859,13 +1596,13 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				mks.push(sof4)
 				
 				var Efilas = []; // Este es el array ppal para los select anidados				
-				const tir =[];
+				var tir =[];
 				let selTir = $('.tiporie');
 				selTir.each(function (){
 					let select = $(this);
 					var fila = { select };
 					Efilas.push(fila);
-					if ( select.val() != "" ){
+					if (select.val() != ""){
 						tmp = { 'id' : select.val() }
 						tir.push(tmp)
 					}
@@ -1930,67 +1667,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				})
 				sof7 = {'CON' : con }
 				mks.push(sof7)				
-				
-				var sgc = []
-				let selSgc = $('.segclientes')
-				selSgc.each(function () {
-					let select = $(this)
-					var fila = { select }
-					//console.log(fila)
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						sgc.push(tmp)
-					}
-				})
-				sof21 = { 'SCL' : sgc }
-				mks.push(sof21)
-
-				var sgp = []
-				let selSgp = $('.segproductos')
-				selSgp.each(function () {
-					let select = $(this)
-					var fila = { select }
-					//console.log(fila)
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						sgp.push(tmp)
-					}
-				})
-				sof22 = { 'SPR' : sgp }
-				mks.push(sof22)
-
-				var sgn = []
-				let selSgn = $('.segcanales')
-				selSgn.each(function () {
-					let select = $(this)
-					var fila = { select }
-					//console.log(fila)
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						sgn.push(tmp)
-					}
-				})
-				sof23 = { 'SCA' : sgn }
-				mks.push(sof23)
-				
-				var sgj = []
-				let selSgj = $('.segjurisdiccion')
-				selSgj.each(function () {
-					let select = $(this)
-					var fila = { select }
-					//console.log(fila)
-					Efilas.push(fila)
-					if (select.val() != ""){
-						tmp = { 'id' : select.val() }
-						sgj.push(tmp)
-					}
-				})
-				sof24 = { 'SJU' : sgj }
-				mks.push(sof24)
-				
 
 				var deb = []
 				let selDeb = $('.debil')
@@ -2049,7 +1725,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				sof12 = { 'AME' : ame }
 				mks.push(sof12)				
 				
-				/*var mriprob =[];
+				var mriprob =[];
 				tmp = {	'id' : $("#prob1").val() }
 				mriprob.push(tmp)
 				sof13 = {'MIP' : mriprob }
@@ -2071,18 +1747,16 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				tmp = {	'id' : $("#consec2").val() }
 				mcocons.push(tmp)
 				sof16 = {'MCC' : mcocons }
-				mks.push(sof16)	*/			
+				mks.push(sof16)				
 				
 				////console.log(obj);
-				console.log(mks);
-				
-				//var paramet = $('#formap').serialize()
+				////console.log(mks);
 				var paramet = mks
 				//alert(paramet);
 				$.ajax({
                     type: "POST",
-                    url: "grabaerUpd1.php",
-					data: { js : mks , er : <?php echo $IdEvento; ?>},
+                    url: "grabaer.php",
+					data: { js : mks },
                     success: function(datos){
                         //alert(datos);
 						let m= datos.trim()
@@ -2091,7 +1765,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 						let txt
 						if(msj == 'S'){
 							type = 'success';
-							txt = 'Evento de Riesgo ha sido actualizado con éxito.';
+							txt = 'Evento de Riesgo ha sido guardado con éxito.';
 						}
 						else if(msj == 'N'){
 							type= 'error';
@@ -2110,9 +1784,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 							type: ''+type,
 							title: ''+txt,
 							showConfirmButton: true,
-							timer: 3000
+							timer: 20000
 						});
-                    }	
+						///window.location.href ="eventosriesgo.php";
+                    }
                 })
 			})
   
@@ -2140,14 +1815,10 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 	<script src="js/causa.js"></script>
 	<script src="js/consecuencia.js"></script>
 	<script src="js/control.js"></script>
-	<script src="js/tratamientoUpd.js"></script>
-	<script src="js/segclientes.js"></script>
-	<script src="js/segproducto.js"></script>
-	<script src="js/segcanales.js"></script>
-	<script src="js/segjurisdiccion.js"></script>
+	<script src="js/tratamiento.js"></script>
 	<script src="js/debilidad.js"></script>
 	<script src="js/oportunidad.js"></script>
 	<script src="js/fortaleza.js"></script>
-	<script src="js/amenaza.js"></script>
+	<script src="js/amenaza.js"></script>	
 </body>
 </html>

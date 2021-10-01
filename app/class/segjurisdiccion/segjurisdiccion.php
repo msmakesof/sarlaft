@@ -31,7 +31,7 @@
 
         // GET ALL por CK
         public function getCkAll(){
-            $sql = "SELECT id, CustomerKey, SegJurisdiccionKey, SegJurisdiccionName
+            $sql = "SELECT id, CustomerKey, SegJurisdiccionKey, SegJurisdiccionName, UserKey
             FROM ". $this->db_table ." WHERE CustomerKey = ? ORDER BY SegJurisdiccionName ";
             //echo $sql;
 			$stmt = $this->conn->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));

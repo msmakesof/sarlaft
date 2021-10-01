@@ -6,21 +6,21 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/dbx.php';
-include_once '../../class/rol/rol.php';
+include_once '../../class/segclientes/segclientes.php';
 
 $database = new Database();
 $db = $database->getConnection();
 $item = new RolUsers($db);
 
-$item->RolNombre = isset($_GET['nombre']) ? $_GET['nombre'] : die();
-$item->IdRol = isset($_GET['id']) ? $_GET['id'] : die();
+$item->SegClientesName = isset($_GET['nombre']) ? $_GET['nombre'] : die();
+$item->id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $item->getBuscaNombre();
 
-if($item->RolNombre != null){
+if($item->SegClientesName != null){
 	// create array
 	$emp_arr = array(            
-		"encontrados" => $item->RolNombre
+		"encontrados" => $item->SegClientesName
 	);
   
 	http_response_code(200);

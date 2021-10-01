@@ -26,6 +26,7 @@
                 "SegJurisdiccionName" => $SegJurisdiccionName,
 				"CustomerKey" => $CustomerKey,
                 "SegJurisdiccionKey" => $SegJurisdiccionKey,
+                "UserKey" => $UserKey
             );
             array_push($estadoArr["body"], $e);
         }
