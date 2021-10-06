@@ -68,7 +68,7 @@ $vcausas = 0;
 				<i class="fas fa-file-alt fa-1x" data-toggle="tooltip" title="Crear Segmento Judicial" style="color:orange; cursor:pointer"></i>
 			</a>
 		</td>
-		<td style="width:80%"><label>Segmento Judicial</label></td>
+		<td style="width:80%"><label>Segmento Jurisdicción</label></td>
 		<td style="width:10%"></td>
 	</tr>
 	</thead>
@@ -113,7 +113,7 @@ $vcausas = 0;
 				</select>
 				</td>
 				<td style="width:10%">
-					<div class="delete" onClick="deletedeUpd(<?php echo $IdSegmentoJurisdiccion; ?>,<?php echo $IdEvento; ?>)">
+					<div class="delete" onClick="deletesjUpd(<?php echo $IdSegmentoJurisdiccion; ?>,<?php echo $IdEvento; ?>)">
 						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
 					</div>
 				</td>

@@ -298,7 +298,7 @@ if( $TREvri == 0){ $everie="red"; }
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Información Básica:</h6>
-						<a class="collapse-item" href="Infobasica.php" style="color: <?php echo $infbas;?>">Información Básica</a>
+						<a class="collapse-item" href="../Infobasica.php" style="color: <?php echo $infbas;?>">Información Básica</a>
 						<a class="collapse-item" href="./metodologia.php" style="color: <?php echo $metodo;?>">Metodología</a>
 						<a class="collapse-item" href="../Contexto.php" style="color: <?php echo $coinex;?>">Contexto Interno y Externo</a>
                     </div>

@@ -113,7 +113,7 @@ $vcausas = 0;
 				</select>
 				</td>
 				<td style="width:10%">
-					<div class="delete" onClick="deletedeUpd(<?php echo $IdSegmentoProducto; ?>,<?php echo $IdEvento; ?>)">
+					<div class="delete" onClick="deletespUpd(<?php echo $IdSegmentoProducto; ?>,<?php echo $IdEvento; ?>)">
 						<i class="fas fa-trash" style="color:red; cursor:pointer"></i>
 					</div>
 				</td>

@@ -1,12 +1,5 @@
 <?php
 include '../is_logged.php';
-//$json= $_POST['datos'];
-//echo $json."<br>";
-//if (empty($_POST['ActividadEconomicaName2'])){
-//	$errors[] = "ID está vacío.";
-//} 
-//elseif (!(empty($_POST['ActividadEconomicaName2']))
-//{	
 	function saltoLinea($str) {
 		//return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
 		return $str;
@@ -17,99 +10,29 @@ include '../is_logged.php';
 	$urlServicios = $getUrl->getUrl();
 	
 	// escaping, additionally removing everything that could be (html/javascript-) code
-	$nombre = saltoLinea($_POST["ActividadEconomicaName2"]);
-	$ObjetoSocial = saltoLinea($_POST["ObjetoSocial"]);
-	$DescripcionGeneral = saltoLinea($_POST["DescripcionGeneral"]);
-	$ObjetivosEstrategicos = saltoLinea($_POST["ObjetivosEstrategicos"]);
-	$Mision = saltoLinea($_POST["Mision"]);
-	$Vision = saltoLinea($_POST["Vision"]);
+	$nombre = $_POST["ActividadEconomicaName2"];
+	$ObjetoSocial = $_POST["ObjetoSocial"];
+	$DescripcionGeneral = $_POST["DescripcionGeneral"];
+	$ObjetivosEstrategicos = $_POST["ObjetivosEstrategicos"];
+	$Mision = $_POST["Mision"];
+	$Vision = $_POST["Vision"];
 	$ck= trim($_SESSION['Keyp']);
 	$id=intval($_POST['edit_id']);
 	
 	$query = "";
-	$resultado = "";
-	$msjx = "";
-	// Se verifica si el nombre existe para evitar duplicados.
-	$url = $urlServicios."api/infobasica/revisarnombre.php?nombre=$nombre&Mision=$Mision&Vision=$Vision&ck=$ck&id=$id";
+	$getConnectionCli2 = new Database();
+	$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
 	
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_VERBOSE, true);
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-	curl_setopt($ch, CURLOPT_POST, 0);
-	$resultado = curl_exec ($ch);
-	curl_close($ch);
+	$sql = "UPDATE CLI_InfoBasica SET CLI_ActividadEconomica= '". $nombre ."', CLI_ObjetoSocial='". $ObjetoSocial ."', CLI_DescripcionGeneral= '". $DescripcionGeneral . "', CLI_Mision='". $Mision ."', CLI_Vision= '". $Vision ."', CLI_ObjetivosEstrategicos ='". $ObjetivosEstrategicos . "' WHERE CLI_IdInfoBasica = $id ";
+	$query = sqlsrv_query($conn,$sql);
 	
-	$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-	$query = json_decode($mestado, true);
-	$json_errors = array(
-		JSON_ERROR_NONE => 'No se ha producido ningún error',
-		JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-		JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-		JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-	);
-	
-	$contar = $query["encontrados"];
-	if($contar == ''){ $contar = 0;}
-	
-	if( $contar > 0)
-	{			
-		$messages[] = "E"; //'Ya existe un Registro grabado con el mismo Nombre.' ;
+	// if CLI_InfoBasica has been updated successfully
+	if ($query) {
+		$messages[] = "U"; //Update.";
+	} else {
+		$errors[] = "R"; //Error falla en la conexión.";
 	}
-	else
-	{		
-		$query="";		
-		/*
-		// Si todo va bien se hace el Update
-		$params = "NombreEstado=$estadonombre&Id=$id";
-		$url = $urlServicios."api/estado/update.php?$params";
-		//echo "url...$url";
 		
-		$resultado="";
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_VERBOSE, true);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-		curl_setopt($ch, CURLOPT_POST, 0);
-		$resultado = curl_exec ($ch);
-		curl_close($ch);
-		
-		$mestado =  preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resultado);    
-		$query = $mestado; //json_decode($mestado, true);
-		
-		$json_errors = array(
-			JSON_ERROR_NONE => 'No se ha producido ningún error',
-			JSON_ERROR_DEPTH => 'Maxima profundidad de pila ha sido excedida',
-			JSON_ERROR_CTRL_CHAR => 'Error de carácter de control, posiblemente codificado incorrectamente',
-			JSON_ERROR_SYNTAX => 'Error de Sintaxis',
-		);
-		*/
-		$getConnectionCli2 = new Database();
-		$conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);
-		
-		$sql = "UPDATE CLI_InfoBasica SET CLI_ActividadEconomica= '". htmlspecialchars(strip_tags($nombre)) ."', CLI_ObjetoSocial='". htmlspecialchars(strip_tags($ObjetoSocial)) ."', CLI_DescripcionGeneral= '". htmlspecialchars(strip_tags($DescripcionGeneral)) . "', CLI_Mision='". htmlspecialchars(strip_tags($Mision)) ."', CLI_Vision= '". htmlspecialchars(strip_tags($Vision)) ."', CLI_ObjetivosEstrategicos ='". htmlspecialchars(strip_tags($ObjetivosEstrategicos)) . "' WHERE CLI_IdInfoBasica = $id ";
-		$query = sqlsrv_query($conn,$sql);
-		
-		// if CLI_InfoBasica has been updated successfully
-		if ($query) {
-			$messages[] = "U"; //Update.";
-		} else {
-			$errors[] = "R"; //Error falla en la conexión.";
-		}
-	}
-//} 
-/*
-else 
-{
-	$errors[] = "D"; //desconocido.";
-}
-*/			
 if (isset($errors)){
 	foreach ($errors as $error) {
 		$msjx = $error; 

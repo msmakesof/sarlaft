@@ -72,7 +72,7 @@ $( "#add_segcanales" ).submit(function( event ) {
 	event.preventDefault()
 });
 
-function deletedeUpd(num, eventoriesgo) {
+function deletecaUpd(num, eventoriesgo) {
 	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
 	let nt = num
 	let er = eventoriesgo
@@ -80,7 +80,7 @@ function deletedeUpd(num, eventoriesgo) {
 		async: true,
 		type: "POST",
 		url: "../api/segcanales/deleteUpd.php",
-		data:  { 'ck': CKTra, 'id': nt, 'er': er },
+		data:  { 'ck': CKSCa, 'id': nt, 'er': er },
 		success: function(datos){
 			msj = $.trim(datos)
 			let type
@@ -101,13 +101,13 @@ function deletedeUpd(num, eventoriesgo) {
 				timer: 2000
 			});
 			let itemborrar = nt
-			for(var i in arrSP){
-				if(arrSP[i]==itemborrar){
-					arrSP.splice(i,1);
+			for(var i in arrCA){
+				if(arrCA[i]==itemborrar){
+					arrCA.splice(i,1);
 					break;
 				}
 			}
-			$("#SPR" + nt).remove();
+			$("#SCA" + nt).remove();
 		}
 	})
 }

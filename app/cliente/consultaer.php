@@ -11,7 +11,7 @@ if ( !isset($_POST['id']) || $_POST['id'] == "" )
 }
 $IdEvento = trim($_POST['id']);
 $ck = trim($_POST['ck']);
-echo "$IdEvento   - $ck  <br>";
+////echo "$IdEvento   - $ck  <br>";
 include '../ajax/is_logged.php';
 $UserKey=$_SESSION['UserKey'];
 require_once '../config/dbx.php';
@@ -809,7 +809,7 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
         </div>
     </div>
 
-	<?php include('erModal.php');?>
+	<?php /* Ventana Modal para adicionar cada item en cada tabla*/ include('erModal.php');?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -1479,7 +1479,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$("#SJU" + idtr).remove();
 			}
 		}
-		
 
 		var arrDE = new Array();
 		let DE = document.querySelectorAll('.debil');
@@ -1797,17 +1796,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				$("#lblconsec2").html(txt);
 			})
 
-			/*$.each($('.tiporie'),
-				function(index, value){
-					console.log(index +' : '+ value);
-				}
-			)
-			
-			$('.tiporie').each(function(i,v){
-				console.log(i+' : '+ v)
-			})
-			*/
-
 			
 			$("#pguardar").on('click', function(event){
                 //alert(7);				
@@ -1819,21 +1807,6 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				})
 				
 				var mks = [];  // Array Ppal
-				
-				//alert('Nro EventoRiesgo...'+$("#hder").val());
-
-				/*var nroeventoriesgo=[];
-				tmp = {	'id' : $("#hder").val() }
-				nroeventoriesgo.push(tmp)
-				sof21 = {'IDE' : nroeventoriesgo }
-				mks.push(sof21)*/
-				
-				/*var consecut =[];
-				tmp = {	'id' : $("#consecutivo").val() }
-				consecut.push(tmp)
-				sof20 = {'ICO' : consecut }
-				mks.push(sof20)*/
-				
 				var eri =[];
 				tmp = {	'id' : $("#eventoriesgo").val() }
 				eri.push(tmp)
@@ -2049,33 +2022,8 @@ if(function_exists('curl_init')) // Comprobamos si hay soporte para cURL
 				sof12 = { 'AME' : ame }
 				mks.push(sof12)				
 				
-				/*var mriprob =[];
-				tmp = {	'id' : $("#prob1").val() }
-				mriprob.push(tmp)
-				sof13 = {'MIP' : mriprob }
-				mks.push(sof13)
-				
-				var mricons =[];
-				tmp = {	'id' : $("#consec1").val() }
-				mricons.push(tmp)
-				sof14 = {'MIC' : mricons }
-				mks.push(sof14)
-				
-				var mcoprob =[];
-				tmp = {	'id' : $("#prob2").val() }
-				mcoprob.push(tmp)
-				sof15 = {'MCP' : mcoprob }
-				mks.push(sof15)
-				
-				var mcocons =[];
-				tmp = {	'id' : $("#consec2").val() }
-				mcocons.push(tmp)
-				sof16 = {'MCC' : mcocons }
-				mks.push(sof16)	*/			
-				
 				////console.log(obj);
-				console.log(mks);
-				
+				////console.log(mks);				
 				//var paramet = $('#formap').serialize()
 				var paramet = mks
 				//alert(paramet);

@@ -11,7 +11,7 @@ elseif (!empty($_POST['delete_id']))
 	$id=intval($_POST['delete_id']);
 	$query="";
 	$msjx = "";
-	$url = $urlServicios."api/consecuencia/delete.php?id=$id";
+	$url = $urlServicios."api/calificacion/delete.php?id=$id";
 	//echo "url...$url";
 	
 	$resultado="";

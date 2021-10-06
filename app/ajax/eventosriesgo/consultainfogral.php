@@ -1,4 +1,8 @@
 <?php
+/**************************************************************
+Description: Filtros para la consulta de informe general
+Author: Mauricio Sánchez Sierra
+***************************************************************/
 include '../is_logged.php';
 //Archivo verifica que el usario que intenta acceder a la URL esta logueado
 require_once '../../config/dbx.php';
@@ -23,7 +27,6 @@ $oportunidades = trim($_POST["oportunidades"]);
 $fortalezas = trim($_POST["fortalezas"]);
 $amenazas = trim($_POST["amenazas"]);
 $CustomerKey = trim($_SESSION['Keyp']);
-
 
 $getConnectionCli2 = new Database();
 $conn = $getConnectionCli2->getConnectionCli2($_SESSION['Keyp']);

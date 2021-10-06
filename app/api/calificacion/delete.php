@@ -6,19 +6,19 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     include_once '../../config/dbx.php';
-    include_once '../../class/consecuencia/consecuencia.php';
+    include_once '../../class/calificacion/calificacion.php';
     
     $database = new Database();
     $db = $database->getConnectionCli();
     
-    $item = new Consecuencia($db);
+    $item = new Calificacion($db);
 	
 	$data = $_GET['id'];
-	$item->CSC_IdConsecuencia = $data; 
+	$item->CAL_IdCalificacion = $data; 
     
     if($item->delete()){
-        echo "S";  //json_encode("Borra Consecuencia.");
+        echo "S";  //json_encode("Borra Calificacion.");
     } else{
-        echo "N";  // json_encode("Consecuencia no puede ser Borrado");
+        echo "N";  // json_encode("Calificacion no puede ser Borrado");
     }
 ?>

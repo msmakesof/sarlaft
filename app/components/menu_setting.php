@@ -1,12 +1,10 @@
     <?php
-		//require_once 'components/sql_server.php';			
         require_once 'config/dbx.php';
         $getConnectionSL = new Database();
         $con = $getConnectionSL->getConnectionSL($_SESSION['Keyp']);
 
         if (empty($_SESSION['Keyp'])) { $CustomerKey="";} else { $CustomerKey = strtolower($_SESSION["Keyp"]);}
-
-        //$CustomerKey=$_SESSION["Keyp"];
+        
         if($CustomerKey!=NULL){ 
             $query = "SELECT CustomerColor FROM CustomerSarlaft WHERE CustomerKey = '".$CustomerKey."'";
             $result = sqlsrv_query($con,$query);

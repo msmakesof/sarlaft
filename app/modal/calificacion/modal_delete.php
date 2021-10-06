@@ -1,9 +1,9 @@
-<div id="deleteUserModal" class="modal fade">
+<div id="deleteCalificacionModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form name="delete_user" id="delete_user">
 					<div class="modal-header">						
-						<h4 class="modal-title">Eliminar Consecuencia</h4>
+						<h4 class="modal-title">Eliminar Calificación</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					

@@ -251,7 +251,7 @@
 		  event.preventDefault();
 		});
 
-		$('#deleteUserModal').on('show.bs.modal', function (event) {
+		$('#deleteCalificacionModal').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget) // Button that triggered the modal
 			var id = button.data('id') 
 			$('#delete_id').val(id)
@@ -261,7 +261,7 @@
 		  var parametros = $(this).serialize();
 			$.ajax({
 				type: "POST",
-				url: "ajax/consecuencia/delete.php",
+				url: "ajax/calificacion/delete.php",
 				data: parametros,
 				beforeSend: function(objeto){
 					$("#resultados").html("Enviando...");
@@ -269,13 +269,13 @@
 				success: function(datos){
 					let m= datos.trim();
 					$("#resultados").html(datos);
-					$('#deleteUserModal').modal('hide');
+					$('#deleteCalificacionModal').modal('hide');
 					let msj = m.substr(0,1);
 					let type;
 					let txt;
 					if(msj == 'B'){
 						type = 'success';
-						txt = 'Consecuencia ha sido borrada con éxito.';
+						txt = 'Calificación ha sido borrada con éxito.';
 					}
 					else if(msj == 'R'){
 						type= 'error';

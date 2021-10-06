@@ -1,4 +1,9 @@
-
+<!-- 
+******************************************************
+**  Description:  Ventana modal para adición de items
+**                desde la creación o consulta de un
+**				  evento de Riesgo.
+****************************************************** -->
 <div id="addProcesoModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -30,7 +35,7 @@
 			<form name="add_cargo" id="add_cargo">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Cargo</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  -->
 				</div>
 				<div class="modal-body">					
 
@@ -55,7 +60,7 @@
 			<form name="add_responsable" id="add_responsable">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Responsable</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -80,7 +85,7 @@
 			<form name="add_tiposriesgo" id="add_tiposriesgo">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Tipos de Riesgo</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -105,7 +110,7 @@
 			<form name="add_factorriesgo" id="add_factorriesgo">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Factores de Riesgo</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -180,7 +185,7 @@
 			<form name="add_consecuencia" id="add_consecuencia">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Consecuencia</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -205,7 +210,7 @@
 			<form name="add_control" id="add_control">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Control</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -231,7 +236,7 @@
 			<form name="add_tratamiento" id="add_tratamiento">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Tratamiento</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -250,13 +255,113 @@
 	</div>
 </div>
 
+<div id="addSegClientesModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="add_segclientes" id="add_segclientes">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Segmento Cliente</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+				</div>
+				<div class="modal-body">					
+
+					<div class="form-group">
+						<label>Nombre Segmento Cliente</label>
+						<textarea class="form-control" id="SegClientesName2" name="SegClientesName2" rows="3" required></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">
+					<input type="submit" class="btn btn-info" value="Guardar datos">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="addSegProductosModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="add_segproductos" id="add_segproductos">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Segmento Producto</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  -->
+				</div>
+				<div class="modal-body">					
+
+					<div class="form-group">
+						<label>Nombre Segmento Producto</label>
+						<textarea class="form-control" id="SegProductosName2" name="SegProductosName2" rows="3" required></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">
+					<input type="submit" class="btn btn-info" value="Guardar datos">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="addSegCanalesModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="add_segcanales" id="add_segcanales">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Segmento Canal</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+				</div>
+				<div class="modal-body">					
+
+					<div class="form-group">
+						<label>Nombre Segmento Canal</label>
+						<textarea class="form-control" id="SegCanalesName2" name="SegCanalesName2" rows="3" required></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">
+					<input type="submit" class="btn btn-info" value="Guardar datos">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="addSegJurisdiccionModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="add_segjurisdiccion" id="add_segjurisdiccion">
+				<div class="modal-header">						
+					<h4 class="modal-title">Agregar Segmento Jurisdicción</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+				</div>
+				<div class="modal-body">					
+
+					<div class="form-group">
+						<label>Nombre Segmento Jurisdicción</label>
+						<textarea class="form-control" id="SegJurisdiccionName2" name="SegJurisdiccionName2" rows="3" required></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cerrar">
+					<input type="submit" class="btn btn-info" value="Guardar datos">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <div id="addDebilidadesModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form name="add_debilidades" id="add_debilidades">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Debilidades</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">					
 
@@ -281,7 +386,7 @@
 			<form name="add_oportunidades" id="add_oportunidades">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Oportunidades</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
 				<div class="modal-body">
 
@@ -306,7 +411,7 @@
 			<form name="add_fortalezas" id="add_fortalezas">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Fortalezas</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  -->
 				</div>
 				<div class="modal-body">					
 
@@ -331,7 +436,7 @@
 			<form name="add_amenazas" id="add_amenazas">
 				<div class="modal-header">						
 					<h4 class="modal-title">Agregar Amenazas</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  -->
 				</div>
 				<div class="modal-body">					
 

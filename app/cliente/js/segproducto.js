@@ -77,7 +77,7 @@ $( "#add_segproductos" ).submit(function( event ) {
 	event.preventDefault()
 });
 
-function deletedeUpd(num, eventoriesgo) {
+function deletespUpd(num, eventoriesgo) {
 	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
 	let nt = num
 	let er = eventoriesgo

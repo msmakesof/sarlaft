@@ -1,6 +1,12 @@
 <?php
+include '../ajax/is_logged.php';
+$CustomerKey = $_SESSION['Keyp'];
+require_once ("../config/dbx.php");
 
-require_once ("../components/sql_server_login.php");
+$getConnectionSL = new Database();
+$con = $getConnectionSL->getConnectionSL($CustomerKey );
+
+//require_once ("../components/sql_server_login.php");
 
 $action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 if($action == 'ajax'){
@@ -18,7 +24,7 @@ if($action == 'ajax'){
 						<th class='text-center'>Logo</th>
 						<th class='text-center'>Color</th>
 						<th class='text-center'>Configurar</th>
-						<th class='text-center'>Configurar New</th>
+						<!-- <th class='text-center'>Configurar New</th> -->
 						<th class='text-center'>UGR</th>
 						<th class='text-left'>Acciones</th>
 						
@@ -60,11 +66,11 @@ if($action == 'ajax'){
 								</a>
 							</td>
 
-							<td class='text-center'>
+							<!-- <td class='text-center'>
 								<a href="?KeypNew=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>
 									<i class="fas fa-sign-in-alt"></i>
 								</a>
-							</td>
+							</td> -->
 							
 							<td class='text-center'>
 								<a href="?Keypugr=<?php echo $CustomerKey; ?>" class='btn btn-default' title='Ingresar'>

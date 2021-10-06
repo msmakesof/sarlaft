@@ -158,13 +158,13 @@
 
         // DELETE
         function delete(){
-            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE CSC_IdConsecuencia = ? ";
+            $sqlQuery = "DELETE FROM " . $this->db_table . " WHERE CAL_IdCalificacion = ? ";
             $stmt = $this->conn->prepare($sqlQuery, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         
-            $this->CSC_IdConsecuencia = htmlspecialchars(strip_tags($this->CSC_IdConsecuencia));
+            $this->CAL_IdCalificacion = htmlspecialchars(strip_tags($this->CAL_IdCalificacion));
 
             // bind data
-            $stmt->bindParam(1, $this->CSC_IdConsecuencia, PDO::PARAM_INT);
+            $stmt->bindParam(1, $this->CAL_IdCalificacion, PDO::PARAM_INT);
         
             if($stmt->execute()){
                 return true;

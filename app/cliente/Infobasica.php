@@ -4,8 +4,6 @@ $query_empresa=sqlsrv_query($con,"SELECT CustomerName, CustomerLogo, CustomerCol
 $reg=sqlsrv_fetch_array($query_empresa);
 //echo "sesion...".$_SESSION['Keyp']."<br>";
 $CustomerKey = $_SESSION['Keyp'];
-//echo "color". $reg['CustomerColor'];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +36,8 @@ $CustomerKey = $_SESSION['Keyp'];
 	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
 	<link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
-    <!-- summernote -->
-	<link rel="stylesheet" href="../plugins/summernote/summernote-bs4.css">	
+   	 
+  
 
     <!-- expor pdf -->
     <script src="../plugins/pdf/jspdf.min.js"></script>
@@ -47,6 +45,13 @@ $CustomerKey = $_SESSION['Keyp'];
 
     <!-- botones -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+
+     <!-- summernote -->
+	<link rel="stylesheet" href="../plugins/summernote/summernote-bs4.css">	
+    
+   
+ 
+    
 </head>
 
 <body id="page-top">
@@ -314,55 +319,50 @@ $CustomerKey = $_SESSION['Keyp'];
                     <h1 class="h3 mb-2 text-gray-800">Información Básica</h1>
                     <p class="mb-4"><h6 class="m-0 font-weight-bold text-primary">Empresa: <?php echo strtoupper($reg['CustomerName']); ?></h6></p>
 
-
-
                     <form id="add_infobasica">
 
-                    <div class="summernote">summernote 1</div>
-<div class="summernote">summernote 2</div>
+                        <div class="form-group row">
+                            <div class="col-md-12 summernote">
+                                <label>Actividad Económica</label>
+                                <textarea class="form-control" id="ActividadEconomicaName2" name="ActividadEconomicaName2" rows="3" required></textarea>
+                            </div>
+                        </div>
 
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Actividad Económica</label>
-        <textarea class="form-control summernote" id="ActividadEconomicaName2" name="ActividadEconomicaName2" rows="3" required></textarea>
-    </div>
-</div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label>Objeto Social</label>
+                                <textarea class=" form-control summernote"  id="ObjetoSocial" name="ObjetoSocial" rows="3" required></textarea>
+                            </div>
+                        </div>
 
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Objeto Social</label>
-        <textarea class=" form-control"  id="ObjetoSocial" name="ObjetoSocial" rows="3" required></textarea>
-    </div>
-</div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label>Descripción General</label>
+                                <textarea class="form-control" id="DescripcionGeneral" name="DescripcionGeneral" rows="3" required></textarea>
+                            </div>
+                        </div>
 
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Descripción General</label>
-        <textarea class="form-control" id="DescripcionGeneral" name="DescripcionGeneral" rows="3" required></textarea>
-    </div>
-</div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label>Misión</label>
+                                <textarea class="form-control" id="Mision" name="Mision" rows="3" required></textarea>
+                            </div>
+                        </div>
 
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Misión</label>
-        <textarea class="form-control" id="Mision" name="Mision" rows="3" required></textarea>
-    </div>
-</div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label>Visión</label>
+                                <textarea class="form-control" id="Vision" name="Vision" rows="3" required></textarea>
+                            </div>
+                        </div>
 
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Visión</label>
-        <textarea class="form-control" id="Vision" name="Vision" rows="3" required></textarea>
-    </div>
-</div>
-
-<div class="form-group row">
-    <div class="col-md-12">
-        <label>Objetivos Estratégicos</label>
-        <textarea class="form-control" id="ObjetivosEstrategicos" name="ObjetivosEstrategicos" rows="3" required></textarea>
-    </div>
-</div>
-</form>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label>Objetivos Estratégicos</label>
+                                <textarea class="form-control" id="ObjetivosEstrategicos" name="ObjetivosEstrategicos" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </form>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -522,6 +522,8 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- <script type="text/javascript" src="vendor/nicedit/nicEdit.js"></script> -->
+
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
@@ -545,7 +547,7 @@ $CustomerKey = $_SESSION['Keyp'];
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <script>
+    <script>        
         function upd(){
                 //var idplan = <?php //echo $IdPlan; ?>;
                 var cky = "<?php echo $CustomerKey; ?>";
@@ -574,9 +576,14 @@ $CustomerKey = $_SESSION['Keyp'];
             }
 
         $(document).ready(function(){
-            //$('.textarea').summernote()	
-            $('.summernote').toggle(this.checked);
-            $('.summernote').summernote();
+            //bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+            
+            $('.textarea').summernote()	
+            //$('.summernote').toggle(this.checked);
+                     
+  
+           
+            
             //$('.select2').select2()
 
             var table = $('#dataTable').DataTable();
@@ -906,60 +913,5 @@ $CustomerKey = $_SESSION['Keyp'];
 
         })
     </script>
-    <script>                
-        var idioma= {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_.  Total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Ãšltimo",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            },
-            "buttons": {
-                "copyTitle": 'Informacion copiada',
-                "copyKeys": 'Use your keyboard or menu to select the copy command',
-                "copySuccess": {
-                    "_": '%d filas copiadas al portapapeles',
-                    "1": '1 fila copiada al portapapeles'
-                },
-
-                "pageLength": {
-                "_": "Mostrar %d filas",
-                "-1": "Mostrar Todo"
-                }
-            }
-        };
-
-        $('#dataTable').DataTable({
-            "dom": 'Bfrtip',
-            "buttons": ['csv', 'excel', 'pdfHtml5', 'print'],
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
-            "language": idioma
-        });       
-    
-    </script>    
-
 </body>
-
 </html>

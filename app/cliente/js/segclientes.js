@@ -15,7 +15,6 @@ $("#addscl").on('click', function(){
 		let varDel = '<div class="delete" id="delSC'+itemsegclientes+'" onClick="delSC('+itemsegclientes+')"><i class="fas fa-trash" style="color:red; cursor:pointer"></i></div>';
 		
 		$("#tabsclbody").append('<tr id="SCL'+itemsegclientes+'"><td style="width:10%"></td><td style="width:80%">'+ slct +'</td><td style="width:10%">'+varDel+'</td></tr>');
-		
 	})
 })
 
@@ -73,8 +72,8 @@ $( "#add_segclientes" ).submit(function( event ) {
 	event.preventDefault()
 });
 
-function deletedeUpd(num, eventoriesgo) {
-	//alert('numtiporiesgo....'+numtiporiesgo+'     er...'+eventoriesgo );
+function deletescUpd(num, eventoriesgo) {
+	//alert('numtiporiesgo....'+num+'     er...'+eventoriesgo );
 	let nt = num
 	let er = eventoriesgo
 	$.ajax({

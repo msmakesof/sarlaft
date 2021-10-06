@@ -272,7 +272,7 @@ $NombreTitulo = trim($regtit['TIT_Nombre']);
 											<tr>
 												<td style="text-align:center; border: black 1px solid;"><img src="../img/edit.png" style="width:180px;"></td>
 												<td style="background-color:red; text-align:center; border: red 1px solid;">
-													<span class="titulo">INFORME GENERAL</span>
+													<span class="titulo">REPORTE DE EVENTOS</span>
 												</td>
 												<td style="background-color:red; border: red 1px solid;">
 													<button type="button" class="btn btn-danger" style="border: 1px solid #FFFFFF;" id="buscar">Buscar</button>
